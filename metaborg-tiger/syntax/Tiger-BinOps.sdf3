@@ -1,0 +1,10 @@
+module Tiger-BinOps
+
+imports Tiger-Expressions	
+        Operators
+
+
+context-free syntax
+
+  Exp.BinOp = <<BinOp> ( <Exp> , <Exp> )> 
+  Exp.RelOp = <<RelOp> ( <Exp> , <Exp> )> 

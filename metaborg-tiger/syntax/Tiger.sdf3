@@ -1,0 +1,8 @@
+module Tiger
+
+imports Tiger-Whitespace	
+imports Tiger-Declarations	
+imports Tiger-BinOps	
+imports Tiger-Operators
+
+context-free start-symbols Exp
