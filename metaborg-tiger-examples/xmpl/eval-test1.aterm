@@ -1,0 +1,4 @@
+Let(
+  [VarDec("x", Tp(Tid("int")), Int("1"))]
+, [Plus(Var("x"), Int("2"))]
+)

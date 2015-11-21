@@ -1,0 +1,52 @@
+Let(
+  [ amb(
+      [ [ TypeDecs(
+            [ TypeDec("vector", ArrayTy(Tid("int")))
+            , TypeDec("matrix", ArrayTy(Tid("vector")))
+            ]
+          )
+        ]
+      , [ TypeDecs([TypeDec("vector", ArrayTy(Tid("int")))])
+        , TypeDecs([TypeDec("matrix", ArrayTy(Tid("vector")))])
+        ]
+      ]
+    )
+  , VarDec(
+      "v"
+    , Tp(Tid("vector"))
+    , Array(Tid("vector"), [Int("3")], Int("1"))
+    )
+  , VarDec(
+      "t"
+    , Tp(Tid("matrix"))
+    , Array(Tid("matrix"), [Int("2")], NilExp())
+    )
+  ]
+, [ For(
+      Var("i")
+    , Int("0")
+    , Int("1")
+    , Assign(
+        Subscript(Var("t"), [Scalar(Var("i"))])
+      , Array(Tid("vector"), [Int("3")], Var("i"))
+      )
+    )
+  , For(
+      Var("i")
+    , Int("0")
+    , Int("1")
+    , For(
+        Var("j")
+      , Int("0")
+      , Int("2")
+      , Assign(
+          Subscript(
+            Subscript(Var("t"), [Scalar(Var("i"))])
+          , [Scalar(Var("j"))]
+          )
+        , Plus(Var("i"), Var("j"))
+        )
+      )
+    )
+  ]
+)
