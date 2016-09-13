@@ -1,0 +1,28 @@
+module Tiger-Statements
+
+imports Tiger-Expressions
+imports Tiger-Lexicals
+
+context-free syntax
+
+  Exp.Assign    = <<LValue> := <Exp>> 
+  Exp.Seq       = <( <{Exp ";"}*> )> 
+  Exp.If        = <if <Exp> then <Exp> else <Exp>> 
+  Exp.IfThen    = <if <Exp> then <Exp>> 
+  Exp.While     = <while <Exp> do <Exp>> 
+  Exp.For       = <for <Var> := <Exp> to <Exp> do <Exp>> 
+  Exp.Break     = <break> 
+  Exp.ForStride = <for <Var> := <Exp> to <Exp> in <Exp> do <Exp>> 
+  Exp.ParAssign = <[ <{LValue ","}*> ] := [ <{Exp ","}*> ]> 
+  Exp.Label     = <label <Id>> 
+  Exp.Goto      = <goto <Id>> 
+  Exp.IfGoto    = <if <Exp> goto <Id>> 
+
+context-free priorities
+
+  Exp.Assign 
+  > {right :
+    Exp.If
+    Exp.If
+    Exp.While
+    Exp.For}

@@ -1,0 +1,16 @@
+module Tiger
+
+imports Tiger-Whitespace	
+imports Tiger-Lexicals
+imports Tiger-Declarations	
+imports Tiger-BinOps	
+imports Tiger-Operators-Amb
+imports Tiger-Statements
+
+context-free start-symbols Exp Id
+
+
+context-free priorities
+
+  Exp.Or 
+  > Exp.Assign 

@@ -1,0 +1,28 @@
+module Tiger-Operators-Amb
+
+imports Tiger-Lexicals	
+imports Tiger-Literals	
+imports Tiger-BinOps
+imports Tiger-Expressions
+
+context-free syntax
+
+  Exp.Uminus  = "-" Exp 
+  Exp.Power   = Exp "**" Exp  
+  Exp.Times   = Exp "*" Exp    
+  Exp.Divide  = Exp "/" Exp  
+  Exp.Plus    = Exp "+" Exp   
+  Exp.Minus   = Exp "-" Exp    
+  Exp.CPlus   = Exp "+i" Exp  
+  Exp.CMinus  = Exp "-i" Exp   
+  Exp.Eq      = Exp "=" Exp    
+  Exp.Neq     = Exp "<" Exp 
+  Exp.Gt      = Exp ">" Exp   
+  Exp.Lt      = Exp "<" Exp   
+  Exp.Geq     = Exp ">=" Exp  
+  Exp.Leq     = Exp "<=" Exp  
+  Exp.True    = "true"
+  Exp.False   = "false"
+  Exp.And     = Exp "&" Exp 
+  Exp.Or      = Exp "|" Exp 
+
