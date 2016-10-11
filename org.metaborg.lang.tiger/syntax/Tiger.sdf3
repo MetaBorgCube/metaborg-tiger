@@ -4,7 +4,7 @@ imports Tiger-Whitespace
 imports Tiger-Lexicals
 imports Tiger-Declarations	
 imports Tiger-BinOps	
-imports Tiger-Operators-Amb
+imports Tiger-Operators
 imports Tiger-Statements
 
 context-free start-symbols Exp Id
