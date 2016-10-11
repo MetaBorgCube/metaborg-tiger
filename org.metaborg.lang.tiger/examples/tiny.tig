@@ -1,2 +1,9 @@
-3 + 4 * 5
-
+let 
+  function g() = f()
+  var x : int := 1
+  function f() : int = 1
+  var y : int := 2
+  function g() = f() + y
+ in
+   x + y + f()
+end  

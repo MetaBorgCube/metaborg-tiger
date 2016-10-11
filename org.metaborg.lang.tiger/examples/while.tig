@@ -1,0 +1,8 @@
+
+let var i : int := e1
+ in while i < e2 do (
+      e_body; 
+      i := i + 1
+    )
+end
+

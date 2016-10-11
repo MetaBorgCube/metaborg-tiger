@@ -1,4 +1,0 @@
-Times(
-  Seq([Plus(Var("x"), Int("4"))])
-, Int("5")
-)
