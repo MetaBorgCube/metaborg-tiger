@@ -1,0 +1,88 @@
+module static-semantics
+
+imports signatures/-
+imports nabl-lib
+
+rules
+
+  init ^ (s) := new s.
+
+  [[ Empty() ^ (s) ]] :=
+    false | note "Specify name binding and typing rules in static-semantics.nabl2".
+
+rules // declarations
+
+  [[ Let(blocks, exps) ^ (s) ]] :=
+     new s',     // declare a new scope for the names introduced by the let
+     s' -P-> s,  // declare s as its parent scope
+     new s_body, // scope for body of the let
+     Decs[[ blocks ^ (s', s_body) ]],
+     Map[[ exps ^ (s_body) ]].
+     
+  Decs[[ [] ^ (s, s_body) ]] :=
+    s_body -P-> s.
+    
+  Decs[[ [block | blocks] ^ (s, s_body) ]] :=
+    [[ block ^ (s) ]],
+    new s', s' -P-> s,
+    Decs[[ blocks ^ (s', s_body) ]].
+    
+  [[ VarDec(x, t, e) ^ (s) ]] :=
+     Var{x} <- s, 
+     [[ t ^ (s) ]],
+     [[ e ^ (s) ]].
+        
+  [[ FunDecs(fdecs) ^ (s) ]] :=
+     Map[[ fdecs ^ (s) ]].
+     
+  [[ FunDec(f, args, t, e) ^ (s) ]] :=
+     Fun{f} <- s, 
+     new s', 
+     s' -P-> s, 
+     Map[[ args ^ (s') ]],
+     [[ t ^ (s) ]],
+     [[ e ^ (s') ]].
+     
+  [[ FArg(x, t) ^ (s) ]] :=
+     Var{x} -> s. // declare x as a variable declaration
+     
+rules // types
+
+  [[ Tp(t) ^ (s) ]] := true.
+
+rules // references
+
+  [[ Int(i) ^ (s) ]] := true.
+  
+  [[ Var(x) ^ (s) ]] :=
+     Var{x} -> s,  // declare x as variable reference
+     Var{x} |-> d. // check that x resolves to a declaration
+     
+  [[ Call(Var(f), exps) ^ (s) ]] :=
+     Fun{f} -> s,  // declare f as a function reference
+     Fun{f} |-> d | error $[Function [f] not declared], // check that f resolves to a declaration
+     Map[[ exps ^ (s) ]].
+     
+rules // operators
+     
+  [[ If(e1, e2, e3) ^ (s) ]] := 
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]], [[ e3 ^ (s) ]].
+     
+  [[ Lt(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+     
+  [[ Times(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+     
+  [[ Minus(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+     
+  [[ Plus(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+     
+  [[ Seq(exps) ^ (s) ]] :=
+     Map[[ exps ^ (s) ]].
+     
+    
+     
+     
