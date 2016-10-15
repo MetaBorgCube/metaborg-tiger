@@ -1,12 +1,9 @@
 module nabl-lib
 
-//signature
-//  types
-//    TNil()
-//    TCons(type, type)
-    //TConc(type-list, type-list)
-
 rules // auxiliary
+ 
+//  [[ Amb([t | ts]) ^ (s) ]] := 
+//     [[ t ^ (s) ]]. 
 
   [[ None() ^ (s) ]] := true.
   [[ Some(e) ^ (s) ]] := [[ e ^ (s) ]].
@@ -14,6 +11,10 @@ rules // auxiliary
   Map[[ [] ^ (s) ]] := true.   
   Map[[ [ x | xs ] ^ (s) ]] := 
     [[ x ^ (s) ]], Map[[ xs ^ (s) ]].
+
+  Map2[[ [] ^ (s, s') ]] := true.   
+  Map2[[ [ x | xs ] ^ (s, s') ]] := 
+    [[ x ^ (s, s') ]], Map2[[ xs ^ (s, s') ]].
    
   MapT[[ [] ^ (s) : ty ]] := true.   
   MapT[[ [ x | xs ] ^ (s) : ty ]] := 

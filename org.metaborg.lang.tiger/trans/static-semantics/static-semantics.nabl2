@@ -3,12 +3,23 @@ module static-semantics
 imports signatures/-
 imports nabl-lib
 
+signature
+  name resolution
+//    labels 
+//      D, P, I 
+    well-formedness 
+      P* . I*
+    order
+      D < P, 
+      D < I, 
+      I < P
+
 rules
 
-  init ^ (s) := new s.
-
-  [[ Empty() ^ (s) ]] :=
-    false | note "Specify name binding and typing rules in static-semantics.nabl2".
+  init ^ (s) := 
+    new s,               // generate the root scope
+    Type{"int"} <- s,    // declare primitive type int
+    Type{"string"} <- s. // declare primitive type string
 
 rules // declarations
 
@@ -22,53 +33,186 @@ rules // declarations
   Decs[[ [] ^ (s, s_body) ]] :=
     s_body -P-> s.
     
-  Decs[[ [block | blocks] ^ (s, s_body) ]] :=
-    [[ block ^ (s) ]],
-    new s', s' -P-> s,
+  Decs[[ [block | blocks] ^ (s_outer, s_body) ]] :=
+    new s', s' -P-> s_outer,
+    [[ block ^ (s', s_outer) ]],
     Decs[[ blocks ^ (s', s_body) ]].
+
+rules // type declarations
     
-  [[ VarDec(x, t, e) ^ (s) ]] :=
-     Var{x} <- s, 
-     [[ t ^ (s) ]],
-     [[ e ^ (s) ]].
-        
-  [[ FunDecs(fdecs) ^ (s) ]] :=
-     Map[[ fdecs ^ (s) ]].
+  [[ TypeDecs(tdecs) ^ (s, s_outer) ]] := 
+     Map2[[ tdecs ^ (s) ]].
      
-  [[ FunDec(f, args, t, e) ^ (s) ]] :=
-     Fun{f} <- s, 
-     new s', 
-     s' -P-> s, 
-     Map[[ args ^ (s') ]],
-     [[ t ^ (s) ]],
+  [[ TypeDec(x, t) ^ (s) ]] :=
+     Type{x} <- s,
+     [[ t ^ (s) ]].
+     
+   // type declarations in a sequence are mutually recursive
+    
+rules // variable declarations
+
+  [[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
+     Var{x} <- s, 
+     [[ t ^ (s_outer) ]],
+     [[ e ^ (s_outer) ]].
+    
+  [[ VarDecNoInit(x, t) ^ (s, s_outer) ]] :=
+     Var{x} <- s, 
+     [[ t ^ (s_outer) ]].
+
+rules // function declarations
+        
+  [[ FunDecs(fdecs) ^ (s, s_outer) ]] :=
+     Map2[[ fdecs ^ (s, s_outer) ]].
+     
+  [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
+     Var{f} <- s, // declare f 
+     new s',      // declare a new scope for body of function
+     s' -P-> s,   // make lexical environment accessible in body
+     Map2[[ args ^ (s', s_outer) ]],
+     [[ t ^ (s_outer) ]],
      [[ e ^ (s') ]].
      
-  [[ FArg(x, t) ^ (s) ]] :=
-     Var{x} -> s. // declare x as a variable declaration
+  [[ FArg(x, t) ^ (s, s_outer) ]] :=
+     Var{x} <- s, // declare argument x as a variable declaration
+     [[ t ^ (s_outer) ]].
      
 rules // types
 
-  [[ Tp(t) ^ (s) ]] := true.
+  [[ Tid(x) ^ (s) ]] :=
+     Type{x} -> s, 
+     Type{x} |-> d | error $[Type [x] not declared].
+     
+  [[ Tp(t) ^ (s) ]] := 
+     [[ t ^ (s) ]].
+  
+  [[ NoTp() ^ (s) ]] := true.
+      
+  [[ NameTy(t) ^ (s) ]] :=
+     [[ t ^ (s) ]].
+     
+  [[ RecordTy(fields) ^ (s) ]] := 
+     new s',
+     Map2[[ fields ^ (s', s) ]].
+     // todo: connect record scope to the type
+     
+  [[ Field(x, t) ^ (s, s_outer) ]] :=
+     Field{x} <- s,
+     [[ t ^ (s_outer) ]].
+     
+  [[ ArrayTy(t) ^ (s) ]] := 
+     [[ t ^ (s) ]].
 
-rules // references
-
-  [[ Int(i) ^ (s) ]] := true.
+rules // variable references
   
   [[ Var(x) ^ (s) ]] :=
      Var{x} -> s,  // declare x as variable reference
      Var{x} |-> d. // check that x resolves to a declaration
-     
+ 
+rules // function calls
+    
   [[ Call(Var(f), exps) ^ (s) ]] :=
-     Fun{f} -> s,  // declare f as a function reference
-     Fun{f} |-> d | error $[Function [f] not declared], // check that f resolves to a declaration
+     Var{f} -> s,  // declare f as a function reference
+     Var{f} |-> d | error $[Function [f] not declared], 
+     // check that f resolves to a declaration
      Map[[ exps ^ (s) ]].
      
-rules // operators
+  [[ Record(t, inits) ^ (s) ]] :=
+     [[ t ^ (s) ]],
+     new s_rec,
+     Map[[ inits ^ (s_rec, s) ]].
+     
+  [[ InitField(x, e) ^ (s_rec, s) ]] :=
+     Field{x} -> s_rec,
+     Field{x} |-> d,
+     [[ e ^ (s) ]].
+     
+  [[ Array(t, es, e) ^ (s) ]] :=
+     [[ t ^ (s) ]],
+     Map[[ es ^ (s) ]],
+     [[ e ^ (s) ]].
+     
+  // Sum, SumIndex
+  
+rules // statements
+
+  [[ Assign(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].  
+     
+  [[ ParAssign(es1, es2) ^ (s) ]] :=
+     Map[[ es1 ^ (s) ]], Map[[ es2 ^ (s) ]].  
+     
+  [[ Seq(es) ^ (s) ]] :=
+     Map[[ es ^ (s) ]].
      
   [[ If(e1, e2, e3) ^ (s) ]] := 
      [[ e1 ^ (s) ]], [[ e2 ^ (s) ]], [[ e3 ^ (s) ]].
      
-  [[ Lt(e1, e2) ^ (s) ]] :=
+  [[ IfThen(e1, e2) ^ (s) ]] := 
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+     
+  [[ While(e1, e2) ^ (s) ]] := 
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+     
+rules // binding statements
+
+  [[ For(Var(x), e1, e2, e3) ^ (s) ]] := 
+     new s', 
+     s' -P-> s,
+     Var{x} <- s',
+     [[ e1 ^ (s) ]], // x not bound in loop bounds
+     [[ e2 ^ (s) ]], 
+     [[ e3 ^ (s') ]]. // x bound in body
+     
+  [[ ForStride(Var(x), e1, e2, e3, e4) ^ (s) ]] := 
+     new s', 
+     s' -P-> s,
+     Var{x} <- s',
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]], [[ e3 ^ (s) ]], 
+     [[ e4 ^ (s') ]].
+     
+  [[ Break() ^ (s) ]] := true.
+  
+  [[ Label(l) ^ (s) ]] := false.
+  
+  [[ Goto(l) ^ (s) ]] := false.
+  
+  [[ IfGoto(e, l) ^ (s) ]] := 
+     [[ e ^ (s) ]].
+          
+rules // record and array indexing
+     
+  [[ FieldVar(e, f) ^ (s) ]] :=
+     [[ e ^ (s) ]].
+     
+  [[ Subscript(e, es) ^ (s) ]] :=
+     [[ e ^ (s) ]],
+     Map[[ es ^ (s) ]].
+     
+  [[ Scalar(e) ^ (s) ]] := 
+     [[ e ^ (s) ]].
+  
+  [[ Range(e1, e2) ^ (s) ]] := 
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].  
+     
+rules // literals    
+
+  [[ Int(i)    ^ (s) ]] := true.  
+  [[ Real(r)   ^ (s) ]] := true.  
+  [[ String(s) ^ (s) ]] := true.
+  [[ NilExp()  ^ (s) ]] := true.
+  [[ True()    ^ (s) ]] := true.
+  [[ False()   ^ (s) ]] := true.
+  
+rules // operators
+     
+  [[ Uminus(e) ^ (s) ]] :=
+     [[ e ^ (s) ]].
+     
+  [[ Power(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+     
+  [[ Divide(e1, e2) ^ (s) ]] :=
      [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
      
   [[ Times(e1, e2) ^ (s) ]] :=
@@ -80,9 +224,27 @@ rules // operators
   [[ Plus(e1, e2) ^ (s) ]] :=
      [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
      
-  [[ Seq(exps) ^ (s) ]] :=
-     Map[[ exps ^ (s) ]].
+  [[ CPlus(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
      
-    
-     
+  [[ CMinus(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+        
+  [[ Eq(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+        
+  [[ Neq(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+        
+  [[ Gt(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+        
+  [[ Lt(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+        
+  [[ Geq(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+        
+  [[ Leq(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
      
