@@ -41,7 +41,7 @@ rules // declarations
 rules // type declarations
     
   [[ TypeDecs(tdecs) ^ (s, s_outer) ]] := 
-     Map2[[ tdecs ^ (s) ]].
+     Map[[ tdecs ^ (s) ]].
      
   [[ TypeDec(x, t) ^ (s) ]] :=
      Type{x} <- s,
