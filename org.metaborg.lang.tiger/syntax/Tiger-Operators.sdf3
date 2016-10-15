@@ -23,6 +23,7 @@ context-free syntax
   Exp.Leq     = <<Exp> \<= <Exp>>  {non-assoc}
   Exp.True    = <true> 
   Exp.False   = <false> 
+  Exp.Not     = <not <Exp>>
   Exp.And     = <<Exp> & <Exp>> {left}
   Exp.Or      = <<Exp> | <Exp>> {left}
 
@@ -50,6 +51,7 @@ context-free priorities
     Exp.Lt
     Exp.Geq
     Exp.Leq} 
+  > Exp.Not
   > Exp.And 
   > Exp.Or 
   > Exp.Array
