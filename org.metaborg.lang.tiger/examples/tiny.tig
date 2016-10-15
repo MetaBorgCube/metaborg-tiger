@@ -1,9 +1,9 @@
 let 
-  function g() = f()
-  var x : int := 1
-  function f() : int = 1
-  var y : int := 2
-  function g() = f() + y
+  type foo = int
+  var x : int 
+  function f(y : int) : foo = 3 + x + y
+  var y : int := 1 
  in
-   x + y + f()
+   for x := x to y + 1 do 
+     x := f(x + 1)
 end  

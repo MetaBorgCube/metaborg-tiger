@@ -1,0 +1,11 @@
+let
+  type intlist = {hd : int, tl : intlist}
+  type tree = {key : int, children : treelist}
+  type treelist = {hd : tree, tl : treelist}   
+  type treelist3 = treelist 
+  
+  
+  type treelist2 = {hd : tree, tl : treelist} 
+   
+ in 3
+end
