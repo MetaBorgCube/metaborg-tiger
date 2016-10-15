@@ -8,7 +8,8 @@ imports
 language
 
   table         : target/metaborg/sdf.tbl
-  start symbols : Start
+//  table         : target/metaborg/sdf-new.tbl
+  start symbols : Exp
 
   line comment  : "//"
   block comment : "/*" * "*/"
