@@ -7,16 +7,18 @@ lexical syntax
   LAYOUT         = "/*" InsideComment* "*/" 
   InsideComment  = ~[\*] 
   InsideComment  = CommentChar 
-  LAYOUT         = "//" ~[\n\r]* NewLineEOF 
+  LAYOUT         = SingleLineComment
+  SingleLineComment = "//" ~[\n\r]* NewLineEOF 
   NewLineEOF     = [\n\r] 
   NewLineEOF     = EOF 
-  EOF            =  
+  EOF            = 
   
 lexical restrictions
 
   // Ensure greedy matching for lexicals
   
   CommentChar   -/- [\/]
+  EOF -/- ~[]
   
 context-free restrictions
 
