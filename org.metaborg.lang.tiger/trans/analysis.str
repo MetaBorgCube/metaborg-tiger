@@ -11,7 +11,9 @@ imports
 
 rules // Analysis
 
-  editor-analyze = analyze(id)
+//  editor-analyze = id
+  
+  editor-analyze = nabl2-analyze(id)
 
 rules // Debugging
   

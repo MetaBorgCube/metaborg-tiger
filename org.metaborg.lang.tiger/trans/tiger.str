@@ -5,7 +5,8 @@ imports
   completion/completion
   pp
   outline
-//  analysis
+  desugar
+  analysis
 
 rules // Debugging
   
@@ -14,3 +15,25 @@ rules // Debugging
     with
       filename := <guarantee-extension(|"aterm")> path
     ; result   := node
+
+rules // Desugaring
+  
+  editor-desugar :
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"des.tig")> path
+    ; result   := <desugar-all; pp-Tiger-string>node
+    
+  editor-desugar-ast :
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"aterm")> path
+    ; result   := <desugar-all>node
+    
+
+rules // Desugaring
+    
+  nabl2-debug-analysis-hook = id
+
+  nabl2-debug-constraint-generation-hook = id
+  
