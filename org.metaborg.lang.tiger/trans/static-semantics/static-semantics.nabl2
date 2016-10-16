@@ -5,8 +5,8 @@ imports nabl-lib
 
 signature
   name resolution
-//    labels 
-//      D, P, I 
+    labels 
+      P I 
     well-formedness 
       P* . I*
     order
@@ -18,10 +18,34 @@ rules
 
   init ^ (s) := 
     new s,               // generate the root scope
+    Var{"print"} <- s,   // built-in function print
     Type{"int"} <- s,    // declare primitive type int
     Type{"string"} <- s. // declare primitive type string
 
 rules // declarations
+
+  // Nested scopes: The scope of a variable or parameter includes the
+  // bodies of any function definitions in that scope. That is, access
+  // to variables in outer scopes is permitted, as in Pascal and Algol
+  
+  /* Local redeclarations: A variable or function declaration may be 
+    hidden by the redeclaration of the same name (as a variable or
+    function) in a smaller scope; for example, this function prints
+     "6 7 6 8 6" when applied to 5:
+     
+    let 
+      function f(v : int) =
+        let var v := 6
+         in print(v);
+            let  var v := 7 in print(v) end;
+            print(v);
+            let var v := 8 in print(v) end;
+            print(v)
+        end
+     in f(4)
+    end
+  */
+  
 
   [[ Let(blocks, exps) ^ (s) ]] :=
      new s',     // declare a new scope for the names introduced by the let
@@ -39,6 +63,18 @@ rules // declarations
     Decs[[ blocks ^ (s', s_body) ]].
 
 rules // type declarations
+
+  // Types: In the expression [let ... typedecs ... in exps end] the
+  // scope of a type identifier starts at the beginning of the 
+  // consecutive sequence of type declarations defining it and lasts
+  // until the end. The includes the headers and bodies of any functions
+  // with the scope.
+  
+  // Name spaces: There are two different name spaces: one for types,
+  // and one for functions and variables. A type [a] can be "in scope"
+  // at the same time as a variable [a] or a function [a], but 
+  // variables and functions of the same name cannot both be in 
+  // scope simultaneously (one will hide the other).
     
   [[ TypeDecs(tdecs) ^ (s, s_outer) ]] := 
      Map[[ tdecs ^ (s) ]].
@@ -51,6 +87,10 @@ rules // type declarations
     
 rules // variable declarations
 
+  // Local variables: In the expression [let ... vardec ... in exp end], 
+  // the scope of the declared variable starts just after its vardec 
+  // and lasts until the end.
+
   [[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
      Var{x} <- s, 
      [[ t ^ (s_outer) ]],
@@ -61,6 +101,10 @@ rules // variable declarations
      [[ t ^ (s_outer) ]].
 
 rules // function declarations
+
+  // Parameters: In [function id(... id1: id2 ...) = exp] the
+  // scope of the parameter id1 lasts throughout the function
+  // body exp
         
   [[ FunDecs(fdecs) ^ (s, s_outer) ]] :=
      Map2[[ fdecs ^ (s, s_outer) ]].
