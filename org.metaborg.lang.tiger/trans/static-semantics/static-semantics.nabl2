@@ -13,6 +13,14 @@ signature
       D < P, 
       D < I, 
       I < P
+      
+  types
+    UNIT()
+    INT()
+    STRING()
+    NIL()
+    RECORD(scope)
+    ARRAY(type, scope)
 
 rules
 
