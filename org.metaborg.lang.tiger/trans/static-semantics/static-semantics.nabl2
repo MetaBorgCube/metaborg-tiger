@@ -16,7 +16,7 @@ signature
 
 rules
 
-  init ^ (s) := 
+  init ^ (s) : ty := 
     new s,               // the root scope
     Type{"int"} <- s,    // declare primitive type int
     Type{"int"} : INT(),
@@ -160,15 +160,15 @@ rules // function declarations
   [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
      Var{f} <- s, // declare f 
      Var{f} : FUN(tys, ty), // type of f
-     new s',      // declare a new scope for body of function
-     s' -P-> s,   // make lexical environment accessible in body
-     Map2[[ args ^ (s', s_outer) : tys ]],
+     new s_fun,      // declare a new scope for body of function
+     s_fun -P-> s,   // make lexical environment accessible in body
+     MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
      [[ t ^ (s_outer) : ty ]],
-     [[ e ^ (s') : ty_body ]],
+     [[ e ^ (s_fun) : ty_body ]],
      ty == ty_body | error $[type mismatch].
      
-  [[ FArg(x, t) ^ (s, s_outer) : ty ]] :=
-     Var{x} <- s, // declare argument x as a variable declaration
+  [[ FArg(x, t) ^ (s_fun, s_outer) : ty ]] :=
+     Var{x} <- s_fun, // declare argument x as a variable declaration
      Var{x} : ty,
      [[ t ^ (s_outer) : ty ]].
      
@@ -248,7 +248,7 @@ rules // statements
   [[ Seq(es) ^ (s) : ty ]] :=
      Seq[[ es ^ (s) : ty ]].
      
-  [[ If(e1, e2, e3) ^ (s) ]] := 
+  [[ If(e1, e2, e3) ^ (s) : ty2 ]] := 
      [[ e1 ^ (s) : INT() ]], 
      [[ e2 ^ (s) : ty2 ]], 
      [[ e3 ^ (s) : ty3 ]],
@@ -295,10 +295,8 @@ rules // record and array indexing
 rules // literals    
 
   [[ Int(i)    ^ (s) : INT() ]] := true.  
-  [[ String(s) ^ (s) : STRING() ]] := true.
+  [[ String(str) ^ (s) : STRING() ]] := true.
   [[ NilExp()  ^ (s) : NIL() ]] := true.
-  [[ True()    ^ (s) : INT() ]] := true.
-  [[ False()   ^ (s) : INT() ]] := true.
   
 rules // operators
      
