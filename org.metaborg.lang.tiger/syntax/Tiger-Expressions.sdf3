@@ -9,14 +9,10 @@ context-free syntax
 
   Var.Var          = Id 
   LValue           = Var 
-  LValue.FieldVar  = <<LValue> . <Id>> 
-  LValue.Subscript = <<LValue> [ <{Sub ","}+> ]> 
+  LValue.FieldVar  = <<LValue>.<Id>> 
+  LValue.Subscript = <<LValue>[<Exp>]> 
   
-  Sub.Scalar = Exp 
-  Sub.Range  = <<Exp> : <Exp>> 
-  
-  Exp.Int     = IntConst 
-  Exp.Real    = RealConst 
+  Exp.Int     = IntConst  
   Exp.String  = StrConst 
   Exp.NilExp  = <nil> 
   Exp         = LValue 
@@ -25,7 +21,4 @@ context-free syntax
   
   InitField.InitField = <<Id> = <Exp>> 
   
-  Exp.Array  = <<TypeId> [ <{Exp ","}+> ] of <Exp>> 
-  
-  Exp.Sum           = <sum <{SumIndex ";"}+> ( <Exp> )>  
-  SumIndex.SumIndex = <<Id> = <Exp> to <Exp>> 
+  Exp.Array  = <<TypeId>[<Exp>] of <Exp>> 

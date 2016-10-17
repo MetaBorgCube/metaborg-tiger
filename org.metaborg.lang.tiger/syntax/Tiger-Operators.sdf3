@@ -7,35 +7,37 @@ imports Tiger-Expressions
 
 context-free syntax
 
-  Exp.Uminus  = <- <Exp>> 
-  Exp.Power   = <<Exp> ** <Exp>>   {left}
-  Exp.Times   = <<Exp> * <Exp>>    {left}
-  Exp.Divide  = <<Exp> / <Exp>>    {left}
-  Exp.Plus    = <<Exp> + <Exp>>    {left}
-  Exp.Minus   = <<Exp> - <Exp>>    {left}
-  Exp.CPlus   = <<Exp> +i <Exp>>   {non-assoc}
-  Exp.CMinus  = <<Exp> -i <Exp>>   {non-assoc}
-  Exp.Eq      = <<Exp> = <Exp>>    {non-assoc}
-  Exp.Neq     = <<Exp> \<\> <Exp>> {non-assoc}
-  Exp.Gt      = <<Exp> \> <Exp>>   {non-assoc}
-  Exp.Lt      = <<Exp> \< <Exp>>   {non-assoc}
-  Exp.Geq     = <<Exp> \>= <Exp>>  {non-assoc}
-  Exp.Leq     = <<Exp> \<= <Exp>>  {non-assoc}
-  Exp.True    = <true> 
-  Exp.False   = <false> 
-  Exp.Not     = <not <Exp>>
-  Exp.And     = <<Exp> & <Exp>> {left}
-  Exp.Or      = <<Exp> | <Exp>> {left}
+  Exp.Uminus  = [- [Exp]] 
+  Exp.Times   = [[Exp] * [Exp]]    {left}
+  Exp.Divide  = [[Exp] / [Exp]]    {left}
+  Exp.Plus    = [[Exp] + [Exp]]    {left}
+  Exp.Minus   = [[Exp] - [Exp]]    {left}
+  Exp.Eq      = [[Exp] = [Exp]]    {non-assoc}
+  Exp.Neq     = [[Exp] <> [Exp]] {non-assoc}
+  Exp.Gt      = [[Exp] > [Exp]]   {non-assoc}
+  Exp.Lt      = [[Exp] < [Exp]]   {non-assoc}
+  Exp.Geq     = [[Exp] >= [Exp]]  {non-assoc}
+  Exp.Leq     = [[Exp] <= [Exp]]  {non-assoc}
+  Exp.And     = [[Exp] & [Exp]] {left}
+  Exp.Or      = [[Exp] | [Exp]] {left}
 
-  Exp = <(<Exp>)> {bracket, avoid}
+  Exp = [([Exp])] {bracket, avoid}
 
 context-free priorities
+
+  // Precedence of operators: Unary minus has the highest
+  // precedence. The operators *, / have the next highest
+  // (tightest binding) precedence, followed by +, -, then
+  // by =, <>, >, <, >=, <=, then by &, then by |.
+  
+  // Associativity of operators: The operators *, /, +, -
+  // are all left associative. The comparison operators do
+  // not associate, so a = b = c is not a legal expression,
+  // a = (b = c) is legal.
 
   {Exp.Uminus
    LValue.FieldVar
    LValue.Subscript} 
-  > {left :
-    Exp.Power} 
   > {left :
     Exp.Times
     Exp.Divide} 
@@ -43,15 +45,12 @@ context-free priorities
     Exp.Plus
     Exp.Minus} 
   > {non-assoc :
-    Exp.CPlus
-    Exp.CMinus
     Exp.Eq
     Exp.Neq
     Exp.Gt
     Exp.Lt
     Exp.Geq
     Exp.Leq} 
-  > Exp.Not
   > Exp.And 
   > Exp.Or 
   > Exp.Array

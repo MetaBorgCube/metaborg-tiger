@@ -1,6 +1,6 @@
 module Tiger-Statements
 
-imports Tiger-Expressions
+imports Tiger-Expressions 
 imports Tiger-Lexicals
 
 context-free syntax
@@ -37,21 +37,7 @@ context-free syntax
       <Exp>
   > 
   
-  Exp.ForStride = <
-    for <Var> := <Exp> to <Exp> in <Exp> do 
-      <Exp>
-  > 
-  
   Exp.Break = <break> 
-  
-  Exp.Label = <label <Id>> 
-  
-  Exp.Goto = <goto <Id>> 
-  
-  Exp.IfGoto = <
-    if <Exp> 
-      goto <Id>
-  > 
 
 context-free priorities
 
