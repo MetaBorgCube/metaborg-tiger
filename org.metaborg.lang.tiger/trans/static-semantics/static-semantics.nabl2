@@ -17,10 +17,43 @@ signature
 rules
 
   init ^ (s) := 
-    new s,               // generate the root scope
-    Var{"print"} <- s,   // built-in function print
+    new s,               // the root scope
     Type{"int"} <- s,    // declare primitive type int
-    Type{"string"} <- s. // declare primitive type string
+    Type{"int"} : INT(),
+    Type{"string"} <- s, // declare primitive type string
+    Type{"string"} : STRING(),
+    
+    // standard library
+    
+    Var{"print"} <- s,   
+    Var{"print"} : FUN([STRING()], UNIT()),
+    
+    Var{"flush"} <- s,   
+    Var{"flush"} : FUN([], UNIT()),
+    
+    Var{"getchar"} <- s,   
+    Var{"getchar"} : FUN([], STRING()),
+    
+    Var{"ord"} <- s,   
+    Var{"ord"} : FUN([STRING()], INT()),
+    
+    Var{"chr"} <- s,   
+    Var{"chr"} : FUN([INT()], STRING()),
+    
+    Var{"size"} <- s,   
+    Var{"size"} : FUN([STRING()], INT()),
+    
+    Var{"substring"} <- s,   
+    Var{"substring"} : FUN([STRING(), INT(), INT()], STRING()),
+    
+    Var{"concat"} <- s,   
+    Var{"concat"} : FUN([STRING(), STRING()], UNIT()),
+    
+    Var{"not"} <- s,   
+    Var{"not"} : FUN([INT()], INT()),
+    
+    Var{"exit"} <- s,   
+    Var{"exit"} : FUN([INT()], UNIT()).
 
 rules // declarations
 
@@ -47,21 +80,35 @@ rules // declarations
   */
   
 
-  [[ Let(blocks, exps) ^ (s) ]] :=
+  [[ Let(blocks, exps) ^ (s) : ty ]] :=
      new s',     // declare a new scope for the names introduced by the let
      s' -P-> s,  // declare s as its parent scope
      new s_body, // scope for body of the let
      Decs[[ blocks ^ (s', s_body) ]],
-     Map[[ exps ^ (s_body) ]].
+     Seq[[ exps ^ (s_body) : ty ]].
      
   Decs[[ [] ^ (s, s_body) ]] :=
     s_body -P-> s.
     
   Decs[[ [block | blocks] ^ (s_outer, s_body) ]] :=
     new s', s' -P-> s_outer,
-    [[ block ^ (s', s_outer) ]],
+    Dec[[ block ^ (s', s_outer) ]],
     Decs[[ blocks ^ (s', s_body) ]].
 
+rules // sequence
+
+  Seq[[ [] ^ (s) : UNIT() ]] := 
+    true.  
+   
+  Seq[[ [e] ^ (s) : ty ]] :=
+    [[ e ^ (s) : ty ]].
+    
+  Seq[[ [ e | es ] ^ (s) : ty ]] := 
+    [[ e ^ (s) : ty' ]], Seq[[ es ^ (s) : ty ]].
+    
+    // note: pattern overlaps with previous rule; depends
+    // on order of evaluation; should check that es is not empty
+    
 rules // type declarations
 
   // Types: In the expression [let ... typedecs ... in exps end] the
@@ -76,12 +123,12 @@ rules // type declarations
   // variables and functions of the same name cannot both be in 
   // scope simultaneously (one will hide the other).
     
-  [[ TypeDecs(tdecs) ^ (s, s_outer) ]] := 
+  Dec[[ TypeDecs(tdecs) ^ (s, s_outer) ]] := 
      Map[[ tdecs ^ (s) ]].
      
   [[ TypeDec(x, t) ^ (s) ]] :=
-     Type{x} <- s,
-     [[ t ^ (s) ]].
+     Type{x} <- s, Type{x} : ty, 
+     [[ t ^ (s) : ty ]].
      
    // type declarations in a sequence are mutually recursive
     
@@ -91,14 +138,15 @@ rules // variable declarations
   // the scope of the declared variable starts just after its vardec 
   // and lasts until the end.
 
-  [[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
-     Var{x} <- s, 
-     [[ t ^ (s_outer) ]],
-     [[ e ^ (s_outer) ]].
+  Dec[[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
+     Var{x} <- s, Var{x} : ty1, 
+     [[ t ^ (s_outer) : ty1 ]],
+     [[ e ^ (s_outer) : ty2 ]],
+     ty1 == ty2 | error $[type mismatch].
     
-  [[ VarDecNoInit(x, t) ^ (s, s_outer) ]] :=
-     Var{x} <- s, 
-     [[ t ^ (s_outer) ]].
+  Dec[[ VarDecNoInit(x, t) ^ (s, s_outer) ]] :=
+     Var{x} <- s, Var{x} : ty, 
+     [[ t ^ (s_outer) : ty ]].
 
 rules // function declarations
 
@@ -106,189 +154,190 @@ rules // function declarations
   // scope of the parameter id1 lasts throughout the function
   // body exp
         
-  [[ FunDecs(fdecs) ^ (s, s_outer) ]] :=
+  Dec[[ FunDecs(fdecs) ^ (s, s_outer) ]] :=
      Map2[[ fdecs ^ (s, s_outer) ]].
      
   [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
      Var{f} <- s, // declare f 
+     Var{f} : FUN(tys, ty), // type of f
      new s',      // declare a new scope for body of function
      s' -P-> s,   // make lexical environment accessible in body
-     Map2[[ args ^ (s', s_outer) ]],
-     [[ t ^ (s_outer) ]],
-     [[ e ^ (s') ]].
+     Map2[[ args ^ (s', s_outer) : tys ]],
+     [[ t ^ (s_outer) : ty ]],
+     [[ e ^ (s') : ty_body ]],
+     ty == ty_body | error $[type mismatch].
      
-  [[ FArg(x, t) ^ (s, s_outer) ]] :=
+  [[ FArg(x, t) ^ (s, s_outer) : ty ]] :=
      Var{x} <- s, // declare argument x as a variable declaration
-     [[ t ^ (s_outer) ]].
+     Var{x} : ty,
+     [[ t ^ (s_outer) : ty ]].
      
 rules // types
 
-  [[ Tid(x) ^ (s) ]] :=
+  [[ Tid(x) ^ (s) : ty ]] :=
      Type{x} -> s, 
-     Type{x} |-> d | error $[Type [x] not declared].
+     Type{x} |-> d | error $[Type [x] not declared],
+     d : ty.
      
-  [[ Tp(t) ^ (s) ]] := 
-     [[ t ^ (s) ]].
+  [[ Tp(t) ^ (s) : ty ]] := 
+     [[ t ^ (s) : ty ]].
   
-  [[ NoTp() ^ (s) ]] := true.
+  [[ NoTp() ^ (s) : UNIT() ]] := true.
       
-  [[ NameTy(t) ^ (s) ]] :=
-     [[ t ^ (s) ]].
+  [[ NameTy(t) ^ (s) : ty ]] :=
+     [[ t ^ (s) : ty ]].
      
-  [[ RecordTy(fields) ^ (s) ]] := 
-     new s',
-     Map2[[ fields ^ (s', s) ]].
+  [[ RecordTy(fields) ^ (s) : RECORD(s_rec) ]] := 
+     new s_rec,
+     Map2[[ fields ^ (s_rec, s) ]].
      // todo: connect record scope to the type
      
-  [[ Field(x, t) ^ (s, s_outer) ]] :=
-     Field{x} <- s,
-     [[ t ^ (s_outer) ]].
+  [[ Field(x, t) ^ (s_rec, s_outer) ]] :=
+     Field{x} <- s_rec,
+     Field{x} : ty,
+     [[ t ^ (s_outer) : ty ]].
      
-  [[ ArrayTy(t) ^ (s) ]] := 
-     [[ t ^ (s) ]].
+  [[ ArrayTy(t) ^ (s) : ARRAY(ty, s')]] := 
+     new s', // unique token to distinghuish the array type
+     [[ t ^ (s) : ty ]].
 
 rules // variable references
   
-  [[ Var(x) ^ (s) ]] :=
+  [[ Var(x) ^ (s) : ty ]] :=
      Var{x} -> s,  // declare x as variable reference
-     Var{x} |-> d. // check that x resolves to a declaration
+     Var{x} |-> d, // check that x resolves to a declaration
+     d : ty.
  
 rules // function calls
     
-  [[ Call(Var(f), exps) ^ (s) ]] :=
+  [[ Call(Var(f), exps) ^ (s) : ty ]] :=
      Var{f} -> s,  // declare f as a function reference
      Var{f} |-> d | error $[Function [f] not declared], 
-     // check that f resolves to a declaration
-     Map[[ exps ^ (s) ]].
+     d : FUN(tys, ty) | error $[Function expected],
+     MapTs[[ exps ^ (s) : tys ]].
+     
+     // todo: error messages per argument
      
   [[ Record(t, inits) ^ (s) ]] :=
-     [[ t ^ (s) ]],
-     new s_rec,
-     Map[[ inits ^ (s_rec, s) ]].
+     [[ t ^ (s) : ty ]],
+     ty == RECORD(s_rec) | error $[record type expected],
+     new s_use, s_use -I-> s_rec,
+     Map2[[ inits ^ (s_use, s) ]].
      
-  [[ InitField(x, e) ^ (s_rec, s) ]] :=
-     Field{x} -> s_rec,
+     // constraint on coverage of initializers
+     
+  [[ InitField(x, e) ^ (s_use, s) ]] :=
+     Field{x} -> s_use,
      Field{x} |-> d,
-     [[ e ^ (s) ]].
+     d : ty1,
+     [[ e ^ (s) : ty2 ]],
+     ty1 == ty2 | error $[type mismatch].
      
-  [[ Array(t, es, e) ^ (s) ]] :=
-     [[ t ^ (s) ]],
-     Map[[ es ^ (s) ]],
-     [[ e ^ (s) ]].
+  [[ Array(t, e1, e2) ^ (s) : ty ]] :=
+     [[ t ^ (s) : ty ]],
+     ty == ARRAY(ty_elem, s_arr) | error $[array type expected],
+     [[ e1 ^ (s) : INT() ]], // length
+     [[ e2 ^ (s) : ty_elem ]]. // initial value
      
-  // Sum, SumIndex
-  
 rules // statements
 
-  [[ Assign(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].  
+  [[ Assign(e1, e2) ^ (s) : UNIT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s) : ty2 ]],
+     ty1 == ty2 | error $[type mismatch].  
      
-  [[ ParAssign(es1, es2) ^ (s) ]] :=
-     Map[[ es1 ^ (s) ]], Map[[ es2 ^ (s) ]].  
-     
-  [[ Seq(es) ^ (s) ]] :=
-     Map[[ es ^ (s) ]].
+  [[ Seq(es) ^ (s) : ty ]] :=
+     Seq[[ es ^ (s) : ty ]].
      
   [[ If(e1, e2, e3) ^ (s) ]] := 
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]], [[ e3 ^ (s) ]].
+     [[ e1 ^ (s) : INT() ]], 
+     [[ e2 ^ (s) : ty2 ]], 
+     [[ e3 ^ (s) : ty3 ]],
+     ty2 == ty3 | error $[branches should have same type].
      
-  [[ IfThen(e1, e2) ^ (s) ]] := 
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ IfThen(e1, e2) ^ (s) : UNIT() ]] := 
+     [[ e1 ^ (s) : INT() ]], 
+     [[ e2 ^ (s) : ty ]].
      
-  [[ While(e1, e2) ^ (s) ]] := 
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
-     
-rules // binding statements
+  [[ While(e1, e2) ^ (s) : UNIT() ]] := 
+     new s', s' -P-> s,
+     Loop{""} <- s',
+     [[ e1 ^ (s) : INT() ]], 
+     [[ e2 ^ (s') : ty ]].
 
-  [[ For(Var(x), e1, e2, e3) ^ (s) ]] := 
+  [[ For(Var(x), e1, e2, e3) ^ (s) : UNIT() ]] := 
      new s', 
      s' -P-> s,
      Var{x} <- s',
-     [[ e1 ^ (s) ]], // x not bound in loop bounds
-     [[ e2 ^ (s) ]], 
-     [[ e3 ^ (s') ]]. // x bound in body
+     Loop{""} <- s',
+     [[ e1 ^ (s) : INT() ]], // x not bound in loop bounds
+     [[ e2 ^ (s) : INT() ]], 
+     [[ e3 ^ (s') : ty ]]. // x bound in body
      
-  [[ ForStride(Var(x), e1, e2, e3, e4) ^ (s) ]] := 
-     new s', 
-     s' -P-> s,
-     Var{x} <- s',
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]], [[ e3 ^ (s) ]], 
-     [[ e4 ^ (s') ]].
-     
-  [[ Break() ^ (s) ]] := true.
-  
-  [[ Label(l) ^ (s) ]] := false.
-  
-  [[ Goto(l) ^ (s) ]] := false.
-  
-  [[ IfGoto(e, l) ^ (s) ]] := 
-     [[ e ^ (s) ]].
+  [[ Break() ^ (s) : UNIT() ]] := 
+     Loop{""} -> s,
+     Loop{""} |-> d.
           
 rules // record and array indexing
      
-  [[ FieldVar(e, f) ^ (s) ]] :=
-     [[ e ^ (s) ]].
+  [[ FieldVar(e, f) ^ (s) : ty ]] :=
+     [[ e ^ (s) : ty_e]], 
+     ty_e == RECORD(s_rec),
+     new s_use, s_use -I-> s_rec,
+     Field{f} -> s_use,
+     Field{f} |-> d,
+     d : ty.
      
-  [[ Subscript(e, es) ^ (s) ]] :=
-     [[ e ^ (s) ]],
-     Map[[ es ^ (s) ]].
-     
-  [[ Scalar(e) ^ (s) ]] := 
-     [[ e ^ (s) ]].
-  
-  [[ Range(e1, e2) ^ (s) ]] := 
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].  
+  [[ Subscript(e1, e2) ^ (s) : ty ]] :=
+     [[ e1 ^ (s) : ty_arr ]],
+     ty_arr == ARRAY(ty, s_arr),
+     [[ e2 ^ (s) : INT() ]].
      
 rules // literals    
 
-  [[ Int(i)    ^ (s) ]] := true.  
-  [[ Real(r)   ^ (s) ]] := true.  
-  [[ String(s) ^ (s) ]] := true.
-  [[ NilExp()  ^ (s) ]] := true.
-  [[ True()    ^ (s) ]] := true.
-  [[ False()   ^ (s) ]] := true.
+  [[ Int(i)    ^ (s) : INT() ]] := true.  
+  [[ String(s) ^ (s) : STRING() ]] := true.
+  [[ NilExp()  ^ (s) : NIL() ]] := true.
+  [[ True()    ^ (s) : INT() ]] := true.
+  [[ False()   ^ (s) : INT() ]] := true.
   
 rules // operators
      
-  [[ Uminus(e) ^ (s) ]] :=
-     [[ e ^ (s) ]].
+  [[ Uminus(e) ^ (s) : INT() ]] :=
+     [[ e ^ (s) : INT() ]].
+          
+  [[ Divide(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : INT() ]], [[ e2 ^ (s): INT() ]].
      
-  [[ Power(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Times(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : INT() ]], [[ e2 ^ (s): INT() ]].
      
-  [[ Divide(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Minus(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : INT() ]], [[ e2 ^ (s): INT() ]].
      
-  [[ Times(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
-     
-  [[ Minus(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
-     
-  [[ Plus(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
-     
-  [[ CPlus(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
-     
-  [[ CMinus(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Plus(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : INT() ]], [[ e2 ^ (s): INT() ]].
         
-  [[ Eq(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Eq(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
         
-  [[ Neq(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Neq(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
         
-  [[ Gt(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Gt(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
         
-  [[ Lt(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Lt(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
         
-  [[ Geq(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Geq(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
         
-  [[ Leq(e1, e2) ^ (s) ]] :=
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].
+  [[ Leq(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
      

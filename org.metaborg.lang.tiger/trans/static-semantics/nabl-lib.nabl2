@@ -11,10 +11,14 @@ rules // auxiliary
   Map[[ [] ^ (s) ]] := true.   
   Map[[ [ x | xs ] ^ (s) ]] := 
     [[ x ^ (s) ]], Map[[ xs ^ (s) ]].
-
+    
   Map2[[ [] ^ (s, s') ]] := true.   
   Map2[[ [ x | xs ] ^ (s, s') ]] := 
     [[ x ^ (s, s') ]], Map2[[ xs ^ (s, s') ]].
+    
+  MapT2[[ [] ^ (s, s') : [] ]] := true.   
+  MapT2[[ [ x | xs ] ^ (s, s') : [ty | tys] ]] := 
+    [[ x ^ (s, s') : ty ]], MapT2[[ xs ^ (s, s') : tys ]].
    
   MapT[[ [] ^ (s) : ty ]] := true.   
   MapT[[ [ x | xs ] ^ (s) : ty ]] := 
