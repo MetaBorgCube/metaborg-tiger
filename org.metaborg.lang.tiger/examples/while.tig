@@ -1,7 +1,7 @@
 
-let var i : int := e1
- in while i < e2 do (
-      e_body; 
+let var i : int := 1
+ in while i < 10 do (
+      print(chr(i)); 
       i := i + 1
     )
 end
