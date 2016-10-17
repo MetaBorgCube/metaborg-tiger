@@ -2,5 +2,8 @@ let
   type intlist = {hd : int, tl : intlist}
   type tree = {key : int, children : treelist}
   type treelist = {hd : tree, tl : treelist}     
- in 3
+ in 
+  intlist { hd = 3, tl = nil };
+  tree { key = 2, children = nil }
 end 
+ 
