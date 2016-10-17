@@ -195,10 +195,11 @@ rules // types
   [[ NameTy(t) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]].
      
-  [[ RecordTy(fields) ^ (s) : RECORD(s_rec) ]] := 
+  [[ RecordTy(fields) ^ (s) : ty ]] := 
      new s_rec,
+     ty == RECORD(s_rec),
+     NIL() <! ty,
      Map2[[ fields ^ (s_rec, s) ]].
-     // todo: connect record scope to the type
      
   [[ Field(x, t) ^ (s_rec, s_outer) ]] :=
      Field{x} <- s_rec,
@@ -226,7 +227,7 @@ rules // function calls
      
      // todo: error messages per argument
      
-  [[ Record(t, inits) ^ (s) ]] :=
+  [[ Record(t, inits) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]],
      ty == RECORD(s_rec) | error $[record type expected],
      new s_use, s_use -I-> s_rec,
@@ -239,7 +240,7 @@ rules // function calls
      Field{x} |-> d,
      d : ty1,
      [[ e ^ (s) : ty2 ]],
-     ty1 == ty2 | error $[type mismatch].
+     ty2 <? ty1 | error $[type mismatch].
      
   [[ Array(t, e1, e2) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]],
@@ -288,7 +289,7 @@ rules // statements
 rules // record and array indexing
      
   [[ FieldVar(e, f) ^ (s) : ty ]] :=
-     [[ e ^ (s) : ty_e]], 
+     [[ e ^ (s) : ty_e ]], 
      ty_e == RECORD(s_rec),
      new s_use, s_use -I-> s_rec,
      Field{f} -> s_use,
