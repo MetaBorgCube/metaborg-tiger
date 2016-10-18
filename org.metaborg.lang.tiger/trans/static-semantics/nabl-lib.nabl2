@@ -1,9 +1,6 @@
 module nabl-lib
 
 rules // auxiliary
- 
-//  [[ Amb([t | ts]) ^ (s) ]] := 
-//     [[ t ^ (s) ]]. 
 
   [[ None() ^ (s) ]] := true.
   [[ Some(e) ^ (s) ]] := [[ e ^ (s) ]].
@@ -25,8 +22,10 @@ rules // auxiliary
     [[ x ^ (s) : ty ]], MapT[[ xs ^ (s) : ty ]].
    
   MapTs[[ [] ^ (s) : [] ]] := true.   
-  MapTs[[ [ x | xs ] ^ (s) : [ty | tys] ]] := 
-    [[ x ^ (s) : ty ]], MapTs[[ xs ^ (s) : tys ]].
+  MapTs[[ [ x | xs ] ^ (s) : [ty1 | tys] ]] := 
+    [[ x ^ (s) : ty2 ]], 
+    ty1 == ty2 | error $[type mismatch] @ x,
+    MapTs[[ xs ^ (s) : tys ]].
    
   MapTs2[[ [] ^ (s1, s2) : [] ]] := true.   
   MapTs2[[ [ x | xs ] ^ (s1, s2) : [ty | tys] ]] := 
