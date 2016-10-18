@@ -27,41 +27,41 @@ rules
   init ^ (s) : ty_init := 
     new s,               // the root scope
     Type{"int"} <- s,    // declare primitive type int
-    Type{"int"} : INT(),
+    Type{"int"} : INT() !!,
     Type{"string"} <- s, // declare primitive type string
-    Type{"string"} : STRING(),
+    Type{"string"} : STRING() !!,
     
     // standard library
     
     Var{"print"} <- s,   
-    Var{"print"} : FUN([STRING()], UNIT()),
+    Var{"print"} : FUN([STRING()], UNIT()) !!,
     
     Var{"flush"} <- s,   
-    Var{"flush"} : FUN([], UNIT()),
+    Var{"flush"} : FUN([], UNIT()) !!,
     
     Var{"getchar"} <- s,   
-    Var{"getchar"} : FUN([], STRING()),
+    Var{"getchar"} : FUN([], STRING()) !!,
     
     Var{"ord"} <- s,   
-    Var{"ord"} : FUN([STRING()], INT()),
+    Var{"ord"} : FUN([STRING()], INT()) !!,
     
     Var{"chr"} <- s,   
-    Var{"chr"} : FUN([INT()], STRING()),
+    Var{"chr"} : FUN([INT()], STRING()) !!,
     
     Var{"size"} <- s,   
-    Var{"size"} : FUN([STRING()], INT()),
+    Var{"size"} : FUN([STRING()], INT()) !!,
     
     Var{"substring"} <- s,   
-    Var{"substring"} : FUN([STRING(), INT(), INT()], STRING()),
+    Var{"substring"} : FUN([STRING(), INT(), INT()], STRING()) !!,
     
     Var{"concat"} <- s,   
-    Var{"concat"} : FUN([STRING(), STRING()], UNIT()),
+    Var{"concat"} : FUN([STRING(), STRING()], UNIT()) !!,
     
     Var{"not"} <- s,   
-    Var{"not"} : FUN([INT()], INT()),
+    Var{"not"} : FUN([INT()], INT()) !!,
     
     Var{"exit"} <- s,   
-    Var{"exit"} : FUN([INT()], UNIT()).
+    Var{"exit"} : FUN([INT()], UNIT()) !!.
 
 rules // declarations
 
@@ -140,30 +140,28 @@ rules // type declarations
      Map[[ tdecs ^ (s) ]].
      
   [[ TypeDec(x, t) ^ (s) ]] :=
-     Type{x} <- s, Type{x} : ty, 
+     Type{x} <- s, Type{x} : ty !, 
      [[ t ^ (s) : ty ]].
      
    // type declarations in a sequence are mutually recursive
     
-rules // variable declarations
+//rules // variable declarations
 
   // Local variables: In the expression [let ... vardec ... in exp end], 
   // the scope of the declared variable starts just after its vardec 
   // and lasts until the end.
 
   Dec[[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
-     Var{x} <- s, 
-     Var{x} : ty1, 
+     Var{x} <- s, Var{x} : ty1 !, 
      [[ t ^ (s_outer) : ty1 ]],
      [[ e ^ (s_outer) : ty2 ]],
      ty2 <? ty1 | error $[type mismatch] @ e.
     
   Dec[[ VarDecNoInit(x, t) ^ (s, s_outer) ]] :=
-     Var{x} <- s, 
-     Var{x} : ty, 
+     Var{x} <- s, Var{x} : ty !, 
      [[ t ^ (s_outer) : ty ]].
 
-rules // function declarations
+//rules // function declarations
 
   // Parameters: In [function id(... id1: id2 ...) = exp] the
   // scope of the parameter id1 lasts throughout the function
@@ -174,18 +172,18 @@ rules // function declarations
      
   [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
      Var{f} <- s, // declare f 
-     Var{f} : FUN(tys, ty), // type of f
+     Var{f} : FUN(tys, ty) !, // type of f
      new s_fun,      // declare a new scope for body of function
      s_fun -P-> s,   // make lexical environment accessible in body
      distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
      [[ t ^ (s_outer) : ty ]],
      [[ e ^ (s_fun) : ty_body ]],
-     ty == ty_body | error $[return type does not match body] @ t.
+     ty == ty_body| error $[return type does not match body] @ t.
      
   [[ FArg(x, t) ^ (s_fun, s_outer) : ty ]] :=
      Var{x} <- s_fun, // declare argument x as a variable declaration
-     Var{x} : ty,
+     Var{x} : ty !,
      [[ t ^ (s_outer) : ty ]].
      
 rules // types
@@ -212,8 +210,8 @@ rules // types
      Map2[[ fields ^ (s_rec, s) ]].
      
   [[ Field(x, t) ^ (s_rec, s_outer) ]] :=
-     Field{x} <- s_rec, 
-     Field{x} : ty,
+     Field{x} <- s_rec,
+     Field{x} : ty !,
      [[ t ^ (s_outer) : ty ]].
      
   [[ ArrayTy(t) ^ (s) : ARRAY(ty, s')]] := 
@@ -232,7 +230,7 @@ rules // function calls
   [[ Call(Var(f), exps) ^ (s) : ty ]] :=
      Var{f} -> s,  // declare f as a function reference
      Var{f} |-> d | error $[Function [f] not declared], 
-     d : FUN(tys, ty) | error $[Function expected],
+     d : FUN(tys, ty) | error $[Function expected] ,
      MapTs[[ exps ^ (s) : tys ]].
      
      // todo: error messages per argument
