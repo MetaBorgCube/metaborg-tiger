@@ -31,9 +31,3 @@ rules // Desugaring
     ; result   := <desugar-all>node
     
 
-rules // Desugaring
-    
-  nabl2-debug-analysis-hook = id
-
-  nabl2-debug-constraint-generation-hook = id
-  
