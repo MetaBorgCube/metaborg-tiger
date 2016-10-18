@@ -24,7 +24,7 @@ signature
 
 rules
 
-  init ^ (s) : ty := 
+  init ^ (s) : ty_init := 
     new s,               // the root scope
     Type{"int"} <- s,    // declare primitive type int
     Type{"int"} : INT(),
