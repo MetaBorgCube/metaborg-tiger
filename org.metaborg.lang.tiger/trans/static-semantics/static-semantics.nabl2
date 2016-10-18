@@ -5,6 +5,8 @@ imports nabl-lib
 
 signature
   name resolution
+    namespaces
+      Type Var Field Loop
     labels 
       P I 
     well-formedness 
@@ -235,11 +237,11 @@ rules // function calls
      
      // todo: error messages per argument
      
-  [[ Record(t, inits) ^ (s) : ty ]] :=
+  [[ r@Record(t, inits) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]],
      ty == RECORD(s_rec) | error $[record type expected],
      new s_use, s_use -I-> s_rec,
-     R(s_use) seteq D(s_rec),
+     D(s_rec)/Field subseteq R(s_use)/Field | error $[Field [NAME] not initialized] @r,
      Map2[[ inits ^ (s_use, s) ]].
      
      // constraint on coverage of initializers
