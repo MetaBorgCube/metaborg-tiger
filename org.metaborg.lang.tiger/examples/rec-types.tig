@@ -1,9 +1,19 @@
 let
   type intlist = {hd : int, tl : intlist}
   type tree = {key : int, children : treelist}
-  type treelist = {hd : tree, tl : treelist}     
+  type treelist = {hd : tree, tl : treelist}    
+  var l : intlist
+  var t : tree 
+  var tl : treelist
  in 
-  intlist { hd = 3, tl = nil };
-  tree { key = 2, children = nil }
+  l := intlist { hd = 3, tl = l };
+  t := tree { 
+    key = 2, 
+    children = treelist { 
+      hd = tree{ key = 3, children = 3 },
+      tl = treelist{ }
+    } 
+  };
+  t.children.hd.children := t.children
 end 
  

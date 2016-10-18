@@ -4,5 +4,6 @@ let
 in
   for y := 1 to x do (
     f := f * y
-  )
+  );
+  print(chr(y)) // y not in scope
 end
