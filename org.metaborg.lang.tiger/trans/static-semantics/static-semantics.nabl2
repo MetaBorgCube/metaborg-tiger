@@ -27,41 +27,41 @@ rules
   init ^ (s) : ty := 
     new s,               // the root scope
     Type{"int"} <- s,    // declare primitive type int
-    Type{"int"} : INT(),
+    Type{"int"} : INT() !!,
     Type{"string"} <- s, // declare primitive type string
-    Type{"string"} : STRING(),
+    Type{"string"} : STRING() !!,
     
     // standard library
     
     Var{"print"} <- s,   
-    Var{"print"} : FUN([STRING()], UNIT()),
+    Var{"print"} : FUN([STRING()], UNIT()) !!,
     
     Var{"flush"} <- s,   
-    Var{"flush"} : FUN([], UNIT()),
+    Var{"flush"} : FUN([], UNIT()) !!,
     
     Var{"getchar"} <- s,   
-    Var{"getchar"} : FUN([], STRING()),
+    Var{"getchar"} : FUN([], STRING()) !!,
     
     Var{"ord"} <- s,   
-    Var{"ord"} : FUN([STRING()], INT()),
+    Var{"ord"} : FUN([STRING()], INT()) !!,
     
     Var{"chr"} <- s,   
-    Var{"chr"} : FUN([INT()], STRING()),
+    Var{"chr"} : FUN([INT()], STRING()) !!,
     
     Var{"size"} <- s,   
-    Var{"size"} : FUN([STRING()], INT()),
+    Var{"size"} : FUN([STRING()], INT()) !!,
     
     Var{"substring"} <- s,   
-    Var{"substring"} : FUN([STRING(), INT(), INT()], STRING()),
+    Var{"substring"} : FUN([STRING(), INT(), INT()], STRING()) !!,
     
     Var{"concat"} <- s,   
-    Var{"concat"} : FUN([STRING(), STRING()], UNIT()),
+    Var{"concat"} : FUN([STRING(), STRING()], UNIT()) !!,
     
     Var{"not"} <- s,   
-    Var{"not"} : FUN([INT()], INT()),
+    Var{"not"} : FUN([INT()], INT()) !!,
     
     Var{"exit"} <- s,   
-    Var{"exit"} : FUN([INT()], UNIT()).
+    Var{"exit"} : FUN([INT()], UNIT()) !!.
 
 rules // declarations
 
@@ -111,7 +111,7 @@ rules // sequence
   Seq[[ [e] ^ (s) : ty ]] :=
     [[ e ^ (s) : ty ]].
     
-  Seq[[ [ e | es ] ^ (s) : ty ]] := 
+  Seq[[ [ e | es@[_|_] ] ^ (s) : ty ]] := 
     [[ e ^ (s) : ty' ]], Seq[[ es ^ (s) : ty ]].
     
     // note: pattern overlaps with previous rule; depends
@@ -135,7 +135,7 @@ rules // type declarations
      Map[[ tdecs ^ (s) ]].
      
   [[ TypeDec(x, t) ^ (s) ]] :=
-     Type{x} <- s, Type{x} : ty, 
+     Type{x} <- s, Type{x} : ty !, 
      [[ t ^ (s) : ty ]].
      
    // type declarations in a sequence are mutually recursive
@@ -147,13 +147,13 @@ rules // variable declarations
   // and lasts until the end.
 
   Dec[[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
-     Var{x} <- s, Var{x} : ty1, 
+     Var{x} <- s, Var{x} : ty1 !, 
      [[ t ^ (s_outer) : ty1 ]],
      [[ e ^ (s_outer) : ty2 ]],
      ty1 == ty2 | error $[type mismatch].
     
   Dec[[ VarDecNoInit(x, t) ^ (s, s_outer) ]] :=
-     Var{x} <- s, Var{x} : ty, 
+     Var{x} <- s, Var{x} : ty !, 
      [[ t ^ (s_outer) : ty ]].
 
 rules // function declarations
@@ -167,7 +167,7 @@ rules // function declarations
      
   [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
      Var{f} <- s, // declare f 
-     Var{f} : FUN(tys, ty), // type of f
+     Var{f} : FUN(tys, ty) !, // type of f
      new s_fun,      // declare a new scope for body of function
      s_fun -P-> s,   // make lexical environment accessible in body
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
@@ -177,7 +177,7 @@ rules // function declarations
      
   [[ FArg(x, t) ^ (s_fun, s_outer) : ty ]] :=
      Var{x} <- s_fun, // declare argument x as a variable declaration
-     Var{x} : ty,
+     Var{x} : ty !,
      [[ t ^ (s_outer) : ty ]].
      
 rules // types
@@ -203,7 +203,7 @@ rules // types
      
   [[ Field(x, t) ^ (s_rec, s_outer) ]] :=
      Field{x} <- s_rec,
-     Field{x} : ty,
+     Field{x} : ty !,
      [[ t ^ (s_outer) : ty ]].
      
   [[ ArrayTy(t) ^ (s) : ARRAY(ty, s')]] := 
