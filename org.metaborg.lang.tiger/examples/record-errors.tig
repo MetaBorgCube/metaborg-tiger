@@ -4,6 +4,6 @@ let
   var p : point
   var e : errpoint 
  in
-   p := point{ x = 3, z = "a" }  
+   p := point{ x = 3, y = 3, z = "a" }  
    p := point{ x = 3 }   
 end  
