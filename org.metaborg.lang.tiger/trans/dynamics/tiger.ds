@@ -14,7 +14,7 @@ signature
     E : Env
     H : Heap
   arrows
-    Exp -init-> V
+    Module -init-> V
     Exp --> V
     
 rules
