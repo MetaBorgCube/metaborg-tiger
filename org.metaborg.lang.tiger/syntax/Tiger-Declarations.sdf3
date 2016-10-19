@@ -32,7 +32,7 @@ context-free syntax
   
   Declarations.Declarations = <declarations <Dec*>> 
  
-context-free syntax
+context-free syntax // type annotations
 
   TypeAn.NoTp   =  
   TypeAn.Tp     = <: <TypeId>> 
@@ -52,12 +52,6 @@ context-free syntax // semantic types
   Ty.NIL      = <NIL> 
   Ty.UNIT     = <UNIT> 
   Ty.NAME     = <NAME <Id>> 
-//  Ty.RECORD   = <RECORD { <{FIELD ","}*> } <Id>> 
   Ty.RECORD   = <RECORD <Id>>
   Ty.ARRAY    = <ARRAY <Ty> <Id>> 
   Ty.FUN      = <FUN ( <{Ty ","}*> ) <Ty>> 
-  
-  //FIELD.FIELD = <<Id> : <Ty>> 
-  
-  Exp.Typed    = <<Exp> :: <Ty>> 
-  LValue.Typed = <<LValue> :: <Ty>> {avoid}
