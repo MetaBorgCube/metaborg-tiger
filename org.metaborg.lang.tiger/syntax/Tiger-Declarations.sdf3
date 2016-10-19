@@ -57,7 +57,7 @@ context-free syntax // semantic types
   Ty.ARRAY    = <ARRAY <Ty> <Id>> 
   Ty.FUN      = <FUN ( <{Ty ","}*> ) <Ty>> 
   
-  FIELD.FIELD = <<Id> : <Ty>> 
+  //FIELD.FIELD = <<Id> : <Ty>> 
   
   Exp.Typed    = <<Exp> :: <Ty>> 
   LValue.Typed = <<LValue> :: <Ty>> {avoid}
