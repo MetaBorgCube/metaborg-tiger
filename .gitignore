@@ -1,3 +1,4 @@
 *.aterm
 *.des.tig
 *.pp.tig
+org.metaborg.lang.tiger.interpreter/src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated
