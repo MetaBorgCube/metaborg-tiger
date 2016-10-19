@@ -68,6 +68,8 @@ rules
     Var{"exit"} <- s,   
     Var{"exit"} : FUN([INT()], UNIT()) !!.
     
+rules // top-level module
+
   [[ Mod(e) ^ (s) : ty ]] :=
      [[ e ^ (s) : ty ]].
  
