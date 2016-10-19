@@ -15,7 +15,7 @@ signature
       D < P, 
       D < I, 
       I < P
-      
+signature     
   types
     UNIT()
     INT()
@@ -23,13 +23,16 @@ signature
     NIL()
     RECORD(scope)
     ARRAY(type, scope)
+    FUN(List(type), type)
 
 rules
 
   init ^ (s) : ty_init := 
     new s,               // the root scope
+    
     Type{"int"} <- s,    // declare primitive type int
     Type{"int"} : INT() !!,
+    
     Type{"string"} <- s, // declare primitive type string
     Type{"string"} : STRING() !!,
     
@@ -65,7 +68,7 @@ rules
     Var{"exit"} <- s,   
     Var{"exit"} : FUN([INT()], UNIT()) !!.
 
-rules // declarations
+rules // let
 
   // Nested scopes: The scope of a variable or parameter includes the
   // bodies of any function definitions in that scope. That is, access
@@ -147,7 +150,7 @@ rules // type declarations
      
    // type declarations in a sequence are mutually recursive
     
-//rules // variable declarations
+rules // variable declarations
 
   // Local variables: In the expression [let ... vardec ... in exp end], 
   // the scope of the declared variable starts just after its vardec 
@@ -203,18 +206,22 @@ rules // types
       
   [[ NameTy(t) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]].
-     
+
+rules // record type
+
   [[ RecordTy(fields) ^ (s) : ty ]] := 
      new s_rec,
      ty == RECORD(s_rec),
      NIL() <! ty,
-     distinct D(s_rec),
+     distinct D(s_rec)/Field | error $[Duplicate declaration of field [NAME]] @ NAMES,
      Map2[[ fields ^ (s_rec, s) ]].
      
   [[ Field(x, t) ^ (s_rec, s_outer) ]] :=
      Field{x} <- s_rec,
      Field{x} : ty !,
      [[ t ^ (s_outer) : ty ]].
+
+rules // array type
      
   [[ ArrayTy(t) ^ (s) : ARRAY(ty, s')]] := 
      new s', // unique token to distinghuish the array type
@@ -225,7 +232,7 @@ rules // variable references
   [[ Var(x) ^ (s) : ty ]] :=
      Var{x} -> s,  // declare x as variable reference
      Var{x} |-> d, // check that x resolves to a declaration
-     d : ty.
+     d : ty.       // type of declaration is type of reference
  
 rules // function calls
     
@@ -236,22 +243,24 @@ rules // function calls
      MapTs[[ exps ^ (s) : tys ]].
      
      // todo: error messages per argument
-     
+
+rules // record creation   
+   
   [[ r@Record(t, inits) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]],
      ty == RECORD(s_rec) | error $[record type expected],
      new s_use, s_use -I-> s_rec,
      D(s_rec)/Field subseteq R(s_use)/Field | error $[Field [NAME] not initialized] @r,
      Map2[[ inits ^ (s_use, s) ]].
-     
-     // constraint on coverage of initializers
-     
+         
   [[ InitField(x, e) ^ (s_use, s) ]] :=
      Field{x} -> s_use,
      Field{x} |-> d,
      d : ty1,
      [[ e ^ (s) : ty2 ]],
      ty2 <? ty1 | error $[type mismatch].
+
+rules // array creation
      
   [[ Array(t, e1, e2) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]],
@@ -263,7 +272,7 @@ rules // statements
 
   [[ Assign(e1, e2) ^ (s) : UNIT() ]] :=
      [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s) : ty2 ]],
-     ty2 <? ty1 | error $[type mismatch].  
+     ty2 <? ty1 | error $[type mismatch] @ e2.  
      
   [[ Seq(es) ^ (s) : ty ]] :=
      Seq[[ es ^ (s) : ty ]].
@@ -285,10 +294,11 @@ rules // statements
      [[ e2 ^ (s') : ty ]].
 
   [[ stm@For(Var(x), e1, e2, e3) ^ (s) : UNIT() ]] := 
-     new s', 
-     s' -P-> s,
-     Var{x} <- s',
-     Loop{Break()@stm} <- s',
+     new s_for, 
+     s_for -P-> s,
+     Var{x} <- s_for,
+     Var{x} : INT(),
+     Loop{Break()@stm} <- s_for,
      [[ e1 ^ (s) : INT() ]], // x not bound in loop bounds
      [[ e2 ^ (s) : INT() ]], 
      [[ e3 ^ (s') : ty ]]. // x bound in body
@@ -297,7 +307,7 @@ rules // statements
      Loop{Break()@stm} -> s,
      Loop{Break()@stm} |-> d.
           
-rules // record and array indexing
+rules // record field access
      
   [[ FieldVar(e, f) ^ (s) : ty ]] :=
      [[ e ^ (s) : ty_e ]], 
@@ -306,6 +316,8 @@ rules // record and array indexing
      Field{f} -> s_use,
      Field{f} |-> d,
      d : ty.
+     
+rules // array indexing
      
   [[ Subscript(e1, e2) ^ (s) : ty ]] :=
      [[ e1 ^ (s) : ty_arr ]],
