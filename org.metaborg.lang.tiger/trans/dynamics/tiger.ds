@@ -1,0 +1,26 @@
+module tiger
+
+imports ds-signatures/Tiger-sig
+
+signature
+  sorts V 
+  constructors
+    IntV : IntConst -> V
+    
+  sort aliases 
+    Env = Map(Id, V)
+    Heap = Map(Int, V)
+  components
+    E : Env
+  arrows
+    Exp -init-> V
+    Exp --> V
+    
+rules
+
+  e -init-> v
+  where 
+    E {} |- e :: H --> v :: H'.
+
+  Int(x) --> IntV(x).
+  
