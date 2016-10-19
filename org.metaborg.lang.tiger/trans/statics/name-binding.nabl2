@@ -171,10 +171,10 @@ rules // function calls
      Field{x} |-> d,
      [[ e ^ (s) ]].
      
-  [[ Array(t, es, e) ^ (s) ]] :=
+  [[ Array(t, e1, e2) ^ (s) ]] :=
      [[ t ^ (s) ]],
-     Map[[ es ^ (s) ]],
-     [[ e ^ (s) ]].
+     [[ e1 ^ (s) ]],
+     [[ e2 ^ (s) ]].
      
   // Sum, SumIndex
   
@@ -182,9 +182,6 @@ rules // statements
 
   [[ Assign(e1, e2) ^ (s) ]] :=
      [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].  
-     
-  [[ ParAssign(es1, es2) ^ (s) ]] :=
-     Map[[ es1 ^ (s) ]], Map[[ es2 ^ (s) ]].  
      
   [[ Seq(es) ^ (s) ]] :=
      Map[[ es ^ (s) ]].
@@ -208,45 +205,23 @@ rules // binding statements
      [[ e2 ^ (s) ]], 
      [[ e3 ^ (s') ]]. // x bound in body
      
-  [[ ForStride(Var(x), e1, e2, e3, e4) ^ (s) ]] := 
-     new s', 
-     s' -P-> s,
-     Var{x} <- s',
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]], [[ e3 ^ (s) ]], 
-     [[ e4 ^ (s') ]].
-     
   [[ Break() ^ (s) ]] := true.
-  
-  [[ Label(l) ^ (s) ]] := false.
-  
-  [[ Goto(l) ^ (s) ]] := false.
-  
-  [[ IfGoto(e, l) ^ (s) ]] := 
-     [[ e ^ (s) ]].
           
 rules // record and array indexing
      
   [[ FieldVar(e, f) ^ (s) ]] :=
      [[ e ^ (s) ]].
      
-  [[ Subscript(e, es) ^ (s) ]] :=
-     [[ e ^ (s) ]],
-     Map[[ es ^ (s) ]].
-     
-  [[ Scalar(e) ^ (s) ]] := 
-     [[ e ^ (s) ]].
-  
-  [[ Range(e1, e2) ^ (s) ]] := 
-     [[ e1 ^ (s) ]], [[ e2 ^ (s) ]].  
+  [[ Subscript(e1, e2) ^ (s) ]] :=
+     [[ e1 ^ (s) ]],
+     [[ e2 ^ (s) ]].
+       
      
 rules // literals    
 
   [[ Int(i)    ^ (s) ]] := true.  
-  [[ Real(r)   ^ (s) ]] := true.  
   [[ String(s) ^ (s) ]] := true.
   [[ NilExp()  ^ (s) ]] := true.
-  [[ True()    ^ (s) ]] := true.
-  [[ False()   ^ (s) ]] := true.
   
 rules // operators
      
