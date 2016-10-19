@@ -9,7 +9,7 @@ language
 
   table         : target/metaborg/sdf.tbl
 //  table         : target/metaborg/sdf-new.tbl
-  start symbols : Exp
+  start symbols : Module
 
   line comment  : "//"
   block comment : "/*" * "*/"

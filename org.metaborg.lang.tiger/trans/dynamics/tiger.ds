@@ -12,15 +12,17 @@ signature
     Heap = Map(Int, V)
   components
     E : Env
+    H : Heap
   arrows
     Exp -init-> V
     Exp --> V
     
 rules
 
-  e -init-> v
+  Mod(e) -init-> v
   where 
-    E {} |- e :: H --> v :: H'.
+    E {} |- e :: H {} --> v.
 
   Int(x) --> IntV(x).
+  
   
