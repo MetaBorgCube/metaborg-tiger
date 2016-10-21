@@ -1,4 +1,4 @@
-module static-semantics
+module name-binding
 
 imports signatures/-
 imports nabl-lib
