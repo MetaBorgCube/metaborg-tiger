@@ -1,1 +1,8 @@
+
 /target/
+src/main/resources/specification.aterm
+src/main/resources/parsetable.tbl
+src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated
+src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms
+src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms/build
+src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms/match
