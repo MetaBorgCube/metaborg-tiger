@@ -15,6 +15,35 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>auto-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated</directory>
+                  <includes>**/**</includes>
+                </fileset>
+                <fileset>
+                  <directory>${basedir}</directory>
+                  <includes>src/main/resources/specification.aterm</includes>
+                </fileset>
+                <fileset>
+                  <directory>${basedir}</directory>
+                  <includes>src/main/resources/parsetable.tbl</includes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <repositories>
