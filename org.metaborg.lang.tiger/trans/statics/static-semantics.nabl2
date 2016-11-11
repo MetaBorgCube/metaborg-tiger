@@ -306,7 +306,7 @@ rules // statements
      Loop{Break()@stm} <- s_for,
      [[ e1 ^ (s) : INT() ]], // x not bound in loop bounds
      [[ e2 ^ (s) : INT() ]], 
-     [[ e3 ^ (s') : ty ]]. // x bound in body
+     [[ e3 ^ (s_for) : ty ]]. // x bound in body
      
   [[ stm@Break() ^ (s) : UNIT() ]] := 
      Loop{Break()@stm} -> s,
