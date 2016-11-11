@@ -1,28 +1,116 @@
 module tiger
 
 imports ds-signatures/Tiger-sig
+imports dynamics/store
 
 signature
-  sorts V 
-  constructors
-    IntV : IntConst -> V
-    
-  sort aliases 
-    Env = Map(Id, V)
-    Heap = Map(Int, V)
-  components
-    E : Env
-    H : Heap
+   
   arrows
     Module -init-> V
-    Exp --> V
+    E |- Exp :: H --> V :: H
+    E |- LValue :: H -lval-> Address :: H
     
+    desugar(Exp) --> Exp
+
+  native operators
+    parseI  : String -> Int
+    printI  : Int -> String
+    addI    : Int * Int -> Int
+    subI    : Int * Int -> Int
+    mulI    : Int * Int -> Int
+    divI    : Int * Int -> Int
+    ltI     : Int * Int -> Int
+    leqI    : Int * Int -> Int
+    eqI     : Int * Int -> Int
+    concatS : String * String -> String
+        
 rules
 
   Mod(e) -init-> v
   where 
     E {} |- e :: H {} --> v.
 
-  Int(x) --> IntV(x).
+rules // bindings
+    
+  Var(x) -lval-> lookup(x).
+  
+  lv : LValue --> v
+  where read(lv) --> v.
+  
+  Assign(lv, e) --> write(lv, e). 
+  
+rules // control-flow
+    
+  IfThen(IntV(i), e) --> v
+  where
+    case i of {
+      0 => 
+        UnitV() => v
+      otherwise => 
+        e --> v
+    }.
+  
+  If(IntV(i), e1, e2) --> v
+  where
+    case i of {
+      0 => 
+        e2 --> v
+      otherwise => 
+        e1 --> v
+    }.
+    
+  While(e1, e2) --> IfThen(e1, Seq([e1, While(e1, e2)])).
+    
+  e@For(_, _, _, _) --> desugar(e).
+  
+  desugar(For(Var(x), e1, e2, e3)) -->
+    Let([VarDec(x, NoTp(), e1),
+         VarDec(end, NoTp(), e2)], 
+        [While(Lt(Var(x), Var(end)), Seq([
+           e3,
+           Assign(Var(x), Plus(Var(x), Int("1")))
+         ]))])
+  where printI(fresh) : Id => end.  // capture?
+   
+ 
+  Seq([]) --> UnitV().
+  
+  Seq([v]) --> v.
+  
+  Seq([_ : V | es@[_|_]]) --> Seq(es).
+  
+  // Assign(e1, e2) --> 
+      
+rules // literals
+
+  Int(i) --> IntV(parseI(i)).
+
+rules // operators
+
+  Uminus(e) --> Minus(Int("0"), e).
+     
+  Plus(IntV(i), IntV(j)) --> IntV(addI(i, j)).  
+     
+  Minus(IntV(i), IntV(j)) --> IntV(subI(i, j)).  
+     
+  Times(IntV(i), IntV(j)) --> IntV(mulI(i, j)). 
+     
+  Divide(IntV(i), IntV(j)) --> IntV(divI(i, j)).
+     
+  Eq(IntV(i), IntV(j)) --> IntV(eqI(i, j)).
+  
+  Lt(IntV(i), IntV(j)) --> IntV(ltI(i, j)).
+  
+  Leq(IntV(i), IntV(j)) --> IntV(leqI(i, j)).
+  
+  Gt(e1, e2) --> Lt(e2, e1).
+  
+  Geq(e1, e2) --> Leq(e2, e1).
+  
+  Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1")).
+  
+  And(e1, e2) --> If(e1, e2, Int("0")).
+  
+  Or(e1, e2) --> If(e1, Int("1"), e2).
   
   

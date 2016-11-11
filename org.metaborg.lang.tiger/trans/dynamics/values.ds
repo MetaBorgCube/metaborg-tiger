@@ -1,0 +1,10 @@
+module values
+
+signature
+  sorts V 
+  constructors
+    UnitV : V
+    IntV  : Int -> V
+  variables 
+    v : V
+    

@@ -1,0 +1,52 @@
+module store
+
+imports dynamics/values
+
+signature  // environment
+  sorts Id
+  sort aliases 
+    Address = Int
+    Env = Map(Id, Address)
+  components 
+    E : Env
+  arrows
+    lookup(Id) --> Address
+    bind(Id, Address) --> Env
+    
+rules
+
+  E |- lookup(a) --> E[a].
+  
+  E |- bind(x, a) --> {x |--> a, E}.
+
+signature // heap
+  sort aliases
+    Heap = Map(Address, V)
+  components
+    H : Heap   
+  arrows
+    read(Address) --> V
+    allocate(V) --> Int
+    write(Address, V) --> V
+    
+rules
+
+  read(addr) :: H --> H[addr].
+
+  write(addr, v) :: H --> v :: H {addr |--> v, H}.
+
+  allocate(v) --> addr
+  where
+    fresh => addr;
+    write(addr, v) --> _.
+
+signature
+  arrows
+    readVar(Id) --> V
+    writeVar(Id, V) --> V   
+rules
+
+  readVar(x) --> read(lookup(x)).
+
+  writeVar(x, v) --> write(lookup(x), v).
+
