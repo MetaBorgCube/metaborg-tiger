@@ -375,4 +375,13 @@ rules // operators
   [[ Leq(e1, e2) ^ (s) : INT() ]] :=
      [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
      ty1 == ty2.
+        
+  [[ Or(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
+        
+  [[ And(e1, e2) ^ (s) : INT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
+     ty1 == ty2.
+     
      
