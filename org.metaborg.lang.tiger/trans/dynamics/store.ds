@@ -2,16 +2,30 @@ module store
 
 imports dynamics/values
 
+signature
+  sorts Unit V Exp FArg
+  constructors
+    UnitV : V
+    UndefV : V
+    IntV  : Int -> V
+    StringV : String -> V
+    NilV : V
+    RecordV : Env -> V
+    ArrayV : Heap -> V
+    ClosureV : List(FArg) * Exp * Env -> V
+  variables 
+    v : V
+    
 signature  // environment
-  sorts Id
+  sorts Id 
   sort aliases 
-    Address = Int
-    Env = Map(Id, Address)
+//    Address = Int
+    Env = Map(Id, Int)
   components 
     E : Env
   arrows
-    lookup(Id) --> Address
-    bind(Id, Address) --> Env
+    lookup(Id) --> Int
+    bind(Id, Int) --> Env
     
 rules
 
@@ -21,20 +35,20 @@ rules
 
 signature // heap
   sort aliases
-    Heap = Map(Address, V)
+    Heap = Map(Int, V)
   components
     H : Heap   
   arrows
-    read(Address) --> V
+    read(Int) --> V
     allocate(V) --> Int
-    write(Address, V) --> V
+    write(Int, V) --> V
     
 rules
 
   read(a) :: H --> v
   where
     H[a] => v.
-
+  
   write(addr, v) :: H --> v :: H {addr |--> v, H}.
 
   allocate(v) --> addr
