@@ -31,7 +31,9 @@ signature // heap
     
 rules
 
-  read(addr) :: H --> H[addr].
+  read(a) :: H --> v
+  where
+    H[a] => v.
 
   write(addr, v) :: H --> v :: H {addr |--> v, H}.
 
@@ -43,10 +45,14 @@ rules
 signature
   arrows
     readVar(Id) --> V
-    writeVar(Id, V) --> V   
+    writeVar(Id, V) --> V  
+    allocateVar(Id, V) --> Env 
 rules
 
   readVar(x) --> read(lookup(x)).
 
   writeVar(x, v) --> write(lookup(x), v).
+  
+  E |- allocateVar(x, v) --> {x |--> a, E}
+  where allocate(v) --> a.
 

@@ -8,9 +8,14 @@ signature
   arrows
     Module -init-> V
     E |- Exp :: H --> V :: H
+    E |- (List(FArg) * List(Exp)) :: H --> Env :: H
     E |- LValue :: H -lval-> Address :: H
+    E |- Dec :: H --> Env :: H
+    E |- List(Dec) :: H --> Env :: H
+    E |- List(FunDec) :: H -env-> Env :: H
+    E |- List(FunDec) :: H --> V :: H
     
-    desugar(Exp) --> Exp
+    // desugar(Exp) --> Exp
 
   native operators
     parseI  : String -> Int
@@ -23,7 +28,7 @@ signature
     leqI    : Int * Int -> Int
     eqI     : Int * Int -> Int
     concatS : String * String -> String
-        
+
 rules
 
   Mod(e) -init-> v
@@ -34,11 +39,55 @@ rules // bindings
     
   Var(x) -lval-> lookup(x).
   
-  lv : LValue --> v
-  where read(lv) --> v.
+  lv : LValue --> read(lv).
   
   Assign(lv, e) --> write(lv, e). 
   
+  Let(E, es) --> v
+  where E |- Seq(es) --> v.
+  
+  [E | decs] : List(Dec) --> E'
+  where E |- decs --> E'.
+  
+rules // variable declarations
+
+  VarDec(x, _, v) --> allocateVar(x, v).
+  
+  VarDecNoInit(x, _) --> allocateVar(x, UndefV()). 
+  
+rules // type declarations
+
+  E |- TypeDecs(_) --> E.
+  
+rules // functions
+
+  FunDecs(fds) --> E
+  where fds -env-> E; E |- fds --> _.
+  
+  E |- [] : List(FunDec) -env-> E.  
+  
+  [FunDec(f, _, _, _) | fds] : List(FunDec) -env-> E
+  where 
+    E allocateVar(f, UndefV()) |- fds -env-> E.
+  
+  [] : List(FunDec) --> UnitV().
+  
+  E |- [FunDec(f, args, _, e) | fds] : List(FunDec) --> v
+  where 
+    writeVar(f, ClosureV(args, e, E)) --> _; fds --> v.
+  
+  Call(Var(f), es) --> v
+  where
+    readVar(f) --> ClosureV(args, e, E);
+    (args, es) --> E';
+    E {E', E} |- e --> v.
+    
+  ([], []) : (List(FArg) * List(Exp)) --> {}.
+    
+  ([FArg(x, _) | args], [v | es]) : (List(FArg) * List(Exp)) --> {x |--> a, E}
+  where allocate(v) --> a; (args, es) --> E.
+  
+    
 rules // control-flow
     
   IfThen(IntV(i), e) --> v
@@ -61,17 +110,25 @@ rules // control-flow
     
   While(e1, e2) --> IfThen(e1, Seq([e1, While(e1, e2)])).
     
-  e@For(_, _, _, _) --> desugar(e).
+//  e@For(_, _, _, _) --> desugar(e).
   
-  desugar(For(Var(x), e1, e2, e3)) -->
+//  desugar(For(Var(x), e1, e2, e3)) -->
+//    Let([VarDec(x, NoTp(), e1),
+//         VarDec(end, NoTp(), e2)], 
+//        [While(Lt(Var(x), Var(end)), Seq([
+//           e3,
+//           Assign(Var(x), Plus(Var(x), Int("1")))
+//         ]))])
+//  where printI(fresh) : Id => end.  // capture?
+//
+  For(Var(x), e1, e2, e3) -->
     Let([VarDec(x, NoTp(), e1),
          VarDec(end, NoTp(), e2)], 
         [While(Lt(Var(x), Var(end)), Seq([
            e3,
            Assign(Var(x), Plus(Var(x), Int("1")))
          ]))])
-  where printI(fresh) : Id => end.  // capture?
-   
+  where printI(fresh) : Id => end.  // capture?  
  
   Seq([]) --> UnitV().
   

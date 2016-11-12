@@ -1,10 +1,12 @@
 module values
 
 signature
-  sorts V 
+  sorts Unit V Env Exp FArg
   constructors
     UnitV : V
+    UndefV : V
     IntV  : Int -> V
+    ClosureV : List(FArg) * Exp * Env -> V
   variables 
     v : V
     
