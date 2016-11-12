@@ -1,0 +1,15 @@
+module natives
+
+signature 
+
+  native operators
+    parseI  : String -> Int
+    printI  : Int -> String
+    addI    : Int * Int -> Int
+    subI    : Int * Int -> Int
+    mulI    : Int * Int -> Int
+    divI    : Int * Int -> Int
+    ltI     : Int * Int -> Int
+    leqI    : Int * Int -> Int
+    eqI     : Int * Int -> Int
+    concatS : String * String -> String

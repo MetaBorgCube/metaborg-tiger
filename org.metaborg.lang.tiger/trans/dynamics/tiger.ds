@@ -2,33 +2,21 @@ module tiger
 
 imports ds-signatures/Tiger-sig
 imports dynamics/store
+imports dynamics/natives
+imports dynamics/operators
+// imports dynamics/desugar
 
 signature
    
   arrows
     Module -init-> V
-    E |- Exp :: H --> V :: H
-    E |- (List(FArg) * List(Exp)) :: H --> Env :: H
-    E |- LValue :: H -lval-> Address :: H
-    E |- Dec :: H --> Env :: H
-    E |- List(Dec) :: H --> Env :: H
-    E |- List(FunDec) :: H -env-> Env :: H
-    E |- List(FunDec) :: H --> V :: H
     
-    // desugar(Exp) --> Exp
-
-  native operators
-    parseI  : String -> Int
-    printI  : Int -> String
-    addI    : Int * Int -> Int
-    subI    : Int * Int -> Int
-    mulI    : Int * Int -> Int
-    divI    : Int * Int -> Int
-    ltI     : Int * Int -> Int
-    leqI    : Int * Int -> Int
-    eqI     : Int * Int -> Int
-    concatS : String * String -> String
-
+    E |- LValue       :: H -lval-> Int :: H
+    E |- Dec          :: H -->     Env :: H
+    
+    E |- evalSeq(List(Exp))     :: H --> V   :: H
+    E |- evalDecs(List(Dec))    :: H --> Env :: H
+        
 rules
 
   Mod(e) -init-> v
@@ -41,13 +29,21 @@ rules // bindings
   
   lv : LValue --> read(lv).
   
+//  __LValue2Exp__(lv) --> read(lv).
+  
   Assign(lv, e) --> write(lv, e). 
   
-  Let(E, es) --> v
-  where E |- Seq(es) --> v.
+  Let(decs, es) --> v
+  where 
+    evalDecs(decs) --> E;
+    E |- evalSeq(es) --> v.
+        
+  E |- evalDecs([]) --> E.
   
-  [E | decs] : List(Dec) --> E'
-  where E |- decs --> E'.
+  evalDecs([dec | decs]) --> E'
+  where 
+    dec --> E;
+    E |- evalDecs(decs) --> E'.
   
 rules // variable declarations
 
@@ -59,37 +55,50 @@ rules // type declarations
 
   E |- TypeDecs(_) --> E.
   
+signature
+  arrows
+    E |- funEnv(List(FunDec)) :: H --> Env :: H
+    E |- evalFuns(List(FunDec)) :: H --> Env :: H       
+    E |- evalArgs(List(FArg), List(Exp)) :: H --> Env :: H
+    
 rules // functions
 
   FunDecs(fds) --> E
-  where fds -env-> E; E |- fds --> _.
-  
-  E |- [] : List(FunDec) -env-> E.  
-  
-  [FunDec(f, _, _, _) | fds] : List(FunDec) -env-> E
   where 
-    E allocateVar(f, UndefV()) |- fds -env-> E.
+    funEnv(fds) --> E; 
+    E |- evalFuns(fds) --> _. 
   
-  [] : List(FunDec) --> UnitV().
+  E |- funEnv([]) --> E.  
   
-  E |- [FunDec(f, args, _, e) | fds] : List(FunDec) --> v
+  funEnv([FunDec(f, _, _, _) | fds]) --> E
   where 
-    writeVar(f, ClosureV(args, e, E)) --> _; fds --> v.
+    E allocateVar(f, UndefV()) |- funEnv(fds) --> E.
+  
+  E |- evalFuns([]) --> E.
+  
+  E |- evalFuns([FunDec(f, args, _, e) | fds]) --> evalFuns(fds)
+  where 
+    writeVar(f, ClosureV(args, e, E)) --> _.
   
   Call(Var(f), es) --> v
   where
     readVar(f) --> ClosureV(args, e, E);
-    (args, es) --> E';
+    evalArgs(args, es) --> E';
     E {E', E} |- e --> v.
     
-  ([], []) : (List(FArg) * List(Exp)) --> {}.
+  evalArgs([], []) --> {}.
     
-  ([FArg(x, _) | args], [v | es]) : (List(FArg) * List(Exp)) --> {x |--> a, E}
-  where allocate(v) --> a; (args, es) --> E.
+  evalArgs([FArg(x, _) | args], [v | es]) --> {x |--> a, E}
+  where allocate(v) --> a; evalArgs(args, es) --> E.
   
-    
 rules // control-flow
-    
+
+  Seq(es) --> evalSeq(es).
+  
+  evalSeq([]) --> UnitV().  
+  evalSeq([v]) --> v.  
+  evalSeq([_ : V | es@[_|_]]) --> evalSeq(es).
+      
   IfThen(IntV(i), e) --> v
   where
     case i of {
@@ -108,19 +117,18 @@ rules // control-flow
         e1 --> v
     }.
     
-  While(e1, e2) --> IfThen(e1, Seq([e1, While(e1, e2)])).
-    
-//  e@For(_, _, _, _) --> desugar(e).
+//  While(e1, e2) --> IfThen(e1, Seq([e2, While(e1, e2)])).
   
-//  desugar(For(Var(x), e1, e2, e3)) -->
-//    Let([VarDec(x, NoTp(), e1),
-//         VarDec(end, NoTp(), e2)], 
-//        [While(Lt(Var(x), Var(end)), Seq([
-//           e3,
-//           Assign(Var(x), Plus(Var(x), Int("1")))
-//         ]))])
-//  where printI(fresh) : Id => end.  // capture?
-//
+  While(e1, e2) --> v
+  where
+    e1 --> IntV(i);
+    case i of {
+      0 => UnitV() => v
+      otherwise => 
+        e2 --> _;
+        While(e1, e2) --> v
+    }.
+    
   For(Var(x), e1, e2, e3) -->
     Let([VarDec(x, NoTp(), e1),
          VarDec(end, NoTp(), e2)], 
@@ -130,44 +138,4 @@ rules // control-flow
          ]))])
   where printI(fresh) : Id => end.  // capture?  
  
-  Seq([]) --> UnitV().
-  
-  Seq([v]) --> v.
-  
-  Seq([_ : V | es@[_|_]]) --> Seq(es).
-  
-  // Assign(e1, e2) --> 
-      
-rules // literals
 
-  Int(i) --> IntV(parseI(i)).
-
-rules // operators
-
-  Uminus(e) --> Minus(Int("0"), e).
-     
-  Plus(IntV(i), IntV(j)) --> IntV(addI(i, j)).  
-     
-  Minus(IntV(i), IntV(j)) --> IntV(subI(i, j)).  
-     
-  Times(IntV(i), IntV(j)) --> IntV(mulI(i, j)). 
-     
-  Divide(IntV(i), IntV(j)) --> IntV(divI(i, j)).
-     
-  Eq(IntV(i), IntV(j)) --> IntV(eqI(i, j)).
-  
-  Lt(IntV(i), IntV(j)) --> IntV(ltI(i, j)).
-  
-  Leq(IntV(i), IntV(j)) --> IntV(leqI(i, j)).
-  
-  Gt(e1, e2) --> Lt(e2, e1).
-  
-  Geq(e1, e2) --> Leq(e2, e1).
-  
-  Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1")).
-  
-  And(e1, e2) --> If(e1, e2, Int("0")).
-  
-  Or(e1, e2) --> If(e1, Int("1"), e2).
-  
-  
