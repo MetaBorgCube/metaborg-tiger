@@ -5,20 +5,20 @@ imports dynamics/values
 signature // lvalue 
   sorts LValue
   arrows  
-    LValue -lval-> Address
+    LValue -lval-> Int
   variables
     lv : LValue
     
 signature // environment
   sorts Id
   sort aliases 
-    Address = Int
-    Env = Map(Id, Address)
+    // Address = Int
+    Env = Map(Id, Int)
   components 
     E : Env
   arrows
     lookup(Id) --> Int
-    bind(Id, Address) --> Env
+    bind(Id, Int) --> Env
     
 rules
 
@@ -28,13 +28,13 @@ rules
   
 signature // heap
   sort aliases
-    Heap = Map(Address, V)
+    Heap = Map(Int, V)
   components
     H : Heap   
   arrows
-    read(Address) --> V
+    read(Int) --> V
     allocate(V) --> Int
-    write(Address, V) --> V
+    write(Int, V) --> V
     
 rules
 
