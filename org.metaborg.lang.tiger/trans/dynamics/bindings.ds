@@ -18,7 +18,8 @@ rules
 
   writeVar(x, v) --> write(lookup(x), v).
   
-  E |- bindVar(x, v) --> {x |--> allocate(v), E}.
+  E |- bindVar(x, v) --> {x |--> a, E}
+  where allocate(v) --> a.
     
 signature
   arrows   
