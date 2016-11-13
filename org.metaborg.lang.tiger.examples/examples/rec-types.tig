@@ -3,14 +3,14 @@ let
   type tree = {key : int, children : treelist}
   type treelist = {hd : tree, tl : treelist}    
   var l : intlist
-  var t : tree 
-  var tl : treelist
+  var t : tree := tree{key = 1, children = tl}
+  var tl : treelist := treelist{hd = t, tl = nil}
  in 
   l := intlist { hd = 3, tl = l };
   t := tree { 
-    key = 2, 
+    key = 2,
     children = treelist { 
-      hd = tree{ key = 3, children = 3 },
+      hd = tree{ key = 3, children = $Exp },
       tl = treelist{ }
     } 
   };

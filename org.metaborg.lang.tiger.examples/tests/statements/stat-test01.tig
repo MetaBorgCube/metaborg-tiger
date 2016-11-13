@@ -1,7 +1,8 @@
 let
-  var sum := 0
+  var sum := 0 
+  var n := 5
  in 
-   for x := 1 to 3 do
-     sum := sum + x
+   for x := 1 to n do
+     sum := sum + x;   
+   sum
 end
-  
