@@ -1,0 +1,18 @@
+module statics/tiger
+
+imports statics/arrays
+imports statics/base
+imports statics/bindings
+imports statics/control-flow
+imports statics/functions
+imports statics/nabl-lib
+imports statics/numbers
+imports statics/records
+imports statics/strings
+imports statics/types
+imports statics/variables
+
+rules // top-level module
+
+  [[ Mod(e) ^ (s) : ty ]] :=
+     [[ e ^ (s) : ty ]].

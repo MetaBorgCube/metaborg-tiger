@@ -1,0 +1,17 @@
+module Functions
+
+imports Identifiers
+imports Types
+
+context-free syntax
+
+  Dec.FunDecs = <<{FunDec "\n"}+>> {longest-match}
+  
+  FunDec.FunDec = <
+    function <Id>(<{FArg ", "}*>)<TypeAn> = 
+      <Exp>
+  >
+  
+  FArg.FArg = <<Id> <TypeAn>>
+  
+  Exp.Call = <<Id>(<{Exp ", "}*>)> 

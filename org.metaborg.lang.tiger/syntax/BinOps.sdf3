@@ -1,8 +1,6 @@
-module Tiger-BinOps
+module BinOps
 
-imports Tiger-Expressions	
-        Operators
-
+imports Operators
 
 context-free syntax
 

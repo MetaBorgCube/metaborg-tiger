@@ -1,0 +1,20 @@
+module Variables
+
+imports Identifiers
+imports Types
+
+sorts Var
+
+context-free syntax
+  
+  Dec.VarDec = <var <Id><TypeAn> := <Exp>> 
+  
+  Dec.VarDecNoInit = <var <Id><TypeAn>> 
+
+  Var.Var = Id 
+  
+  LValue = Var 
+  
+  Exp = LValue   
+
+  Exp.Assign = <<LValue> := <Exp>> 

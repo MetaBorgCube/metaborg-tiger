@@ -1,41 +1,16 @@
-module operators
+module numbers
 
-imports ds-signatures/Tiger-sig
+imports ds-signatures/Numbers-sig
+imports dynamics/base
 imports dynamics/natives
-imports dynamics/store
 
 signature
-  arrows
-    E |- Exp :: H --> V :: H
-    
-    List(InitField) --> Env
-    
-    initArray(Int, Int, V) --> Unit
+  constructors
+    IntV : Int -> V 
 
-rules // literals
+rules // integers
 
   Int(i) --> IntV(parseI(i)).
-  
-  String(s) --> StringV(s). 
-  
-  NilExp() --> NilV(). 
-  
-  Record(_, fields) --> RecordV(E)  
-  where fields --> E.
-  
-  [] : List(InitField) --> {}.
-  
-  [InitField(f, v) | fields] : List(InitField) --> {f |--> a, E}
-  where
-    allocate(v) --> a; fields --> E.
-  
-  Array(_, IntV(i), v) --> ArrayV(H)
-  where
-    initArray(0, i, v) :: H {} --> _ :: H.
-  
-  // initArray
-  
-rules // operators
 
   Uminus(e) --> Minus(Int("0"), e).
      

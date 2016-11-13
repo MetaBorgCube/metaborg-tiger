@@ -1,0 +1,40 @@
+module statics/functions
+
+imports signatures/Functions-sig
+imports statics/nabl-lib
+imports statics/base
+
+rules // function declarations
+
+  // Parameters: In [function id(... id1: id2 ...) = exp] the
+  // scope of the parameter id1 lasts throughout the function
+  // body exp
+        
+  Dec[[ FunDecs(fdecs) ^ (s, s_outer) ]] :=
+     Map2[[ fdecs ^ (s, s_outer) ]].
+     
+  [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
+     Var{f} <- s, // declare f 
+     Var{f} : FUN(tys, ty) !, // type of f
+     new s_fun,      // declare a new scope for body of function
+     s_fun -P-> s,   // make lexical environment accessible in body
+     distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
+     MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
+     [[ t ^ (s_outer) : ty ]],
+     [[ e ^ (s_fun) : ty_body ]],
+     ty == ty_body| error $[return type does not match body] @ t.
+     
+  [[ FArg(x, t) ^ (s_fun, s_outer) : ty ]] :=
+     Var{x} <- s_fun, // declare argument x as a variable declaration
+     Var{x} : ty !,
+     [[ t ^ (s_outer) : ty ]].
+     
+rules // function calls
+    
+  [[ Call(f, exps) ^ (s) : ty ]] :=
+     Var{f} -> s,  // declare f as a function reference
+     Var{f} |-> d | error $[Function [f] not declared], 
+     d : FUN(tys, ty) | error $[Function expected] ,
+     MapTs[[ exps ^ (s) : tys ]].
+     
+     // todo: error messages per argument

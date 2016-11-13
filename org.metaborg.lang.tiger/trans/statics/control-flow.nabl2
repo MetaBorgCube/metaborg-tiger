@@ -1,0 +1,53 @@
+module statics/control-flow
+
+imports signatures/Control-Flow-sig
+imports statics/nabl-lib
+imports statics/base
+
+rules // sequence
+
+  Seq[[ [] ^ (s) : UNIT() ]] := 
+    true.  
+   
+  Seq[[ [e] ^ (s) : ty ]] :=
+    [[ e ^ (s) : ty ]].
+    
+  Seq[[ [ e | es@[_|_] ] ^ (s) : ty ]] := 
+    [[ e ^ (s) : ty' ]], Seq[[ es ^ (s) : ty ]].
+    
+    // note: pattern overlaps with previous rule; depends
+    // on order of evaluation; should check that es is not empty
+    
+  [[ Seq(es) ^ (s) : ty ]] :=
+     Seq[[ es ^ (s) : ty ]].
+     
+  [[ If(e1, e2, e3) ^ (s) : ty2 ]] := 
+     [[ e1 ^ (s) : INT() ]], 
+     [[ e2 ^ (s) : ty2 ]], 
+     [[ e3 ^ (s) : ty3 ]],
+     ty2 == ty3 | error $[branches should have same type].
+     
+  [[ IfThen(e1, e2) ^ (s) : UNIT() ]] := 
+     [[ e1 ^ (s) : INT() ]], 
+     [[ e2 ^ (s) : ty ]].
+     
+  [[ While(e1, e2) ^ (s) : UNIT() ]] := 
+     new s', s' -P-> s,
+     Loop{""} <- s',
+     [[ e1 ^ (s) : INT() ]], 
+     [[ e2 ^ (s') : ty ]].
+
+  [[ stm@For(Var(x), e1, e2, e3) ^ (s) : UNIT() ]] := 
+     new s_for, 
+     s_for -P-> s,
+     Var{x} <- s_for,
+     Var{x} : INT(),
+     Loop{Break()@stm} <- s_for,
+     [[ e1 ^ (s) : INT() ]], // x not bound in loop bounds
+     [[ e2 ^ (s) : INT() ]], 
+     [[ e3 ^ (s_for) : ty ]]. // x bound in body
+     
+  [[ stm@Break() ^ (s) : UNIT() ]] := 
+     Loop{Break()@stm} -> s,
+     Loop{Break()@stm} |-> d.
+    

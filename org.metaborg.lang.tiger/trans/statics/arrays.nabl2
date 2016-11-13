@@ -1,0 +1,27 @@
+module statics/arrays
+  
+imports signatures/Arrays-sig
+imports statics/nabl-lib
+imports statics/base
+
+rules // array type
+     
+  [[ ArrayTy(t) ^ (s) : ARRAY(ty, s')]] := 
+     new s', // unique token to distinghuish the array type
+     [[ t ^ (s) : ty ]].
+
+rules // array creation
+     
+  [[ Array(t, e1, e2) ^ (s) : ty ]] :=
+     [[ t ^ (s) : ty ]],
+     ty == ARRAY(ty_elem, s_arr) | error $[array type expected],
+     [[ e1 ^ (s) : INT() ]], // length
+     [[ e2 ^ (s) : ty_elem ]]. // initial value
+     
+rules // array indexing
+     
+  [[ Subscript(e1, e2) ^ (s) : ty ]] :=
+     [[ e1 ^ (s) : ty_arr ]],
+     ty_arr == ARRAY(ty, s_arr),
+     [[ e2 ^ (s) : INT() ]].
+     

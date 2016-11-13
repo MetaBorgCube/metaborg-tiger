@@ -1,0 +1,50 @@
+module statics/records
+
+imports signatures/Records-sig
+imports statics/nabl-lib
+imports statics/base
+
+rules // record type
+
+  [[ RecordTy(fields) ^ (s) : ty ]] := 
+     new s_rec,
+     ty == RECORD(s_rec),
+     NIL() <! ty,
+     distinct D(s_rec)/Field | error $[Duplicate declaration of field [NAME]] @ NAMES,
+     Map2[[ fields ^ (s_rec, s) ]].
+     
+  [[ Field(x, t) ^ (s_rec, s_outer) ]] :=
+     Field{x} <- s_rec,
+     Field{x} : ty !,
+     [[ t ^ (s_outer) : ty ]].
+
+rules // literals    
+
+  [[ NilExp()  ^ (s) : NIL() ]] := true.
+
+rules // record creation   
+   
+  [[ r@Record(t, inits) ^ (s) : ty ]] :=
+     [[ t ^ (s) : ty ]],
+     ty == RECORD(s_rec) | error $[record type expected],
+     new s_use, s_use -I-> s_rec,
+     D(s_rec)/Field subseteq R(s_use)/Field | error $[Field [NAME] not initialized] @r,
+     Map2[[ inits ^ (s_use, s) ]].
+         
+  [[ InitField(x, e) ^ (s_use, s) ]] :=
+     Field{x} -> s_use,
+     Field{x} |-> d,
+     d : ty1,
+     [[ e ^ (s) : ty2 ]],
+     ty2 <? ty1 | error $[type mismatch].
+      
+rules // record field access
+     
+  [[ FieldVar(e, f) ^ (s) : ty ]] :=
+     [[ e ^ (s) : ty_e ]], 
+     ty_e == RECORD(s_rec),
+     new s_use, s_use -I-> s_rec, 
+     Field{f} -> s_use,
+     Field{f} |-> d,
+     d : ty.
+     

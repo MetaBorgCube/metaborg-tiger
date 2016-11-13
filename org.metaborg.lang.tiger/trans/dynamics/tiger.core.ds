@@ -1,0 +1,418 @@
+module tiger_varschemes_typeannos_noaliases_factorized_explimpl_factorized_explicated2_copyprop_unfactorized_unfactorized
+
+imports 
+
+signature
+    sorts
+      evalSeq__Meta
+      evalDecs__Meta
+      funEnv__Meta
+      evalFuns__Meta
+      evalArgs__Meta
+      Module
+      Unit
+      V
+      Exp
+      FArg
+      lookup__Meta
+      bind__Meta
+      Id
+      read__Meta
+      allocate__Meta
+      write__Meta
+      readVar__Meta
+      writeVar__Meta
+      allocateVar__Meta
+      initArray__Meta
+      Exp
+      TypeDec
+      Dec
+      FunDec
+      FArg
+      Declarations
+      TypeAn
+      Field
+      Type
+      TypeId
+      Ty
+      Exp
+      Var
+      LValue
+      InitField
+      Exp
+      BinOp
+      RelOp
+    constructors
+      evalSeq : List(Exp) -> evalSeq__Meta {meta-function}
+      evalDecs : List(Dec) -> evalDecs__Meta {meta-function}
+      funEnv : List(FunDec) -> funEnv__Meta {meta-function}
+      evalFuns : List(FunDec) -> evalFuns__Meta {meta-function}
+      evalArgs : List(FArg) * List(Exp) -> evalArgs__Meta {meta-function}
+      Mod : Exp -> Module 
+      UnitV : V 
+      UndefV : V 
+      IntV : Int -> V 
+      StringV : String -> V 
+      NilV : V 
+      RecordV : Map(Id,Int) -> V 
+      ArrayV : Map(Int,V) -> V 
+      ClosureV : List(FArg) * Exp * Map(Id,Int) -> V 
+      lookup : String -> lookup__Meta {meta-function}
+      bind : String * Int -> bind__Meta {meta-function}
+      read : Int -> read__Meta {meta-function}
+      allocate : V -> allocate__Meta {meta-function}
+      write : Int * V -> write__Meta {meta-function}
+      readVar : String -> readVar__Meta {meta-function}
+      writeVar : String * V -> writeVar__Meta {meta-function}
+      allocateVar : String * V -> allocateVar__Meta {meta-function}
+      initArray : Int * Int * V -> initArray__Meta {meta-function}
+      Let : List(Dec) * List(Exp) -> Exp 
+      TypeDecs : List(TypeDec) -> Dec 
+      TypeDec : String * Type -> TypeDec 
+      VarDec : String * TypeAn * Exp -> Dec 
+      VarDecNoInit : String * TypeAn -> Dec 
+      FunDecs : List(FunDec) -> Dec 
+      FunDec : String * List(FArg) * TypeAn * Exp -> FunDec 
+      FArg : String * TypeAn -> FArg 
+      Declarations : List(Dec) -> Declarations 
+      NoTp : TypeAn 
+      Tp : TypeId -> TypeAn 
+      NameTy : TypeId -> Type 
+      RecordTy : List(Field) -> Type 
+      Field : String * TypeId -> Field 
+      ArrayTy : TypeId -> Type 
+      Tid : String -> TypeId 
+      INT : Ty 
+      STRING : Ty 
+      NIL : Ty 
+      UNIT : Ty 
+      NAME : String -> Ty 
+      RECORD : String -> Ty 
+      ARRAY : Ty * String -> Ty 
+      FUN : List(Ty) * Ty -> Ty 
+      BinOp : BinOp * Exp * Exp -> Exp 
+      RelOp : RelOp * Exp * Exp -> Exp 
+      Uminus : Exp -> Exp 
+      Times : Exp * Exp -> Exp 
+      Divide : Exp * Exp -> Exp 
+      Plus : Exp * Exp -> Exp 
+      Minus : Exp * Exp -> Exp 
+      Eq : Exp * Exp -> Exp 
+      Neq : Exp * Exp -> Exp 
+      Gt : Exp * Exp -> Exp 
+      Lt : Exp * Exp -> Exp 
+      Geq : Exp * Exp -> Exp 
+      Leq : Exp * Exp -> Exp 
+      And : Exp * Exp -> Exp 
+      Or : Exp * Exp -> Exp 
+      Assign : LValue * Exp -> Exp 
+      Seq : List(Exp) -> Exp 
+      If : Exp * Exp * Exp -> Exp 
+      IfThen : Exp * Exp -> Exp 
+      While : Exp * Exp -> Exp 
+      For : Var * Exp * Exp * Exp -> Exp 
+      Break : Exp 
+      Var : String -> Var 
+      __Var2LValue__ : Var -> LValue {implicit}
+      FieldVar : LValue * String -> LValue 
+      Subscript : LValue * Exp -> LValue 
+      Int : String -> Exp 
+      String : String -> Exp 
+      NilExp : Exp 
+      __LValue2Exp__ : LValue -> Exp {implicit}
+      Call : Var * List(Exp) -> Exp 
+      Record : TypeId * List(InitField) -> Exp 
+      InitField : String * Exp -> InitField 
+      Array : TypeId * Exp * Exp -> Exp 
+      PLUS : BinOp 
+      MUL : BinOp 
+      POW : BinOp 
+      MINUS : BinOp 
+      DIV : BinOp 
+      AND : BinOp 
+      OR : BinOp 
+      LSHIFT : BinOp 
+      RSHIFT : BinOp 
+      ARSHIFT : BinOp 
+      XOR : BinOp 
+      EQ : RelOp 
+      NE : RelOp 
+      LT : RelOp 
+      GT : RelOp 
+      LE : RelOp 
+      GE : RelOp 
+      ULT : RelOp 
+      ULE : RelOp 
+      UGT : RelOp 
+      UGE : RelOp 
+    native constructors
+    native operators
+      parseI : String -> Int
+      printI : Int -> String
+      addI : Int * Int -> Int
+      subI : Int * Int -> Int
+      mulI : Int * Int -> Int
+      divI : Int * Int -> Int
+      ltI : Int * Int -> Int
+      leqI : Int * Int -> Int
+      eqI : Int * Int -> Int
+      concatS : String * String -> String
+    arrows
+       Module  -init-> V 
+      E |- LValue :: H -lval-> Int :: H
+      E |- Dec :: H -default-> Map(Id,Int) :: H
+      E |- evalSeq__Meta :: H -default-> V :: H
+      E |- evalDecs__Meta :: H -default-> Map(Id,Int) :: H
+      E |- funEnv__Meta :: H -default-> Map(Id,Int) :: H
+      E |- evalFuns__Meta :: H -default-> Map(Id,Int) :: H
+      E |- evalArgs__Meta :: H -default-> Map(Id,Int) :: H
+      E |- lookup__Meta  -default-> Int 
+      E |- bind__Meta  -default-> Map(Id,Int) 
+       read__Meta :: H -default-> V :: H
+       allocate__Meta :: H -default-> Int :: H
+       write__Meta :: H -default-> V :: H
+      E |- readVar__Meta :: H -default-> V :: H
+      E |- writeVar__Meta :: H -default-> V :: H
+      E |- allocateVar__Meta :: H -default-> Map(Id,Int) :: H
+      E |- Exp :: H -default-> V :: H
+      E |- List(InitField) :: H -default-> Map(Id,Int) :: H
+       initArray__Meta :: H -default-> Unit :: H
+    native datatypes
+    components
+      E : Map(Id,Int)
+      H : Map(Int,V)
+    variables
+      v : V
+
+rules
+
+  E E1 |- writeVar(x, v1) :: H H1 -default-> v2 :: H H2
+  where
+    E E1 |- lookup(x) -default-> i1;
+    write(i1, v1) :: H H1 -default-> v2 :: H H2.
+
+  write(addr, v1) :: H H -default-> v1 :: H {addr |--> v1} + H.
+
+  E E1 |- While(e1, e2) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- IfThen(e1, Seq([ e2 | [ While(e1, e2) | [  ] : List(Exp) ] ])) :: H H1 -default-> v1 :: H H2.
+
+  E E1 |- VarDecNoInit(x, _) :: H H1 -default-> E2 :: H H2
+  where
+    E E1 |- allocateVar(x, UndefV()) :: H H1 -default-> E2 :: H H2.
+
+  E E1 |- VarDec(x, _, e1) :: H H1 -default-> E2 :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> v1 :: H H2;
+    E E1 |- allocateVar(x, v1) :: H H2 -default-> E2 :: H H3.
+
+  E E1 |- __Var2LValue__(Var(x)) :: H H1 -lval-> i1 :: H H1
+  where
+    E E1 |- lookup(x) -default-> i1.
+
+  E E1 |- Uminus(e) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- Minus(Int("0"), e) :: H H1 -default-> v1 :: H H2.
+
+  E E |- TypeDecs(_) :: H H1 -default-> E :: H H1.
+
+  E E1 |- Times(e1, e2) :: H H1 -default-> IntV(mulI(i, j)) :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> IntV(j) :: H H3.
+
+  E _ |- String(s) :: H H1 -default-> StringV(s) :: H H1.
+
+  E E1 |- Seq(es) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- evalSeq(es) :: H H1 -default-> v1 :: H H2.
+
+  E E1 |- Record(_, fields) :: H H1 -default-> RecordV(E2) :: H H2
+  where
+    E E1 |- fields :: H H1 -default-> E2 :: H H2.
+
+  E E1 |- readVar(x) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- lookup(x) -default-> i1;
+    read(i1) :: H H1 -default-> v1 :: H H2.
+
+  read(a) :: H H -default-> H[a] :: H H.
+
+  E E1 |- Plus(e1, e2) :: H H1 -default-> IntV(addI(i, j)) :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> IntV(j) :: H H3.
+
+  E E1 |- Or(e1, e2) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- If(e1, Int("1"), e2) :: H H1 -default-> v1 :: H H2.
+
+  E _ |- NilExp() :: H H1 -default-> NilV() :: H H1.
+
+  E E1 |- Neq(e1, e2) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- If(Eq(e1, e2), Int("0"), Int("1")) :: H H1 -default-> v1 :: H H2.
+
+  Mod(e) -init-> v1
+  where
+    E {} |- e :: H {} -default-> v1 :: H _.
+
+  E E1 |- Minus(e1, e2) :: H H1 -default-> IntV(subI(i, j)) :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> IntV(j) :: H H3.
+
+  E E1 |- Lt(e1, e2) :: H H1 -default-> IntV(ltI(i, j)) :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> IntV(j) :: H H3.
+
+  E E |- lookup(a) -default-> E[a].
+
+  E E1 |- Let(decs, es) :: H H1 -default-> v1 :: H H3
+  where
+    E E1 |- evalDecs(decs) :: H H1 -default-> E2 :: H H2;
+    E E2 |- evalSeq(es) :: H H2 -default-> v1 :: H H3.
+
+  E E1 |- Leq(e1, e2) :: H H1 -default-> IntV(leqI(i, j)) :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> IntV(j) :: H H3.
+
+  E _ |- Int(i) :: H H1 -default-> IntV(parseI(i)) :: H H1.
+
+  E E1 |- IfThen(e1, e) :: H H1 -default-> v :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    case i of {
+      0 =>
+        UnitV() => v : V;
+        H2 => H3
+      otherwise =>
+        E E1 |- e :: H H2 -default-> v : V :: H H3
+    }.
+
+  E E1 |- If(e3, e1, e2) :: H H1 -default-> v :: H H3
+  where
+    E E1 |- e3 :: H H1 -default-> IntV(i) :: H H2;
+    case i of {
+      0 =>
+        E E1 |- e2 :: H H2 -default-> v : V :: H H3
+      otherwise =>
+        E E1 |- e1 :: H H2 -default-> v : V :: H H3
+    }.
+
+  E E1 |- Gt(e1, e2) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- Lt(e2, e1) :: H H1 -default-> v1 :: H H2.
+
+  E E1 |- Geq(e1, e2) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- Leq(e2, e1) :: H H1 -default-> v1 :: H H2.
+
+  E E |- funEnv([  ]) :: H H1 -default-> E :: H H1.
+
+  E E1 |- funEnv([ FunDec(f, _, _, _) | fds ]) :: H H1 -default-> E3 :: H H3
+  where
+    E E1 |- allocateVar(f, UndefV()) :: H H1 -default-> E2 :: H H2;
+    E E2 |- funEnv(fds) :: H H2 -default-> E3 :: H H3.
+
+  E E1 |- FunDecs(fds) :: H H1 -default-> E2 :: H H3
+  where
+    E E1 |- funEnv(fds) :: H H1 -default-> E2 :: H H2;
+    E E2 |- evalFuns(fds) :: H H2 -default-> _ :: H H3.
+
+  E E1 |- For(Var(x), e1, e2, e3) :: H H1 -default-> v1 :: H H2
+  where
+    printI(fresh) => end;
+    E E1 |- Let([ VarDec(x, NoTp(), e1) | [ VarDec(end, NoTp(), e2) | [  ] : List(Dec) ] ], [ While(Lt(__LValue2Exp__(__Var2LValue__(Var(x))), __LValue2Exp__(__Var2LValue__(Var(end)))), Seq([ e3 | [ Assign(__Var2LValue__(Var(x)), Plus(__LValue2Exp__(__Var2LValue__(Var(x))), Int("1"))) | [  ] ] ])) | [  ] : List(Exp) ]) :: H H1 -default-> v1 :: H H2.
+
+  E _ |- evalSeq([  ]) :: H H1 -default-> UnitV() :: H H1.
+
+  E E1 |- evalSeq([ e1 | [  ] ]) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- e1 :: H H1 -default-> v1 :: H H2.
+
+  E E1 |- evalSeq([ e1 | l1 ]) :: H H1 -default-> v1 :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> _ :: H H2;
+    l1 => [ _ | _ ];
+    E E1 |- evalSeq(l1) :: H H2 -default-> v1 :: H H3.
+
+  E E |- evalFuns([  ]) :: H H1 -default-> E :: H H1.
+
+  E E |- evalFuns([ FunDec(f, args, _, e) | fds ]) :: H H1 -default-> E1 :: H H3
+  where
+    E E |- writeVar(f, ClosureV(args, e, E)) :: H H1 -default-> _ :: H H2;
+    E E |- evalFuns(fds) :: H H2 -default-> E1 :: H H3.
+
+  E E |- evalDecs([  ]) :: H H1 -default-> E :: H H1.
+
+  E E1 |- evalDecs([ dec | decs ]) :: H H1 -default-> E3 :: H H3
+  where
+    E E1 |- dec :: H H1 -default-> E2 :: H H2;
+    E E2 |- evalDecs(decs) :: H H2 -default-> E3 :: H H3.
+
+  E _ |- evalArgs([  ], [  ]) :: H H1 -default-> {} :: H H1.
+
+  E E1 |- evalArgs([ FArg(x, _) | args ], [ e1 | es ]) :: H H1 -default-> {x |--> a} + E2 :: H H4
+  where
+    E E1 |- e1 :: H H1 -default-> v1 :: H H2;
+    allocate(v1) :: H H2 -default-> a :: H H3;
+    E E1 |- evalArgs(args, es) :: H H3 -default-> E2 :: H H4.
+
+  E E1 |- Eq(e1, e2) :: H H1 -default-> IntV(eqI(i, j)) :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> IntV(j) :: H H3.
+
+  E E1 |- Divide(e1, e2) :: H H1 -default-> IntV(divI(i, j)) :: H H3
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> IntV(j) :: H H3.
+
+  E E1 |- Call(Var(f), es) :: H H1 -default-> v1 :: H H4
+  where
+    E E1 |- readVar(f) :: H H1 -default-> ClosureV(args, e, E2) :: H H2;
+    E E1 |- evalArgs(args, es) :: H H2 -default-> E3 :: H H3;
+    E E3 + E2 |- e :: H H3 -default-> v1 :: H H4.
+
+  E E |- bind(x, a) -default-> {x |--> a} + E.
+
+  E E1 |- Assign(lv, e) :: H H1 -default-> v2 :: H H4
+  where
+    E E1 |- lv :: H H1 -lval-> i1 :: H H2;
+    E E1 |- e :: H H2 -default-> v1 :: H H3;
+    write(i1, v1) :: H H3 -default-> v2 :: H H4.
+
+  E E1 |- Array(_, e1, e2) :: H H1 -default-> ArrayV(H) :: H H
+  where
+    E E1 |- e1 :: H H1 -default-> IntV(i) :: H H2;
+    E E1 |- e2 :: H H2 -default-> v1 :: H _;
+    initArray(0, i, v1) :: H {} -default-> _ :: H H.
+
+  E E1 |- And(e1, e2) :: H H1 -default-> v1 :: H H2
+  where
+    E E1 |- If(e1, e2, Int("0")) :: H H1 -default-> v1 :: H H2.
+
+  E E |- allocateVar(x, v1) :: H H1 -default-> {x |--> a} + E :: H H2
+  where
+    allocate(v1) :: H H1 -default-> a :: H H2.
+
+  allocate(v1) :: H H1 -default-> addr :: H H2
+  where
+    fresh => addr;
+    write(addr, v1) :: H H1 -default-> _ :: H H2.
+
+  E E1 |- __LValue2Exp__(l1) :: H H1 -default-> v1 :: H H3
+  where
+    E E1 |- l1 :: H H1 -lval-> i1 :: H H2;
+    read(i1) :: H H2 -default-> v1 :: H H3.
+
+  E _ |- [  ] : List(InitField) :: H H1 -default-> {} :: H H1.
+
+  E E1 |- [ InitField(f, e1) | fields ] : List(InitField) :: H H1 -default-> {f |--> a} + E2 :: H H4
+  where
+    E E1 |- e1 :: H H1 -default-> v1 :: H H2;
+    allocate(v1) :: H H2 -default-> a :: H H3;
+    E E1 |- fields :: H H3 -default-> E2 :: H H4.

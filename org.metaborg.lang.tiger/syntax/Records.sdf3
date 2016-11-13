@@ -1,0 +1,23 @@
+module Records
+
+imports Base
+imports Identifiers
+imports Types
+
+context-free syntax // records
+
+  Type.RecordTy = <
+    { 
+       <{Field ", \n"}*> 
+    }
+  > 
+  
+  Field.Field = <<Id> : <TypeId>> 
+   
+  Exp.NilExp = <nil> 
+  
+  Exp.Record = <<TypeId>{ <{InitField ", "}*> }> 
+  
+  InitField.InitField = <<Id> = <Exp>> 
+  
+  LValue.FieldVar = <<LValue>.<Id>> 

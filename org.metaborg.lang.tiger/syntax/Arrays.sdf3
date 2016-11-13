@@ -1,0 +1,11 @@
+module Arrays
+
+imports Types
+
+context-free syntax // arrays
+
+  Type.ArrayTy = <array of <TypeId>> 
+  
+  Exp.Array = <<TypeId>[<Exp>] of <Exp>> 
+  
+  LValue.Subscript = <<LValue>[<Exp>]> 

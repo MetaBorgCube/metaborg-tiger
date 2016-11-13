@@ -1,0 +1,12 @@
+module strings
+
+imports ds-signatures/Strings-sig
+imports dynamics/base
+
+signature
+  constructors
+    StringV : String -> V 
+    
+rules
+ 
+  String(s) --> StringV(s).  

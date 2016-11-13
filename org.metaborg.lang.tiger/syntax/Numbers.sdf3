@@ -1,11 +1,19 @@
-module Tiger-Operators
+module Numbers
 
-imports Tiger-Lexicals	
-imports Tiger-Literals	
-imports Tiger-BinOps
-imports Tiger-Expressions
+lexical syntax
 
+  IntConst = [0-9]+ 
+  
+lexical syntax
+
+  RealConst.RealConstNoExp = IntConst "." IntConst 
+  RealConst.RealConst = IntConst "." IntConst "e" Sign IntConst 
+  Sign = "+" 
+  Sign = "-" 
+  
 context-free syntax
+
+  Exp.Int     = IntConst  
 
   Exp.Uminus  = [- [Exp]] 
   Exp.Times   = [[Exp] * [Exp]]    {left}
@@ -35,9 +43,7 @@ context-free priorities
   // not associate, so a = b = c is not a legal expression,
   // a = (b = c) is legal.
 
-  {Exp.Uminus
-   LValue.FieldVar
-   LValue.Subscript} 
+  {Exp.Uminus} 
   > {left :
     Exp.Times
     Exp.Divide} 
@@ -53,4 +59,3 @@ context-free priorities
     Exp.Leq} 
   > Exp.And 
   > Exp.Or 
-  > Exp.Array

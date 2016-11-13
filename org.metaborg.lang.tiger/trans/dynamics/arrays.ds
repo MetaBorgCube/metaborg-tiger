@@ -1,0 +1,23 @@
+module arrays
+
+imports ds-signatures/Arrays-sig
+imports dynamics/natives
+imports dynamics/store
+imports dynamics/base
+
+signature
+  constructors  
+    ArrayV : Heap -> V 
+  arrows    
+    initArray(Int, Int, V) --> Unit
+        
+rules // arrays
+  
+  Array(_, IntV(i), v) --> ArrayV(H)
+  where
+    initArray(0, i, v) :: H {} --> _ :: H.
+  
+  // initArray
+  
+  
+  

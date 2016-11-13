@@ -1,4 +1,4 @@
-module nabl-lib
+module statics/nabl-lib
 
 rules // auxiliary
 

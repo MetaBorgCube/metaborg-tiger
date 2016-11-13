@@ -3,11 +3,11 @@ module outline
 imports libspoofax/editor/outline
 
 imports signatures/Tiger-sig
-imports signatures/Tiger-Declarations-sig
-imports signatures/Tiger-BinOps-sig
-imports signatures/Tiger-Operators-sig
-imports signatures/Tiger-Expressions-sig
-imports signatures/Tiger-Statements-sig
+//imports signatures/Types-sig
+//imports signatures/Numbers-sig
+//imports signatures/Records-sig
+//imports signatures/Variables-sig
+
 rules
   
   editor-outline:

@@ -1,9 +1,9 @@
-module Tiger-Literals
+module Strings
 
-lexical syntax
+sorts StrConst
 
-  IntConst = [0-9]+ 
-  
+lexical syntax 
+
   StrConst = "\"" StrChar* "\"" 
   StrChar = ~[\\\"\n] 
   StrChar = [\\] [n] 
@@ -15,7 +15,6 @@ lexical syntax
   StrChar = [\\] [\"] 
   StrChar = [\\] [\ \t\n]+ [\\] 
   
-  RealConst.RealConstNoExp = IntConst "." IntConst 
-  RealConst.RealConst = IntConst "." IntConst "e" Sign IntConst 
-  Sign = "+" 
-  Sign = "-" 
+context-free syntax // records
+  
+  Exp.String = StrConst 

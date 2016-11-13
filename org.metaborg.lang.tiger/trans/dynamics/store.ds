@@ -1,72 +1,49 @@
 module store
 
-imports dynamics/values
+imports dynamics/values 
 
-signature
-  sorts Unit V Exp FArg
-  constructors
-    UnitV : V
-    UndefV : V
-    IntV  : Int -> V
-    StringV : String -> V
-    NilV : V
-    RecordV : Env -> V
-    ArrayV : Heap -> V
-    ClosureV : List(FArg) * Exp * Env -> V
-  variables 
-    v : V
+signature // lvalue 
+  sorts LValue
+  arrows  
+    LValue -lval-> Address
+  variables
+    lv : LValue
     
-signature  // environment
-  sorts Id 
+signature // environment
+  sorts Id
   sort aliases 
-//    Address = Int
-    Env = Map(Id, Int)
+    Address = Int
+    Env = Map(Id, Address)
   components 
     E : Env
   arrows
     lookup(Id) --> Int
-    bind(Id, Int) --> Env
+    bind(Id, Address) --> Env
     
 rules
 
   E |- lookup(a) --> E[a].
   
   E |- bind(x, a) --> {x |--> a, E}.
-
+  
 signature // heap
   sort aliases
-    Heap = Map(Int, V)
+    Heap = Map(Address, V)
   components
     H : Heap   
   arrows
-    read(Int) --> V
+    read(Address) --> V
     allocate(V) --> Int
-    write(Int, V) --> V
+    write(Address, V) --> V
     
 rules
 
-  read(a) :: H --> v
-  where
-    H[a] => v.
+  read(a) :: H --> H[a].
   
-  write(addr, v) :: H --> v :: H {addr |--> v, H}.
+  write(a, v) :: H --> v :: H {a |--> v, H}.
 
-  allocate(v) --> addr
+  allocate(v) --> a
   where
-    fresh => addr;
-    write(addr, v) --> _.
-
-signature
-  arrows
-    readVar(Id) --> V
-    writeVar(Id, V) --> V  
-    allocateVar(Id, V) --> Env 
-rules
-
-  readVar(x) --> read(lookup(x)).
-
-  writeVar(x, v) --> write(lookup(x), v).
-  
-  E |- allocateVar(x, v) --> {x |--> a, E}
-  where allocate(v) --> a.
-
+    fresh => a;
+    write(a, v) --> _.
+    

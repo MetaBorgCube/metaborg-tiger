@@ -1,9 +1,4 @@
-module Tiger-Operators-Amb
-
-imports Tiger-Lexicals	
-imports Tiger-Literals	
-imports Tiger-BinOps
-imports Tiger-Expressions
+module Operators-Amb
 
 context-free syntax
 

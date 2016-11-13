@@ -1,13 +1,9 @@
-module Tiger-Statements
+module Control-Flow
 
-imports Tiger-Expressions 
-imports Tiger-Lexicals
+imports Identifiers
+imports Variables
 
 context-free syntax
-
-  Exp.Assign = <<LValue> := <Exp>> 
-  
-  //Exp.ParAssign = <[ <{LValue ", "}*> ] := [ <{Exp ", "}*> ]> 
   
   Exp.Seq = <
     ( 

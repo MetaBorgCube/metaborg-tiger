@@ -1,11 +1,16 @@
 module Tiger
 
-imports Tiger-Whitespace	
-imports Tiger-Lexicals
-imports Tiger-Declarations	
-imports Tiger-BinOps	
-imports Tiger-Operators
-imports Tiger-Statements
+imports Whitespace
+imports Types
+imports Identifiers
+imports Bindings
+imports Variables
+imports Functions
+imports Numbers
+imports Strings	
+imports Records
+imports Arrays
+imports Control-Flow
 
 context-free start-symbols Module
 
@@ -13,8 +18,16 @@ context-free syntax
 
   Module.Mod = Exp
 
-
 context-free priorities
 
   Exp.Or 
-  > Exp.Assign 
+  > Exp.Or 
+  > Exp.Array
+  > Exp.Assign ,
+  
+  {Exp.Uminus
+   LValue.FieldVar
+   LValue.Subscript} 
+  > {left :
+    Exp.Times
+    Exp.Divide} 

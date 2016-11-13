@@ -1,141 +1,30 @@
 module tiger
 
 imports ds-signatures/Tiger-sig
+
 imports dynamics/store
 imports dynamics/natives
-imports dynamics/operators
-// imports dynamics/desugar
+imports dynamics/base
+
+imports dynamics/bindings
+imports dynamics/variables
+imports dynamics/functions
+imports dynamics/numbers
+imports dynamics/strings	
+imports dynamics/records
+imports dynamics/arrays
+imports dynamics/control-flow
+imports dynamics/types
 
 signature
    
   arrows
     Module -init-> V
-    
-    E |- LValue       :: H -lval-> Int :: H
-    E |- Dec          :: H -->     Env :: H
-    
-    E |- evalSeq(List(Exp))     :: H --> V   :: H
-    E |- evalDecs(List(Dec))    :: H --> Env :: H
-        
+              
 rules
 
   Mod(e) -init-> v
   where 
     E {} |- e :: H {} --> v.
 
-rules // bindings
-    
-  Var(x) -lval-> lookup(x).
   
-  lv : LValue --> read(lv).
-  
-//  __LValue2Exp__(lv) --> read(lv).
-  
-  Assign(lv, e) --> write(lv, e). 
-  
-  Let(decs, es) --> v
-  where 
-    evalDecs(decs) --> E;
-    E |- evalSeq(es) --> v.
-        
-  E |- evalDecs([]) --> E.
-  
-  evalDecs([dec | decs]) --> E'
-  where 
-    dec --> E;
-    E |- evalDecs(decs) --> E'.
-  
-rules // variable declarations
-
-  VarDec(x, _, v) --> allocateVar(x, v).
-  
-  VarDecNoInit(x, _) --> allocateVar(x, UndefV()). 
-  
-rules // type declarations
-
-  E |- TypeDecs(_) --> E.
-  
-signature
-  arrows
-    E |- funEnv(List(FunDec)) :: H --> Env :: H
-    E |- evalFuns(List(FunDec)) :: H --> Env :: H       
-    E |- evalArgs(List(FArg), List(Exp)) :: H --> Env :: H
-    
-rules // functions
-
-  FunDecs(fds) --> E
-  where 
-    funEnv(fds) --> E; 
-    E |- evalFuns(fds) --> _. 
-  
-  E |- funEnv([]) --> E.  
-  
-  funEnv([FunDec(f, _, _, _) | fds]) --> E
-  where 
-    E allocateVar(f, UndefV()) |- funEnv(fds) --> E.
-  
-  E |- evalFuns([]) --> E.
-  
-  E |- evalFuns([FunDec(f, args, _, e) | fds]) --> evalFuns(fds)
-  where 
-    writeVar(f, ClosureV(args, e, E)) --> _.
-  
-  Call(Var(f), es) --> v
-  where
-    readVar(f) --> ClosureV(args, e, E);
-    evalArgs(args, es) --> E';
-    E {E', E} |- e --> v.
-    
-  evalArgs([], []) --> {}.
-    
-  evalArgs([FArg(x, _) | args], [v | es]) --> {x |--> a, E}
-  where allocate(v) --> a; evalArgs(args, es) --> E.
-  
-rules // control-flow
-
-  Seq(es) --> evalSeq(es).
-  
-  evalSeq([]) --> UnitV().  
-  evalSeq([v]) --> v.  
-  evalSeq([_ : V | es@[_|_]]) --> evalSeq(es).
-      
-  IfThen(IntV(i), e) --> v
-  where
-    case i of {
-      0 => 
-        UnitV() => v
-      otherwise => 
-        e --> v
-    }.
-  
-  If(IntV(i), e1, e2) --> v
-  where
-    case i of {
-      0 => 
-        e2 --> v
-      otherwise => 
-        e1 --> v
-    }.
-    
-//  While(e1, e2) --> IfThen(e1, Seq([e2, While(e1, e2)])).
-  
-  While(e1, e2) --> v
-  where
-    e1 --> IntV(i);
-    case i of {
-      0 => UnitV() => v
-      otherwise => 
-        e2 --> _;
-        While(e1, e2) --> v
-    }.
-    
-  For(Var(x), e1, e2, e3) -->
-    Let([VarDec(x, NoTp(), e1),
-         VarDec(end, NoTp(), e2)], 
-        [While(Lt(Var(x), Var(end)), Seq([
-           e3,
-           Assign(Var(x), Plus(Var(x), Int("1")))
-         ]))])
-  where printI(fresh) : Id => end.  // capture?  
- 
-

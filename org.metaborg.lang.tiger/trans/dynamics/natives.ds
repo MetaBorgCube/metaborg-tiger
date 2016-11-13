@@ -5,6 +5,7 @@ signature
   native operators
     parseI  : String -> Int
     printI  : Int -> String
+    printS  : String -> String
     addI    : Int * Int -> Int
     subI    : Int * Int -> Int
     mulI    : Int * Int -> Int

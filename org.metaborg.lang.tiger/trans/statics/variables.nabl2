@@ -1,0 +1,34 @@
+module statics/variables
+
+imports signatures/Variables-sig
+imports statics/nabl-lib
+imports statics/base
+
+rules // variable declarations
+
+  // Local variables: In the expression [let ... vardec ... in exp end], 
+  // the scope of the declared variable starts just after its vardec 
+  // and lasts until the end.
+
+  Dec[[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
+     Var{x} <- s, Var{x} : ty1 !, 
+     [[ t ^ (s_outer) : ty1 ]],
+     [[ e ^ (s_outer) : ty2 ]],
+     ty2 <? ty1 | error $[type mismatch] @ e.
+    
+  Dec[[ VarDecNoInit(x, t) ^ (s, s_outer) ]] :=
+     Var{x} <- s, Var{x} : ty !, 
+     [[ t ^ (s_outer) : ty ]].
+     
+rules // variable references
+  
+  [[ Var(x) ^ (s) : ty ]] :=
+     Var{x} -> s,  // declare x as variable reference
+     Var{x} |-> d, // check that x resolves to a declaration
+     d : ty.       // type of declaration is type of reference
+ 
+rules // statements
+
+  [[ Assign(e1, e2) ^ (s) : UNIT() ]] :=
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s) : ty2 ]],
+     ty2 <? ty1 | error $[type mismatch] @ e2.  
