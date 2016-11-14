@@ -26,8 +26,8 @@ rules // operators
      [[ e1 ^ (s) : INT() ]], [[ e2 ^ (s): INT() ]].
         
   [[ Eq(e1, e2) ^ (s) : INT() ]] :=
-     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
-     ty1 == ty2.
+     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],  
+     ((ty1 == ty2) ; ((ty1 <? ty2) ; (ty2 <? ty1))).
         
   [[ Neq(e1, e2) ^ (s) : INT() ]] :=
      [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
