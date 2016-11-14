@@ -8,4 +8,6 @@ context-free syntax // arrays
   
   Exp.Array = <<TypeId>[<Exp>] of <Exp>> 
   
-  LValue.Subscript = <<LValue>[<Exp>]> 
+  LValue.Subscript = <<LValue>[<Index>]> 
+  
+  Index = Exp
