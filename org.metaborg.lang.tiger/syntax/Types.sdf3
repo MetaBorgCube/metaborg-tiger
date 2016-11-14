@@ -3,26 +3,19 @@ module Types
 imports Identifiers
 imports Bindings
 
-sorts Type TypeAn
+sorts Type 
 
 context-free syntax // type declarations
    
   Dec.TypeDecs = <<{TypeDec "\n"}+>> {longest-match}
   
   TypeDec.TypeDec = <type <Id> = <Type>> 
-
-context-free syntax // type annotations
-
-  TypeAn.NoTp = <>
-  
-  TypeAn.Tp = <: <TypeId>> 
   
 context-free syntax // type expressions
 
-  Type.NameTy = TypeId 
-  TypeId.Tid  = Id // needed?
+  Type = TypeId 
+  TypeId.Tid  = Id 
   
-
 sorts Ty
 context-free syntax // semantic types
 

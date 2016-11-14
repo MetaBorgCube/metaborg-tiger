@@ -1,5 +1,6 @@
 module variables
 
+imports ds-signatures/Identifiers-sig
 imports ds-signatures/Variables-sig
 imports dynamics/base
 imports dynamics/bindings
@@ -9,10 +10,14 @@ rules
 
   VarDec(x, _, v) --> bindVar(x, v).
   
-  VarDecNoInit(x, _) --> bindVar(x, UndefV()).
+  VarDecNoType(x, v) --> bindVar(x, v).
      
   Var(x) -lval-> lookup(x).
   
   lv : LValue --> read(lv).
+  
+//  __LValue2Exp__(lv) --> v
+//  where 
+//    lv -lval-> a; read(a) --> v.
   
   Assign(lv, v) --> write(lv, v). 

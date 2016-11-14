@@ -7,9 +7,9 @@ sorts Var
 
 context-free syntax
   
-  Dec.VarDec = <var <Id><TypeAn> := <Exp>> 
+  Dec.VarDec = <var <Id> : <Type> := <Exp>> 
   
-  Dec.VarDecNoInit = <var <Id><TypeAn>> 
+  Dec.VarDecNoType = <var <Id> := <Exp>> 
 
   Var.Var = Id 
   
@@ -18,3 +18,4 @@ context-free syntax
   Exp = LValue   
 
   Exp.Assign = <<LValue> := <Exp>> 
+  

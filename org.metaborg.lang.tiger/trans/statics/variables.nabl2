@@ -11,15 +11,18 @@ rules // variable declarations
   // and lasts until the end.
 
   Dec[[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
-     Var{x} <- s, Var{x} : ty1 !, 
      [[ t ^ (s_outer) : ty1 ]],
      [[ e ^ (s_outer) : ty2 ]],
-     ty2 <? ty1 | error $[type mismatch] @ e.
-    
-  Dec[[ VarDecNoInit(x, t) ^ (s, s_outer) ]] :=
-     Var{x} <- s, Var{x} : ty !, 
-     [[ t ^ (s_outer) : ty ]].
+     ty2 <? ty1 | error $[type mismatch [ty1] expected] @ e,
+     Var{x} <- s, 
+     Var{x} : ty1 !.
      
+  Dec[[ VarDecNoType(x, e) ^ (s, s_outer) ]] :=
+     [[ e ^ (s_outer) : ty ]],
+     ty != NIL() | error $[explicit type expected for variable initialized with nil],
+     Var{x} <- s, 
+     Var{x} : ty !.
+         
 rules // variable references
   
   [[ Var(x) ^ (s) : ty ]] :=
@@ -30,5 +33,7 @@ rules // variable references
 rules // statements
 
   [[ Assign(e1, e2) ^ (s) : UNIT() ]] :=
-     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s) : ty2 ]],
-     ty2 <? ty1 | error $[type mismatch] @ e2.  
+     [[ e1 ^ (s) : ty1 ]], 
+     [[ e2 ^ (s) : ty2 ]],
+     ty2 <? ty1 | error $[type mismatch [ty1] expected] @ e2.  
+     

@@ -22,8 +22,9 @@ rules // type declarations
      Map[[ tdecs ^ (s) ]].
      
   [[ TypeDec(x, t) ^ (s) ]] :=
-     Type{x} <- s, Type{x} : ty !, 
-     [[ t ^ (s) : ty ]].
+     [[ t ^ (s) : ty ]],
+     Type{x} <- s, 
+     Type{x} : ty !.
      
    // type declarations in a sequence are mutually recursive
 
@@ -34,11 +35,3 @@ rules // types
      Type{x} |-> d | error $[Type [x] not declared],
      d : ty.
      
-  [[ Tp(t) ^ (s) : ty ]] := 
-     [[ t ^ (s) : ty ]].
-  
-  [[ NoTp() ^ (s) : ty ]] := 
-     true.
-      
-  [[ NameTy(t) ^ (s) : ty ]] :=
-     [[ t ^ (s) : ty ]].
