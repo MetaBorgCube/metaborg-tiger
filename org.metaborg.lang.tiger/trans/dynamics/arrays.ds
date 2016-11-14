@@ -1,5 +1,7 @@
 module arrays
 
+imports ds-signatures/Identifiers-sig
+imports ds-signatures/Variables-sig
 imports ds-signatures/Arrays-sig
 imports dynamics/natives
 imports dynamics/store
@@ -8,35 +10,32 @@ imports dynamics/numbers
 imports dynamics/bindings
 
 signature
+  sort aliases
+    Index = Map(Int, Int)
+  variables
+    I : Index
   constructors  
-    ArrayV : Env -> V 
-    Idx : Int -> Id
+    ArrayV : Index -> V 
   arrows    
-    E |- initArray(Int, Int, V) --> Env
+    initArray(Int, Int, V, Index) --> Index
         
-rules // arrays
+rules
   
-  Array(_, IntV(i), v) --> ArrayV(E)
+  Array(_, IntV(i), v) --> ArrayV(I)
   where
-    printS(concatS("Array: ", printI(i))) => _;
-    E { } |- initArray(0, i, v) --> E.
+    initArray(0, i, v, {}) --> I.
   
-  E |- initArray(i, j, v) --> E'
+  initArray(i, j, v, I) --> I'
   where 
-    printS(concatS("initArray: ", printI(i))) => _;
     case ltI(i, j) of {
-      otherwise => 
-        printS("0") => _;
-        E => E'
       1 => 
-        printS("1") => _;
-        bindVar(Idx(i), v) --> E'';
-        printS("bound") => _;
-        E'' |- initArray(addI(i, 1), j, v) --> E'
+        allocate(v) --> a;
+        initArray(addI(i, 1), j, v, {i |--> a, I}) --> I'
+      0 => 
+        I => I'
     }.
     
-  Subscript(a, IntV(i)) -lval-> a' 
+  Subscript(a, IntV(i)) -lval-> I[i]
   where 
-    read(a) --> ArrayV(E); 
-    E |- lookup(Idx(i)) --> a'.
+    read(a) --> ArrayV(I).   
     
