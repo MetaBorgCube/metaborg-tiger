@@ -4,20 +4,39 @@ imports ds-signatures/Arrays-sig
 imports dynamics/natives
 imports dynamics/store
 imports dynamics/base
+imports dynamics/numbers
+imports dynamics/bindings
 
 signature
   constructors  
-    ArrayV : Heap -> V 
+    ArrayV : Env -> V 
+    Idx : Int -> Id
   arrows    
-    initArray(Int, Int, V) --> Unit
+    E |- initArray(Int, Int, V) --> Env
         
 rules // arrays
   
-  Array(_, IntV(i), v) --> ArrayV(H)
+  Array(_, IntV(i), v) --> ArrayV(E)
   where
-    initArray(0, i, v) :: H {} --> _ :: H.
+    printS(concatS("Array: ", printI(i))) => _;
+    E { } |- initArray(0, i, v) --> E.
   
-  // initArray
-  
-  
-  
+  E |- initArray(i, j, v) --> E'
+  where 
+    printS(concatS("initArray: ", printI(i))) => _;
+    case ltI(i, j) of {
+      otherwise => 
+        printS("0") => _;
+        E => E'
+      1 => 
+        printS("1") => _;
+        bindVar(Idx(i), v) --> E'';
+        printS("bound") => _;
+        E'' |- initArray(addI(i, 1), j, v) --> E'
+    }.
+    
+  Subscript(a, IntV(i)) -lval-> a' 
+  where 
+    read(a) --> ArrayV(E); 
+    E |- lookup(Idx(i)) --> a'.
+    
