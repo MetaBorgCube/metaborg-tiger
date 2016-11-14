@@ -14,15 +14,18 @@ signature // environment
   sort aliases 
     // Address = Int
     Env = Map(Id, Int)
+  variables
+    a : Int
   components 
     E : Env
   arrows
     lookup(Id) --> Int
     bind(Id, Int) --> Env
+
     
 rules
 
-  E |- lookup(a) --> E[a].
+  E |- lookup(x) --> E[x].
   
   E |- bind(x, a) --> {x |--> a, E}.
   
