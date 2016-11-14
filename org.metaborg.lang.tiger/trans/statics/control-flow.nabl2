@@ -29,13 +29,13 @@ rules // sequence
      
   [[ IfThen(e1, e2) ^ (s) : UNIT() ]] := 
      [[ e1 ^ (s) : INT() ]], 
-     [[ e2 ^ (s) : ty ]].
+     [[ e2 ^ (s) : UNIT() ]].
      
   [[ While(e1, e2) ^ (s) : UNIT() ]] := 
      new s', s' -P-> s,
      Loop{""} <- s',
      [[ e1 ^ (s) : INT() ]], 
-     [[ e2 ^ (s') : ty ]].
+     [[ e2 ^ (s') : UNIT() ]].
 
   [[ stm@For(Var(x), e1, e2, e3) ^ (s) : UNIT() ]] := 
      new s_for, 
@@ -45,7 +45,7 @@ rules // sequence
      Loop{Break()@stm} <- s_for,
      [[ e1 ^ (s) : INT() ]], // x not bound in loop bounds
      [[ e2 ^ (s) : INT() ]], 
-     [[ e3 ^ (s_for) : ty ]]. // x bound in body
+     [[ e3 ^ (s_for) : UNIT() ]]. // x bound in body
      
   [[ stm@Break() ^ (s) : UNIT() ]] := 
      Loop{Break()@stm} -> s,
