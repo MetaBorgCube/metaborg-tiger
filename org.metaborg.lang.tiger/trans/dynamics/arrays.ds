@@ -11,16 +11,16 @@ imports dynamics/bindings
 
 signature
   sort aliases
-    Index = Map(Int, Int)
+    Idx = Map(Int, Int)
   variables
-    I : Index
+    I : Idx
   constructors  
-    ArrayV : Index -> V 
+    ArrayV : Idx -> V 
   arrows    
-    initArray(Int, Int, V, Index) --> Index
+    initArray(Int, Int, V, Idx) --> Idx
         
 rules
-  
+    
   Array(_, IntV(i), v) --> ArrayV(I)
   where
     initArray(0, i, v, {}) --> I.
