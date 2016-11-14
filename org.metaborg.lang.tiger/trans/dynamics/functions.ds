@@ -13,7 +13,7 @@ signature
     E |- evalFuns(List(FunDec)) :: H --> Env :: H       
     E |- evalArgs(List(FArg), List(Exp)) :: H --> Env :: H
     
-rules // functions
+rules // function definition
 
   FunDecs(fds) --> E
   where 
@@ -31,6 +31,8 @@ rules // functions
   E |- evalFuns([FunDec(f, args, _, e) | fds]) --> evalFuns(fds)
   where 
     writeVar(f, ClosureV(args, e, E)) --> _.
+
+rules // function call
   
   Call(f, es) --> v
   where
@@ -41,4 +43,17 @@ rules // functions
   evalArgs([], []) --> {}.
     
   evalArgs([FArg(x, _) | args], [v | es]) --> {x |--> a, E}
-  where allocate(v) --> a; evalArgs(args, es) --> E.
+  where 
+    allocate(v) --> a; 
+    evalArgs(args, es) --> E.
+    
+rules // procedure definition
+ 
+  funEnv([ProcDec(f, _, _) | fds]) --> E
+  where 
+    E bindVar(f, UndefV()) |- funEnv(fds) --> E.
+ 
+  E |- evalFuns([ProcDec(f, args, e) | fds]) --> evalFuns(fds)
+  where 
+    writeVar(f, ClosureV(args, e, E)) --> _.
+    

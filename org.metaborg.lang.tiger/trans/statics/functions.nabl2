@@ -13,28 +13,47 @@ rules // function declarations
   Dec[[ FunDecs(fdecs) ^ (s, s_outer) ]] :=
      Map2[[ fdecs ^ (s, s_outer) ]].
      
-  [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
-     Var{f} <- s, // declare f 
-     Var{f} : FUN(tys, ty) !, // type of f
-     new s_fun,      // declare a new scope for body of function
-     s_fun -P-> s,   // make lexical environment accessible in body
+  [[ ProcDec(f, args, e) ^ (s, s_outer) ]] :=
+//     Args[[ args ^ (s_fun, s_outer) : tys ]], 
+     new s_fun,      
+     s_fun -P-> s,   
      distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
+//
+     Var{f} <- s, 
+     Var{f} : FUN(tys, UNIT()) !, 
+     [[ e ^ (s_fun) : UNIT() ]].
+        
+  [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
+//     Args[[ args ^ (s_fun, s_outer) : tys ]], 
+     new s_fun,      
+     s_fun -P-> s,   
+     distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
+     MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
+//
      [[ t ^ (s_outer) : ty ]],
+     Var{f} <- s, 
+     Var{f} : FUN(tys, ty) !, 
      [[ e ^ (s_fun) : ty_body ]],
      ty == ty_body| error $[return type does not match body] @ t.
      
+  Args[[ args ^ (s_fun, s_outer) : tys ]] := 
+     new s_fun,      
+     s_fun -P-> s,   
+     distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
+     MapTs2[[ args ^ (s_fun, s_outer) : tys ]].
+     
   [[ FArg(x, t) ^ (s_fun, s_outer) : ty ]] :=
-     Var{x} <- s_fun, // declare argument x as a variable declaration
+     Var{x} <- s_fun, 
      Var{x} : ty !,
      [[ t ^ (s_outer) : ty ]].
      
 rules // function calls
     
   [[ Call(f, exps) ^ (s) : ty ]] :=
-     Var{f} -> s,  // declare f as a function reference
+     Var{f} -> s,  
      Var{f} |-> d | error $[Function [f] not declared], 
      d : FUN(tys, ty) | error $[Function expected] ,
-     MapTs[[ exps ^ (s) : tys ]].
+     MapSTs[[ exps ^ (s) : tys ]].
      
      // todo: error messages per argument

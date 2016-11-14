@@ -7,11 +7,16 @@ context-free syntax
 
   Dec.FunDecs = <<{FunDec "\n"}+>> {longest-match}
   
-  FunDec.FunDec = <
-    function <Id>(<{FArg ", "}*>)<TypeAn> = 
+  FunDec.ProcDec = <
+    function <Id>(<{FArg ", "}*>) = 
       <Exp>
   >
   
-  FArg.FArg = <<Id> <TypeAn>>
+  FunDec.FunDec = <
+    function <Id>(<{FArg ", "}*>) : <Type> = 
+      <Exp>
+  >
+  
+  FArg.FArg = <<Id> : <Type>>
   
   Exp.Call = <<Id>(<{Exp ", "}*>)> 
