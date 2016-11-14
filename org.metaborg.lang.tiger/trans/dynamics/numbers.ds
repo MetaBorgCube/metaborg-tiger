@@ -20,9 +20,7 @@ rules // integers
      
   Times(IntV(i), IntV(j)) --> IntV(mulI(i, j)). 
      
-  Divide(IntV(i), IntV(j)) --> IntV(divI(i, j)).
-     
-  Eq(IntV(i), IntV(j)) --> IntV(eqI(i, j)).
+  Divide(IntV(i), IntV(j)) --> IntV(divI(i, j)). 
   
   Lt(IntV(i), IntV(j)) --> IntV(ltI(i, j)).
   
@@ -31,9 +29,3 @@ rules // integers
   Gt(e1, e2) --> Lt(e2, e1).
   
   Geq(e1, e2) --> Leq(e2, e1).
-  
-  Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1")).
-  
-  And(e1, e2) --> If(e1, e2, Int("0")).
-  
-  Or(e1, e2) --> If(e1, Int("1"), e2).
