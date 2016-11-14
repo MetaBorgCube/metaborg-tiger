@@ -27,6 +27,12 @@ rules // auxiliary
     ty1 == ty2 | error $[type mismatch] @ x,
     MapTs[[ xs ^ (s) : tys ]].
    
+  MapSTs[[ [] ^ (s) : [] ]] := true.   
+  MapSTs[[ [ x | xs ] ^ (s) : [ty1 | tys] ]] := 
+    [[ x ^ (s) : ty2 ]], 
+    ty2 <? ty1 | error $[type [ty1] expected] @ x,
+    MapSTs[[ xs ^ (s) : tys ]].
+   
   MapTs2[[ [] ^ (s1, s2) : [] ]] := true.   
   MapTs2[[ [ x | xs ] ^ (s1, s2) : [ty | tys] ]] := 
     [[ x ^ (s1, s2) : ty ]], MapTs2[[ xs ^ (s1, s2) : tys ]].
