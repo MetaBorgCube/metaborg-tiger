@@ -22,15 +22,28 @@ rules
   where
     case i of {
       1 => e --> v
-      otherwise => UnitV() => v
+      0 => UnitV() => v
     }.
-  
+
+//  IfThen(IntV(i), e) --> v
+//  where
+//    case i of {
+//      1 => e --> v
+//      otherwise => UnitV() => v
+//    }.
+      
   If(IntV(i), e1, e2) --> v
   where
+    printS(concatS("If: ", printI(i))) => _;
     case i of {
       1 => 
+        printS("If => 1") => _;
         e1 --> v
+//      0 =>
+//        printS("If => 0") => _;
+//        e2 --> v
       otherwise => 
+        printS("If => otherwise") => _;
         e2 --> v 
     }.
     
