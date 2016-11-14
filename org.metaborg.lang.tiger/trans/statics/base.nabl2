@@ -62,7 +62,7 @@ rules
     Var{"substring"} : FUN([STRING(), INT(), INT()], STRING()) !!,
     
     Var{"concat"} <- s,   
-    Var{"concat"} : FUN([STRING(), STRING()], UNIT()) !!,
+    Var{"concat"} : FUN([STRING(), STRING()], STRING()) !!,
     
     Var{"not"} <- s,   
     Var{"not"} : FUN([INT()], INT()) !!,
