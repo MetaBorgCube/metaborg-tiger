@@ -13,4 +13,6 @@ signature
     ltI     : Int * Int -> Int
     leqI    : Int * Int -> Int
     eqI     : Int * Int -> Int
+    eqS     : String * String -> Int
     concatS : String * String -> String
+    

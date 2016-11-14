@@ -1,0 +1,45 @@
+module equality
+
+imports ds-signatures/Numbers-sig 
+imports dynamics/numbers
+imports dynamics/strings
+imports dynamics/control-flow
+imports dynamics/records
+imports dynamics/natives
+
+rules
+
+  Eq(v1, v2) --> v
+  where
+    case v1 of {
+      IntV(i) => 
+        case v2 of {
+           IntV(j) => 
+             IntV(eqI(i, j)) => v
+        }
+      StringV(x) =>
+        case v2 of {
+          StringV(y) => 
+            eqS(x, y) => v
+        }
+      NilV() =>
+        case v2 of {
+          NilV() => 
+            IntV(1) => v
+          RecordV(_) =>
+            IntV(0) => v
+        }
+      RecordV(_) =>
+        case v2 of {
+          NilV() => 
+            IntV(0) => v
+          RecordV(_) =>
+            IntV(0) => v
+        }      
+    }.
+      
+  Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1")).
+  
+  And(e1, e2) --> If(e1, e2, Int("0")).
+  
+  Or(e1, e2) --> If(e1, Int("1"), e2).
