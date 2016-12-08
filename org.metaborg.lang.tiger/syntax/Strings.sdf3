@@ -11,8 +11,7 @@ lexical syntax
   StrChar = [\\] [\^] [A-Z] 
   StrChar = [\\] [0-9] [0-9] [0-9] 
   StrChar = [\\] [\"] 
-  StrChar = [\\] [\\] 
-  StrChar = [\\] [\"] 
+  StrChar = [\\] [\\]  
   StrChar = [\\] [\ \t\n]+ [\\] 
   
 context-free syntax // records
