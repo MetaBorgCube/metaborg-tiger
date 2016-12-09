@@ -13,8 +13,9 @@ rules // array type
 rules // array creation
      
   [[ Array(t, e1, e2) ^ (s) : ty ]] :=
-     [[ t ^ (s) : ty ]],
+     [[ t ^ (s) : ty_indic ]],
      ty == ARRAY(ty_elem, s_arr) | error $[array type expected],
+     ty_elem <? ty_indic | error $[type mismatch [ty_indic] expected] @ e2,
      [[ e1 ^ (s) : INT() ]], // length
      [[ e2 ^ (s) : ty_elem ]]. // initial value
      
