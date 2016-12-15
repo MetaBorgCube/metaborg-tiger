@@ -40,6 +40,6 @@ context-free priorities
   Exp.Assign 
   > {right :
     Exp.If
-    Exp.If
+    Exp.IfThen
     Exp.While
     Exp.For}
