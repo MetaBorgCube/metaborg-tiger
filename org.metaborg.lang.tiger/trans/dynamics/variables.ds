@@ -5,6 +5,7 @@ imports ds-signatures/Variables-sig
 imports dynamics/base
 imports dynamics/bindings
 imports dynamics/store
+imports dynamics/arrays
 
 rules
 
@@ -20,4 +21,13 @@ rules
 //  where 
 //    lv -lval-> a; read(a) --> v.
   
+  Assign(Subscript(p, q), v) --> write(address, v)
+  where
+    debug(WrappedLV(p)) => _;
+    p -lval-> arrayAddress;
+    getIndex(q) --> i;
+    read(arrayAddress) --> ArrayV(map);
+    map[i] => address.
+  
   Assign(lv, v) --> write(lv, v). 
+  

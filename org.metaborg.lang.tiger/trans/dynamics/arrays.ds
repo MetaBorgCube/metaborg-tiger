@@ -15,10 +15,17 @@ signature
   variables
     I : Idx
   constructors  
-    ArrayV : Idx -> V 
+    ArrayV : Idx -> V
+    WrappedLV : LValue -> V
+    WrappedInt : Int -> V
+    WrappedIndex : Index -> V
   arrows    
     initArray(Int, Int, V, Idx) --> Idx
-        
+    getIndex(Index) --> Int
+      
+native operators
+  debug: V -> V
+
 rules
     
   Array(_, IntV(i), v) --> ArrayV(I)
@@ -34,8 +41,21 @@ rules
       0 => 
         I => I'
     }.
-    
-  Subscript(a, IntV(i)) -lval-> I[i]
-  where 
-    read(a) --> ArrayV(I).   
+  
+  getIndex(__Exp2Index__(e)) --> i
+  where
+    e --> IntV(i).
+  
+  Subscript(p, q) --> v
+  where
+    debug(WrappedLV(p)) => _;
+    debug(WrappedIndex(q)) => _;
+    p -lval-> arrayAddress;
+    debug(WrappedInt(arrayAddress)) => _;
+    getIndex(q) --> i;
+    debug(WrappedInt(i)) => _;
+    read(arrayAddress) --> ArrayV(map);
+    map[i] => address;
+    read(address) --> v;
+    debug(v) => _.
     
