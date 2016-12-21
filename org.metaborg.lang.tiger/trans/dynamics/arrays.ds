@@ -22,9 +22,6 @@ signature
   arrows    
     initArray(Int, Int, V, Idx) --> Idx
     getIndex(Index) --> Int
-      
-native operators
-  debug: V -> V
 
 rules
     

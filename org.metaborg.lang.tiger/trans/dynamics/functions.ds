@@ -6,6 +6,7 @@ imports dynamics/store
 imports dynamics/strings
 imports dynamics/bindings
 imports dynamics/natives
+imports dynamics/numbers
 
 signature
   sorts
@@ -18,7 +19,10 @@ signature
     E |- funEnv(List(FunDec)) :: H --> Env :: H
     E |- evalFuns(List(FunDec)) :: H --> Env :: H       
     E |- evalArgs(List(FArg), List(Exp)) :: H --> Env :: H
-    
+  
+native operators
+  debug : String -> V
+
 rules // function definition
 
   FunDecs(fds) --> E
@@ -40,10 +44,19 @@ rules // function definition
 
 rules // function call
   
-  Call("print", [StringV(s)]) --> UnitV()
-  where
-    printS(s) => _.
+  // Predefined functions
+  Call("print", [StringV(s)]) --> UnitV() where printS(s) => _.
+  Call("ord", [StringV(s)]) --> IntV(ordS(s)).
+  Call("chr", [IntV(i)]) --> StringV(chrI(i)).
+  Call("not", [IntV(i)]) --> IntV(notI(i)).
+  Call("exit", [IntV(i)]) --> UnitV() where exitI(i) => _.
+  Call("size", [StringV(s)]) --> IntV(sizeS(s)).
+  Call("substring", [StringV(s), IntV(i1), IntV(i2)]) --> StringV(substringSII(s, i1, i2)).
+  Call("concat", [StringV(s1), StringV(s2)]) --> StringV(concatS(s1, s2)).
+  Call("getchar", []) --> StringV(getcharS("")).
+  Call("flush", []) --> UnitV() where flushS("") => _.
   
+  // User-defined functions
   Call(f, es) --> v
   where
     readVar(f) --> ClosureV(args, e, E);

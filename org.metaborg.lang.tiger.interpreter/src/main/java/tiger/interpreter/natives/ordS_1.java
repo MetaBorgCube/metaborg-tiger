@@ -8,19 +8,31 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
 @NodeChild(value = "stringbuild", type = TermBuild.class)
-public abstract class printS_1 extends TermBuild {
+public abstract class ordS_1 extends TermBuild {
 
-	public printS_1(SourceSection source) {
+	public ordS_1(SourceSection source) {
 		super(source);
 	}
 
+	/**
+	 * Return the ascii code of the first character in string and -1 if the
+     * given string is empty.
+	 * 
+	 * @param s
+	 * @return
+	 */
 	@Specialization
-	public String doString(String s) {
-		System.out.println(s);
-		return s;
+	public int doString(String s) {
+		String unquoted = s.substring(1, s.length()-1);
+		
+		if (s.isEmpty()) {
+			return -1;
+		}
+		
+		return (int) unquoted.charAt(0);
 	}
 
 	public static TermBuild create(SourceSection source, TermBuild stringbuild) {
-		return printS_1NodeGen.create(source, stringbuild);
+		return ordS_1NodeGen.create(source, stringbuild);
 	}
 }
