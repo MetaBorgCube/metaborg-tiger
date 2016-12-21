@@ -48,14 +48,9 @@ rules
   
   Subscript(p, q) --> v
   where
-    debug(WrappedLV(p)) => _;
-    debug(WrappedIndex(q)) => _;
     p -lval-> arrayAddress;
-    debug(WrappedInt(arrayAddress)) => _;
     getIndex(q) --> i;
-    debug(WrappedInt(i)) => _;
     read(arrayAddress) --> ArrayV(map);
     map[i] => address;
-    read(address) --> v;
-    debug(v) => _.
+    read(address) --> v.
     

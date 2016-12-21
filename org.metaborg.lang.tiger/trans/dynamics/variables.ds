@@ -23,7 +23,6 @@ rules
   
   Assign(Subscript(p, q), v) --> UnitV()
   where
-    debug(WrappedLV(p)) => _;
     p -lval-> arrayAddress;
     getIndex(q) --> i;
     read(arrayAddress) --> ArrayV(map);
