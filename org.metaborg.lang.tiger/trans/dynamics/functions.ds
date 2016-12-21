@@ -3,11 +3,17 @@ module functions
 imports ds-signatures/Functions-sig
 imports dynamics/base
 imports dynamics/store
+imports dynamics/strings
 imports dynamics/bindings
+imports dynamics/natives
 
 signature
+  sorts
+    ID
   constructors
     ClosureV : List(FArg) * Exp * Env -> V
+    __Id2ID__ : String -> Id {implicit}
+    ID : String -> ID
   arrows
     E |- funEnv(List(FunDec)) :: H --> Env :: H
     E |- evalFuns(List(FunDec)) :: H --> Env :: H       
@@ -33,6 +39,10 @@ rules // function definition
     writeVar(f, ClosureV(args, e, E)) --> _.
 
 rules // function call
+  
+  Call("print", [StringV(s)]) --> UnitV()
+  where
+    printS(s) => _.
   
   Call(f, es) --> v
   where
