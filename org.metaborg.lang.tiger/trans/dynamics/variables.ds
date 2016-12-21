@@ -21,13 +21,16 @@ rules
 //  where 
 //    lv -lval-> a; read(a) --> v.
   
-  Assign(Subscript(p, q), v) --> write(address, v)
+  Assign(Subscript(p, q), v) --> UnitV()
   where
     debug(WrappedLV(p)) => _;
     p -lval-> arrayAddress;
     getIndex(q) --> i;
     read(arrayAddress) --> ArrayV(map);
-    map[i] => address.
-  
-  Assign(lv, v) --> write(lv, v). 
-  
+    map[i] => address;
+    write(address, v) => _.
+
+  Assign(lv, v) --> UnitV()
+  where
+    write(lv, v) --> _.
+
