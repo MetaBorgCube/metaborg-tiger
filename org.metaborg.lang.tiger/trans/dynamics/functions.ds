@@ -10,18 +10,13 @@ imports dynamics/numbers
 
 signature
   sorts
-    ID
+  
   constructors
     ClosureV : List(FArg) * Exp * Env -> V
-    __Id2ID__ : String -> Id {implicit}
-    ID : String -> ID
   arrows
     E |- funEnv(List(FunDec)) :: H --> Env :: H
     E |- evalFuns(List(FunDec)) :: H --> Env :: H       
     E |- evalArgs(List(FArg), List(Exp)) :: H --> Env :: H
-  
-native operators
-  debug : String -> V
 
 rules // function definition
 

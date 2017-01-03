@@ -1,8 +1,6 @@
-package tiger.interpreter.natives;
+package org.metaborg.lang.tiger.interpreter.natives;
 
-import org.metaborg.org.metaborg.lang.tiger.interpreter.generated.tigerLanguage;
 import org.metaborg.lang.tiger.interpreter.natives.debug_1NodeGen;
-import org.metaborg.meta.lang.dynsem.interpreter.DynSemContext;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;

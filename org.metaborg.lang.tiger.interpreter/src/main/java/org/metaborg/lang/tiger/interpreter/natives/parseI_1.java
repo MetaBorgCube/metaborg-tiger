@@ -1,4 +1,4 @@
-package tiger.interpreter.natives;
+package org.metaborg.lang.tiger.interpreter.natives;
 
 import org.metaborg.lang.tiger.interpreter.natives.parseI_1NodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;

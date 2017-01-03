@@ -1,6 +1,6 @@
-package tiger.interpreter.natives;
+package org.metaborg.lang.tiger.interpreter.natives;
 
-import org.metaborg.lang.tiger.interpreter.natives.printS_1NodeGen;
+import org.metaborg.lang.tiger.interpreter.natives.exitI_1NodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;
@@ -8,26 +8,26 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
 @NodeChild(value = "stringbuild", type = TermBuild.class)
-public abstract class sizeS_1 extends TermBuild {
+public abstract class exitI_1 extends TermBuild {
 
-	public sizeS_1(SourceSection source) {
+	public exitI_1(SourceSection source) {
 		super(source);
 	}
 
 	/**
-	 * Return the size in characters of the string.
+	 * Exit the program with exit code status.
 	 * 
-	 * @param s
+	 * @param i
 	 * @return
 	 */
 	@Specialization
-	public int doString(String s) {
-		String unquoted = s.substring(1, s.length()-1);
+	public int doInt(int i) {
+		System.exit(i);
 		
-		return unquoted.length();
+		return 0;
 	}
 
 	public static TermBuild create(SourceSection source, TermBuild stringbuild) {
-		return sizeS_1NodeGen.create(source, stringbuild);
+		return exitI_1NodeGen.create(source, stringbuild);
 	}
 }

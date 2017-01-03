@@ -1,8 +1,8 @@
-package tiger.interpreter.natives;
+package org.metaborg.lang.tiger.interpreter.natives;
 
 import java.io.IOException;
 
-import org.metaborg.lang.tiger.interpreter.natives.printS_1NodeGen;
+import org.metaborg.lang.tiger.interpreter.natives.getcharS_1NodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;

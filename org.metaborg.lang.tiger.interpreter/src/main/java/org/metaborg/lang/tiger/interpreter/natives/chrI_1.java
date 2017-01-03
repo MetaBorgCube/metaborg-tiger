@@ -1,13 +1,13 @@
-package tiger.interpreter.natives;
+package org.metaborg.lang.tiger.interpreter.natives;
 
-import org.metaborg.lang.tiger.interpreter.natives.printS_1NodeGen;
+import org.metaborg.lang.tiger.interpreter.natives.chrI_1NodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
-@NodeChild(value = "stringbuild", type = TermBuild.class)
+@NodeChild(value = "string", type = TermBuild.class)
 public abstract class chrI_1 extends TermBuild {
 
 	public chrI_1(SourceSection source) {
@@ -31,7 +31,7 @@ public abstract class chrI_1 extends TermBuild {
 		return Character.toString((char) i);
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild stringbuild) {
-		return chrI_1NodeGen.create(source, stringbuild);
+	public static TermBuild create(SourceSection source, TermBuild string) {
+		return chrI_1NodeGen.create(source, string);
 	}
 }

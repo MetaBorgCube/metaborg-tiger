@@ -17,9 +17,9 @@ rules
   
   lv : LValue --> read(lv).
   
-//  __LValue2Exp__(lv) --> v
-//  where 
-//    lv -lval-> a; read(a) --> v.
+  __LValue2Exp__(lv) --> v
+  where 
+    lv -lval-> a; read(a) --> v.
   
   Assign(Subscript(p, q), v) --> UnitV()
   where

@@ -28,5 +28,3 @@ rules
   Mod(e) -init-> v
   where 
     E {} |- e :: H {} --> v.
-
-  

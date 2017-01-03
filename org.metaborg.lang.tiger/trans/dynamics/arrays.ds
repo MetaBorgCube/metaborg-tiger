@@ -16,12 +16,9 @@ signature
     I : Idx
   constructors  
     ArrayV : Idx -> V
-    WrappedLV : LValue -> V
-    WrappedInt : Int -> V
-    WrappedIndex : Index -> V
   arrows    
     initArray(Int, Int, V, Idx) --> Idx
-    getIndex(Index) --> Int
+     getIndex(Index) --> Int
 
 rules
     
@@ -50,4 +47,3 @@ rules
     read(arrayAddress) --> ArrayV(map);
     map[i] => address;
     read(address) --> v.
-    

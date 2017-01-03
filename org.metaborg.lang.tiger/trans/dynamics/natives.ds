@@ -3,6 +3,7 @@ module natives
 signature 
 
   native operators
+    
     parseI       : String -> Int
     printI       : Int -> String
     printS       : String -> String
