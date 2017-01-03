@@ -22,9 +22,21 @@ signature
    
   arrows
     Module -init-> V
-              
+    E |- stdLib() :: H --> Env :: H
+    
 rules
 
   Mod(e) -init-> v
-  where 
-    E {} |- e :: H {} --> v.
+  where
+    E {} |- stdLib() :: H {} --> E' :: H';
+    E' |- e :: H' --> v.
+
+  stdLib() --> E'
+  where
+    bindVar("print", IntV(1)) --> E'.
+  
+//  e :: H --> e :: H'
+//  where
+    
+
+// E |- bind(x, a) --> {x |--> a, E}.

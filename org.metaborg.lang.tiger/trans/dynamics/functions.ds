@@ -40,7 +40,7 @@ rules // function definition
 rules // function call
   
   // Predefined functions
-  Call("print", [StringV(s)]) --> UnitV() where printS(s) => _.
+  //Call("print", [StringV(s)]) --> UnitV() where printS(s) => _.
   Call("ord", [StringV(s)]) --> IntV(ordS(s)).
   Call("chr", [IntV(i)]) --> StringV(chrI(i)).
   Call("not", [IntV(i)]) --> IntV(notI(i)).
