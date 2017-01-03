@@ -23,13 +23,11 @@ public abstract class ordS_1 extends TermBuild {
 	 */
 	@Specialization
 	public int doString(String s) {
-		String unquoted = s.substring(1, s.length()-1);
-		
 		if (s.isEmpty()) {
 			return -1;
 		}
 		
-		return (int) unquoted.charAt(0);
+		return (int) s.charAt(0);
 	}
 
 	public static TermBuild create(SourceSection source, TermBuild stringbuild) {

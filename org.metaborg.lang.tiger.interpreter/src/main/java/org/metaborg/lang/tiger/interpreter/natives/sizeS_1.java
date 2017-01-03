@@ -22,12 +22,11 @@ public abstract class sizeS_1 extends TermBuild {
 	 */
 	@Specialization
 	public int doString(String s) {
-		String unquoted = s.substring(1, s.length()-1);
-		
-		return unquoted.length();
+		return s.length();
 	}
 
 	public static TermBuild create(SourceSection source, TermBuild stringbuild) {
 		return sizeS_1NodeGen.create(source, stringbuild);
 	}
+	
 }

@@ -24,3 +24,5 @@ signature
     substringSII : String * Int * Int -> String
     getcharS     : String -> String
     flushS       : String -> Int
+    unescapeS    : String -> String
+    
