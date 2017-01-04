@@ -12,7 +12,9 @@ signature
     mulI         : Int * Int -> Int
     divI         : Int * Int -> Int
     ltI          : Int * Int -> Int
+    ltS          : String * String -> Int
     leqI         : Int * Int -> Int
+    leqS         : String * String -> Int
     eqI          : Int * Int -> Int
     eqS          : String * String -> Int
     concatS      : String * String -> String
