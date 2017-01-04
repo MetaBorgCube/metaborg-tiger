@@ -20,7 +20,7 @@ rules
       StringV(x) =>
         case v2 of {
           StringV(y) => 
-            eqS(x, y) => v
+            IntV(eqS(x, y)) => v
         }
       NilV() =>
         case v2 of {
