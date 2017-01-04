@@ -15,14 +15,14 @@ signature
   variables
     I : Idx
   constructors  
-    ArrayV : Idx -> V
+    ArrayV : Idx * Int -> V
   arrows    
     initArray(Int, Int, V, Idx) --> Idx
      getIndex(Index) --> Int
 
 rules
     
-  Array(_, IntV(i), v) --> ArrayV(I)
+  Array(_, IntV(i), v) --> ArrayV(I, fresh)
   where
     initArray(0, i, v, {}) --> I.
   
