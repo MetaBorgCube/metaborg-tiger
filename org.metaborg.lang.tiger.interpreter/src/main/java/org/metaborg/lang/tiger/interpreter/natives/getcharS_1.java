@@ -26,7 +26,7 @@ public abstract class getcharS_1 extends TermBuild {
 	@Specialization
 	public String doString(String s) {
 		try {
-			return Character.toString((char) System.in.read());
+			return Character.toString((char) getContext().getInput().read());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
