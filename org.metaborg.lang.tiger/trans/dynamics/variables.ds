@@ -12,8 +12,13 @@ rules
   VarDec(x, _, v) --> bindVar(x, v).
   
   VarDecNoType(x, v) --> bindVar(x, v).
-     
+  
   Var(x) -lval-> lookup(x).
+  
+  Subscript(p, q) -lval-> map[i]
+  where
+    getIndex(q) --> i;
+    read(p) --> ArrayV(map).
   
   lv : LValue --> read(lv).
   
@@ -21,14 +26,6 @@ rules
   where 
     lv -lval-> a; read(a) --> v.
   
-  Assign(Subscript(p, q), v) --> UnitV()
-  where
-    p -lval-> arrayAddress;
-    getIndex(q) --> i;
-    read(arrayAddress) --> ArrayV(map);
-    map[i] => address;
-    write(address, v) => _.
-
   Assign(lv, v) --> UnitV()
   where
     write(lv, v) --> _.

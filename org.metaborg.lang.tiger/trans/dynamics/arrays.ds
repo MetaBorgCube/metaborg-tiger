@@ -40,10 +40,3 @@ rules
   where
     e --> IntV(i).
   
-  Subscript(p, q) --> v
-  where
-    p -lval-> arrayAddress;
-    getIndex(q) --> i;
-    read(arrayAddress) --> ArrayV(map);
-    map[i] => address;
-    read(address) --> v.
