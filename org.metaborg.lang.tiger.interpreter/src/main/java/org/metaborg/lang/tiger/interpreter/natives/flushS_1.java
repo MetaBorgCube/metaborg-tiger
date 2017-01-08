@@ -19,11 +19,6 @@ public abstract class flushS_1 extends TermBuild {
 	/**
 	 * Flush the output buffer.
 	 * 
-	 * This is utterly useless, since Tiger's print is mapped to Java's
-	 * System.out.println, which by default flushes whenever a newline is
-	 * written. Should Tiger's print buffer until a newline? Or buffer until
-	 * flush is called? Man, we need formal semantics...
-	 * 
 	 * @param s Dummy parameter; I don't know how to hook up DynSem otherwise
 	 * @return
 	 */

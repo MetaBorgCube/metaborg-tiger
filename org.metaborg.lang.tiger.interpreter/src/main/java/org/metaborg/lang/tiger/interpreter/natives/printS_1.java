@@ -16,7 +16,8 @@ public abstract class printS_1 extends TermBuild {
 
 	@Specialization
 	public String doString(String s) {
-		System.out.println(s);
+		System.out.print(s);
+		
 		return s;
 	}
 
