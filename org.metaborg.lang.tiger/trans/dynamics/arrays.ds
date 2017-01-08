@@ -15,13 +15,14 @@ signature
   variables
     I : Idx
   constructors  
-    ArrayV : Idx -> V 
+    ArrayV : Idx * Int -> V
   arrows    
     initArray(Int, Int, V, Idx) --> Idx
-        
+     getIndex(Index) --> Int
+
 rules
     
-  Array(_, IntV(i), v) --> ArrayV(I)
+  Array(_, IntV(i), v) --> ArrayV(I, fresh)
   where
     initArray(0, i, v, {}) --> I.
   
@@ -34,8 +35,8 @@ rules
       0 => 
         I => I'
     }.
-    
-  Subscript(a, IntV(i)) -lval-> I[i]
-  where 
-    read(a) --> ArrayV(I).   
-    
+  
+  getIndex(__Exp2Index__(e)) --> i
+  where
+    e --> IntV(i).
+  

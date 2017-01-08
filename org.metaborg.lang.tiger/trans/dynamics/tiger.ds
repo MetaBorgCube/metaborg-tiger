@@ -15,18 +15,18 @@ imports dynamics/records
 imports dynamics/arrays
 imports dynamics/control-flow
 imports dynamics/types
+imports dynamics/predef
 
 imports dynamics/equality
 
 signature
-   
+  
   arrows
     Module -init-> V
-              
+    
 rules
 
   Mod(e) -init-> v
-  where 
-    E {} |- e :: H {} --> v.
-
-  
+  where
+    E {} |- stdLib() :: H {} --> E' :: H';
+    E' |- e :: H' --> v.

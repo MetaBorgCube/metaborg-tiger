@@ -1,5 +1,6 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
+import org.metaborg.lang.tiger.interpreter.natives.printI_1NodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;

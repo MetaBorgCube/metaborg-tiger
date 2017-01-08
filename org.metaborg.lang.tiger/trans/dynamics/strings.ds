@@ -2,6 +2,8 @@ module strings
 
 imports ds-signatures/Strings-sig
 imports dynamics/base
+imports dynamics/natives
+imports dynamics/numbers
 
 signature
   constructors
@@ -9,4 +11,10 @@ signature
     
 rules
  
-  String(s) --> StringV(s).  
+  String(s) --> StringV(s')
+  where
+    unescapeS(s) => s'.
+  
+  Lt(StringV(i), StringV(j)) --> IntV(ltS(i, j)).
+  
+  Leq(StringV(i), StringV(j)) --> IntV(leqS(i, j)).

@@ -1,5 +1,6 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
+import org.metaborg.lang.tiger.interpreter.natives.concat_2NodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.IListTerm;
 
