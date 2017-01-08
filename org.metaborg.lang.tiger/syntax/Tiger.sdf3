@@ -21,7 +21,6 @@ context-free syntax
 context-free priorities
 
   Exp.Or 
-  > Exp.Or 
   > Exp.Array
   > Exp.Assign ,
   
