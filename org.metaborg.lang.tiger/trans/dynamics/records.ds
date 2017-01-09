@@ -7,7 +7,7 @@ imports dynamics/store
 signature
   constructors  
     NilV : V 
-    RecordV : Env -> V
+    RecordV : Env * Int -> V
   arrows    
     initFields(List(InitField)) --> Env 
     
@@ -15,7 +15,7 @@ rules // records
   
   NilExp() --> NilV(). 
   
-  Record(_, fields) --> RecordV(E)  
+  Record(_, fields) --> RecordV(E, fresh)  
   where initFields(fields) --> E.
   
   initFields([]) --> {}.
@@ -26,6 +26,6 @@ rules // records
     
   FieldVar(lv, x) -lval-> a 
   where
-    read(lv) --> RecordV(E); E |- lookup(x) --> a.
+    read(lv) --> RecordV(E, _); E |- lookup(x) --> a.
 
 

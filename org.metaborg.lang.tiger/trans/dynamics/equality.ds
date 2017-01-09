@@ -6,6 +6,7 @@ imports dynamics/strings
 imports dynamics/control-flow
 imports dynamics/records
 imports dynamics/natives
+imports dynamics/arrays
 
 rules
 
@@ -20,22 +21,29 @@ rules
       StringV(x) =>
         case v2 of {
           StringV(y) => 
-            eqS(x, y) => v
+            IntV(eqS(x, y)) => v
         }
       NilV() =>
         case v2 of {
           NilV() => 
             IntV(1) => v
-          RecordV(_) =>
+          RecordV(_, _) =>
             IntV(0) => v
         }
-      RecordV(_) =>
+      RecordV(_, id1) =>
         case v2 of {
           NilV() => 
             IntV(0) => v
-          RecordV(_) =>
+          RecordV(_, id2) =>
+            IntV(eqI(id1, id2)) => v
+        }
+      ArrayV(_, id1) =>
+        case v2 of {
+          ArrayV(_, id2) =>
+            IntV(eqI(id1, id2)) => v
+          otherwise =>
             IntV(0) => v
-        }      
+        }     
     }.
       
   Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1")).

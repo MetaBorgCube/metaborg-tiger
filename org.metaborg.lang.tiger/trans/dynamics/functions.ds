@@ -3,16 +3,21 @@ module functions
 imports ds-signatures/Functions-sig
 imports dynamics/base
 imports dynamics/store
+imports dynamics/strings
 imports dynamics/bindings
+imports dynamics/natives
+imports dynamics/numbers
 
 signature
+  sorts
+  
   constructors
     ClosureV : List(FArg) * Exp * Env -> V
   arrows
     E |- funEnv(List(FunDec)) :: H --> Env :: H
     E |- evalFuns(List(FunDec)) :: H --> Env :: H       
     E |- evalArgs(List(FArg), List(Exp)) :: H --> Env :: H
-    
+
 rules // function definition
 
   FunDecs(fds) --> E
@@ -34,10 +39,10 @@ rules // function definition
 
 rules // function call
   
-  Call(f, es) --> v
+  Call(f, args) --> v
   where
-    readVar(f) --> ClosureV(args, e, E);
-    evalArgs(args, es) --> E';
+    readVar(f) --> ClosureV(params, e, E);
+    evalArgs(params, args) --> E';
     E {E', E} |- e --> v.
     
   evalArgs([], []) --> {}.

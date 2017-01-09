@@ -17,10 +17,6 @@ rules // auxiliary
   MapT2[[ [ x | xs ] ^ (s, s') : [ty | tys] ]] := 
     [[ x ^ (s, s') : ty ]], MapT2[[ xs ^ (s, s') : tys ]].
    
-  MapT[[ [] ^ (s) : ty ]] := true.   
-  MapT[[ [ x | xs ] ^ (s) : ty ]] := 
-    [[ x ^ (s) : ty ]], MapT[[ xs ^ (s) : ty ]].
-   
   MapTs[[ [] ^ (s) : [] ]] := true.   
   MapTs[[ [ x | xs ] ^ (s) : [ty1 | tys] ]] := 
     [[ x ^ (s) : ty2 ]], 
