@@ -6,17 +6,33 @@ imports dynamics/store
 imports dynamics/natives
 imports dynamics/numbers
 
-signature  
+signature
+  constructors
+    BreakV : V
   arrows
     E |- evalSeq(List(Exp)) :: H --> V :: H
-    
+  
+  native operators
+    debug  : V -> String
+    debugS : String -> String
+
 rules
 
   Seq(es) --> evalSeq(es).
   
   evalSeq([]) --> UnitV().  
+  
   evalSeq([v]) --> v.  
-  evalSeq([_ : V | es@[_|_]]) --> evalSeq(es).
+  
+  evalSeq([v | es@[_|_]]) --> v
+  where
+    case v of {
+      BreakV() =>
+        BreakV() => v
+      otherwise =>
+        evalSeq(es) --> v
+    }.
+  
   
   IfThen(e1, e2) --> If(e1, e2, Seq([])).
   
@@ -29,8 +45,24 @@ rules
         e1 --> v
     }.
   
-  e@While(e1, e2) --> IfThen(e1, Seq([e2, e])).
-    
+//  e@While(e1, e2) --> IfThen(e1, Seq([e2, e])).
+  
+  e@While(e1, e2) --> v
+  where
+    e1 --> IntV(i);
+    case i of {
+      0 =>
+        UnitV() => v
+      otherwise =>
+        e2 --> v2;
+        case v2 of {
+          BreakV() =>
+            UnitV() => v
+          UnitV() =>
+            e --> v
+        }
+    }.
+  
   For(Var(x), e1, e2, e3) -->
     Let([VarDecNoType(x, e1),
          VarDecNoType(end, e2)], 
@@ -39,3 +71,6 @@ rules
            Assign(Var(x), Plus(Var(x), Int("1")))
          ]))])
   where printI(fresh) : Id => end.  // capture?
+  
+  Break() --> BreakV().
+  
