@@ -14,12 +14,6 @@ rules // Analysis
   
   editor-analyze = nabl2-analyze(id)
 
-rules // NaBL2 configuration
-    
-  nabl2-debug-analysis-hook = fail
-
-  nabl2-debug-constraint-generation-hook = fail
-  
 rules // Debugging
   
   // Prints the abstract syntax ATerm of a selection.
