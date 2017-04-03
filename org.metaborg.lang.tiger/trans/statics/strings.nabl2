@@ -6,5 +6,5 @@ imports statics/base
 
 rules // literals    
 
-  [[ String(str) ^ (s) : STRING() ]] := true.
+  [[ String(str) ^ (s) : STRING() ]].
   

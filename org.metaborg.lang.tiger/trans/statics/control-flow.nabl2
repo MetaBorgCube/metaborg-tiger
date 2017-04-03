@@ -6,8 +6,7 @@ imports statics/base
 
 rules // sequence
 
-  Seq[[ [] ^ (s) : UNIT() ]] := 
-    true.  
+  Seq[[ [] ^ (s) : UNIT() ]].  
    
   Seq[[ [e] ^ (s) : ty ]] :=
     [[ e ^ (s) : ty ]].

@@ -17,7 +17,7 @@ rules // function declarations
 //     Args[[ args ^ (s_fun, s_outer) : tys ]], 
      new s_fun,      
      s_fun -P-> s,   
-     distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
+     distinct/name D(s_fun) | error $[duplicate argument] @ NAMES, 
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
 //
      Var{f} <- s, 
@@ -28,7 +28,7 @@ rules // function declarations
 //     Args[[ args ^ (s_fun, s_outer) : tys ]], 
      new s_fun,      
      s_fun -P-> s,   
-     distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
+     distinct/name D(s_fun) | error $[duplicate argument] @ NAMES, 
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
 //
      [[ t ^ (s_outer) : ty ]],
@@ -40,7 +40,7 @@ rules // function declarations
   Args[[ args ^ (s_fun, s_outer) : tys ]] := 
      new s_fun,      
      s_fun -P-> s,   
-     distinct D(s_fun) | error $[duplicate argument] @ NAMES, 
+     distinct/name D(s_fun) | error $[duplicate argument] @ NAMES, 
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]].
      
   [[ FArg(x, t) ^ (s_fun, s_outer) : ty ]] :=

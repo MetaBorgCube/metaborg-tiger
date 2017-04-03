@@ -16,11 +16,9 @@ rules // Analysis
 
 rules // NaBL2 configuration
     
-  nabl2-debug-analysis-hook = id
+  nabl2-debug-analysis-hook = fail
 
-  nabl2-debug-constraint-generation-hook = id
-  
-  nabl2-allow-multiple-supertypes-hook = ?NIL()
+  nabl2-debug-constraint-generation-hook = fail
   
 rules // Debugging
   

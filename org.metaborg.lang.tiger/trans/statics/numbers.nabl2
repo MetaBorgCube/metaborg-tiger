@@ -6,7 +6,7 @@ imports statics/base
 
 rules // literals    
 
-  [[ Int(i) ^ (s) : INT() ]] := true.  
+  [[ Int(i) ^ (s) : INT() ]].  
   
 rules // operators
      
@@ -27,7 +27,8 @@ rules // operators
         
   [[ Eq(e1, e2) ^ (s) : INT() ]] :=
      [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],  
-     ((ty1 == ty2) ; ((ty1 <? ty2) ; (ty2 <? ty1))).
+     ty1 == ty2.
+   //((ty1 == ty2) ; ((ty1 <? ty2) ; (ty2 <? ty1))).
         
   [[ Neq(e1, e2) ^ (s) : INT() ]] :=
      [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
