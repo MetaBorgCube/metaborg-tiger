@@ -9,13 +9,14 @@ language
 
   extensions : tig
 
-//  provider : target/metaborg/stratego.ctree
+  //provider : target/metaborg/stratego.ctree
   provider : target/metaborg/stratego.jar
   provider : target/metaborg/stratego-javastrat.jar
-
+  
 menus
 
   menu: "Transform" (openeditor) (realtime)
   
     action: "Desugar"       = editor-desugar (source)
     action: "Desugar AST"   = editor-desugar-ast (source)
+  
