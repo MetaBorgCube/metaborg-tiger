@@ -25,10 +25,14 @@ rules // operators
   [[ Plus(e1, e2) ^ (s) : INT() ]] :=
      [[ e1 ^ (s) : INT() ]], [[ e2 ^ (s): INT() ]].
         
+//  [[ Eq(e1, e2) ^ (s) : INT() ]] :=
+//     [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],  
+//     ((ty1 == ty2) ; ((ty1 <? ty2) ; (ty2 <? ty1))).
+
   [[ Eq(e1, e2) ^ (s) : INT() ]] :=
      [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],  
-     ((ty1 == ty2) ; ((ty1 <? ty2) ; (ty2 <? ty1))).
-        
+     ty1 == ty2.
+             
   [[ Neq(e1, e2) ^ (s) : INT() ]] :=
      [[ e1 ^ (s) : ty1 ]], [[ e2 ^ (s): ty2 ]],
      ty1 == ty2.

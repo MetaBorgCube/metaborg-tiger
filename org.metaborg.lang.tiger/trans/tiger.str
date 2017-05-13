@@ -5,8 +5,8 @@ imports
   completion/completion
   pp
   outline
-  desugar
   analysis
+  desugar 
 
 rules // Debugging
   
@@ -29,5 +29,3 @@ rules // Desugaring
     with
       filename := <guarantee-extension(|"aterm")> path
     ; result   := <desugar-all>node
-    
-

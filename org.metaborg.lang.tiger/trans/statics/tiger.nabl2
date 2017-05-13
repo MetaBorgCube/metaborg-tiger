@@ -11,6 +11,7 @@ imports statics/records
 imports statics/strings
 imports statics/types
 imports statics/variables
+//imports statics/equality
 
 rules // top-level module
 

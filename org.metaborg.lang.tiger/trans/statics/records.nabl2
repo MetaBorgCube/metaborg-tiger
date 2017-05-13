@@ -28,7 +28,7 @@ rules // record creation
      [[ t ^ (s) : ty ]],
      ty == RECORD(s_rec) | error $[record type expected],
      new s_use, s_use -I-> s_rec,
-     D(s_rec)/Field subseteq R(s_use)/Field | error $[Field [NAME] not initialized] @r,
+     D(s_rec)/Field subseteq/name R(s_use)/Field | error $[Field [NAME] not initialized] @r,
      Map2[[ inits ^ (s_use, s) ]].
          
   [[ InitField(x, e) ^ (s_use, s) ]] :=

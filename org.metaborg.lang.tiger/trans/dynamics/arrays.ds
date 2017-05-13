@@ -39,4 +39,3 @@ rules
   getIndex(__Exp2Index__(e)) --> i
   where
     e --> IntV(i).
-  

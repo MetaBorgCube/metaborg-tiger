@@ -1,4 +1,4 @@
-module tiger
+module dynamics/tiger
 
 imports ds-signatures/Tiger-sig
 

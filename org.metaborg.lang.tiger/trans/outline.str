@@ -1,12 +1,9 @@
 module outline
 
-imports libspoofax/editor/outline
-
-imports signatures/Tiger-sig
-//imports signatures/Types-sig
-//imports signatures/Numbers-sig
-//imports signatures/Records-sig
-//imports signatures/Variables-sig
+imports
+  
+  signatures/Tiger-sig
+  libspoofax/editor/outline
 
 rules
   
@@ -34,4 +31,3 @@ rules
     
   to-outline-label :
     For(Var(name), _, _, _) -> $[for [name]]
-    
