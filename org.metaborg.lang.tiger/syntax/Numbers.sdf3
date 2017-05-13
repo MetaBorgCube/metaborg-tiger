@@ -31,7 +31,7 @@ context-free syntax
   Exp.And     = [[Exp] & [Exp]]   {left}
   Exp.Or      = [[Exp] | [Exp]]   {left}
 
-  Exp = [([Exp])] {bracket, avoid}
+  //Exp = [([Exp])] {bracket, avoid}
 
 context-free priorities
 
