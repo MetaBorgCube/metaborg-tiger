@@ -1,0 +1,7 @@
+---
+dependencies:
+  compile:
+  - "org.metaborg:org.metaborg.lang.tiger:0.1.0-SNAPSHOT"
+runtime:
+  nabl2:
+    debug: analysis files

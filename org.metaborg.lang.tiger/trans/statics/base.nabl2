@@ -5,8 +5,6 @@ imports statics/nabl-lib
 
 signature
   name resolution
-//    namespaces
-//      Type Var Field Loop
     labels 
       P I 
     well-formedness 
@@ -16,17 +14,19 @@ signature
       D < I, 
       I < P
       
+  namespaces
+    Type Var Field Loop
+
 signature     
-  constructors 
-    UNIT : Type
-    INT : Type
+
+  constructors
+    UNIT   : Type
+    INT    : Type
     STRING : Type
-    NIL : Type
+    NIL    : Type
     RECORD : scope -> Type
-    ARRAY : Type * scope -> Type
-    FUN : Type * Type -> Type // List(Type) * Type -> Type
-    
-//    FUN(contravar List(type), covar type)
+    ARRAY  : Type * scope -> Type
+    FUN    : list(Type) * Type -> Type
 
 rules
 

@@ -48,5 +48,5 @@ rules // let
     s_dec -P-> s_outer,
     Dec[[ block ^ (s_dec, s_outer) ]],
     Decs[[ blocks ^ (s_dec, s_body) ]],
-    distinct D(s_dec) | error $[duplicate declaration] @NAMES.
+    distinct/name D(s_dec) | error $[duplicate declaration] @NAMES.
     

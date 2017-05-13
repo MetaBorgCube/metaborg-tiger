@@ -13,14 +13,6 @@ rules // Analysis
 
   editor-analyze = nabl2-analyze(id)
 
-rules // NaBL2 configuration
-    
-  nabl2-debug-analysis-hook = id
-
-  nabl2-debug-constraint-generation-hook = id
-  
-  nabl2-allow-multiple-supertypes-hook = ?NIL()
-  
 rules // Debugging
   
   // Prints the abstract syntax ATerm of a selection.
