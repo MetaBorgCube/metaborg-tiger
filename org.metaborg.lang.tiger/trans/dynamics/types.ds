@@ -1,4 +1,4 @@
-module types
+module dynamics/types
 
 imports ds-signatures/Types-sig
 imports dynamics/base
@@ -6,4 +6,4 @@ imports dynamics/bindings
 
 rules // type declarations
 
-  E |- TypeDecs(_) --> E.
+  E |- TypeDecs(_) --> E

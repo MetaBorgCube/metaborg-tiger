@@ -1,4 +1,4 @@
-module variables
+module dynamics/variables
 
 imports ds-signatures/Identifiers-sig
 imports ds-signatures/Variables-sig
@@ -9,24 +9,24 @@ imports dynamics/arrays
 
 rules
 
-  VarDec(x, _, v) --> bindVar(x, v).
+  VarDec(x, _, v) --> bindVar(x, v)
   
-  VarDecNoType(x, v) --> bindVar(x, v).
+  VarDecNoType(x, v) --> bindVar(x, v)
   
-  Var(x) -lval-> lookup(x).
+  __Var2LValue__(Var(x)) -lval-> lookup(x)
   
   Subscript(p, q) -lval-> map[i]
   where
     getIndex(q) --> i;
-    read(p) --> ArrayV(map, _).
+    read(p) --> ArrayV(map, _)
   
-  lv : LValue --> read(lv).
+  __LValue2Exp__(lv : LValue) --> read(lv)
   
   __LValue2Exp__(lv) --> v
   where 
-    lv -lval-> a; read(a) --> v.
+    lv -lval-> a; read(a) --> v
   
   Assign(lv, v) --> UnitV()
   where
-    write(lv, v) --> _.
+    write(lv, v) --> _
 

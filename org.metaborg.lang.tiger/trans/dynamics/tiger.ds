@@ -29,4 +29,4 @@ rules
   Mod(e) -init-> v
   where
     E {} |- stdLib() :: H {} --> E' :: H';
-    E' |- e :: H' --> v.
+    E' |- e :: H' --> v

@@ -1,4 +1,4 @@
-module control-flow
+module dynamics/control-flow
 
 imports ds-signatures/Control-Flow-sig
 imports dynamics/base
@@ -15,11 +15,11 @@ signature
   
 rules
 
-  Seq(es) --> evalSeq(es).
+  Seq(es) --> evalSeq(es)
   
-  evalSeq([]) --> UnitV().  
+  evalSeq([]) --> UnitV()
   
-  evalSeq([v]) --> v.  
+  evalSeq([v]) --> v
   
   evalSeq([v | es@[_|_]]) --> v
   where
@@ -28,10 +28,10 @@ rules
         BreakV() => v
       otherwise =>
         evalSeq(es) --> v
-    }.
+    }
   
   
-  IfThen(e1, e2) --> If(e1, e2, Seq([])).
+  IfThen(e1, e2) --> If(e1, e2, Seq([]))
   
   If(IntV(i), e1, e2) --> v
   where
@@ -40,9 +40,9 @@ rules
         e2 --> v
       otherwise =>
         e1 --> v
-    }.
+    }
   
-  e@While(e1, e2) --> IfThen(e1, Breakable(e2, e)).
+  e@While(e1, e2) --> IfThen(e1, Breakable(e2, e))
   
   Breakable(v1, e2) --> v
   where
@@ -51,7 +51,7 @@ rules
         UnitV() => v
       otherwise =>
         e2 --> v
-    }.
+    }
   
   For(Var(x), e1, e2, e3) -->
     Let([VarDecNoType(x, e1),
@@ -60,7 +60,7 @@ rules
            e3,
            Assign(Var(x), Plus(Var(x), Int("1")))
          ]))])
-  where printI(fresh) : Id => end.  // capture?
+  where printI(fresh) : Id => end  // capture?
   
-  Break() --> BreakV().
+  Break() --> BreakV()
   

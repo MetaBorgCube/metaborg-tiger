@@ -1,4 +1,4 @@
-module predef
+module dynamics/predef
 
 imports ds-signatures/Tiger-sig
 imports dynamics/base
@@ -38,57 +38,57 @@ rules
     E6 |- bindVar("substring", ClosureV([FArg("s", Tid("string")), FArg("i1", Tid("int")), FArg("i2", Tid("int"))], nativeSubstringV(), E)) --> E7;
     E7 |- bindVar("concat",    ClosureV([FArg("s1", Tid("string")), FArg("s2", Tid("string"))], nativeConcatV(), E)) --> E8;
     E8 |- bindVar("getchar",   ClosureV([], nativeGetcharV(), E)) --> E9;
-    E9 |- bindVar("flush",     ClosureV([], nativeFlushV(), E)) --> E'.
+    E9 |- bindVar("flush",     ClosureV([], nativeFlushV(), E)) --> E'
   
   // predefined function reductions
   nativePrintV() --> UnitV()
   where
     read(lookup("s")) => StringV(s);
-    printS(s) => _.
+    printS(s) => _
 
   nativeOrdV() --> IntV(result)
   where
     read(lookup("s")) => StringV(s);
-    ordS(s) => result.
+    ordS(s) => result
 
   nativeChrV() --> StringV(result)
   where
     read(lookup("i")) => IntV(i);
-    chrI(i) => result.
+    chrI(i) => result
     
   nativeNotV() --> IntV(result)
   where
     read(lookup("i")) => IntV(i);
-    notI(i) => result.
+    notI(i) => result
   
   nativeExitV() --> UnitV()
   where
     read(lookup("i")) => IntV(i);
-    notI(i) => _.
+    notI(i) => _
     
   nativeSizeV() --> IntV(result)
   where
     read(lookup("s")) => StringV(s);
-    sizeS(s) => result.
+    sizeS(s) => result
   
   nativeSubstringV() --> StringV(result)
   where
     read(lookup("s")) => StringV(s);
     read(lookup("i1")) => IntV(i1);
     read(lookup("i2")) => IntV(i2);
-    substringSII(s, i1, i2) => result.
+    substringSII(s, i1, i2) => result
   
   nativeConcatV() --> StringV(result)
   where
     read(lookup("s1")) => StringV(s1);
     read(lookup("s2")) => StringV(s2);
-    concatS(s1, s2) => result.
+    concatS(s1, s2) => result
   
   nativeGetcharV() --> StringV(result)
   where
-    getcharS("") => result.
+    getcharS("") => result
   
   nativeFlushV() --> UnitV()
   where
-    flushS("") => _.
+    flushS("") => _
   

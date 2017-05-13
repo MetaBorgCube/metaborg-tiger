@@ -1,4 +1,4 @@
-module store
+module dynamics/store
 
 imports dynamics/values 
 
@@ -25,9 +25,9 @@ signature // environment
     
 rules
 
-  E |- lookup(x) --> E[x].
+  E |- lookup(x) --> E[x]
   
-  E |- bind(x, a) --> {x |--> a, E}.
+  E |- bind(x, a) --> {x |--> a, E}
   
 signature // heap
   sort aliases
@@ -41,12 +41,12 @@ signature // heap
     
 rules
 
-  read(a) :: H --> H[a].
+  read(a) :: H --> H[a]
   
-  write(a, v) :: H --> v :: H {a |--> v, H}.
+  write(a, v) :: H --> v :: H {a |--> v, H}
 
   allocate(v) --> a
   where
     fresh => a;
-    write(a, v) --> _.
+    write(a, v) --> _
     

@@ -1,4 +1,4 @@
-module values
+module dynamics/values
 
 signature
   sorts V

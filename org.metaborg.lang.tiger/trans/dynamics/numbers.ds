@@ -1,4 +1,4 @@
-module numbers
+module dynamics/numbers
 
 imports ds-signatures/Numbers-sig
 imports dynamics/base
@@ -10,22 +10,22 @@ signature
 
 rules // integers
 
-  Int(i) --> IntV(parseI(i)).
+  Int(i) --> IntV(parseI(i))
 
-  Uminus(e) --> Minus(Int("0"), e).
+  Uminus(e) --> Minus(Int("0"), e)
      
-  Plus(IntV(i), IntV(j)) --> IntV(addI(i, j)).  
+  Plus(IntV(i), IntV(j)) --> IntV(addI(i, j))  
      
-  Minus(IntV(i), IntV(j)) --> IntV(subI(i, j)).  
+  Minus(IntV(i), IntV(j)) --> IntV(subI(i, j))  
      
-  Times(IntV(i), IntV(j)) --> IntV(mulI(i, j)). 
+  Times(IntV(i), IntV(j)) --> IntV(mulI(i, j)) 
      
-  Divide(IntV(i), IntV(j)) --> IntV(divI(i, j)). 
+  Divide(IntV(i), IntV(j)) --> IntV(divI(i, j))
   
-  Lt(IntV(i), IntV(j)) --> IntV(ltI(i, j)).
+  Lt(IntV(i), IntV(j)) --> IntV(ltI(i, j))
   
-  Leq(IntV(i), IntV(j)) --> IntV(leqI(i, j)).
+  Leq(IntV(i), IntV(j)) --> IntV(leqI(i, j))
   
-  Gt(e1, e2) --> Lt(e2, e1).
+  Gt(e1, e2) --> Lt(e2, e1)
   
-  Geq(e1, e2) --> Leq(e2, e1).
+  Geq(e1, e2) --> Leq(e2, e1)

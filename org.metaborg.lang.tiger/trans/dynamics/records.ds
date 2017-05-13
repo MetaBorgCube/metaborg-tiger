@@ -1,4 +1,4 @@
-module records
+module dynamics/records
 
 imports ds-signatures/Records-sig
 imports dynamics/base
@@ -13,19 +13,19 @@ signature
     
 rules // records
   
-  NilExp() --> NilV(). 
+  NilExp() --> NilV()
   
   Record(_, fields) --> RecordV(E, fresh)  
-  where initFields(fields) --> E.
+  where initFields(fields) --> E
   
-  initFields([]) --> {}.
-  
+  initFields([]) --> {}
+ 
   initFields([InitField(f, v) | fields]) --> {f |--> a, E}
   where
-    allocate(v) --> a; initFields(fields) --> E.
+    allocate(v) --> a; initFields(fields) --> E
     
   FieldVar(lv, x) -lval-> a 
   where
-    read(lv) --> RecordV(E, _); E |- lookup(x) --> a.
+    read(lv) --> RecordV(E, _); E |- lookup(x) --> a
 
 

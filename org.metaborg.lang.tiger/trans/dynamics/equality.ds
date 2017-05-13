@@ -1,4 +1,4 @@
-module equality
+module dynamics/equality
 
 imports ds-signatures/Numbers-sig 
 imports dynamics/numbers
@@ -44,10 +44,11 @@ rules
           otherwise =>
             IntV(0) => v
         }     
-    }.
+    }
       
-  Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1")).
+  Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1"))
   
-  And(e1, e2) --> If(e1, e2, Int("0")).
+  And(e1, e2) --> If(e1, e2, Int("0"))
   
-  Or(e1, e2) --> If(e1, Int("1"), e2).
+  Or(e1, e2) --> If(e1, Int("1"), e2)
+  

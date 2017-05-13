@@ -1,4 +1,4 @@
-module bindings
+module dynamics/bindings
 
 imports ds-signatures/Bindings-sig
 imports dynamics/base
