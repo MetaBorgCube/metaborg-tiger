@@ -3,5 +3,5 @@ module test
 language Tiger
 
 test parse [[
-
+  1
 ]] parse succeeds

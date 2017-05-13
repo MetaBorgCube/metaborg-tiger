@@ -1,7 +1,6 @@
 module tiger-syntax
 
 language Tiger
-start symbol Exp
 
 test empty program [[
 42
