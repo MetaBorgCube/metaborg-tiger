@@ -55,11 +55,12 @@ def notifyBuild(String buildStatus) {
 
   if (buildStatus == 'Succeeded') {
     color = 'good'
+    slackSend (color: color, message: message, channel: '#spoofax-dev')
   } else if (buildStatus == 'Failed') {
     color = 'danger'
+    slackSend (color: color, message: message, channel: '#spoofax-dev')
   } else {
     color = '#4183C4' // Slack blue
   }
 
-  slackSend (color: color, message: message, channel: '#spoofax-dev')
 }
