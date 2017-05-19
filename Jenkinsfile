@@ -26,7 +26,7 @@ node {
 
     stage('Archive') {
       archiveArtifacts(
-        artifacts: 'org.metaborg.lang.tiger.eclipse.site/target/site'
+        artifacts: 'org.metaborg.lang.tiger.eclipse.site/target/site/'
       , excludes: null
       , onlyIfSuccessful: true
       )
