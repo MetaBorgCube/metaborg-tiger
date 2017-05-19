@@ -1,66 +1,87 @@
+// Keep artifacts for last 3 builds, disable concurrent builds, build when /metaborg/spoofax-releng/master job builds.
 properties([
-  pipelineTriggers([
-    upstream(
-      threshold: hudson.model.Result.SUCCESS,
-      upstreamProjects: '/metaborg/spoofax-releng/master' // build this project after Spoofax-master is built
-    )
-  ]),
-  buildDiscarder(logRotator(artifactNumToKeepStr: '3')),
-  disableConcurrentBuilds() //disableds parallel builds
+  buildDiscarder(logRotator(artifactNumToKeepStr: '3'))
+, disableConcurrentBuilds()
+, pipelineTriggers([upstream(threshold: hudson.model.Result.SUCCESS, upstreamProjects: '/metaborg/spoofax-releng/master')])
 ])
 
-node{
-  try{
-    notifyBuild('Started')
-
+node {
+  def slackChannel = '#spoofax-dev'
+  
+  try {
     stage('Checkout') {
       checkout scm
-      sh "git clean -fXd"
+      sh 'git clean -ddffxx'
     }
 
     stage('Build and Test') {
       withMaven(
-        //mavenLocalRepo: "${env.JENKINS_HOME}/m2repos/${env.EXECUTOR_NUMBER}", //http://yellowgrass.org/issue/SpoofaxWithCore/173
-        mavenLocalRepo: ".repository",
-        mavenOpts: '-Xmx1G -Xms1G -Xss16m'
-      ){
+        mavenLocalRepo: ".repository"
+      , globalMavenSettingsFilePath: ".mvn/settings.xml"
+      , mavenOpts: '-Xmx1G -Xms1G -Xss16m'
+      ) {
         sh 'mvn -B -U clean verify -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
       }
     }
 
     stage('Archive') {
       archiveArtifacts(
-        artifacts: 'tiger.eclipse.site/target/site/',
-        excludes: null,
-        onlyIfSuccessful: true
+        artifacts: 'org.metaborg.tiger.eclipse.site/target/site/'
+      , excludes: null
+      , onlyIfSuccessful: true
       )
     }
 
     stage('Cleanup') {
-      sh "git clean -fXd"
+      sh "git clean -ddffxx"
     }
-
-    notifyBuild('Succeeded')
-
-  } catch (e) {
-
-    notifyBuild('Failed')
+  } catch(org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
+    if(e.causes.size() == 0) {
+      throw e // No causes, signals abort.
+    } else {
+      notifyFail(slackChannel)
+      throw e
+    }
+  } catch(hudson.AbortException e) {
+    if(e.getMessage().contains('script returned exit code 143')) {
+      throw e // Exit code 143 means SIGTERM (process was killed), signals abort.
+    } else {
+      notifyFail(slackChannel)
+      throw e
+    }
+  } catch(e) {
+    notifyFail(slackChannel)
     throw e
-
   }
+  notifySuccess(slackChannel)
 }
 
-def notifyBuild(String buildStatus) {
-  def message = """${buildStatus}: ${env.JOB_NAME} [${env.BUILD_NUMBER}] ${env.BUILD_URL}"""
-
-  if (buildStatus == 'Succeeded') {
-    color = 'good'
-    slackSend (color: color, message: message, channel: '#spoofax-dev')
-  } else if (buildStatus == 'Failed') {
-    color = 'danger'
-    slackSend (color: color, message: message, channel: '#spoofax-dev')
-  } else {
-    color = '#4183C4' // Slack blue
+def createMessage(String message) {
+  return "${env.JOB_NAME} - ${env.BUILD_NUMBER} - ${message} (<${env.BUILD_URL}|Status> <${env.BUILD_URL}console|Console>)"
+}
+def notifyFail(String channel) {
+  if(!channel) {
+    return
   }
 
+  def prevBuild = currentBuild.getPreviousBuild()
+  if(prevBuild) {
+    if('SUCCESS'.equals(prevBuild.getResult())) {
+      slackSend channel: channel, color: 'danger', message: createMessage('failed')
+    } else {
+      slackSend channel: channel, color: 'danger', message: createMessage('still failing')
+    }
+  } else {
+    slackSend channel: channel, color: 'danger', message: createMessage('failed')
+  }
+}
+def notifySuccess(String channel) {
+  if(!channel) {
+    return
+  }
+
+  def prevBuild = currentBuild.getPreviousBuild()
+  if(prevBuild && !'SUCCESS'.equals(prevBuild.getResult())) {
+    slackSend channel: channel, color: 'good', message: createMessage('fixed')
+  }
 }
