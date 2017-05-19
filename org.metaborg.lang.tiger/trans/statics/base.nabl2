@@ -17,16 +17,16 @@ signature
   namespaces
     Type Var Field Loop
 
-signature     
-
-  constructors
-    UNIT   : Type
-    INT    : Type
-    STRING : Type
-    NIL    : Type
-    RECORD : scope -> Type
-    ARRAY  : Type * scope -> Type
-    FUN    : list(Type) * Type -> Type
+//signature     
+//
+//  constructors
+//    UNIT   : Type
+//    INT    : Type
+//    STRING : Type
+//    NIL    : Type
+//    RECORD : scope -> Type
+//    ARRAY  : Type * scope -> Type
+//    FUN    : list(Type) * Type -> Type
 
 rules
 
