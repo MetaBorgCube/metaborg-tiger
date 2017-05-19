@@ -7,7 +7,7 @@ properties([
 
 node {
   def slackChannel = '#spoofax-dev'
-  
+
   try {
     stage('Checkout') {
       checkout scm
@@ -26,7 +26,7 @@ node {
 
     stage('Archive') {
       archiveArtifacts(
-        artifacts: 'org.metaborg.tiger.eclipse.site/target/site/'
+        artifacts: 'org.metaborg.lang.tiger.eclipse.site/target/site'
       , excludes: null
       , onlyIfSuccessful: true
       )
