@@ -24,7 +24,7 @@ rules
     
   Array(_, IntV(i), v) --> ArrayV(I, fresh)
   where
-    initArray(0, i, v, {}) --> I.
+    initArray(0, i, v, {}) --> I
   
   initArray(i, j, v, I) --> I'
   where 
@@ -34,8 +34,8 @@ rules
         initArray(addI(i, 1), j, v, {i |--> a, I}) --> I'
       0 => 
         I => I'
-    }.
+    }
   
   getIndex(__Exp2Index__(e)) --> i
   where
-    e --> IntV(i).
+    e --> IntV(i)

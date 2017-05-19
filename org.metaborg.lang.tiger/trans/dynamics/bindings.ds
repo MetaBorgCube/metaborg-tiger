@@ -14,12 +14,12 @@ signature
     
 rules
 
-  readVar(x) --> read(lookup(x)).
+  readVar(x) --> read(lookup(x))
 
-  writeVar(x, v) --> write(lookup(x), v).
+  writeVar(x, v) --> write(lookup(x), v)
   
   E |- bindVar(x, v) --> {x |--> a, E}
-  where allocate(v) --> a.
+  where allocate(v) --> a
     
 signature
   arrows   
@@ -32,9 +32,9 @@ rules // bindings
   Let(decs, es) --> v 
   where 
     evalDecs(decs) --> E;
-    E |- evalSeq(es) --> v.
+    E |- evalSeq(es) --> v
         
-  E |- evalDecs([]) --> E.
+  E |- evalDecs([]) --> E
   
   evalDecs([dec | decs]) --> E'
-  where dec --> E; E |- evalDecs(decs) --> E'.
+  where dec --> E; E |- evalDecs(decs) --> E'
