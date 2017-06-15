@@ -2,6 +2,7 @@
 /target/
 src/main/resources/specification.aterm
 src/main/resources/parsetable.tbl
+src/main/resources/logback.xml
 src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated
 src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms
 src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms/build
@@ -9,7 +10,9 @@ src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms/m
 src/test/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/test
 /Tiger.launch
 /TestTiger.launch
+/Tiger (Core).launch
 /Tiger (Daemon).launch
+/Tiger-core
 /Tiger-server
 /Tiger-client
 /Tiger
