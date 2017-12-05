@@ -26,8 +26,14 @@ imports
   
 signature
   
+  sort aliases
+    Name = String
+  
   arrows
     Module -init-> V
+  
+  constructors
+    __Ty2Type__: Ty -> Type {implicit}
     
 rules
 
