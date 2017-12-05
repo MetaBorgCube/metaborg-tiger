@@ -14,9 +14,9 @@ signature
   constructors
     ClosureV : List(FArg) * Exp * Env -> V
   arrows
-    E |- funEnv(List(FunDec)) :: H --> Env :: H
-    E |- evalFuns(List(FunDec)) :: H --> Env :: H       
-    E |- evalArgs(List(FArg), List(Exp)) :: H --> Env :: H
+    E |- funEnv(List(FunDec)) :: Hh --> Env :: Hh
+    E |- evalFuns(List(FunDec)) :: Hh --> Env :: Hh     
+    E |- evalArgs(List(FArg), List(Exp)) :: Hh --> Env :: Hh
 
 rules // function definition
 
@@ -39,17 +39,17 @@ rules // function definition
 
 rules // function call
   
-  Call(f, args) --> v
+  Call(f, args) --> vv
   where
     readVar(f) --> ClosureV(params, e, E);
     evalArgs(params, args) --> E';
-    E {E', E} |- e --> v
+    E {E', E} |- e --> vv
     
   evalArgs([], []) --> {}
     
-  evalArgs([FArg(x, _) | args], [v | es]) --> {x |--> a, E}
+  evalArgs([FArg(x, _) | args], [vv | es]) --> {x |--> a, E}
   where 
-    allocate(v) --> a; 
+    allocate(vv) --> a; 
     evalArgs(args, es) --> E
     
 rules // procedure definition

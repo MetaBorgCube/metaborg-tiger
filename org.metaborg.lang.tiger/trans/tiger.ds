@@ -1,11 +1,9 @@
 module tiger
 
 imports ds-signatures/Tiger-sig
-
 imports dynamics/store
 imports dynamics/natives
 imports dynamics/base
-
 imports dynamics/bindings
 imports dynamics/variables
 imports dynamics/functions
@@ -16,9 +14,16 @@ imports dynamics/arrays
 imports dynamics/control-flow
 imports dynamics/types
 imports dynamics/predef
-
 imports dynamics/equality
 
+imports
+  nabl2/runtime/interpreter/scopegraph-api
+  nabl2/runtime/interpreter/scopegraph-impl
+  nabl2/runtime/interpreter/frame-api
+  nabl2/runtime/interpreter/frame-impl
+  nabl2/runtime/interpreter/util
+  utils
+  
 signature
   
   arrows
@@ -26,7 +31,9 @@ signature
     
 rules
 
-  Mod(e) -init-> v
+  m@Mod(e) -init-> vv
   where
-    E {} |- stdLib() :: H {} --> E' :: H';
-    E' |- e :: H' --> v
+    initNaBL2(m) --> NaBL2;
+    printTerm(NaBL2) --> _;
+    E {} |- stdLib() :: Hh {} --> E' :: Hh';
+    E' |- e :: Hh' --> vv

@@ -9,11 +9,11 @@ imports dynamics/arrays
 
 rules
 
-  VarDec(x, _, v) --> bindVar(x, v)
+  VarDec(x, _, vv) --> bindVar(x, vv)
   
-  VarDecNoType(x, v) --> bindVar(x, v)
+  VarDecNoType(x, vv) --> bindVar(x, vv)
   
-  __Var2LValue__(Var(x)) -lval-> lookup(x)
+  __Var2LValue__(Var(x)) -lval-> lookup_(x)
   
   Subscript(p, q) -lval-> map[i]
   where
@@ -22,11 +22,11 @@ rules
   
   __LValue2Exp__(lv : LValue) --> read(lv)
   
-  __LValue2Exp__(lv) --> v
+  __LValue2Exp__(lv) --> vv
   where 
-    lv -lval-> a; read(a) --> v
+    lv -lval-> a; read(a) --> vv
   
-  Assign(lv, v) --> UnitV()
+  Assign(lv, vv) --> UnitV()
   where
-    write(lv, v) --> _
+    write(lv, vv) --> _
 

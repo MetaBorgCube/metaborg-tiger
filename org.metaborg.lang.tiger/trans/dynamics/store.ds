@@ -19,21 +19,21 @@ signature // environment
   components 
     E : Env
   arrows
-    lookup(Id) --> Int
-    bind(Id, Int) --> Env
+    lookup_(Id) --> Int
+    bind_(Id, Int) --> Env
 
     
 rules
 
-  E |- lookup(x) --> E[x]
+  E |- lookup_(x) --> E[x]
   
-  E |- bind(x, a) --> {x |--> a, E}
+  E |- bind_(x, a) --> {x |--> a, E}
   
 signature // heap
   sort aliases
-    Heap = Map(Int, V)
+    Heaph = Map(Int, V)
   components
-    H : Heap   
+    Hh : Heaph 
   arrows
     read(Int) --> V
     allocate(V) --> Int
@@ -41,12 +41,12 @@ signature // heap
     
 rules
 
-  read(a) :: H --> H[a]
+  read(a) :: Hh --> Hh[a]
   
-  write(a, v) :: H --> v :: H {a |--> v, H}
+  write(a, vv) :: Hh --> vv :: Hh {a |--> vv, Hh}
 
-  allocate(v) --> a
+  allocate(vv) --> a
   where
     fresh => a;
-    write(a, v) --> _
+    write(a, vv) --> _
     

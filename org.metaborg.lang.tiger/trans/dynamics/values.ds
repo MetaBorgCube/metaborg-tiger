@@ -6,4 +6,4 @@ signature
     UnitV  : V   // Unit subtype of V?
     UndefV : V
   variables 
-    v : V   
+    vv : V

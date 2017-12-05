@@ -15,5 +15,8 @@ imports statics/variables
 
 rules // top-level module
 
+  init ^ (s) :=
+    new s.
+
   [[ Mod(e) ^ (s) : ty ]] :=
      [[ e ^ (s) : ty ]].

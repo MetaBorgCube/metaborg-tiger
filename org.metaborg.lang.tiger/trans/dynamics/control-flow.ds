@@ -11,7 +11,7 @@ signature
     BreakV : V
     Breakable : Exp * Exp -> Exp
   arrows
-    E |- evalSeq(List(Exp)) :: H --> V :: H
+    E |- evalSeq(List(Exp)) :: Hh --> V :: Hh
   
 rules
 
@@ -19,38 +19,38 @@ rules
   
   evalSeq([]) --> UnitV()
   
-  evalSeq([v]) --> v
+  evalSeq([vv]) --> vv
   
-  evalSeq([v | es@[_|_]]) --> v
+  evalSeq([vv | es@[_|_]]) --> vv
   where
-    case v of {
+    case vv of {
       BreakV() =>
-        BreakV() => v
+        BreakV() => vv
       otherwise =>
-        evalSeq(es) --> v
+        evalSeq(es) --> vv
     }
   
   
   IfThen(e1, e2) --> If(e1, e2, Seq([]))
   
-  If(IntV(i), e1, e2) --> v
+  If(IntV(i), e1, e2) --> vv
   where
     case i of {
       0 =>
-        e2 --> v
+        e2 --> vv
       otherwise =>
-        e1 --> v
+        e1 --> vv
     }
   
   e@While(e1, e2) --> IfThen(e1, Breakable(e2, e))
   
-  Breakable(v1, e2) --> v
+  Breakable(v1, e2) --> vv
   where
     case v1 of {
       BreakV() =>
-        UnitV() => v
+        UnitV() => vv
       otherwise =>
-        e2 --> v
+        e2 --> vv
     }
   
   For(Var(x), e1, e2, e3) -->

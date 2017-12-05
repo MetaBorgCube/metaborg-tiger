@@ -22,7 +22,7 @@ signature
     nativeFlushV     : Exp
   
   arrows
-    E |- stdLib() :: H --> Env :: H
+    E |- stdLib() :: Hh --> Env :: Hh
 
 rules
 
@@ -43,45 +43,45 @@ rules
   // predefined function reductions
   nativePrintV() --> UnitV()
   where
-    read(lookup("s")) => StringV(s);
+    read(lookup_("s")) => StringV(s);
     printS(s) => _
 
   nativeOrdV() --> IntV(result)
   where
-    read(lookup("s")) => StringV(s);
+    read(lookup_("s")) => StringV(s);
     ordS(s) => result
 
   nativeChrV() --> StringV(result)
   where
-    read(lookup("i")) => IntV(i);
+    read(lookup_("i")) => IntV(i);
     chrI(i) => result
     
   nativeNotV() --> IntV(result)
   where
-    read(lookup("i")) => IntV(i);
+    read(lookup_("i")) => IntV(i);
     notI(i) => result
   
   nativeExitV() --> UnitV()
   where
-    read(lookup("i")) => IntV(i);
+    read(lookup_("i")) => IntV(i);
     notI(i) => _
     
   nativeSizeV() --> IntV(result)
   where
-    read(lookup("s")) => StringV(s);
+    read(lookup_("s")) => StringV(s);
     sizeS(s) => result
   
   nativeSubstringV() --> StringV(result)
   where
-    read(lookup("s")) => StringV(s);
-    read(lookup("i1")) => IntV(i1);
-    read(lookup("i2")) => IntV(i2);
+    read(lookup_("s")) => StringV(s);
+    read(lookup_("i1")) => IntV(i1);
+    read(lookup_("i2")) => IntV(i2);
     substringSII(s, i1, i2) => result
   
   nativeConcatV() --> StringV(result)
   where
-    read(lookup("s1")) => StringV(s1);
-    read(lookup("s2")) => StringV(s2);
+    read(lookup_("s1")) => StringV(s1);
+    read(lookup_("s2")) => StringV(s2);
     concatS(s1, s2) => result
   
   nativeGetcharV() --> StringV(result)

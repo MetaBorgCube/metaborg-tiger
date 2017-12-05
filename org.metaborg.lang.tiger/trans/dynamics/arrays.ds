@@ -22,16 +22,16 @@ signature
 
 rules
     
-  Array(_, IntV(i), v) --> ArrayV(I, fresh)
+  Array(_, IntV(i), vv) --> ArrayV(I, fresh)
   where
-    initArray(0, i, v, {}) --> I
+    initArray(0, i, vv, {}) --> I
   
-  initArray(i, j, v, I) --> I'
+  initArray(i, j, vv, I) --> I'
   where 
     case ltI(i, j) of {
       1 => 
-        allocate(v) --> a;
-        initArray(addI(i, 1), j, v, {i |--> a, I}) --> I'
+        allocate(vv) --> a;
+        initArray(addI(i, 1), j, vv, {i |--> a, I}) --> I'
       0 => 
         I => I'
     }
