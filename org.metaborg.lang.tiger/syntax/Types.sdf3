@@ -2,6 +2,7 @@ module Types
 
 imports Identifiers
 imports Bindings
+imports Occurrences
 
 sorts Type 
 
@@ -10,11 +11,13 @@ context-free syntax // type declarations
   Dec.TypeDecs = <<{TypeDec "\n"}+>> {longest-match}
   
   TypeDec.TypeDec = <type <Id> = <Type>> 
+  TypeDec.TypeDec_ = <type <Occurrence> = <Type>> 
   
 context-free syntax // type expressions
 
   Type = TypeId 
   TypeId.Tid  = Id 
+  TypeId.Tid_  = Occurrence 
   
 sorts Ty
 context-free syntax // semantic types

@@ -16,24 +16,11 @@ imports dynamics/types
 imports dynamics/predef
 imports dynamics/equality
 
-imports
-  nabl2/runtime/interpreter/scopegraph-api
-  nabl2/runtime/interpreter/scopegraph-impl
-  nabl2/runtime/interpreter/frame-api
-  nabl2/runtime/interpreter/frame-impl
-  nabl2/runtime/interpreter/util
-  utils
+imports dynamics/nabl2-link
   
 signature
-  
-  sort aliases
-    Name = String
-  
   arrows
     Module -init-> V
-  
-  constructors
-    __Ty2Type__: Ty -> Type {implicit}
     
 rules
 

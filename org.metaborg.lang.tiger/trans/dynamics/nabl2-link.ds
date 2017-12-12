@@ -1,0 +1,19 @@
+module dynamics/nabl2-link
+
+imports imports ds-signatures/Tiger-sig
+
+imports
+  nabl2/runtime/interpreter/util
+  nabl2/runtime/interpreter/frame-api
+  nabl2/runtime/interpreter/frame-impl
+  nabl2/runtime/interpreter/scopegraph-api
+  nabl2/runtime/interpreter/scopegraph-impl
+  utils
+
+signature
+  sort aliases
+    Name = Id
+
+  constructors
+    __Ty2Type__: Ty -> Type {implicit}
+    

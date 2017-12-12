@@ -2,6 +2,7 @@ module Functions
 
 imports Identifiers
 imports Types
+imports Occurrences
 
 context-free syntax
 
@@ -12,11 +13,25 @@ context-free syntax
       <Exp>
   >
   
+  FunDec.ProcDec_ = <
+    function <Occurrence>(<{FArg ", "}*>) = 
+      <Exp>
+  >
+  
   FunDec.FunDec = <
     function <Id>(<{FArg ", "}*>) : <Type> = 
+      <Exp>
+  >
+
+  FunDec.FunDec_ = <
+    function <Occurrence>(<{FArg ", "}*>) : <Type> = 
       <Exp>
   >
   
   FArg.FArg = <<Id> : <Type>>
   
+  FArg.FArg_ = <<Occurrence> : <Type>>
+  
   Exp.Call = <<Id>(<{Exp ", "}*>)> 
+  
+  Exp.Call_ = <<Occurrence>(<{Exp ", "}*>)> 
