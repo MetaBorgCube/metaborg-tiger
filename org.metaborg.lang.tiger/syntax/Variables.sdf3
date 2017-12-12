@@ -1,6 +1,5 @@
 module Variables
 
-imports Identifiers
 imports Types
 imports Occurrences
 
@@ -8,14 +7,11 @@ sorts Var
 
 context-free syntax
   
-  Dec.VarDec = <var <Id> : <Type> := <Exp>> 
-  Dec.VarDec_ = <var <Occurrence> : <Type> := <Exp>> 
+  Dec.VarDec = <var <Occ> : <Type> := <Exp>> 
   
-  Dec.VarDecNoType = <var <Id> := <Exp>> 
-  Dec.VarDecNoType_ = <var <Occurrence> := <Exp>> 
+  Dec.VarDecNoType = <var <Occ> := <Exp>> 
 
-  Var.Var = Id 
-  Var.Var_ = Occurrence 
+  Var.Var = Occ 
   
   LValue = Var 
   

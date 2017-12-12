@@ -1,6 +1,5 @@
 module Types
 
-imports Identifiers
 imports Bindings
 imports Occurrences
 
@@ -10,14 +9,12 @@ context-free syntax // type declarations
    
   Dec.TypeDecs = <<{TypeDec "\n"}+>> {longest-match}
   
-  TypeDec.TypeDec = <type <Id> = <Type>> 
-  TypeDec.TypeDec_ = <type <Occurrence> = <Type>> 
+  TypeDec.TypeDec = <type <Occ> = <Type>> 
   
 context-free syntax // type expressions
 
   Type = TypeId 
-  TypeId.Tid  = Id 
-  TypeId.Tid_  = Occurrence 
+  TypeId.Tid  = Occ 
   
 sorts Ty
 context-free syntax // semantic types
@@ -26,7 +23,7 @@ context-free syntax // semantic types
   Ty.STRING   = <STRING> 
   Ty.NIL      = <NIL> 
   Ty.UNIT     = <UNIT> 
-  Ty.NAME     = <NAME <Id>> 
-  Ty.RECORD   = <RECORD <Id>>
-  Ty.ARRAY    = <ARRAY <Ty> <Id>> 
+  Ty.NAME     = <NAME <Occ>> 
+  Ty.RECORD   = <RECORD <Occ>>
+  Ty.ARRAY    = <ARRAY <Ty> <Occ>> 
   Ty.FUN      = <FUN ( <{Ty ","}*> ) <Ty>> 
