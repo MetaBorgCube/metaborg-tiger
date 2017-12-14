@@ -17,3 +17,6 @@ signature
   constructors
     __Ty2Type__: Ty -> Type {implicit}
     
+  constructors
+    __Occurrence2Occ__: Occurrence -> Occ {implicit}
+    

@@ -19,4 +19,6 @@ menus
   
     action: "Desugar"       = editor-desugar (source)
     action: "Desugar AST"   = editor-desugar-ast (source)
+    action: "Make Occurrences" = editor-transform-occurrences
+    action: "Show analyzed AST" = debug-show-analyzed
   

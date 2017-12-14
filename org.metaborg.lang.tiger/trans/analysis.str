@@ -24,3 +24,8 @@ rules // Debugging
   debug-show-analyzed: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"analyzed.aterm")> path
        ; result   := selected
+
+rules
+
+  editor-transform-occurrences: (selected, _, _, path, _) -> <alltd(nabl2--transform-occurrences)> selected
+  

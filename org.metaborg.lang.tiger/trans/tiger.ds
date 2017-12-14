@@ -26,6 +26,7 @@ rules
 
   m@Mod(e) -init-> vv
   where
+    printTerm(m) --> _;
     initNaBL2(m) --> NaBL2;
     printTerm(NaBL2) --> _;
     E {} |- stdLib() :: Hh {} --> E' :: Hh';

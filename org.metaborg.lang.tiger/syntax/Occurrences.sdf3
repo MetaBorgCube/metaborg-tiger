@@ -2,8 +2,8 @@ module Occurrences
 
 imports Identifiers
 
-sorts
-  Occurrence
+//sorts
+//  Occurrence
 
 context-free syntax
   
