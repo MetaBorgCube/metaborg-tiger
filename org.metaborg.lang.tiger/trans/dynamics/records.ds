@@ -20,11 +20,11 @@ rules // records
   
   initFields([]) --> {}
  
-  initFields([InitField(f, vv) | fields]) --> {f |--> a, E}
+  initFields([InitField(f : Id, vv) | fields]) --> {f |--> a, E}
   where
     allocate(vv) --> a; initFields(fields) --> E
     
-  FieldVar(lv, x) -lval-> a 
+  FieldVar(lv, x : Id) -lval-> a 
   where
     read(lv) --> RecordV(E, _); E |- lookup_(x) --> a
 
