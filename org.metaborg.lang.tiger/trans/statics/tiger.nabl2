@@ -13,6 +13,12 @@ imports statics/types
 imports statics/variables
 //imports statics/equality
 
+signature
+
+  constraint generator
+    [[ Module ^ (scope) ]]
+    [[ Exp ^ (scope) ]]
+
 rules // top-level module
 
   init ^ (s) :=

@@ -15,19 +15,30 @@ imports dynamics/control-flow
 imports dynamics/types
 imports dynamics/predef
 imports dynamics/equality
+imports nabl2/statics/tiger
 
 imports dynamics/nabl2-link
   
 signature
   arrows
     Module -init-> V
+    Module --> V
     
 rules
 
-  m@Mod(e) -init-> vv
+  ast@Mod(_) -init-> vv
   where
-    printTerm(m) --> _;
-    initNaBL2(m) --> NaBL2;
-    printTerm(NaBL2) --> _;
-    E {} |- stdLib() :: Hh {} --> E' :: Hh';
-    E' |- e :: Hh' --> vv
+    initNaBL2(ast) --> NaBL2;
+                      printTerm(NaBL2) --> _;
+    initHeap(ast) --> H;
+                      printTerm(H) --> _;
+    NaBL2 |- ast :: H --> vv
+
+  m@Mod(e) --> vv
+  where
+    m -paramsOf-> s;
+      printScope(s) --> _;
+    initDefault(s, {}) --> F;
+      printFrame(F) --> _;
+//    E {} |- stdLib() :: Hh {} --> E' :: Hh'
+    E {} |- e :: Hh {} --> vv
