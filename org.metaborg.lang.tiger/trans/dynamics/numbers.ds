@@ -3,10 +3,14 @@ module dynamics/numbers
 imports ds-signatures/Numbers-sig
 imports dynamics/base
 imports dynamics/natives
+imports dynamics/nabl2-link
 
 signature
   constructors
     IntV : Int -> V 
+
+rules
+  default(INT()) --> IntV(0)
 
 rules // integers
 

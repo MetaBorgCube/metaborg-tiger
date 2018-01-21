@@ -31,22 +31,15 @@ signature
 
 rules // bindings
   
-  l@Let(decs, es) --> vv
+  F |- l@Let(decs, es) --> vv
   where
-    printScope(bodyScope(l)) --> _;
-    evalDecs(decs) --> E;
+    bodyScope(l) --> s';
+    DefaultSlots(declsOf(s')) --> slots;
+    initFrame(s', { P() |--> { scopeOf(F):Scope |--> F }}, slots) --> F';
+    printFrame(F') --> _;
+    F' |- evalDecs(decs) --> E;
     E |- evalSeq(es) --> vv
   
-//  ast@Let(decs, es) --> vv 
-//  where
-//    ast -paramsOf-> s;
-//      printScope(s) --> _;
-//    es => [e];
-//    e -paramsOf-> s';
-//      printScope(s') --> _;
-//    evalDecs(decs) --> E;
-//    E |- evalSeq(es) --> vv
-        
   E |- evalDecs([]) --> E
   
   evalDecs([dec | decs]) --> E'

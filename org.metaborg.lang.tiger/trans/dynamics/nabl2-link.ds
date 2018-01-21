@@ -12,6 +12,7 @@ imports
 
 signature
   sort aliases
+    Val = V
     Name = Id
 
   constructors
