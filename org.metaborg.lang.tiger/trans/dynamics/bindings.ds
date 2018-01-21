@@ -3,6 +3,8 @@ module dynamics/bindings
 imports ds-signatures/Bindings-sig
 imports dynamics/base
 imports dynamics/store
+imports dynamics/nabl2-link
+imports nabl2/statics/tiger
 
 // binding values to identifiers
 
@@ -29,8 +31,13 @@ signature
 
 rules // bindings
   
-  Let(decs, es) --> vv 
-  where 
+  ast@Let(decs, es) --> vv 
+  where
+    ast -paramsOf-> s;
+      printScope(s) --> _;
+    es => [e];
+    e -paramsOf-> s';
+      printScope(s') --> _;
     evalDecs(decs) --> E;
     E |- evalSeq(es) --> vv
         

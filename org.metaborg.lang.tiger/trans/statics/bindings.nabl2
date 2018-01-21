@@ -30,8 +30,9 @@ rules // let
     end
   */
 
-  [[ Let(blocks, exps) ^ (s) : ty ]] :=
+  [[ l@Let(blocks, exps) ^ (s) : ty ]] :=
      new s_body,
+//     l.bodyScope := s_body,
      Decs[[ blocks ^ (s, s_body) ]],
      Seq[[ exps ^ (s_body) : ty ]],
      distinct D(s_body).

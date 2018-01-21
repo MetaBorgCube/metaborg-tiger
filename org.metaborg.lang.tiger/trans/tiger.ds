@@ -26,19 +26,14 @@ signature
     
 rules
 
-  ast@Mod(_) -init-> vv
+  mod@Mod(_) -init-> vv
   where
-    initNaBL2(ast) --> NaBL2;
-                      printTerm(NaBL2) --> _;
-    initHeap(ast) --> H;
-                      printTerm(H) --> _;
-    NaBL2 |- ast :: H --> vv
+    initNaBL2(mod) --> NaBL2;
+    initHeap(mod) --> H;
+    NaBL2 |- mod :: H --> vv
 
-  m@Mod(e) --> vv
+  mod@Mod(e) --> vv
   where
-    m -paramsOf-> s;
-      printScope(s) --> _;
-    initDefault(s, {}) --> F;
-      printFrame(F) --> _;
+    mod -paramsOf-> s;
 //    E {} |- stdLib() :: Hh {} --> E' :: Hh'
-    E {} |- e :: Hh {} --> vv
+    F initDefault(s, {}), E {} |- e :: Hh {} --> vv
