@@ -31,15 +31,21 @@ signature
 
 rules // bindings
   
-  ast@Let(decs, es) --> vv 
+  l@Let(decs, es) --> vv
   where
-    ast -paramsOf-> s;
-      printScope(s) --> _;
-    es => [e];
-    e -paramsOf-> s';
-      printScope(s') --> _;
+    printScope(bodyScope(l)) --> _;
     evalDecs(decs) --> E;
     E |- evalSeq(es) --> vv
+  
+//  ast@Let(decs, es) --> vv 
+//  where
+//    ast -paramsOf-> s;
+//      printScope(s) --> _;
+//    es => [e];
+//    e -paramsOf-> s';
+//      printScope(s') --> _;
+//    evalDecs(decs) --> E;
+//    E |- evalSeq(es) --> vv
         
   E |- evalDecs([]) --> E
   

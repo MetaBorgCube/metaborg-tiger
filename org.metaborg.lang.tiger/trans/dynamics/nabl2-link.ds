@@ -19,6 +19,16 @@ signature
     
   constructors
     __Occurrence2Occ__: Occurrence -> Occ {implicit}
+    
+  native operators
+    nabl2_bodyScopeOfAST: AST -> Scope
+  
+  arrows
+    bodyScope(AST) --> Scope
+
+rules
+
+  bodyScope(ast) --> nabl2_bodyScopeOfAST(ast)
 
 /* DEBUGGING HELPERS */
 
