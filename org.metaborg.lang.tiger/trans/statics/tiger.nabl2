@@ -18,6 +18,7 @@ signature
   constraint generator
     [[ Module ^ (scope) ]]
     [[ Exp ^ (scope) ]]
+    [[ Dec ^ (scope, scope) ]]
 
 rules // top-level module
 

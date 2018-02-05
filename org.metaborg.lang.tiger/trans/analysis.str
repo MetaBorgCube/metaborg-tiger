@@ -5,7 +5,7 @@ imports
   nabl2shared
   nabl2runtime
   
-  statics/tiger
+  nabl2/statics/tiger
 
   pp
 
@@ -27,5 +27,11 @@ rules // Debugging
 
 rules
 
-  editor-transform-occurrences: (selected, _, _, path, _) -> <alltd(nabl2--transform-occurrences)> selected
-  
+  editor-transform-occurrences: (selected, _, _, path, _) -> (filename, result)
+  with
+    filename := <guarantee-extension(|"aterm")> path;
+    result := <bottomup(try(preserve-annos(nabl2--transform-occurrences)))> selected
+
+
+
+ 

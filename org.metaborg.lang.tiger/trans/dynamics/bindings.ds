@@ -13,21 +13,26 @@ signature
     readVar(Id) --> V
     writeVar(Id, V) --> V
     bindVar(Id, V) --> Env 
-    
-rules
-
-  readVar(x) --> read(lookup_(x))
-
-  writeVar(x, vv) --> write(lookup_(x), vv)
-  
-  E |- bindVar(x, vv) --> {x |--> a, E}
-  where allocate(vv) --> a
+//    
+//rules
+//
+//  readVar(x) --> read(lookup_(x))
+//
+//  writeVar(x, vv) --> write(lookup_(x), vv)
+//  
+//  E |- bindVar(x, vv) --> {x |--> a, E}
+//  where allocate(vv) --> a
     
 signature
+  sorts U
+  constructors U: U
   arrows   
-    Dec --> Env
-    evalDecs(List(Dec)) --> Env 
+    Dec --> U
+    evalDecs(List(Dec)) --> U
     evalSeq(List(Exp)) --> V
+
+  components
+    FS: (Frame * Frame)
 
 rules // bindings
   
@@ -35,12 +40,24 @@ rules // bindings
   where
     bodyScope(l) --> s';
     DefaultSlots(declsOf(s')) --> slots;
-    initFrame(s', { P() |--> { scopeOf(F):Scope |--> F }}, slots) --> F';
-    printFrame(F') --> _;
-    F' |- evalDecs(decs) --> E;
-    E |- evalSeq(es) --> vv
+    initFrame(s', { P() |--> { scopeOf(F) : Scope |--> F }}, slots) --> F_body;
+    FS (F, F_body) |- evalDecs(decs) --> _;
+    F_body |- evalSeq(es) --> vv
   
-  E |- evalDecs([]) --> E
+  evalDecs([]) --> U()
   
-  evalDecs([dec | decs]) --> E'
-  where dec --> E; E |- evalDecs(decs) --> E'
+  FS (F_outer, F_body) |- evalDecs([dec]) --> U()
+  where
+    FS (F_body, F_outer) |- dec --> _
+  
+  FS (F_outer, F_body) |- evalDecs([d@dec | decs@[_|_]]) --> U()
+  where
+    bodyScope(d) --> s_dec;
+    DefaultSlots(declsOf(s_dec)) --> slots;
+    initFrame(s_dec, { P() |--> { scopeOf(F_outer) : Scope |--> F_outer}}, slots) --> F_dec;
+    FS (F_dec, F_outer) |- dec --> _;
+    FS (F_dec, F_body) |- evalDecs(decs) --> _
+
+    
+    
+    
