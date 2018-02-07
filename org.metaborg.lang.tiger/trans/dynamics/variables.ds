@@ -17,12 +17,8 @@ rules
 
   __LValue2Exp__(__Var2LValue__(Var(x : Occurrence))) --> get(addr)
   where
-    printTerm(x) --> _;
     pathOf(x) --> p;
-    printTerm(String("")) --> _;
-    lookup(p) --> addr;
-    printTerm(addr) --> _;
-    printTerm(String("--------------")) --> _
+    lookup(p) --> addr
     
 
 //  VarDec(x, _, vv) --> bindVar(x, vv)

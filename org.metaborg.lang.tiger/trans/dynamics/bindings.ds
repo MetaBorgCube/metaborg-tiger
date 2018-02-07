@@ -38,16 +38,19 @@ rules // bindings
   
   F |- l@Let(decs, es) --> vv
   where
-    bodyScope(l) --> s';
-    DefaultSlots(declsOf(s')) --> slots;
-    initFrame(s', { P() |--> { scopeOf(F) : Scope |--> F }}, slots) --> F_body;
+    bodyScope(l) --> s_body;
+    DefaultSlots(declsOf(s_body)) --> slots;
+    initFrame(s_body, {}, slots) --> F_body;
     FS (F, F_body) |- evalDecs(decs) --> _;
     F_body |- evalSeq(es) --> vv
   
-  evalDecs([]) --> U()
+  FS (F_outer, F_body) |- evalDecs([]) --> U()
+  where
+    addLink(F_body, P(), scopeOf(F_outer) : Scope, F_outer) --> _
   
   FS (F_outer, F_body) |- evalDecs([dec]) --> U()
   where
+    addLink(F_body, P(), scopeOf(F_outer) : Scope, F_outer) --> _;
     FS (F_body, F_outer) |- dec --> _
   
   FS (F_outer, F_body) |- evalDecs([d@dec | decs@[_|_]]) --> U()

@@ -20,10 +20,10 @@ signature
 
 rules // function definition
 
-  FunDecs(fds) --> E
-  where 
-    funEnv(fds) --> E; 
-    E |- evalFuns(fds) --> _ 
+//  FunDecs(fds) --> E
+//  where 
+//    funEnv(fds) --> E; 
+//    E |- evalFuns(fds) --> _ 
   
   E |- funEnv([]) --> E
   
