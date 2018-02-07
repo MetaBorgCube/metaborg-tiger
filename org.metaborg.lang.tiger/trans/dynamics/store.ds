@@ -1,13 +1,26 @@
 module dynamics/store
 
-imports dynamics/values 
+imports
+  dynamics/values
+  dynamics/nabl2-link
 
-signature // lvalue 
-  sorts LValue
-  arrows  
-    LValue -lval-> Int
+signature
+  sorts
+    LValue
+    
+  arrows
+    LValue -lvalf-> Addr
+
   variables
     lv : LValue
+
+
+signature // lvalue 
+//  sorts LValue
+  arrows  
+    LValue -lval-> Int
+//  variables
+//    lv : LValue
     
 signature // environment
   sorts Id
@@ -25,9 +38,9 @@ signature // environment
     
 rules
 
-  E |- lookup_(x) --> E[x]
-  
-  E |- bind_(x, a) --> {x |--> a, E}
+//  E |- lookup_(x) --> E[x]
+//  
+//  E |- bind_(x, a) --> {x |--> a, E}
   
 signature // heap
   sort aliases
@@ -39,14 +52,14 @@ signature // heap
     allocate(V) --> Int
     write(Int, V) --> V
     
-rules
-
-  read(a) :: Hh --> Hh[a]
-  
-  write(a, vv) :: Hh --> vv :: Hh {a |--> vv, Hh}
-
-  allocate(vv) --> a
-  where
-    fresh => a;
-    write(a, vv) --> _
+//rules
+//
+//  read(a) :: Hh --> Hh[a]
+//  
+//  write(a, vv) :: Hh --> vv :: Hh {a |--> vv, Hh}
+//
+//  allocate(vv) --> a
+//  where
+//    fresh => a;
+//    write(a, vv) --> _
     

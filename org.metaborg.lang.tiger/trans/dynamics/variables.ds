@@ -14,29 +14,19 @@ rules
     F_outer |- e --> v;
     set(Addr(F, x), v) --> _
   
-
-  __LValue2Exp__(__Var2LValue__(Var(x : Occurrence))) --> get(addr)
-  where
-    pathOf(x) --> p;
-    lookup(p) --> addr
-    
-
+  __LValue2Exp__(lv : LValue) --> get(lv)
+  
 //  VarDec(x, _, vv) --> bindVar(x, vv)
-//  
-//  VarDecNoType(x, vv) --> bindVar(x, vv)
-//  
-//  __Var2LValue__(Var(x : Id)) -lval-> lookup_(x)
+
+  __Var2LValue__(Var(x : Occurrence)) -lvalf-> lookup(p)
+  where
+    pathOf(x) --> p
+    
 //  
 //  Subscript(p, q) -lval-> map[i]
 //  where
 //    getIndex(q) --> i;
 //    read(p) --> ArrayV(map, _)
-//  
-//  __LValue2Exp__(lv : LValue) --> read(lv)
-  
-//  __LValue2Exp__(lv) --> vv
-//  where 
-//    lv -lval-> a; read(a) --> vv
 //  
 //  Assign(lv, vv) --> UnitV()
 //  where
