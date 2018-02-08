@@ -33,7 +33,7 @@ rules // function definition
   where
     fdec(fd) --> U()
   
-  FS (F, F_outer) : (Frame * Frame) |- fdec(d@FunDec(x : Occurrence, args, _, e)) --> U()
+  FS (F, _) : (Frame * Frame) |- fdec(d@FunDec(x : Occurrence, args, _, e)) --> U()
   where
     bodyScope(d) --> s_fun;
     initFrame(s_fun, { P() |--> { scopeOf(F) : Scope |--> F}}, {}) --> F_fun;
@@ -53,59 +53,6 @@ rules // function definition
     set(mkAddr(F_fun, x), vv) --> _
     
 
-  //  Call(f : Id, args) --> vv
-//  where
-//    readVar(f) --> ClosureV(params, e, E);
-//    evalArgs(params, args) --> E';
-//    E {E', E} |- e --> vv
-//    
-//  evalArgs([], []) --> {}
-//    
-//  evalArgs([FArg(x : Id, _) | args], [vv | es]) --> {x |--> a, E}
-//  where 
-//    allocate(vv) --> a; 
-//    evalArgs(args, es) --> E
-
-//  FunDecs([]) --> U()
-//  
-//  FunDecs([fd | fds]) --> U()
-//  where
-//    fd --> _;
-//    FunDecs(fds) --> _
-    
-
-//  FunDecs(fds) --> E
-//  where 
-//    funEnv(fds) --> E; 
-//    E |- evalFuns(fds) --> _ 
-//  
-//  E |- funEnv([]) --> E
-//  
-//  funEnv([FunDec(f : Id, _, _, _) | fds]) --> E
-//  where 
-//    E bindVar(f, UndefV()) |- funEnv(fds) --> E
-//  
-//  E |- evalFuns([]) --> E
-//  
-//  E |- evalFuns([FunDec(f : Id, args, _, e) | fds]) --> evalFuns(fds)
-//  where 
-//    writeVar(f, ClosureV(args, e, E)) --> _
-//
-//rules // function call
-//  
-//  Call(f : Id, args) --> vv
-//  where
-//    readVar(f) --> ClosureV(params, e, E);
-//    evalArgs(params, args) --> E';
-//    E {E', E} |- e --> vv
-//    
-//  evalArgs([], []) --> {}
-//    
-//  evalArgs([FArg(x : Id, _) | args], [vv | es]) --> {x |--> a, E}
-//  where 
-//    allocate(vv) --> a; 
-//    evalArgs(args, es) --> E
-//    
 //rules // procedure definition
 // 
 //  funEnv([ProcDec(f : Id, _, _) | fds]) --> E
