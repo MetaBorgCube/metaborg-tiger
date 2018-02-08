@@ -14,9 +14,9 @@ rules
     F_outer |- e --> v;
     set(Addr(F, x), v) --> _
   
-  __LValue2Exp__(lv : LValue) --> get(lv)
+  __LValue2Exp__(lv) --> get(lv)
   
-//  VarDec(x, _, vv) --> bindVar(x, vv)
+  VarDec(x, _, e) --> VarDecNoType(x, e)
 
   __Var2LValue__(Var(x : Occurrence)) -lvalf-> lookup(p)
   where
@@ -28,7 +28,8 @@ rules
 //    getIndex(q) --> i;
 //    read(p) --> ArrayV(map, _)
 //  
-//  Assign(lv, vv) --> UnitV()
+//  F |- Assign(lv, vv) --> UnitV()
 //  where
-//    write(lv, vv) --> _
+//    set(Addr(F, lv), vv) --> _
+
 

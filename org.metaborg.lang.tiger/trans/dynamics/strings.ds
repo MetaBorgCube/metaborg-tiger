@@ -11,6 +11,8 @@ signature
     
 rules
  
+  default(STRING()) --> UndefV()
+ 
   String(s) --> StringV(s')
   where
     unescapeS(s) => s'

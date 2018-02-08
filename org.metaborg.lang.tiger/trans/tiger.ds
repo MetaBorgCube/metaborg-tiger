@@ -35,8 +35,8 @@ rules
   mod@Mod(e) --> vv
   where
     mod -paramsOf-> scope;
-//    DefaultSlots(declsOf(scope)) --> slots;
-//    initFrame(scope, {}, slots) --> F;
-    initFrame(scope, {}, {}) --> F;
+    DefaultSlots(declsOf(scope)) --> slots;
+    initFrame(scope, {}, slots) --> F;
+//    initFrame(scope, {}, {}) --> F;
 //    E {} |- stdLib() :: Hh {} --> E' :: Hh'
     F, E {} |- e :: Hh {} --> vv

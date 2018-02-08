@@ -18,6 +18,10 @@ signature
     E |- evalFuns(List(FunDec)) :: Hh --> Env :: Hh     
     E |- evalArgs(List(FArg), List(Exp)) :: Hh --> Env :: Hh
 
+rules // 
+
+  default(FUN(_, _)) --> UndefV()
+  
 rules // function definition
 
 //  FunDecs(fds) --> E
