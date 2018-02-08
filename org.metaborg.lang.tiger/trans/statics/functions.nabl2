@@ -24,10 +24,11 @@ rules // function declarations
      Var{f} : FUN(tys, UNIT()) !, 
      [[ e ^ (s_fun) : UNIT() ]].
         
-  [[ FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
+  [[ d@FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
 //     Args[[ args ^ (s_fun, s_outer) : tys ]], 
-     new s_fun,      
-     s_fun -P-> s,   
+     new s_fun,
+     @d.bodyScope := s_fun,
+     s_fun -P-> s,
      distinct/name D(s_fun) | error $[duplicate argument] @ NAMES, 
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
 //
