@@ -16,7 +16,6 @@ signature
   arrows
     fdecs(List(FunDec)) --> U
     fdec(FunDec) --> U
-//    E |- evalFuns(List(FunDec)) :: Hh --> Env :: Hh     
     evalArgs(List(FArg), List(Exp), Frame) --> U
 
 rules // 
@@ -51,15 +50,13 @@ rules // function definition
   evalArgs([FArg(x : Occurrence, _) | args], [vv | es], F_fun) --> evalArgs(args, es, F_fun)
   where
     set(mkAddr(F_fun, x), vv) --> _
-    
+  
 
-//rules // procedure definition
-// 
-//  funEnv([ProcDec(f : Id, _, _) | fds]) --> E
-//  where 
-//    E bindVar(f, UndefV()) |- funEnv(fds) --> E
-// 
-//  E |- evalFuns([ProcDec(f : Id, args, e) | fds]) --> evalFuns(fds)
-//  where 
-//    writeVar(f, ClosureV(args, e, E)) --> _
-    
+rules // procedure definition
+  
+  FS (F, _) : (Frame * Frame) |- fdec(d@ProcDec(x : Occurrence, args, e)) --> U()
+  where
+    bodyScope(d) --> s_fun;
+    initFrame(s_fun, { P() |--> { scopeOf(F) : Scope |--> F}}, {}) --> F_fun;
+    set(Addr(F, x), ClosureV(args, e, F_fun))  --> _
+
