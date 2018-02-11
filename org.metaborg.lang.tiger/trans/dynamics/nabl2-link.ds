@@ -16,6 +16,9 @@ signature
     Val = V
     Name = Id
 
+  components
+    T : Module
+
   constructors
     __Ty2Type__: Ty -> Type {implicit}
     

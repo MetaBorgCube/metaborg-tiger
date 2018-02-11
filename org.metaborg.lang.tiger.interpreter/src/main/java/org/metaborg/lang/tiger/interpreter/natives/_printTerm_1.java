@@ -6,10 +6,10 @@ import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
-@NodeChild(value = "print", type = TermBuild.class)
-public abstract class printTermI_1 extends TermBuild {
+@NodeChild(value = "term", type = TermBuild.class)
+public abstract class _printTerm_1 extends TermBuild {
 
-	public printTermI_1(SourceSection source) {
+	public _printTerm_1(SourceSection source) {
 		super(source);
 	}
 
@@ -20,7 +20,7 @@ public abstract class printTermI_1 extends TermBuild {
 	}
 
 	public static TermBuild create(SourceSection source, TermBuild print) {
-		return printTermI_1NodeGen.create(source, print);
+		return _printTerm_1NodeGen.create(source, print);
 	}
 
 }

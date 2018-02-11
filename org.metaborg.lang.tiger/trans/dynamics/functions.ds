@@ -40,10 +40,22 @@ rules // function definition
 
   Call(f : Occurrence, args) --> v
   where
-    get(lookup(pathOf(f))) --> ClosureV(fps, e, F_fun_proto);
+    printS("A") => _;
+    pathOf(f) --> p;
+    printS("B") => _;
+    lookup(p) --> addr;
+    printS("C") => _;
+    get(addr) --> v;
+    printTerm(v) --> _;
+    v => ClosureV(fps, e, F_fun_proto);
+    printS("D") => _;
+//    get(lookup(pathOf(f))) --> ClosureV(fps, e, F_fun_proto);
     copyOf(F_fun_proto) --> F_fun;
+    printS("E") => _;
     evalArgs(fps, args, F_fun) --> _;
-    F_fun |- e --> v
+    printS("F") => _;
+    F_fun |- e --> v;
+    printS("G") => _
   
   evalArgs([], [], _) --> U()
   

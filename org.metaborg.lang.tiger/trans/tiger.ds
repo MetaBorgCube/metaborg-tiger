@@ -29,14 +29,14 @@ rules
   mod@Mod(_) -init-> vv
   where
     initNaBL2(mod) --> NaBL2;
+    printSTerm(NaBL2) --> _;
     initHeap(mod) --> H;
-    NaBL2 |- mod :: H --> vv
+    T mod, NaBL2 |- mod :: H --> vv
 
   mod@Mod(e) --> vv
   where
     mod -paramsOf-> scope;
     DefaultSlots(declsOf(scope)) --> slots;
     initFrame(scope, {}, slots) --> F;
-//    initFrame(scope, {}, {}) --> F;
-//    E {} |- stdLib() :: Hh {} --> E' :: Hh'
-    F, E {} |- e :: Hh {} --> vv
+    F |- stdLib() --> _;
+    F, E {} |- e --> vv

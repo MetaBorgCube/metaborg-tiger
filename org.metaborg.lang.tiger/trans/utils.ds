@@ -3,11 +3,15 @@ module utils
 signature
 
   native operators
-    printTermI : AST -> AST
+    _printTerm : AST -> AST
+    _printSTerm: AST -> AST
   
   arrows
     printTerm(AST) --> AST
+    printSTerm(AST) --> AST
   
 rules
 
-  printTerm(tree) --> printTermI(tree)
+  printTerm(tree) --> _printTerm(tree)
+  
+  printSTerm(tree) --> _printSTerm(tree)
