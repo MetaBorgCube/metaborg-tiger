@@ -1,11 +1,12 @@
 module dynamics/predef
 
 imports dynamics/nabl2-link
-imports dynamics/base
-imports dynamics/natives
-imports dynamics/store
-imports dynamics/bindings
 imports dynamics/functions
+imports nabl2/runtime/interpreter/scopegraph-api
+//imports dynamics/base
+//imports dynamics/natives
+//imports dynamics/store
+//imports dynamics/bindings
 
 
 signature
@@ -24,6 +25,7 @@ signature
   
   arrows
     stdLib() --> U
+    farg2Occurrences(List(FArg)) --> (List(FArg) * List(Occurrence))
     registerBuiltin(Name, List(FArg), Exp) --> U
   
 rules
@@ -31,93 +33,102 @@ rules
   // predefined functions  
   stdLib() --> U()
   where
-//      registerBuiltin("print", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativePrintV()) --> _
+      registerBuiltin("print", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativePrintV()) --> _;
+      registerBuiltin("flush", [], nativeFlushV()) --> _;
+      registerBuiltin("ord", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativeOrdV()) --> _;
+      registerBuiltin("chr", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeChrV()) --> _;
+      registerBuiltin("not", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeNotV()) --> _;
+      registerBuiltin("exit", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeExitV()) --> _;
+      registerBuiltin("size", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativeSizeV()) --> _;
+      registerBuiltin("substring", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("i1"), Tid(__Id2Occ__("int"))), FArg(__Id2Occ__("i2"), Tid(__Id2Occ__("int")))], nativeSubstringV()) --> _;
+      registerBuiltin("concat", [FArg(__Id2Occ__("s1"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("s2"), Tid(__Id2Occ__("string")))], nativeConcatV()) --> _;
+      registerBuiltin("getchar", [], nativeGetcharV()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _
-
-//    E  |- bindVar("print",     ClosureV([FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativePrintV(), E)) --> E1;
-//    E1 |- bindVar("ord",       ClosureV([FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativeOrdV(), E)) --> E2;
-//    E2 |- bindVar("chr",       ClosureV([FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeChrV(), E)) --> E3;
-//    E3 |- bindVar("not",       ClosureV([FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeNotV(), E)) --> E4;
-//    E4 |- bindVar("exit",      ClosureV([FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeExitV(), E)) --> E5;
-//    E5 |- bindVar("size",      ClosureV([FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativeSizeV(), E)) --> E6;
-//    E6 |- bindVar("substring", ClosureV([FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("i1"), Tid(__Id2Occ__("int"))), FArg(__Id2Occ__("i2"), Tid(__Id2Occ__("int")))], nativeSubstringV(), E)) --> E7;
-//    E7 |- bindVar("concat",    ClosureV([FArg(__Id2Occ__("s1"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("s2"), Tid(__Id2Occ__("string")))], nativeConcatV(), E)) --> E8;
-//    E8 |- bindVar("getchar",   ClosureV([], nativeGetcharV(), E)) --> E9;
-//    E9 |- bindVar("flush",     ClosureV([], nativeFlushV(), E)) --> E'
   
-  F_parent, T |- registerBuiltin(name, [], e) --> U()
+  farg2Occurrences([]) --> ([] : List(FArg), [] : List(Occurrence)) : (List(FArg) * List(Occurrence))
+  
+  T |- farg2Occurrences([FArg(__Id2Occ__(name), ty) | args]) --> ([arg | args'], [occ_decl | decls])
   where
-    printS("----------") => _;
-    printTerm(T) --> _;
-    printTerm(F_parent) --> _;
+    mkOccurrenceHavingIndex("Var", name, nabl2_phantomIndex(T)) --> occ_decl;
+    FArg(occ_decl, ty) => arg;
+    farg2Occurrences(args) --> (args', decls)
+  
+  F_parent, T |- registerBuiltin(name, args, e) --> U()
+  where
     scopeOf(F_parent) --> s_parent;
-    printTerm(s_parent) --> _;
     // create an occurrence for the declaration
     mkOccurrenceHavingIndex("Var", name, T) --> occ_decl;
-    printTerm(occ_decl) --> _;
-    // create a scope name
+    // create occurrences for arguments
+    farg2Occurrences(args) --> (args', decls);
+    // create a scope identifier
     Scope("<:implicit:fun:>", name) => s_fun;
-    printTerm(s_fun) --> _;
-    // create the scope entries for it
-    SE([], [], { P() |--> [s_parent]}, {}) => se_fun;
-    printTerm(se_fun) --> _;
+    // create a scope data
+    SE(decls, [], { P() |--> [s_parent]}, {}) => se_fun;
     // store the scope
     initScope(s_fun, se_fun) --> _;
     // init the proto-frame
     initFrame(s_fun, { P() |--> { s_parent |--> F_parent}}, {}) --> F_fun;
     // associate the closure with the name
     mkAddr(F_parent, occ_decl) --> addr;
-    printTerm(addr) --> _;
-    set(addr, ClosureV([], e, F_fun))  --> _
+    // store
+    set(addr, ClosureV(args', e, F_fun))  --> _
   
   // predefined function reductions
-  nativePrintV() --> UnitV()
+  F |- nativePrintV() --> UnitV()
   where
-    read(lookup_("s")) => StringV(s);
+    declsOf(scopeOf(F)) --> [arg];
+    get(mkAddr(F, arg)) --> StringV(s);
     printS(s) => _
 
-//  nativeOrdV() --> IntV(result)
-//  where
-//    read(lookup_("s")) => StringV(s);
-//    ordS(s) => result
-//
-//  nativeChrV() --> StringV(result)
-//  where
-//    read(lookup_("i")) => IntV(i);
-//    chrI(i) => result
-//    
-//  nativeNotV() --> IntV(result)
-//  where
-//    read(lookup_("i")) => IntV(i);
-//    notI(i) => result
-//  
-//  nativeExitV() --> UnitV()
-//  where
-//    read(lookup_("i")) => IntV(i);
-//    notI(i) => _
-//    
-//  nativeSizeV() --> IntV(result)
-//  where
-//    read(lookup_("s")) => StringV(s);
-//    sizeS(s) => result
-//  
-//  nativeSubstringV() --> StringV(result)
-//  where
-//    read(lookup_("s")) => StringV(s);
-//    read(lookup_("i1")) => IntV(i1);
-//    read(lookup_("i2")) => IntV(i2);
-//    substringSII(s, i1, i2) => result
-//  
-//  nativeConcatV() --> StringV(result)
-//  where
-//    read(lookup_("s1")) => StringV(s1);
-//    read(lookup_("s2")) => StringV(s2);
-//    concatS(s1, s2) => result
-//  
-//  nativeGetcharV() --> StringV(result)
-//  where
-//    getcharS("") => result
-//  
+  F |- nativeOrdV() --> IntV(result)
+  where
+    declsOf(scopeOf(F)) --> [arg];
+    get(mkAddr(F, arg)) --> StringV(s);
+    ordS(s) => result
+
+  F |- nativeChrV() --> StringV(result)
+  where
+    declsOf(scopeOf(F)) --> [arg];
+    get(mkAddr(F, arg)) --> IntV(i);
+    chrI(i) => result
+    
+  F |- nativeNotV() --> IntV(result)
+  where
+    declsOf(scopeOf(F)) --> [arg];
+    get(mkAddr(F, arg)) --> IntV(i);
+    notI(i) => result
+  
+  F |- nativeExitV() --> UnitV()
+  where
+    declsOf(scopeOf(F)) --> [arg];
+    get(mkAddr(F, arg)) --> IntV(i);
+    notI(i) => _
+    
+  F |- nativeSizeV() --> IntV(result)
+  where
+    declsOf(scopeOf(F)) --> [arg];
+    get(mkAddr(F, arg)) --> StringV(s);
+    sizeS(s) => result
+  
+  F |- nativeSubstringV() --> StringV(result)
+  where
+    declsOf(scopeOf(F)) --> [arg1, arg2, arg3];
+    get(mkAddr(F, arg1)) --> StringV(s);
+    get(mkAddr(F, arg2)) --> IntV(i1);
+    get(mkAddr(F, arg3)) --> IntV(i2);
+    substringSII(s, i1, i2) => result
+  
+  F |- nativeConcatV() --> StringV(result)
+  where
+    declsOf(scopeOf(F)) --> [arg1, arg2];
+    get(mkAddr(F, arg1)) --> StringV(s1);
+    get(mkAddr(F, arg2)) --> StringV(s2);
+    concatS(s1, s2) => result
+  
+  nativeGetcharV() --> StringV(result)
+  where
+    getcharS("") => result
+  
   nativeFlushV() --> UnitV()
   where
     flushS("") => _

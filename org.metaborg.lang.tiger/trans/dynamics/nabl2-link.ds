@@ -28,6 +28,7 @@ signature
   native operators
     nabl2_bodyScopeOfAST: AST -> Scope
     nabl2_topIndexOf: AST -> TermIndex
+    nabl2_phantomIndex: TermIndex -> TermIndex
     
   arrows
     bodyScope(AST) --> Scope
