@@ -16,7 +16,7 @@ context-free syntax // type expressions
   Type = TypeId 
   TypeId.Tid  = Occ 
   
-sorts Ty
+sorts Ty Scope
 context-free syntax // semantic types
 
   Ty.INT      = <INT> 
@@ -24,6 +24,6 @@ context-free syntax // semantic types
   Ty.NIL      = <NIL> 
   Ty.UNIT     = <UNIT> 
   Ty.NAME     = <NAME <Occ>> 
-  Ty.RECORD   = <RECORD <Occ>>
+  Ty.RECORD   = <RECORD <Scope>>
   Ty.ARRAY    = <ARRAY <Ty> <Occ>> 
   Ty.FUN      = <FUN ( <{Ty ","}*> ) <Ty>> 

@@ -6,4 +6,5 @@ imports dynamics/bindings
 
 rules // type declarations
 
-//  E |- TypeDecs(_) --> E
+  TypeDecs(_) --> U()
+

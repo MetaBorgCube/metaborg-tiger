@@ -24,6 +24,7 @@ signature
   
   components
     T : TermIndex
+    FS: (Frame * Frame)
   
   native operators
     nabl2_bodyScopeOfAST: AST -> Scope

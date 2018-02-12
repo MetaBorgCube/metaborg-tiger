@@ -12,7 +12,7 @@ rules
   FS (F, F_outer) |- VarDecNoType(x : Occurrence, e) --> U()
   where
     F_outer |- e --> v;
-    set(Addr(F, x), v) --> _
+    set(mkAddr(F, x), v) --> _
   
   __LValue2Exp__(lv) --> get(lv)
   

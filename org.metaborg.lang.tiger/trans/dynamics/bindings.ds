@@ -4,6 +4,7 @@ imports ds-signatures/Bindings-sig
 imports dynamics/base
 imports dynamics/store
 imports dynamics/nabl2-link
+imports dynamics/unit
 imports nabl2/statics/tiger
 
 // binding values to identifiers
@@ -24,15 +25,10 @@ signature
 //  where allocate(vv) --> a
     
 signature
-  sorts U
-  constructors U: U
   arrows   
     Dec --> U
     evalDecs(List(Dec)) --> U
     evalSeq(List(Exp)) --> V
-
-  components
-    FS: (Frame * Frame)
 
 rules // bindings
   

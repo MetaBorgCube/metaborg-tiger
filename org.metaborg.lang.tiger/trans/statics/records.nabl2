@@ -6,7 +6,7 @@ imports statics/base
 
 rules // record type
 
-  [[ RecordTy(fields) ^ (s) : ty ]] := 
+  [[ r@RecordTy(fields) ^ (s) : ty ]] := 
      new s_rec,
      ty == RECORD(s_rec),
      NIL() <! ty,
@@ -28,6 +28,7 @@ rules // record creation
      [[ t ^ (s) : ty ]],
      ty == RECORD(s_rec) | error $[record type expected],
      new s_use, s_use -I-> s_rec,
+     @r.bodyScope := s_use,
      D(s_rec)/Field subseteq/name R(s_use)/Field | error $[Field [NAME] not initialized] @r,
      distinct/name R(s_use)/Field | error $[Duplicate initialization of field [NAME]] @NAMES,
      Map2[[ inits ^ (s_use, s) ]].

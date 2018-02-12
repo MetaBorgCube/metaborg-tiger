@@ -58,5 +58,5 @@ rules // procedure definition
   where
     bodyScope(d) --> s_fun;
     initFrame(s_fun, { P() |--> { scopeOf(F) : Scope |--> F}}, {}) --> F_fun;
-    set(Addr(F, x), ClosureV(args, e, F_fun))  --> _
+    set(mkAddr(F, x), ClosureV(args, e, F_fun))  --> _
 

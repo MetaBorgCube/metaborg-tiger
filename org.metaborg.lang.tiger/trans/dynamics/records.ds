@@ -1,31 +1,48 @@
 module dynamics/records
 
-imports ds-signatures/Records-sig
+
+imports ds-signatures/Records-sig 
+imports dynamics/nabl2-link
 imports dynamics/base
 imports dynamics/store
+imports dynamics/unit
 
 signature
   constructors  
     NilV : V 
-    RecordV : Env * Int -> V
+    RecordV: Frame -> V
   arrows    
-    initFields(List(InitField)) --> Env 
+    initFields(List(InitField)) --> U
     
 rules // records
   
+  default(RECORD(_)) --> NilV()
+  
   NilExp() --> NilV()
   
-  Record(_, fields) --> RecordV(E, fresh)  
-  where initFields(fields) --> E
-  
-  initFields([]) --> {}
- 
-  initFields([InitField(f : Id, vv) | fields]) --> {f |--> a, E}
+  F |- r@Record(Tid(ty : Occurrence), fields) --> RecordV(F_use)
   where
-    allocate(vv) --> a; initFields(fields) --> E
+    typeOf(declOfPath(pathOf(ty))) --> RECORD(s_rec);
+    DefaultSlots(declsOf(s_rec)) --> rec_slots;
+    initFrame(s_rec, {}, rec_slots) --> F_rec;
+    bodyScope(r) --> s_use;
+    initFrame(s_use, { I() |--> { s_rec |--> F_rec } }, {}) --> F_use;
+    FS (F_use, F) |- initFields(fields) --> _
     
-  FieldVar(lv, x : Id) -lval-> a 
+  initFields([]) --> U()
+ 
+  FS (F_use, F) |- initFields([InitField(f : Occurrence, e) | fields]) --> U()
   where
-    read(lv) --> RecordV(E, _); E |- lookup_(x) --> a
+    F |- e --> v;
+    F_use |- lookup(pathOf(f)) --> addr;
+    set(addr, v) --> _;
+    FS (F_use, F) |- initFields(fields) --> _
+    
+  FieldVar(lv, x : Occurrence) -lvalf-> addr
+  where
+    lv -lvalf-> addr;
+    get(addr) --> RecordV(F_use);
+    F_use |- lookup(pathOf(x)) --> addr
+
 
 

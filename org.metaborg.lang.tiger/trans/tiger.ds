@@ -31,7 +31,8 @@ rules
     initNaBL2(mod) --> NaBL2;
     printSTerm(NaBL2) --> _;
     initHeap(mod) --> H;
-    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H --> vv
+    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H --> vv :: H';
+    printTerm(H') --> _
 
   mod@Mod(e) --> vv
   where
