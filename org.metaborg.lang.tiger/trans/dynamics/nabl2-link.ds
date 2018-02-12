@@ -16,18 +16,19 @@ signature
     Val = V
     Name = Id
 
-  components
-    T : Module
-
   constructors
     __Ty2Type__: Ty -> Type {implicit}
     
   constructors
     __Occurrence2Occ__: Occurrence -> Occ {implicit}
-    
+  
+  components
+    T : TermIndex
+  
   native operators
     nabl2_bodyScopeOfAST: AST -> Scope
-  
+    nabl2_topIndexOf: AST -> TermIndex
+    
   arrows
     bodyScope(AST) --> Scope
 

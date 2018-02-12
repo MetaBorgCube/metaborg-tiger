@@ -1,5 +1,6 @@
 module tiger
 
+imports nabl2/statics/tiger
 imports ds-signatures/Tiger-sig
 imports dynamics/store
 imports dynamics/natives
@@ -15,7 +16,6 @@ imports dynamics/control-flow
 imports dynamics/types
 imports dynamics/predef
 imports dynamics/equality
-imports nabl2/statics/tiger
 
 imports dynamics/nabl2-link
   
@@ -31,7 +31,8 @@ rules
     initNaBL2(mod) --> NaBL2;
     printSTerm(NaBL2) --> _;
     initHeap(mod) --> H;
-    T mod, NaBL2 |- mod :: H --> vv
+    printS("--------- EVAL ---------") => _;
+    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H --> vv
 
   mod@Mod(e) --> vv
   where

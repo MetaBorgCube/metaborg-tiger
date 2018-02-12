@@ -47,11 +47,13 @@ rules
   
   F_parent, T |- registerBuiltin(name, [], e) --> U()
   where
+    printS("----------") => _;
+    printTerm(T) --> _;
     printTerm(F_parent) --> _;
     scopeOf(F_parent) --> s_parent;
     printTerm(s_parent) --> _;
     // create an occurrence for the declaration
-    mkOccurrence("Var", name, T) --> occ_decl;
+    mkOccurrenceHavingIndex("Var", name, T) --> occ_decl;
     printTerm(occ_decl) --> _;
     // create a scope name
     Scope("<:implicit:fun:>", name) => s_fun;
