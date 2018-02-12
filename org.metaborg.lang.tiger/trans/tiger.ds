@@ -31,7 +31,6 @@ rules
     initNaBL2(mod) --> NaBL2;
     printSTerm(NaBL2) --> _;
     initHeap(mod) --> H;
-    printS("\t\t--------- EVAL ---------\n\n") => _;
     T nabl2_topIndexOf(mod), NaBL2 |- mod :: H --> vv
 
   mod@Mod(e) --> vv

@@ -118,7 +118,7 @@ rules
 //  where
 //    getcharS("") => result
 //  
-//  nativeFlushV() --> UnitV()
-//  where
-//    flushS("") => _
+  nativeFlushV() --> UnitV()
+  where
+    flushS("") => _
   
