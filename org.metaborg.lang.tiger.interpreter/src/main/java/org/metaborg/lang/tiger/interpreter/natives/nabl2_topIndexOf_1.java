@@ -29,6 +29,6 @@ public abstract class nabl2_topIndexOf_1 extends NaBL2TermBuild {
 	}
 
 	public static TermBuild create(SourceSection source, TermBuild term) {
-		return nabl2_indexOf_1NodeGen.create(source, term);
+		return nabl2_topIndexOf_1NodeGen.create(source, term);
 	}
 }
