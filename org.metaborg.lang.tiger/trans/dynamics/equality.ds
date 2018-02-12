@@ -27,15 +27,15 @@ rules
         case v2 of {
           NilV() => 
             IntV(1) => vv
-          RecordV(_, _) =>
+          RecordV(_) =>
             IntV(0) => vv
         }
-      RecordV(_, id1) =>
+      RecordV(F_(f1)) =>
         case v2 of {
           NilV() => 
             IntV(0) => vv
-          RecordV(_, id2) =>
-            IntV(eqI(id1, id2)) => vv
+          RecordV(F_(f2)) =>
+            IntV(eqI(f1, f2)) => vv
         }
       ArrayV(_, id1) =>
         case v2 of {

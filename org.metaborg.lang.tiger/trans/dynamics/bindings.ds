@@ -8,21 +8,11 @@ imports dynamics/unit
 imports nabl2/statics/tiger
 
 // binding values to identifiers
-
-signature
-  arrows
-    readVar(Id) --> V
-    writeVar(Id, V) --> V
-    bindVar(Id, V) --> Env 
-//    
-//rules
-//
-//  readVar(x) --> read(lookup_(x))
-//
-//  writeVar(x, vv) --> write(lookup_(x), vv)
-//  
-//  E |- bindVar(x, vv) --> {x |--> a, E}
-//  where allocate(vv) --> a
+//signature
+//  arrows
+//    readVar(Id) --> V
+//    writeVar(Id, V) --> V
+//    bindVar(Id, V) --> Env 
     
 signature
   arrows   
