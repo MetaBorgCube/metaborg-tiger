@@ -78,14 +78,3 @@ rules
   where
     printTerm(p1) --> _;
     printPath(p2) --> _
-  
-//  H h, F f1 |- lookup([E(s, l)|p]) --> Addr(f3, d)
-//  where
-//    printS("Current frame: ") => _;
-//    printTerm(f1) --> _;
-//    getScopeOfFirstElem(p) --> s';
-//    printS("Next scope: ") => _;
-//    printTerm(s') --> _;
-//    H h |- linksOf(f1) --> ks;
-//    ks[l][s'] => f2;
-//    H h, F f2 |- lookup(p) --> Addr(f3, d)
