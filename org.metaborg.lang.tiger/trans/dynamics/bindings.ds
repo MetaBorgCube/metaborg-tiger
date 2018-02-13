@@ -18,8 +18,7 @@ rules // bindings
   F |- l@Let(decs, es) --> vv
   where
     bodyScope(l) --> s_body;
-    DefaultSlots(declsOf(s_body)) --> slots;
-    initFrame(s_body, {}, slots) --> F_body;
+    initDefault(s_body, {}) --> F_body;
     FS (F, F_body) |- evalDecs(decs) --> _;
     F_body |- evalSeq(es) --> vv
   
@@ -35,8 +34,7 @@ rules // bindings
   FS (F_outer, F_body) |- evalDecs([d@dec | decs@[_|_]]) --> U()
   where
     bodyScope(d) --> s_dec;
-    DefaultSlots(declsOf(s_dec)) --> slots;
-    initFrame(s_dec, { P() |--> { scopeOf(F_outer) : Scope |--> F_outer}}, slots) --> F_dec;
+    initDefault(s_dec, { P() |--> { scopeOf(F_outer) : Scope |--> F_outer}}) --> F_dec;
     FS (F_dec, F_outer) |- dec --> _;
     FS (F_dec, F_body) |- evalDecs(decs) --> _
 

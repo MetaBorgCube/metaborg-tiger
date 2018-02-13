@@ -29,15 +29,12 @@ rules
   mod@Mod(_) -init-> vv
   where
     initNaBL2(mod) --> NaBL2;
-    printSTerm(NaBL2) --> _;
     initHeap(mod) --> H;
-    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H --> vv :: H';
-    printTerm(H') --> _
+    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H --> vv
 
   mod@Mod(e) --> vv
   where
     mod -paramsOf-> scope;
-    DefaultSlots(declsOf(scope)) --> slots;
-    initFrame(scope, {}, slots) --> F;
+    initDefault(scope, {}) --> F;
     F |- stdLib() --> _;
     F |- e --> vv

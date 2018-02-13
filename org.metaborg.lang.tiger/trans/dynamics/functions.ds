@@ -35,6 +35,7 @@ rules // function definition
   FS (F, _) : (Frame * Frame) |- fdec(d@FunDec(x : Occurrence, args, _, e)) --> U()
   where
     bodyScope(d) --> s_fun;
+    // FIXME: remember  the P() frame and s_fun in the closure
     initFrame(s_fun, { P() |--> { scopeOf(F) : Scope |--> F}}, {}) --> F_fun;
     set(Addr(F, x), ClosureV(args, e, F_fun))  --> _
 

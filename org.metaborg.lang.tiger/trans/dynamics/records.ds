@@ -23,8 +23,7 @@ rules // records
   F |- r@Record(Tid(ty : Occurrence), fields) --> RecordV(F_use)
   where
     typeOf(declOfPath(pathOf(ty))) --> RECORD(s_rec);
-    DefaultSlots(declsOf(s_rec)) --> rec_slots;
-    initFrame(s_rec, {}, rec_slots) --> F_rec;
+    initDefault(s_rec, {}) --> F_rec;
     bodyScope(r) --> s_use;
     initFrame(s_use, { I() |--> { s_rec |--> F_rec } }, {}) --> F_use;
     FS (F_use, F) |- initFields(fields) --> _

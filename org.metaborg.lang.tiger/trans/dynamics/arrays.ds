@@ -33,7 +33,9 @@ rules
   Array(_, e_len, e_init) --> ArrayV(F)
   where
     e_len --> IntV(len);
+    
     e_init --> v;
+    // TRY: creating a scope for array and emulate the analysis (add resolution)
     initFrame(NoScope(), {}, {}) --> F;
     F |- initArray(0, len, v) --> _
  
