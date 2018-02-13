@@ -53,7 +53,7 @@ signature
     printScope(Scope) --> Scope
     printFrame(Frame) --> Frame
     printPath(Path) --> Path
-    
+    H |- printHeap() --> Heap
 rules
 
   printScope(s) --> s
@@ -78,3 +78,7 @@ rules
   where
     printTerm(p1) --> _;
     printPath(p2) --> _
+  
+  H |- printHeap() --> H
+  where
+    printTerm(H) --> _

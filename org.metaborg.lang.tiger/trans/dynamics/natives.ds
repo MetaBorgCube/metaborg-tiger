@@ -27,4 +27,5 @@ signature
     getcharS     : String -> String
     flushS       : String -> Int
     unescapeS    : String -> String
+    int2string   : Int -> String
     

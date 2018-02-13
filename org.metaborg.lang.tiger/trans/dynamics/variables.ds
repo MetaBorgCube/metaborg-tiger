@@ -20,12 +20,7 @@ rules
 
   __Var2LValue__(Var(x : Occurrence)) -lvalf-> lookup(p)
   where
-    pathOf(x) --> p
-    
-  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) -lvalf-> mkArrayIndex(F, i) 
-  where
-    get(arr_addr) --> ArrayV(F)
-  
+    pathOf(x) --> p 
   
   Assign(addr : Addr, v) --> UnitV()
   where

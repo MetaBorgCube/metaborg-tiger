@@ -11,12 +11,16 @@ imports dynamics/bindings
 imports dynamics/nabl2-link
 
 signature
-  constructors  
-    ArrayV : Frame -> V
+  sort aliases
+    ArrayIdx = Int
+    
+  constructors
+    ArrayV : Frame * ArrayIdx -> V
 
-  arrows    
-    initArray(Int, Int, V) --> U
-    mkArrayIndex(Frame, Int) --> Addr
+//    mkArrayAddr(Frame, Int) --> Addr
+//  
+//    initArray(Int, Int, V) --> U
+//    mkArrayIndex(Frame, Int) --> Addr
 
   constructors
     NoScope: Scope
@@ -26,23 +30,100 @@ rules
   
   default(ARRAY(_, _)) --> UndefV()
   
-  Array(_, e_len, e_init) --> ArrayV(F)
+  Array(_, IntV(len), vv) --> ArrayV(F, array_idx)
   where
-    e_len --> IntV(len);
+    fresh => array_idx;
+    initArrayScope(array_idx, len) --> s;
+    initArrayFrame(s, vv) --> F
     
-    e_init --> v;
-    // TRY: creating a scope for array and emulate the analysis (add resolution)
-    initFrame(NoScope(), {}, {}) --> F;
-    F |- initArray(0, len, v) --> _
- 
-  F |- initArray(i, j, v) --> U()
+  
+  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) -lvalf-> mkAddr(F, mkArrayElemOccurrence(array_idx, i))
   where
-    case ltI(i, j) of {
+    get(arr_addr) --> ArrayV(F, array_idx)
+
+
+///////////////////////////////////////////////////
+///// ARRAY SUPPORT IN Scope Graph and Frames /////
+///////////////////////////////////////////////////
+
+signature
+  arrows
+    initArrayScope(ArrayIdx, Int) --> Scope
+    initArrayFrame(Scope, V) --> Frame
+    mkArrayElemOccurrences(ArrayIdx, Int, Int) --> List(Occurrence)
+    mkArrayElemOccurrence(ArrayIdx, Int) --> Occurrence
+    bind-distribute(List(Occurrence), Val) --> Map(Occurrence, Val)
+    
+  constructors
+    ArrayElemOccurrence: ArrayIdx * Int -> Occurrence
+    
+rules
+  
+  initArrayScope(array_idx, len) --> s
+  where
+    Scope("<:implicit:array:>", int2string(len)) => s;
+    SE(mkArrayElemOccurrences(array_idx, 0, len), [], {}, {}) => se;
+    initScope(s, se) --> _
+  
+  initArrayFrame(s_array, vv) --> initFrame(s_array, {}, slots)
+  where
+    declsOf(s_array) --> array_decls;
+    bind-distribute(array_decls, vv) --> slots
+  
+  bind-distribute([], _) --> {}
+  
+  bind-distribute([o|os], vv) --> { o |--> vv, decls}
+  where
+    bind-distribute(os, vv) --> decls
+  
+  mkArrayElemOccurrences(array_idx, i, len) --> elems
+  where
+    case ltI(i, len) of {
       1 =>
-        set(mkArrayIndex(F, i), v) --> _;
-        initArray(addI(i, 1), j, v) --> _
+        mkArrayElemOccurrence(array_idx, i) --> el;    
+        mkArrayElemOccurrences(array_idx, addI(i, 1), len) --> els;
+        [el|els] => elems
       0 =>
+        [] => elems
     }
   
-  mkArrayIndex(F, i) --> mkAddr(F, IdxOccurrence(i))
+  mkArrayElemOccurrence(array_idx, elem_idx) --> ArrayElemOccurrence(array_idx, elem_idx)
+
+  
+  
+//  Array(_, e_len, e_init) --> ArrayV(F)
+//  where
+//    /* when creating an array:
+//    - create a scope S
+//    - S will contain a declaration for every entry in the array
+//    - each declaration will have the type of the elements of the array
+//    - the occurrence must be unique accross arrays, but must be deterministic
+//    - so each occurrence will be encoded as the element index and the frame of the array
+//    - there will be no references since we can create them on the fly and
+//    - in any case do not need resolution
+//    */
+//  
+//  
+//    e_len --> IntV(len);
+//    
+//    e_init --> v;
+//    // TRY: creating a scope for array and emulate the analysis (add resolution)
+//    initFrame(NoScope(), {}, {}) --> F;
+//    F |- initArray(0, len, v) --> _
+// 
+//  F |- initArray(i, j, v) --> U()
+//  where
+//    case ltI(i, j) of {
+//      1 =>
+//        set(mkArrayIndex(F, i), v) --> _;
+//        initArray(addI(i, 1), j, v) --> _
+//      0 =>
+//    }
+//  
+//  mkArrayIndex(F, i) --> mkAddr(F, IdxOccurrence(i))
+//  
+//  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) -lvalf-> mkArrayIndex(F, i) 
+//  where
+//    get(arr_addr) --> ArrayV(F)
+
   
