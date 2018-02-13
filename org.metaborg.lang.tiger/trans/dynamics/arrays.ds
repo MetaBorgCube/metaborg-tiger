@@ -11,10 +11,6 @@ imports dynamics/bindings
 imports dynamics/nabl2-link
 
 signature
-//  sort aliases
-//    Idx = Map(Int, Int)
-//  variables
-//    I : Idx
   constructors  
     ArrayV : Frame -> V
 
@@ -50,20 +46,3 @@ rules
   
   mkArrayIndex(F, i) --> mkAddr(F, IdxOccurrence(i))
   
-//  Array(_, IntV(i), vv) --> ArrayV(I, fresh)
-//  where
-//    initArray(0, i, vv, {}) --> I
-//  
-//  initArray(i, j, vv, I) --> I'
-//  where 
-//    case ltI(i, j) of {
-//      1 => 
-//        allocate(vv) --> a;
-//        initArray(addI(i, 1), j, vv, {i |--> a, I}) --> I'
-//      0 => 
-//        I => I'
-//    }
-//  
-//  getIndex(__Exp2Index__(e)) --> i
-//  where
-//    e --> IntV(i)

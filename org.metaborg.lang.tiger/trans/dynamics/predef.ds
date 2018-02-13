@@ -3,11 +3,6 @@ module dynamics/predef
 imports dynamics/nabl2-link
 imports dynamics/functions
 imports nabl2/runtime/interpreter/scopegraph-api
-//imports dynamics/base
-//imports dynamics/natives
-//imports dynamics/store
-//imports dynamics/bindings
-
 
 signature
 
@@ -55,7 +50,6 @@ rules
   
   F_parent, T |- registerBuiltin(name, args, e) --> U()
   where
-    scopeOf(F_parent) --> s_parent;
     // create an occurrence for the declaration
     mkOccurrenceHavingIndex("Var", name, T) --> occ_decl;
     // create occurrences for arguments
@@ -63,7 +57,7 @@ rules
     // create a scope identifier
     Scope("<:implicit:fun:>", name) => s_fun;
     // create a scope data
-    SE(decls, [], { P() |--> [s_parent]}, {}) => se_fun;
+    SE(decls, [], { P() |--> [scopeOf(F_parent):Scope]}, {}) => se_fun;
     // store the scope
     initScope(s_fun, se_fun) --> _;
     // store
