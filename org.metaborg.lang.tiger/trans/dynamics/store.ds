@@ -15,25 +15,25 @@ signature
     lv : LValue
 
 
-signature // lvalue 
+//signature // lvalue 
 //  sorts LValue
-  arrows  
-    LValue -lval-> Int
+//  arrows  
+//    LValue -lval-> Int
 //  variables
 //    lv : LValue
     
-signature // environment
-  sorts Id
-  sort aliases 
-    // Address = Int
-    Env = Map(Id, Int)
-  variables
-    a : Int
-  components 
-    E : Env
-  arrows
-    lookup_(Id) --> Int
-    bind_(Id, Int) --> Env
+//signature // environment
+//  sorts Id
+//  sort aliases 
+//    // Address = Int
+//    Env = Map(Id, Int)
+//  variables
+//    a : Int
+//  components 
+//    E : Env
+//  arrows
+//    lookup_(Id) --> Int
+//    bind_(Id, Int) --> Env
 
     
 rules
@@ -42,15 +42,15 @@ rules
 //  
 //  E |- bind_(x, a) --> {x |--> a, E}
   
-signature // heap
-  sort aliases
-    Heaph = Map(Int, V)
-  components
-    Hh : Heaph 
-  arrows
-    read(Int) --> V
-    allocate(V) --> Int
-    write(Int, V) --> V
+//signature // heap
+//  sort aliases
+//    Heaph = Map(Int, V)
+//  components
+//    Hh : Heaph 
+//  arrows
+//    read(Int) --> V
+//    allocate(V) --> Int
+//    write(Int, V) --> V
     
 //rules
 //

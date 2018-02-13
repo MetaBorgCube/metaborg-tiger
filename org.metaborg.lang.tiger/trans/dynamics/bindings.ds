@@ -7,13 +7,6 @@ imports dynamics/nabl2-link
 imports dynamics/unit
 imports nabl2/statics/tiger
 
-// binding values to identifiers
-//signature
-//  arrows
-//    readVar(Id) --> V
-//    writeVar(Id, V) --> V
-//    bindVar(Id, V) --> Env 
-    
 signature
   arrows   
     Dec --> U

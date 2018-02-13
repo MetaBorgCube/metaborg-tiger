@@ -25,5 +25,5 @@ context-free syntax // semantic types
   Ty.UNIT     = <UNIT> 
   Ty.NAME     = <NAME <Occ>> 
   Ty.RECORD   = <RECORD <Scope>>
-  Ty.ARRAY    = <ARRAY <Ty> <Occ>> 
-  Ty.FUN      = <FUN ( <{Ty ","}*> ) <Ty>> 
+  Ty.ARRAY    = <ARRAY <Ty> <Scope>> 
+  Ty.FUN      = <FUN ( <{Ty ","}*> ) <Ty>>

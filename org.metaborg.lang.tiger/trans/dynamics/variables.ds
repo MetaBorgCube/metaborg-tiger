@@ -22,6 +22,12 @@ rules
   where
     pathOf(x) --> p
     
+  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) -lvalf-> mkArrayIndex(F, i) 
+  where
+    get(arr_addr) --> ArrayV(F)
+  
+    
+    
 //  
 //  Subscript(p, q) -lval-> map[i]
 //  where

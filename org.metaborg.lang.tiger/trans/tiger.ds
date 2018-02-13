@@ -40,4 +40,4 @@ rules
     DefaultSlots(declsOf(scope)) --> slots;
     initFrame(scope, {}, slots) --> F;
     F |- stdLib() --> _;
-    F, E {} |- e --> vv
+    F |- e --> vv

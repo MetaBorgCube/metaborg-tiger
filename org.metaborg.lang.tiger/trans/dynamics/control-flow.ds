@@ -11,7 +11,7 @@ signature
     BreakV : V
     Breakable : Exp * Exp -> Exp
   arrows
-    E |- evalSeq(List(Exp)) :: Hh --> V :: Hh
+    evalSeq(List(Exp)) --> V
   
 rules
 

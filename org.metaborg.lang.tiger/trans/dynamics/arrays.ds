@@ -8,34 +8,60 @@ imports dynamics/store
 imports dynamics/base
 imports dynamics/numbers
 imports dynamics/bindings
+imports dynamics/nabl2-link
 
 signature
-  sort aliases
-    Idx = Map(Int, Int)
-  variables
-    I : Idx
+//  sort aliases
+//    Idx = Map(Int, Int)
+//  variables
+//    I : Idx
   constructors  
-    ArrayV : Idx * Int -> V
+    ArrayV : Frame -> V
+
   arrows    
-    initArray(Int, Int, V, Idx) --> Idx
-     getIndex(Index) --> Int
+    initArray(Int, Int, V) --> U
+    mkArrayIndex(Frame, Int) --> Addr
+
+  constructors
+    NoScope: Scope
+    IdxOccurrence: Int -> Occurrence
 
 rules
-    
-  Array(_, IntV(i), vv) --> ArrayV(I, fresh)
-  where
-    initArray(0, i, vv, {}) --> I
   
-  initArray(i, j, vv, I) --> I'
-  where 
+  default(ARRAY(_, _)) --> UndefV()
+  
+  Array(_, e_len, e_init) --> ArrayV(F)
+  where
+    e_len --> IntV(len);
+    e_init --> v;
+    initFrame(NoScope(), {}, {}) --> F;
+    F |- initArray(0, len, v) --> _
+ 
+  F |- initArray(i, j, v) --> U()
+  where
     case ltI(i, j) of {
-      1 => 
-        allocate(vv) --> a;
-        initArray(addI(i, 1), j, vv, {i |--> a, I}) --> I'
-      0 => 
-        I => I'
+      1 =>
+        set(mkArrayIndex(F, i), v) --> _;
+        initArray(addI(i, 1), j, v) --> _
+      0 =>
     }
   
-  getIndex(__Exp2Index__(e)) --> i
-  where
-    e --> IntV(i)
+  mkArrayIndex(F, i) --> mkAddr(F, IdxOccurrence(i))
+  
+//  Array(_, IntV(i), vv) --> ArrayV(I, fresh)
+//  where
+//    initArray(0, i, vv, {}) --> I
+//  
+//  initArray(i, j, vv, I) --> I'
+//  where 
+//    case ltI(i, j) of {
+//      1 => 
+//        allocate(vv) --> a;
+//        initArray(addI(i, 1), j, vv, {i |--> a, I}) --> I'
+//      0 => 
+//        I => I'
+//    }
+//  
+//  getIndex(__Exp2Index__(e)) --> i
+//  where
+//    e --> IntV(i)
