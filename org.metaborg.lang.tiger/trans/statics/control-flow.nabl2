@@ -30,9 +30,10 @@ rules // sequence
      [[ e1 ^ (s) : INT() ]], 
      [[ e2 ^ (s) : UNIT() ]].
      
-  [[ While(e1, e2) ^ (s) : UNIT() ]] := 
+  [[ w@While(e1, e2) ^ (s) : UNIT() ]] := 
      new s', s' -P-> s,
-     Loop{""} <- s',
+     @w.bodyScope := s',
+     Loop{""} <- s', // what is this for? Break?
      [[ e1 ^ (s) : INT() ]], 
      [[ e2 ^ (s') : UNIT() ]].
 
