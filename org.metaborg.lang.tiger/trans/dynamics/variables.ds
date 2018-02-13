@@ -26,16 +26,8 @@ rules
   where
     get(arr_addr) --> ArrayV(F)
   
-    
-    
-//  
-//  Subscript(p, q) -lval-> map[i]
-//  where
-//    getIndex(q) --> i;
-//    read(p) --> ArrayV(map, _)
-//  
-//  F |- Assign(lv, vv) --> UnitV()
-//  where
-//    set(Addr(F, lv), vv) --> _
-
+  
+  Assign(addr : Addr, v) --> UnitV()
+  where
+    set(addr, v) --> _
 
