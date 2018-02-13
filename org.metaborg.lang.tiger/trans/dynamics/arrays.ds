@@ -17,11 +17,6 @@ signature
   constructors
     ArrayV : Frame * ArrayIdx -> V
 
-//    mkArrayAddr(Frame, Int) --> Addr
-//  
-//    initArray(Int, Int, V) --> U
-//    mkArrayIndex(Frame, Int) --> Addr
-
   constructors
     NoScope: Scope
     IdxOccurrence: Int -> Occurrence
@@ -89,41 +84,6 @@ rules
   
   mkArrayElemOccurrence(array_idx, elem_idx) --> ArrayElemOccurrence(array_idx, elem_idx)
 
-  
-  
-//  Array(_, e_len, e_init) --> ArrayV(F)
-//  where
-//    /* when creating an array:
-//    - create a scope S
-//    - S will contain a declaration for every entry in the array
-//    - each declaration will have the type of the elements of the array
-//    - the occurrence must be unique accross arrays, but must be deterministic
-//    - so each occurrence will be encoded as the element index and the frame of the array
-//    - there will be no references since we can create them on the fly and
-//    - in any case do not need resolution
-//    */
-//  
-//  
-//    e_len --> IntV(len);
-//    
-//    e_init --> v;
-//    // TRY: creating a scope for array and emulate the analysis (add resolution)
-//    initFrame(NoScope(), {}, {}) --> F;
-//    F |- initArray(0, len, v) --> _
-// 
-//  F |- initArray(i, j, v) --> U()
-//  where
-//    case ltI(i, j) of {
-//      1 =>
-//        set(mkArrayIndex(F, i), v) --> _;
-//        initArray(addI(i, 1), j, v) --> _
-//      0 =>
-//    }
-//  
-//  mkArrayIndex(F, i) --> mkAddr(F, IdxOccurrence(i))
-//  
-//  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) -lvalf-> mkArrayIndex(F, i) 
-//  where
-//    get(arr_addr) --> ArrayV(F)
+
 
   
