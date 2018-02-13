@@ -30,24 +30,25 @@ rules // sequence
      [[ e1 ^ (s) : INT() ]], 
      [[ e2 ^ (s) : UNIT() ]].
      
-  [[ w@While(e1, e2) ^ (s) : UNIT() ]] := 
+  [[ stm@While(e1, e2) ^ (s) : UNIT() ]] := 
      new s', s' -P-> s,
-     @w.bodyScope := s',
-     Loop{""} <- s', // what is this for? Break?
+     @stm.bodyScope := s',
+     Loop{"__break__"@stm} <- s',
      [[ e1 ^ (s) : INT() ]], 
      [[ e2 ^ (s') : UNIT() ]].
 
   [[ stm@For(Var(x), e1, e2, e3) ^ (s) : UNIT() ]] := 
      new s_for, 
      s_for -P-> s,
+     @stm.bodyScope := s_for,
      Var{x} <- s_for,
      Var{x} : INT(),
-     Loop{Break()@stm} <- s_for,
+     Loop{"__break__"@stm} <- s_for,
      [[ e1 ^ (s) : INT() ]], // x not bound in loop bounds
      [[ e2 ^ (s) : INT() ]], 
      [[ e3 ^ (s_for) : UNIT() ]]. // x bound in body
      
   [[ stm@Break() ^ (s) : UNIT() ]] := 
-     Loop{Break()@stm} -> s,
-     Loop{Break()@stm} |-> d.
+     Loop{"__break__"@stm} -> s,
+     Loop{"__break__"@stm} |-> d.
     

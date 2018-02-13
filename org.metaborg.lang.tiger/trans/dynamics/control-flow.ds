@@ -53,7 +53,27 @@ rules
       otherwise =>
     }
   
+  F |- stm@For(Var(x : Occurrence), IntV(i_start), IntV(i_end), e3) --> UnitV()
+  where
+    initFrame(bodyScope(stm), { P() |--> { scopeOf(F) : Scope |--> F } }, {}) --> F_for;
+    F_for |- for-loop(x, i_start, i_end, e3) --> _
+
+signature
+  arrows
+    for-loop(Occurrence, Int, Int, Exp) --> V
+
+rules
   
+  F |- for-loop(x, i, j, e) --> UnitV()
+  where
+    case leqI(i, j) of {
+      1 =>
+        set(mkAddr(F, x), IntV(i)) --> _;
+        F |- e --> _;
+        F |- for-loop(x, addI(i, 1), j, e) --> _
+      0 =>
+    }
+
 //  e@While(e1, e2) --> IfThen(e1, Breakable(e2, e))
 //  
 //  Breakable(v1, e2) --> vv

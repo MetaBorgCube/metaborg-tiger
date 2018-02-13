@@ -40,7 +40,7 @@ rules // function definition
   Call(f : Occurrence, args) --> v
   where
     get(lookup(pathOf(f))) --> ClosureV(fps, e, s_fun, F_parent);
-    initDefault(s_fun, { P() |--> { scopeOf(F_parent) : Scope |--> F_parent}}) --> F_fun;
+    initFrame(s_fun, { P() |--> { scopeOf(F_parent) : Scope |--> F_parent}}, {}) --> F_fun;
     evalArgs(fps, args, F_fun) --> _;
     F_fun |- e --> v
   
