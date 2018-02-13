@@ -66,12 +66,8 @@ rules
     SE(decls, [], { P() |--> [s_parent]}, {}) => se_fun;
     // store the scope
     initScope(s_fun, se_fun) --> _;
-    // init the proto-frame
-    initFrame(s_fun, { P() |--> { s_parent |--> F_parent}}, {}) --> F_fun;
-    // associate the closure with the name
-    mkAddr(F_parent, occ_decl) --> addr;
     // store
-    set(addr, ClosureV(args', e, F_fun))  --> _
+    set(mkAddr(F_parent, occ_decl), ClosureV(args', e, s_fun, F_parent))  --> _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()

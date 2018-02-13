@@ -12,7 +12,7 @@ signature
   sorts
   
   constructors
-    ClosureV : List(FArg) * Exp * Frame -> V
+    ClosureV : List(FArg) * Exp * Scope * Frame -> V
   arrows
     fdecs(List(FunDec)) --> U
     fdec(FunDec) --> U
@@ -35,14 +35,12 @@ rules // function definition
   FS (F, _) : (Frame * Frame) |- fdec(d@FunDec(x : Occurrence, args, _, e)) --> U()
   where
     bodyScope(d) --> s_fun;
-    // FIXME: remember  the P() frame and s_fun in the closure
-    initFrame(s_fun, { P() |--> { scopeOf(F) : Scope |--> F}}, {}) --> F_fun;
-    set(Addr(F, x), ClosureV(args, e, F_fun))  --> _
+    set(Addr(F, x), ClosureV(args, e, s_fun, F))  --> _
 
   Call(f : Occurrence, args) --> v
   where
-    get(lookup(pathOf(f))) --> ClosureV(fps, e, F_fun_proto);
-    copyOf(F_fun_proto) --> F_fun;
+    get(lookup(pathOf(f))) --> ClosureV(fps, e, s_fun, F_parent);
+    initDefault(s_fun, { P() |--> { scopeOf(F_parent) : Scope |--> F_parent}}) --> F_fun;
     evalArgs(fps, args, F_fun) --> _;
     F_fun |- e --> v
   
@@ -58,6 +56,5 @@ rules // procedure definition
   FS (F, _) : (Frame * Frame) |- fdec(d@ProcDec(x : Occurrence, args, e)) --> U()
   where
     bodyScope(d) --> s_fun;
-    initFrame(s_fun, { P() |--> { scopeOf(F) : Scope |--> F}}, {}) --> F_fun;
-    set(mkAddr(F, x), ClosureV(args, e, F_fun))  --> _
+    set(mkAddr(F, x), ClosureV(args, e, s_fun, F))  --> _
 
