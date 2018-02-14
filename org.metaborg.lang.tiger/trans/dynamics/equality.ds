@@ -10,35 +10,35 @@ imports dynamics/arrays
 
 rules
 
-  Eq(v1, v2) --> vv
+  Eq(vv1, vv2) --> vv
   where
-    case v1 of {
+    case vv1 of {
       IntV(i) => 
-        case v2 of {
+        case vv2 of {
            IntV(j) => 
              IntV(eqI(i, j)) => vv
         }
       StringV(x) =>
-        case v2 of {
+        case vv2 of {
           StringV(y) => 
             IntV(eqS(x, y)) => vv
         }
       NilV() =>
-        case v2 of {
+        case vv2 of {
           NilV() => 
             IntV(1) => vv
           RecordV(_) =>
             IntV(0) => vv
         }
       RecordV(F_(f1)) =>
-        case v2 of {
+        case vv2 of {
           NilV() => 
             IntV(0) => vv
           RecordV(F_(f2)) =>
             IntV(eqI(f1, f2)) => vv
         }
       ArrayV(_, id1) =>
-        case v2 of {
+        case vv2 of {
           ArrayV(_, id2) =>
             IntV(eqI(id1, id2)) => vv
           otherwise =>
