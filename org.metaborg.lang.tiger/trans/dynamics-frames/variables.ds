@@ -1,0 +1,28 @@
+module dynamics-frames/variables
+
+imports ds-signatures/Identifiers-sig
+imports ds-signatures/Variables-sig
+imports dynamics-frames/base
+imports dynamics-frames/bindings
+imports dynamics-frames/store
+imports dynamics-frames/arrays
+
+rules
+
+  FS (F, F_outer) |- VarDecNoType(x : Occurrence, e) --> U()
+  where
+    F_outer |- e --> v;
+    set(mkAddr(F, x), v) --> _
+  
+  __LValue2Exp__(lv) --> get(lv)
+  
+  VarDec(x, _, e) --> VarDecNoType(x, e)
+
+  __Var2LValue__(Var(x : Occurrence)) -lvalf-> lookup(p)
+  where
+    pathOf(x) --> p 
+  
+  Assign(addr : Addr, v) --> UnitV()
+  where
+    set(addr, v) --> _
+

@@ -9,11 +9,11 @@ imports dynamics/arrays
 
 rules
 
-  VarDec(x, _, v) --> bindVar(x, v)
+  VarDec(x : Id, _, v) --> bindVar(x, v)
   
-  VarDecNoType(x, v) --> bindVar(x, v)
+  VarDecNoType(x : Id, v) --> bindVar(x, v)
   
-  __Var2LValue__(Var(x)) -lval-> lookup(x)
+  __Var2LValue__(Var(x : Id)) -lval-> lookup(x)
   
   Subscript(p, q) -lval-> map[i]
   where

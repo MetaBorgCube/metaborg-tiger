@@ -1,0 +1,8 @@
+module dynamics-frames/base
+
+imports dynamics-frames/values
+
+signature
+  sorts Exp
+  arrows
+    Exp --> V 

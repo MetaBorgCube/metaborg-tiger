@@ -55,8 +55,8 @@ rules
   
   For(Var(x), e1, e2, e3) -->
     Let([VarDecNoType(x, e1),
-         VarDecNoType(end, e2)], 
-        [While(Leq(Var(x), Var(end)), Seq([
+         VarDecNoType(__Id2Occ__(end), e2)], 
+        [While(Leq(Var(x), Var(__Id2Occ__(end))), Seq([
            e3,
            Assign(Var(x), Plus(Var(x), Int("1")))
          ]))])

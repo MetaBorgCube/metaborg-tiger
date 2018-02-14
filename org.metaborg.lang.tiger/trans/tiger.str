@@ -8,6 +8,12 @@ imports
   analysis
   desugar 
 
+
+  nabl2/runtime/analysis/debug
+  nabl2/runtime/prelude/-
+  nabl2/runtime/pp
+  nabl2/api
+  
 rules // Debugging
   
   debug-show-aterm:
@@ -29,3 +35,11 @@ rules // Desugaring
     with
       filename := <guarantee-extension(|"aterm")> path
     ; result   := <desugar-all>node
+  
+  editor-show-analysis-term:
+    (ast, _, _, path, project-path) -> (filename, result)
+    where
+      filename := <guarantee-extension(|"sg")> path;
+      analysis := <nabl2-get-resource-analysis> $[[project-path]/[path]];
+      result := <nabl2--debug-scope-graph(|analysis)>
+      

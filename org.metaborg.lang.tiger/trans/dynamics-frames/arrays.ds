@@ -1,0 +1,89 @@
+module dynamics-frames/arrays
+
+imports ds-signatures/Identifiers-sig
+imports ds-signatures/Variables-sig
+imports ds-signatures/Arrays-sig
+imports dynamics-frames/natives
+imports dynamics-frames/store
+imports dynamics-frames/base
+imports dynamics-frames/numbers
+imports dynamics-frames/bindings
+imports dynamics-frames/nabl2-link
+
+signature
+  sort aliases
+    ArrayIdx = Int
+    
+  constructors
+    ArrayV : Frame * ArrayIdx -> V
+
+  constructors
+    NoScope: Scope
+    IdxOccurrence: Int -> Occurrence
+
+rules
+  
+  default(ARRAY(_, _)) --> UndefV()
+  
+  Array(_, IntV(len), vv) --> ArrayV(F, array_idx)
+  where
+    fresh => array_idx;
+    initArrayScope(array_idx, len) --> s;
+    initArrayFrame(s, vv) --> F
+    
+  
+  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) -lvalf-> mkAddr(F, mkArrayElemOccurrence(array_idx, i))
+  where
+    get(arr_addr) --> ArrayV(F, array_idx)
+
+
+///////////////////////////////////////////////////
+///// ARRAY SUPPORT IN Scope Graph and Frames /////
+///////////////////////////////////////////////////
+
+signature
+  arrows
+    initArrayScope(ArrayIdx, Int) --> Scope
+    initArrayFrame(Scope, V) --> Frame
+    mkArrayElemOccurrences(ArrayIdx, Int, Int) --> List(Occurrence)
+    mkArrayElemOccurrence(ArrayIdx, Int) --> Occurrence
+    bind-distribute(List(Occurrence), Val) --> Map(Occurrence, Val)
+    
+  constructors
+    ArrayElemOccurrence: ArrayIdx * Int -> Occurrence
+    
+rules
+  
+  initArrayScope(array_idx, len) --> s
+  where
+    Scope("<:implicit:array:>", int2string(len)) => s;
+    SE(mkArrayElemOccurrences(array_idx, 0, len), [], {}, {}) => se;
+    initScope(s, se) --> _
+  
+  initArrayFrame(s_array, vv) --> initFrame(s_array, {}, slots)
+  where
+    declsOf(s_array) --> array_decls;
+    bind-distribute(array_decls, vv) --> slots
+  
+  bind-distribute([], _) --> {}
+  
+  bind-distribute([o|os], vv) --> { o |--> vv, decls}
+  where
+    bind-distribute(os, vv) --> decls
+  
+  mkArrayElemOccurrences(array_idx, i, len) --> elems
+  where
+    case ltI(i, len) of {
+      1 =>
+        mkArrayElemOccurrence(array_idx, i) --> el;    
+        mkArrayElemOccurrences(array_idx, addI(i, 1), len) --> els;
+        [el|els] => elems
+      0 =>
+        [] => elems
+    }
+  
+  mkArrayElemOccurrence(array_idx, elem_idx) --> ArrayElemOccurrence(array_idx, elem_idx)
+
+
+
+  
