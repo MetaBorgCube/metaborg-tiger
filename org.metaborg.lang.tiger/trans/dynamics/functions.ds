@@ -27,19 +27,19 @@ rules // function definition
   
   E |- funEnv([]) --> E
   
-  funEnv([FunDec(f, _, _, _) | fds]) --> E
+  funEnv([FunDec(f : Id, _, _, _) | fds]) --> E
   where 
     E bindVar(f, UndefV()) |- funEnv(fds) --> E
   
   E |- evalFuns([]) --> E
   
-  E |- evalFuns([FunDec(f, args, _, e) | fds]) --> evalFuns(fds)
+  E |- evalFuns([FunDec(f : Id, args, _, e) | fds]) --> evalFuns(fds)
   where 
     writeVar(f, ClosureV(args, e, E)) --> _
 
 rules // function call
   
-  Call(f, args) --> v
+  Call(f : Id, args) --> v
   where
     readVar(f) --> ClosureV(params, e, E);
     evalArgs(params, args) --> E';
@@ -47,18 +47,18 @@ rules // function call
     
   evalArgs([], []) --> {}
     
-  evalArgs([FArg(x, _) | args], [v | es]) --> {x |--> a, E}
+  evalArgs([FArg(x : Id, _) | args], [v | es]) --> {x |--> a, E}
   where 
     allocate(v) --> a; 
     evalArgs(args, es) --> E
     
 rules // procedure definition
  
-  funEnv([ProcDec(f, _, _) | fds]) --> E
+  funEnv([ProcDec(f : Id, _, _) | fds]) --> E
   where 
     E bindVar(f, UndefV()) |- funEnv(fds) --> E
  
-  E |- evalFuns([ProcDec(f, args, e) | fds]) --> evalFuns(fds)
+  E |- evalFuns([ProcDec(f : Id, args, e) | fds]) --> evalFuns(fds)
   where 
     writeVar(f, ClosureV(args, e, E)) --> _
     

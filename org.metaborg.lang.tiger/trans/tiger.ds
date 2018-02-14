@@ -1,4 +1,30 @@
 module tiger
 
-imports dynamics-frames/dynamics
+
+////////////////////////////////////////////
+///////// FRAME-BASED SEMANTICS ////////////
+////////////////////////////////////////////
+
+/*
+Uncomment the import below to enable Frame-based semantics.
+To run a Tiger program afterwards invoke the Tiger (Core) runner on a program
+*/
+
+//imports dynamics-frames/dynamics
+
+
+
+
+
+////////////////////////////////////////////
+///////// ENVIRONMENT-BASED SEMANTICS ////////////
+////////////////////////////////////////////
+
+/*
+Uncomment the import below to enable Environment-based semantics.
+To run a Tiger program afterwards invoke the Tiger runner on a program
+(NB: not the Tiger (Core) run configuration)
+*/
+
+imports dynamics/dynamics
 
