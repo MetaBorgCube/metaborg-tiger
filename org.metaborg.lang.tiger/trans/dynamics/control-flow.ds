@@ -13,6 +13,16 @@ signature
   arrows
     evalSeq(List(Exp)) --> V
   
+  sorts
+    BreakFlag
+  
+  constructors
+    OK: BreakFlag
+    BR: BreakFlag
+  
+  components
+    B : BreakFlag = OK()
+  
 rules
 
   Seq(es) --> evalSeq(es)
@@ -48,8 +58,12 @@ rules
     case i of {
       1 =>
         initFrame(bodyScope(w), { P() |--> { scopeOf(F) : Scope |--> F }}, {}) --> F';
-        F' |- e2 --> _;
-        F |- w --> _
+        F' |- e2 :: B OK() --> _ :: B';
+        case B' of {
+          OK() =>
+            F |- w --> _
+          otherwise =>
+        }
       otherwise =>
     }
   
@@ -69,8 +83,12 @@ rules
     case leqI(i, j) of {
       1 =>
         set(mkAddr(F, x), IntV(i)) --> _;
-        F |- e --> _;
-        F |- for-loop(x, addI(i, 1), j, e) --> _
+        F |- e :: B OK() --> _ :: B';
+        case B' of {
+          OK() =>
+            F |- for-loop(x, addI(i, 1), j, e) --> _
+          otherwise =>
+        }
       0 =>
     }
 
@@ -94,5 +112,5 @@ rules
 //         ]))])
 //  where printI(fresh) : Id => end  // capture?
 //  
-//  Break() --> BreakV()
+  Break() :: B OK() --> ??? :: B BR()
   
