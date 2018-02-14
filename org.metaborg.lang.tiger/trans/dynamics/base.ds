@@ -1,0 +1,8 @@
+module dynamics/base
+
+imports dynamics/values
+
+signature
+  sorts Exp
+  arrows
+    Exp --> V 
