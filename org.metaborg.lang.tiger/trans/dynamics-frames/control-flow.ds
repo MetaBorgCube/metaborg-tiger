@@ -1,10 +1,10 @@
-module dynamics/control-flow
+module dynamics-frames/control-flow
 
 imports ds-signatures/Control-Flow-sig
-imports dynamics/base
-imports dynamics/store
-imports dynamics/natives
-imports dynamics/numbers
+imports dynamics-frames/base
+imports dynamics-frames/store
+imports dynamics-frames/natives
+imports dynamics-frames/numbers
 
 signature
   constructors

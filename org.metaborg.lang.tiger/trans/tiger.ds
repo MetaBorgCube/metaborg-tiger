@@ -2,22 +2,22 @@ module tiger
 
 imports nabl2/statics/tiger
 imports ds-signatures/Tiger-sig
-imports dynamics/store
-imports dynamics/natives
-imports dynamics/base
-imports dynamics/bindings
-imports dynamics/variables
-imports dynamics/functions
-imports dynamics/numbers
-imports dynamics/strings	
-imports dynamics/records
-imports dynamics/arrays
-imports dynamics/control-flow
-imports dynamics/types
-imports dynamics/predef
-imports dynamics/equality
+imports dynamics-frames/store
+imports dynamics-frames/natives
+imports dynamics-frames/base
+imports dynamics-frames/bindings
+imports dynamics-frames/variables
+imports dynamics-frames/functions
+imports dynamics-frames/numbers
+imports dynamics-frames/strings	
+imports dynamics-frames/records
+imports dynamics-frames/arrays
+imports dynamics-frames/control-flow
+imports dynamics-frames/types
+imports dynamics-frames/predef
+imports dynamics-frames/equality
 
-imports dynamics/nabl2-link
+imports dynamics-frames/nabl2-link
   
 signature
   arrows

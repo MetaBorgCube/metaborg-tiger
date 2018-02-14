@@ -1,7 +1,7 @@
-module dynamics/predef
+module dynamics-frames/predef
 
-imports dynamics/nabl2-link
-imports dynamics/functions
+imports dynamics-frames/nabl2-link
+imports dynamics-frames/functions
 imports nabl2/runtime/interpreter/scopegraph-api
 
 signature

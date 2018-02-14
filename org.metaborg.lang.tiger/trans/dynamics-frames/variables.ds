@@ -1,11 +1,11 @@
-module dynamics/variables
+module dynamics-frames/variables
 
 imports ds-signatures/Identifiers-sig
 imports ds-signatures/Variables-sig
-imports dynamics/base
-imports dynamics/bindings
-imports dynamics/store
-imports dynamics/arrays
+imports dynamics-frames/base
+imports dynamics-frames/bindings
+imports dynamics-frames/store
+imports dynamics-frames/arrays
 
 rules
 

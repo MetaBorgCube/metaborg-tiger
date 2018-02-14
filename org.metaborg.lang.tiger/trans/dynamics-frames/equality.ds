@@ -1,12 +1,12 @@
-module dynamics/equality
+module dynamics-frames/equality
 
 imports ds-signatures/Numbers-sig 
-imports dynamics/numbers
-imports dynamics/strings
-imports dynamics/control-flow
-imports dynamics/records
-imports dynamics/natives
-imports dynamics/arrays
+imports dynamics-frames/numbers
+imports dynamics-frames/strings
+imports dynamics-frames/control-flow
+imports dynamics-frames/records
+imports dynamics-frames/natives
+imports dynamics-frames/arrays
 
 rules
 

@@ -1,4 +1,4 @@
-module dynamics/values
+module dynamics-frames/values
 
 signature
   sorts V

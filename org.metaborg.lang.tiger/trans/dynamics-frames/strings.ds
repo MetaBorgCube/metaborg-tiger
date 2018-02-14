@@ -1,9 +1,9 @@
-module dynamics/strings
+module dynamics-frames/strings
 
 imports ds-signatures/Strings-sig
-imports dynamics/base
-imports dynamics/natives
-imports dynamics/numbers
+imports dynamics-frames/base
+imports dynamics-frames/natives
+imports dynamics-frames/numbers
 
 signature
   constructors

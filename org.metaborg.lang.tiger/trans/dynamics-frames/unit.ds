@@ -1,4 +1,4 @@
-module dynamics/unit
+module dynamics-frames/unit
 
 signature
   sorts U

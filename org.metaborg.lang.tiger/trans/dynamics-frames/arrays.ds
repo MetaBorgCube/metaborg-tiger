@@ -1,14 +1,14 @@
-module dynamics/arrays
+module dynamics-frames/arrays
 
 imports ds-signatures/Identifiers-sig
 imports ds-signatures/Variables-sig
 imports ds-signatures/Arrays-sig
-imports dynamics/natives
-imports dynamics/store
-imports dynamics/base
-imports dynamics/numbers
-imports dynamics/bindings
-imports dynamics/nabl2-link
+imports dynamics-frames/natives
+imports dynamics-frames/store
+imports dynamics-frames/base
+imports dynamics-frames/numbers
+imports dynamics-frames/bindings
+imports dynamics-frames/nabl2-link
 
 signature
   sort aliases

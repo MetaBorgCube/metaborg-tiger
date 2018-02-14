@@ -1,8 +1,8 @@
-module dynamics/store
+module dynamics-frames/store
 
 imports
-  dynamics/values
-  dynamics/nabl2-link
+  dynamics-frames/values
+  dynamics-frames/nabl2-link
 
 signature
   sorts

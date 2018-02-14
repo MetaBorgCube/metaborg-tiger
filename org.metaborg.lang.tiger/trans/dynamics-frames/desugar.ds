@@ -1,4 +1,4 @@
-module dynamics/desugar
+module dynamics-frames/desugar
 
 signature
   arrows

@@ -1,10 +1,10 @@
-module dynamics/bindings
+module dynamics-frames/bindings
 
 imports ds-signatures/Bindings-sig
-imports dynamics/base
-imports dynamics/store
-imports dynamics/nabl2-link
-imports dynamics/unit
+imports dynamics-frames/base
+imports dynamics-frames/store
+imports dynamics-frames/nabl2-link
+imports dynamics-frames/unit
 imports nabl2/statics/tiger
 
 signature
