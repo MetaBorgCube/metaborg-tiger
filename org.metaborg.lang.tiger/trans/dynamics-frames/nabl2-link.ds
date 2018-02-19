@@ -9,6 +9,7 @@ imports
   nabl2/runtime/interpreter/scopegraph-api
   nabl2/runtime/interpreter/scopegraph-impl
   dynamics-frames/natives
+  dynamics-frames/values
   utils
 
 signature
