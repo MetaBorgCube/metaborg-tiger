@@ -5,7 +5,7 @@ imports
   nabl2shared
   nabl2runtime
   
-  nabl2/statics/tiger
+  nabl2/statics/-
 
   pp
 
@@ -30,8 +30,5 @@ rules
   editor-transform-occurrences: (selected, _, _, path, _) -> (filename, result)
   with
     filename := <guarantee-extension(|"aterm")> path;
-    result := <bottomup(try(preserve-annos(nabl2--transform-occurrences)))> selected
-
-
-
+    result := <nabl2--transform-all-occurrences> selected
  
