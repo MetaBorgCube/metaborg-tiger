@@ -5,7 +5,7 @@ imports
   nabl2shared
   nabl2runtime
   
-  nabl2/statics/-
+  nabl2/statics/tiger
 
   pp
 
