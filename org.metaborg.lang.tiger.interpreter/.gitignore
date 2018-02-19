@@ -1,5 +1,11 @@
 
-/target/
+/bin
+/target
+/.project
+/.classpath
+/.settings
+/.factorypath
+file:///Users/vladvergu/tud/slde/software/languages/nonmeta/metaborg-tiger/org.metaborg.lang.tiger.interpreter/src/main/resources/signatures-digest.cache
 src/main/resources/specification.aterm
 src/main/resources/parsetable.tbl
 src/main/resources/logback.xml

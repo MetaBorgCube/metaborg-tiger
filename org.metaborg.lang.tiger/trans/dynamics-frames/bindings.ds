@@ -1,0 +1,43 @@
+module dynamics-frames/bindings
+
+imports ds-signatures/Bindings-sig
+imports dynamics-frames/base
+imports dynamics-frames/store
+imports dynamics-frames/nabl2-link
+imports dynamics-frames/unit
+imports nabl2/statics/tiger
+
+signature
+  arrows   
+    Dec --> U
+    evalDecs(List(Dec)) --> U
+    evalSeq(List(Exp)) --> V
+
+rules // bindings
+  
+  F |- l@Let(decs, es) --> vv
+  where
+    bodyScope(l) --> s_body;
+    initDefault(s_body, {}) --> F_body;
+    FS (F, F_body) |- evalDecs(decs) --> _;
+    F_body |- evalSeq(es) --> vv
+  
+  FS (F_outer, F_body) |- evalDecs([]) --> U()
+  where
+    addLink(F_body, P(), F_outer) --> _
+  
+  FS (F_outer, F_body) |- evalDecs([dec]) --> U()
+  where
+    addLink(F_body, P(), F_outer) --> _;
+    FS (F_body, F_outer) |- dec --> _
+  
+  FS (F_outer, F_body) |- evalDecs([d@dec | decs@[_|_]]) --> U()
+  where
+    bodyScope(d) --> s_dec;
+    initDefault(s_dec, { P() |--> { scopeOf(F_outer) : Scope |--> F_outer}}) --> F_dec;
+    FS (F_dec, F_outer) |- dec --> _;
+    FS (F_dec, F_body) |- evalDecs(decs) --> _
+
+    
+    
+    

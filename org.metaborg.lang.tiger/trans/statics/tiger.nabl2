@@ -13,7 +13,17 @@ imports statics/types
 imports statics/variables
 //imports statics/equality
 
+signature
+
+  constraint generator
+    [[ Module ^ (scope) ]]
+    [[ Exp ^ (scope) ]]
+    [[ Dec ^ (scope, scope) ]]
+
 rules // top-level module
+
+  init ^ (s) :=
+    new s.
 
   [[ Mod(e) ^ (s) : ty ]] :=
      [[ e ^ (s) : ty ]].

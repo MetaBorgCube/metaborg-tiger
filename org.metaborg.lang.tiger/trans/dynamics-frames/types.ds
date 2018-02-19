@@ -1,0 +1,10 @@
+module dynamics-frames/types
+
+imports ds-signatures/Types-sig
+imports dynamics-frames/base
+imports dynamics-frames/bindings
+
+rules // type declarations
+
+  TypeDecs(_) --> U()
+

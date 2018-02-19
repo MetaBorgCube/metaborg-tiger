@@ -1,32 +1,30 @@
 module tiger
 
-imports ds-signatures/Tiger-sig
 
-imports dynamics/store
-imports dynamics/natives
-imports dynamics/base
+////////////////////////////////////////////
+///////// FRAME-BASED SEMANTICS ////////////
+////////////////////////////////////////////
 
-imports dynamics/bindings
-imports dynamics/variables
-imports dynamics/functions
-imports dynamics/numbers
-imports dynamics/strings	
-imports dynamics/records
-imports dynamics/arrays
-imports dynamics/control-flow
-imports dynamics/types
-imports dynamics/predef
+/*
+Uncomment the import below to enable Frame-based semantics.
+To run a Tiger program afterwards invoke the Tiger (Core) runner on a program
+*/
 
-imports dynamics/equality
+//imports dynamics-frames/dynamics
 
-signature
-  
-  arrows
-    Module -init-> V
-    
-rules
 
-  Mod(e) -init-> v
-  where
-    E {} |- stdLib() :: H {} --> E' :: H';
-    E' |- e :: H' --> v
+
+
+
+////////////////////////////////////////////
+///////// ENVIRONMENT-BASED SEMANTICS ////////////
+////////////////////////////////////////////
+
+/*
+Uncomment the import below to enable Environment-based semantics.
+To run a Tiger program afterwards invoke the Tiger runner on a program
+(NB: not the Tiger (Core) run configuration)
+*/
+
+imports dynamics/dynamics
+

@@ -1,0 +1,60 @@
+module dynamics-frames/functions
+
+imports ds-signatures/Functions-sig
+imports dynamics-frames/base
+imports dynamics-frames/store
+imports dynamics-frames/strings
+imports dynamics-frames/bindings
+imports dynamics-frames/natives
+imports dynamics-frames/numbers
+
+signature
+  sorts
+  
+  constructors
+    ClosureV : List(FArg) * Exp * Scope * Frame -> V
+  arrows
+    fdecs(List(FunDec)) --> U
+    fdec(FunDec) --> U
+    evalArgs(List(FArg), List(Exp), Frame) --> U
+
+rules // 
+
+  default(FUN(_, _)) --> UndefV()
+  
+rules // function definition
+
+  FunDecs(fds) --> fdecs(fds)
+  
+  fdecs([]) --> U()
+  
+  fdecs([fd | fds]) --> fdecs(fds)
+  where
+    fdec(fd) --> U()
+  
+  FS (F, _) : (Frame * Frame) |- fdec(d@FunDec(x : Occurrence, args, _, e)) --> U()
+  where
+    bodyScope(d) --> s_fun;
+    set(Addr(F, x), ClosureV(args, e, s_fun, F))  --> _
+
+  Call(f : Occurrence, args) --> v
+  where
+    get(lookup(pathOf(f))) --> ClosureV(fps, e, s_fun, F_parent);
+    initFrame(s_fun, { P() |--> { scopeOf(F_parent) : Scope |--> F_parent}}, {}) --> F_fun;
+    evalArgs(fps, args, F_fun) --> _;
+    F_fun |- e --> v
+  
+  evalArgs([], [], _) --> U()
+  
+  evalArgs([FArg(x : Occurrence, _) | args], [vv | es], F_fun) --> evalArgs(args, es, F_fun)
+  where
+    set(mkAddr(F_fun, x), vv) --> _
+  
+
+rules // procedure definition
+  
+  FS (F, _) : (Frame * Frame) |- fdec(d@ProcDec(x : Occurrence, args, e)) --> U()
+  where
+    bodyScope(d) --> s_fun;
+    set(mkAddr(F, x), ClosureV(args, e, s_fun, F))  --> _
+

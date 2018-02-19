@@ -1,8 +1,8 @@
 module Records
 
 imports Base
-imports Identifiers
 imports Types
+imports Occurrences
 
 context-free syntax // records
 
@@ -12,12 +12,12 @@ context-free syntax // records
     }
   > 
   
-  Field.Field = <<Id> : <TypeId>> 
+  Field.Field = <<Occ> : <TypeId>> 
    
   Exp.NilExp = <nil> 
   
   Exp.Record = <<TypeId>{ <{InitField ", "}*> }> 
   
-  InitField.InitField = <<Id> = <Exp>> 
+  InitField.InitField = <<Occ> = <Exp>> 
   
-  LValue.FieldVar = <<LValue>.<Id>> 
+  LValue.FieldVar = <<LValue>.<Occ>> 

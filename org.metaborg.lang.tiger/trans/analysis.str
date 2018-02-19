@@ -5,7 +5,7 @@ imports
   nabl2shared
   nabl2runtime
   
-  statics/tiger
+  nabl2/statics/tiger
 
   pp
 
@@ -24,3 +24,11 @@ rules // Debugging
   debug-show-analyzed: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"analyzed.aterm")> path
        ; result   := selected
+
+rules
+
+  editor-transform-occurrences: (selected, _, _, path, _) -> (filename, result)
+  with
+    filename := <guarantee-extension(|"aterm")> path;
+    result := <nabl2--transform-all-occurrences> selected
+ 
