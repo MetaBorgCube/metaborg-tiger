@@ -20,7 +20,8 @@ node {
       , globalMavenSettingsFilePath: ".mvn/settings.xml"
       , mavenOpts: '-Xmx1G -Xms1G -Xss16m'
       ) {
-        sh 'mvn -B -U -e clean verify -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
+        sh 'mvn -B -U -e clean -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
+        sh 'mvn -B -U -e install -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
       }
     }
 
