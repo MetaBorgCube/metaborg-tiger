@@ -5,15 +5,15 @@
 /.classpath
 /.settings
 /.factorypath
-file:///Users/vladvergu/tud/slde/software/languages/nonmeta/metaborg-tiger/org.metaborg.lang.tiger.interpreter/src/main/resources/signatures-digest.cache
+src/main/resources/signatures-digest.cache
 src/main/resources/specification.aterm
 src/main/resources/parsetable.tbl
 src/main/resources/logback.xml
-src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated
-src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms
-src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms/build
-src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/terms/match
-src/test/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated/test
+src/main/java/org/metaborg/lang/tiger/interpreter/generated
+src/main/java/org/metaborg/lang/tiger/interpreter/generated/terms
+src/main/java/org/metaborg/lang/tiger/interpreter/generated/terms/build
+src/main/java/org/metaborg/lang/tiger/interpreter/generated/terms/match
+src/test/java/org/metaborg/lang/tiger/interpreter/generated/test
 /Tiger.launch
 /TestTiger.launch
 /Tiger (Core).launch
