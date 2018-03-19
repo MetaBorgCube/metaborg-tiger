@@ -5,7 +5,7 @@ imports dynamics-frames/base
 imports dynamics-frames/store
 imports dynamics-frames/nabl2-link
 imports dynamics-frames/unit
-imports nabl2/statics/tiger
+imports statics/tiger
 
 signature
   arrows   

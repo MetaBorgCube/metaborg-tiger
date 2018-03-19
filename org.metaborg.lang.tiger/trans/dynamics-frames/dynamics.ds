@@ -1,6 +1,6 @@
 module dynamics-frames/dynamics
 
-imports nabl2/statics/tiger
+imports statics/tiger
 imports ds-signatures/Tiger-sig
 imports dynamics-frames/store
 imports dynamics-frames/natives
