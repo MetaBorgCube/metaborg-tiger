@@ -56,10 +56,8 @@ rules
     farg2Occurrences(args) --> (args', decls);
     // create a scope identifier
     Scope("<:implicit:fun:>", name) => s_fun;
-    // create a scope data
-    SE(decls, [], { P() |--> [scopeOf(F_parent):Scope]}, {}) => se_fun;
-    // store the scope
-    initScope(s_fun, se_fun) --> _;
+    // init a scope
+    newScope(s_fun, decls, [], { P() |--> [scopeOf(F_parent):Scope]}, {}) --> _;
     // store
     set(mkAddr(F_parent, occ_decl), ClosureV(args', e, s_fun, F_parent))  --> _
   
