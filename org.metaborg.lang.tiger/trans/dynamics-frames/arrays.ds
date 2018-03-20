@@ -57,8 +57,7 @@ rules
   initArrayScope(array_idx, len) --> s
   where
     Scope("<:implicit:array:>", int2string(array_idx)) => s;
-    SE(mkArrayElemOccurrences(array_idx, 0, len), [], {}, {}) => se;
-    initScope(s, se) --> _
+    newScope(s, mkArrayElemOccurrences(array_idx, 0, len), [], {}, {}) --> _
   
   initArrayFrame(s_array, vv) --> initFrame(s_array, {}, slots)
   where
