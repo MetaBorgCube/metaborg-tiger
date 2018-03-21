@@ -37,10 +37,10 @@ rules
           RecordV(F_(f2)) =>
             IntV(eqI(f1, f2)) => vv
         }
-      ArrayV(_, id1) =>
+      ArrayV(F_(f1)) =>
         case vv2 of {
-          ArrayV(_, id2) =>
-            IntV(eqI(id1, id2)) => vv
+          ArrayV(F_(f2)) =>
+            IntV(eqI(f1, f2)) => vv
           otherwise =>
             IntV(0) => vv
         }     
