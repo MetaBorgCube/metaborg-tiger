@@ -9,6 +9,7 @@ rules // record type
   [[ r@RecordTy(fields) ^ (s) : ty ]] := 
      new s_rec,
      ty == RECORD(s_rec),
+     @r.bodyScope := s_rec,
      NIL() <! ty,
      distinct/name D(s_rec)/Field | error $[Duplicate declaration of field [NAME]] @ NAMES,
      Map2[[ fields ^ (s_rec, s) ]].
@@ -27,8 +28,8 @@ rules // record creation
   [[ r@Record(t, inits) ^ (s) : ty ]] :=
      [[ t ^ (s) : ty ]],
      ty == RECORD(s_rec) | error $[record type expected],
-     new s_use, s_use -I-> s_rec,
      @r.bodyScope := s_use,
+     new s_use, s_use -I-> s_rec,
      D(s_rec)/Field subseteq/name R(s_use)/Field | error $[Field [NAME] not initialized] @r,
      distinct/name R(s_use)/Field | error $[Duplicate initialization of field [NAME]] @NAMES,
      Map2[[ inits ^ (s_use, s) ]].
@@ -42,10 +43,11 @@ rules // record creation
       
 rules // record field access
      
-  [[ FieldVar(e, f) ^ (s) : ty ]] :=
+  [[ fv@FieldVar(e, f) ^ (s) : ty ]] :=
      [[ e ^ (s) : ty_e ]], 
      ty_e == RECORD(s_rec),
      new s_use, s_use -I-> s_rec, 
+     @fv.bodyScope := s_use,
      Field{f} -> s_use,
      Field{f} |-> d,
      d : ty.

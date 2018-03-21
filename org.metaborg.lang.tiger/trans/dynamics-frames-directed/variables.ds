@@ -1,0 +1,32 @@
+module dynamics-frames-directed/variables
+
+imports
+  dynamics-frames-directed/base
+  dynamics-frames-directed/bindings
+
+signature
+  arrows
+    Frames1 |- Dec(Dec) --> U
+  
+rules // variable declarations
+  
+  Frames1 (F, F_outer) |- VarDec(x : Occurrence, t, e) --> U()
+  where
+    F F_outer |- e --> v2;
+    set(mkAddr(F, x), v2) --> _
+    
+  Frames1 (F, F_outer) |- VarDecNoType(x : Occurrence, e) --> U()
+  where
+    F F_outer |- e --> v;
+    set(mkAddr(F, x), v) --> _
+
+rules // variable references
+
+  F F |- __Var2LValue__(Var(x : Occurrence)) --> lookup(pathOf(x))
+  
+  F F |- Assign(e1, e2) --> UnitV()
+  where
+     F F |- e1 --> addr;
+     F F |- e2 --> v;
+     set(addr, v) --> _
+

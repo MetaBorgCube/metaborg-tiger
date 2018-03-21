@@ -1,0 +1,39 @@
+module dynamics-frames-directed/nabl2/ex-frame-api
+
+imports
+  nabl2/runtime/interpreter/frame-api
+  nabl2/runtime/interpreter/frame-impl 
+
+signature
+  sorts
+    FrameLink
+  
+  constructors
+    P: Frame -> FrameLink
+    I: Frame -> FrameLink
+    Link: Label * Frame -> FrameLink
+    
+  arrows
+    initDefFrame(Scope, List(FrameLink)) --> Frame
+    linksFrom(List(FrameLink)) --> Map(Label, Map(Scope, Frame))
+    FrameLink --> Map(Label, Map(Scope, Frame))
+    
+
+rules
+
+  initDefFrame(s, ls) --> initDefault(s, linksFrom(ls))
+
+  linksFrom([]) --> {}
+  
+  linksFrom([l|ls]) --> l' + ls'
+  where
+    l --> l';
+    linksFrom(ls) --> ls'
+  
+  P(F) --> Link(P(), F)
+  
+  I(F) --> Link(I(), F)
+  
+  Link(l, F) --> { l |--> { scopeOf(F) : Scope |--> F}}
+  
+   

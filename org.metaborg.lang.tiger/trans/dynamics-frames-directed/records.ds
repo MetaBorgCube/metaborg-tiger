@@ -1,0 +1,66 @@
+module dynamics-frames-directed/records
+
+
+imports ds-signatures/Records-sig 
+imports dynamics-frames-directed/nabl2/nabl2-link
+imports dynamics-frames-directed/base
+imports dynamics-frames-directed/store
+imports dynamics-frames-directed/unit
+
+signature
+  constructors  
+    NilV : V 
+    RecordV: Frame -> V
+  sorts
+    TypeV
+    
+  constructors
+    RECORD-V: Frame -> TypeV
+    
+  arrows
+    TypeId --> Type
+    Type --> TypeV
+    Frames1 |- Map2-InitField(List(InitField)) --> U
+    InitField --> U
+    
+rules // record type
+
+  default(RECORD(scope)) --> NilV()
+
+//  F F |- r@RecordTy(fields) --> RECORD-V(F_rec)
+//  where
+//    initDefFrame(bodyScope(r), []) --> F_rec
+  
+rules // literals
+  
+  NilExp() --> NilV()
+
+rules // record creation
+  
+  F F |- r@Record(t, inits) --> RecordV(F_use)
+  where
+    F F |- t --> RECORD-V(F_rec); // FIX
+    initDefFrame(bodyScope(r), [I(F_rec)]) --> F_use;
+    Frames1 (F_use, F) |- Map2-InitField(inits) --> _
+  
+  Frames1 (F, F') |- Map2-InitField([]) --> U()
+  
+  Frames1 (F, F') |- Map2-InitField([x | xs]) --> U()
+  where
+    Frames1 (F, F') |- x --> _;
+    Frames1 (F, F') |- Map2-InitField(xs) --> _
+  
+  Frames1 (F_use, F) |- InitField(x : Occurrence, e) --> U()
+  where
+    F F |- e --> v;
+    F F_use |- lookup(pathOf(x)) --> addr;
+    set(addr, v) --> _
+ 
+rules // record field access
+
+  F F |- fv@FieldVar(e, f : Occurrence) --> mkAddr(F_use, f)
+  where
+    F F |- e --> addr;
+    get(addr) --> RecordV(F_rec);
+    initDefFrame(bodyScope(fv), [I(F_rec)]) --> F_use
+

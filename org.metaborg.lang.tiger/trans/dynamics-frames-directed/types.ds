@@ -1,0 +1,11 @@
+module dynamics-frames-directed/types
+
+imports
+  dynamics-frames-directed/base
+  dynamics-frames-directed/variables  
+
+
+rules // type declarations
+
+  TypeDecs(_) --> U()
+

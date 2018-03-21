@@ -12,7 +12,7 @@ rules // variable declarations
 
   Dec[[ VarDec(x, t, e) ^ (s, s_outer) ]] :=
      [[ t ^ (s_outer) : ty1 ]],
-     [[ e ^ (s_outer) : ty2 ]],
+     [[ e ^ (s_outer) : ty2 ]], // ~1
      ty2 <? ty1 | error $[type mismatch got [ty2] where [ty1] expected] @ e,
      Var{x} <- s, 
      Var{x} : ty1 !.

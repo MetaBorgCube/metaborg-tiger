@@ -1,0 +1,85 @@
+module dynamics-frames-directed/control-flow
+
+imports ds-signatures/Control-Flow-sig
+imports dynamics-frames-directed/base
+imports dynamics-frames-directed/store
+imports dynamics-frames-directed/natives
+imports dynamics-frames-directed/numbers
+
+signature
+  arrows
+    evalSeq(List(Exp)) --> V
+  
+  sorts
+    BreakFlag
+  
+  constructors
+    OK: BreakFlag
+    BR: BreakFlag
+  
+  components
+    B : BreakFlag = OK()
+  
+rules
+
+  Seq(es) --> evalSeq(es)
+  
+  evalSeq([]) --> UnitV()
+  
+  evalSeq([e | es]) --> evalSeq(es)
+  where
+    e --> v
+  
+  IfThen(e1, e2) --> If(e1, e2, Seq([]))
+  
+  If(IntV(i), e1, e2) --> vv
+  where
+    case i of {
+      0 =>
+        e2 --> vv
+      otherwise =>
+        e1 --> vv
+    }
+  
+  F |- w@While(e1, e2) --> UnitV()
+  where
+    F |- e1 --> IntV(i);
+    case i of {
+      1 =>
+        initFrame(bodyScope(w), { P() |--> { scopeOf(F) : Scope |--> F }}, {}) --> F';
+        F' |- e2 :: B OK() --> _ :: B';
+        case B' of {
+          OK() =>
+            F |- w --> _
+          otherwise =>
+        }
+      otherwise =>
+    }
+  
+  F |- stm@For(Var(x : Occurrence), IntV(i_start), IntV(i_end), e3) --> UnitV()
+  where
+    initFrame(bodyScope(stm), { P() |--> { scopeOf(F) : Scope |--> F } }, {}) --> F_for;
+    F_for |- for-loop(x, i_start, i_end, e3) --> _
+
+signature
+  arrows
+    for-loop(Occurrence, Int, Int, Exp) --> V
+
+rules
+  
+  F |- for-loop(x, i, j, e) --> UnitV()
+  where
+    case leqI(i, j) of {
+      1 =>
+        set(mkAddr(F, x), IntV(i)) --> _;
+        F |- e :: B OK() --> _ :: B';
+        case B' of {
+          OK() =>
+            F |- for-loop(x, addI(i, 1), j, e) --> _
+          otherwise =>
+        }
+      0 =>
+    }
+  
+  Break() :: B OK() --> ??? :: B BR()
+  
