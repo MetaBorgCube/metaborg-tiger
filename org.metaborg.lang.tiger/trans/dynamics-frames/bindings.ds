@@ -11,7 +11,6 @@ signature
   arrows   
     Dec --> U
     evalDecs(List(Dec)) --> U
-    evalSeq(List(Exp)) --> V
 
 rules // bindings
   
@@ -20,7 +19,7 @@ rules // bindings
     bodyScope(l) --> s_body;
     initDefault(s_body, {}) --> F_body;
     FS (F, F_body) |- evalDecs(decs) --> _;
-    F_body |- evalSeq(es) --> vv
+    F_body |- Seq(es) --> vv
   
   FS (F_outer, F_body) |- evalDecs([]) --> U()
   where

@@ -7,9 +7,6 @@ imports dynamics-frames/natives
 imports dynamics-frames/numbers
 
 signature
-  constructors
-    BreakV : V
-    Breakable : Exp * Exp -> Exp
   arrows
     evalSeq(List(Exp)) --> V
   
@@ -29,17 +26,9 @@ rules
   
   evalSeq([]) --> UnitV()
   
-  evalSeq([vv]) --> vv
-  
-  evalSeq([vv | es@[_|_]]) --> vv
+  evalSeq([e | es]) --> evalSeq(es)
   where
-    case vv of {
-      BreakV() =>
-        BreakV() => vv
-      otherwise =>
-        evalSeq(es) --> vv
-    }
-  
+    e --> v
   
   IfThen(e1, e2) --> If(e1, e2, Seq([]))
   
@@ -91,26 +80,6 @@ rules
         }
       0 =>
     }
-
-//  e@While(e1, e2) --> IfThen(e1, Breakable(e2, e))
-//  
-//  Breakable(v1, e2) --> vv
-//  where
-//    case v1 of {
-//      BreakV() =>
-//        UnitV() => vv
-//      otherwise =>
-//        e2 --> vv
-//    }
-//  
-//  For(Var(x), e1, e2, e3) -->
-//    Let([VarDecNoType(x, e1),
-//         VarDecNoType(__Id2Occ__(end), e2)], 
-//        [While(Leq(Var(x), Var(__Id2Occ__(end))), Seq([
-//           e3,
-//           Assign(Var(x), Plus(Var(x), Int("1")))
-//         ]))])
-//  where printI(fresh) : Id => end  // capture?
-//  
+  
   Break() :: B OK() --> ??? :: B BR()
   
