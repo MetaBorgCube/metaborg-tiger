@@ -1,60 +1,61 @@
 module dynamics-frames-directed/functions
 
-imports ds-signatures/Functions-sig
-imports dynamics-frames-directed/base
-imports dynamics-frames-directed/store
-imports dynamics-frames-directed/strings
-imports dynamics-frames-directed/bindings
-imports dynamics-frames-directed/natives
-imports dynamics-frames-directed/numbers
 
+imports
+  dynamics-frames-directed/base
+  dynamics-frames-directed/bindings
+  
 signature
-  sorts
-  
-  constructors
-    ClosureV : List(FArg) * Exp * Scope * Frame -> V
   arrows
-    fdecs(List(FunDec)) --> U
-    fdec(FunDec) --> U
-    evalArgs(List(FArg), List(Exp), Frame) --> U
+    Frames1 |- Map2-FunDecs(List(FunDec)) --> U
+    Frames1 |- FunDec --> U
+    occurrences(List(FArg)) --> List(Occurrence)
+    F |- Map-Exps(List(Exp)) --> List(Val)
+    
+  constructors
+    FunV: Frame * Exp -> V
+    
+rules // function declarations
 
-rules // 
-
-  default(FUN(_, _)) --> UndefV()
-  
-rules // function definition
-
-  FunDecs(fds) --> fdecs(fds)
-  
-  fdecs([]) --> U()
-  
-  fdecs([fd | fds]) --> fdecs(fds)
+  Frames1 (F, F_outer) |- Dec(FunDecs(fdecs)) --> U()
   where
-    fdec(fd) --> U()
+    Frames1 (F, F_outer) |- Map2-FunDecs(fdecs) --> _
   
-  FS (F, _) : (Frame * Frame) |- fdec(d@FunDec(x : Occurrence, args, _, e)) --> U()
+  Frames1 (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
   where
-    bodyScope(d) --> s_fun;
-    set(Addr(F, x), ClosureV(args, e, s_fun, F))  --> _
+    // NOTE: this would be a lot nicer if frames had ORDERED slots
+    // we would not need to iterate the list of args
+    // instead we would get them from the scope
+    initVirtualFrame(bodyScope(d), [P(F)], occurrences(args)) --> F_fun;
+    set(mkAddr(F, f), FunV(F_fun, e)) --> _
+    // FIXME: how about the function body?
+  
+  Frames1 (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
+  where
+    // NOTE: this would be a lot nicer if frames had ORDERED slots
+    // we would not need to iterate the list of args
+    // instead we would get them from the scope
+    initVirtualFrame(bodyScope(d), [P(F)], occurrences(args)) --> F_fun;
+    set(mkAddr(F, f), FunV(F_fun, e)) --> _
+    // FIXME: how about the function body?
+  
+  F F |- Call(f : Occurrence, exps) --> v
+  where
+    // FIXME: fetch function body from SG and evaluate it instead of getting from closure
+    get(lookup(pathOf(f))) --> FunV(F_fun_virt, e);
+    F F |- Map-Exps(exps) --> vals;
+    materializeFrame(F_fun_virt, vals) --> F_call;
+    F F_call |- e --> v
 
-  Call(f : Occurrence, args) --> v
+  occurrences([]) --> []
+  
+  occurrences([FArg(x : Occurrence, _) | args]) --> [x |occs]
   where
-    get(lookup(pathOf(f))) --> ClosureV(fps, e, s_fun, F_parent);
-    initFrame(s_fun, { P() |--> { scopeOf(F_parent) : Scope |--> F_parent}}, {}) --> F_fun;
-    evalArgs(fps, args, F_fun) --> _;
-    F_fun |- e --> v
-  
-  evalArgs([], [], _) --> U()
-  
-  evalArgs([FArg(x : Occurrence, _) | args], [vv | es], F_fun) --> evalArgs(args, es, F_fun)
-  where
-    set(mkAddr(F_fun, x), vv) --> _
-  
+    occurrences(args) --> occs
 
-rules // procedure definition
+  F F |- Map-Exps([]) --> []
   
-  FS (F, _) : (Frame * Frame) |- fdec(d@ProcDec(x : Occurrence, args, e)) --> U()
+  F F |- Map-Exps([e|es]) --> [v|vs]
   where
-    bodyScope(d) --> s_fun;
-    set(mkAddr(F, x), ClosureV(args, e, s_fun, F))  --> _
-
+    F F |- e --> v;
+    F F |- Map-Exps(es) --> vs

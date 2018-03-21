@@ -1,8 +1,7 @@
 module dynamics-frames-directed/nabl2/ex-frame-api
 
 imports
-  nabl2/runtime/interpreter/frame-api
-  nabl2/runtime/interpreter/frame-impl 
+  nabl2/runtime/interpreter/frame-impl
 
 signature
   sorts
@@ -36,4 +35,29 @@ rules
   
   Link(l, F) --> { l |--> { scopeOf(F) : Scope |--> F}}
   
-   
+signature // static frames
+  constructors
+    SFC_ : Scope * Map(Label, Map(Scope, Frame)) * List(Occurrence) -> Frame
+    
+  arrows
+    initVirtualFrame(Scope, List(FrameLink), List(Occurrence)) --> Frame
+    materializeFrame(Frame, List(Val)) --> Frame
+    Slots(List(Occurrence), List(Val)) --> Map(Occurrence, Val)
+rules
+
+  initVirtualFrame(s, ls, params) :: H H_(x) --> ff :: H H_({ ff |--> SFC_(s, linksFrom(ls), params), x})  
+  where
+    F_(fresh) => ff
+  
+  materializeFrame(ff_virt, vals) :: H H_(h) --> ff_actual
+  where
+    h[ff_virt] => SFC_(s, links, holes);
+    initFrame(s, links, Slots(holes, vals)) --> ff_actual 
+  
+  Slots([], []) --> {}
+  
+  Slots([occ|occs], [v|vs]) --> {occ |--> v, slots}
+  where
+    Slots(occs, vs) --> slots
+
+  

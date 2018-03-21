@@ -27,23 +27,23 @@ rules // function declarations
         
   [[ d@FunDec(f, args, t, e) ^ (s, s_outer) ]] :=
 //     Args[[ args ^ (s_fun, s_outer) : tys ]], 
-     new s_fun,
+     new s_fun, s_fun -P-> s,
      @d.bodyScope := s_fun,
-     s_fun -P-> s,
      distinct/name D(s_fun) | error $[duplicate argument] @ NAMES, 
      MapTs2[[ args ^ (s_fun, s_outer) : tys ]],
-//
      [[ t ^ (s_outer) : ty ]],
      Var{f} <- s, 
+//     Var{x} =I=> s_fun,
+     Var{f}.treedata := e,
      Var{f} : FUN(tys, ty) !, 
      [[ e ^ (s_fun) : ty_body ]],
      ty == ty_body| error $[return type does not match body] @ t.
      
-  Args[[ args ^ (s_fun, s_outer) : tys ]] := 
-     new s_fun,      
-     s_fun -P-> s,   
-     distinct/name D(s_fun) | error $[duplicate argument] @ NAMES, 
-     MapTs2[[ args ^ (s_fun, s_outer) : tys ]].
+//  Args[[ args ^ (s_fun, s_outer) : tys ]] := 
+//     new s_fun,      
+//     s_fun -P-> s,   
+//     distinct/name D(s_fun) | error $[duplicate argument] @ NAMES, 
+//     MapTs2[[ args ^ (s_fun, s_outer) : tys ]].
      
   [[ FArg(x, t) ^ (s_fun, s_outer) : ty ]] :=
      Var{x} <- s_fun, 
