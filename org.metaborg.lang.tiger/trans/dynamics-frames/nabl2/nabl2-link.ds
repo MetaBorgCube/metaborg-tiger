@@ -1,6 +1,7 @@
-module dynamics-frames/nabl2-link
+module dynamics-frames/nabl2/nabl2-link
 
-imports imports ds-signatures/Tiger-sig
+imports
+  ds-signatures/Tiger-sig
 
 imports
   nabl2/runtime/interpreter/util

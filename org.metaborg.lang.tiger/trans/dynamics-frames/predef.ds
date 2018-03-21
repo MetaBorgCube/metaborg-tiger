@@ -1,6 +1,6 @@
 module dynamics-frames/predef
 
-imports dynamics-frames/nabl2-link
+imports dynamics-frames/nabl2/nabl2-link
 imports dynamics-frames/functions
 imports nabl2/runtime/interpreter/scopegraph-api
 

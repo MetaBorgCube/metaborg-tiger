@@ -17,7 +17,7 @@ imports dynamics-frames/types
 imports dynamics-frames/predef
 imports dynamics-frames/equality
 
-imports dynamics-frames/nabl2-link
+imports dynamics-frames/nabl2/nabl2-link
   
 signature
   arrows

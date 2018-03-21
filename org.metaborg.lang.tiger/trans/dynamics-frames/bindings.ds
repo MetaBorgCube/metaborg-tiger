@@ -3,7 +3,7 @@ module dynamics-frames/bindings
 imports ds-signatures/Bindings-sig
 imports dynamics-frames/base
 imports dynamics-frames/store
-imports dynamics-frames/nabl2-link
+imports dynamics-frames/nabl2/nabl2-link
 imports dynamics-frames/unit
 imports statics/tiger
 
