@@ -1,35 +1,22 @@
 module dynamics-frames-directed/records
 
 
-imports ds-signatures/Records-sig 
-imports dynamics-frames-directed/nabl2/nabl2-link
-imports dynamics-frames-directed/base
-imports dynamics-frames-directed/store
-imports dynamics-frames-directed/unit
+imports
+  dynamics-frames-directed/base
+  dynamics-frames-directed/unit
+  dynamics-frames-directed/types
 
 signature
   constructors  
     NilV : V 
     RecordV: Frame -> V
-  sorts
-    TypeV
-    
-  constructors
-    RECORD-V: Frame -> TypeV
-    
   arrows
-    TypeId --> Type
-    Type --> TypeV
     Frames1 |- Map2-InitField(List(InitField)) --> U
     InitField --> U
     
 rules // record type
 
   default(RECORD(scope)) --> NilV()
-
-//  F F |- r@RecordTy(fields) --> RECORD-V(F_rec)
-//  where
-//    initDefFrame(bodyScope(r), []) --> F_rec
   
 rules // literals
   
@@ -39,7 +26,8 @@ rules // record creation
   
   F F |- r@Record(t, inits) --> RecordV(F_use)
   where
-    F F |- t --> RECORD-V(F_rec); // FIX
+    F F |- t --> RECORD(s_rec);
+    initDefFrame(s_rec, []) --> F_rec;
     initDefFrame(bodyScope(r), [I(F_rec)]) --> F_use;
     Frames1 (F_use, F) |- Map2-InitField(inits) --> _
   
