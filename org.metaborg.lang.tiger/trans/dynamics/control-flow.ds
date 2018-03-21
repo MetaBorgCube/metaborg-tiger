@@ -60,7 +60,7 @@ rules
            e3,
            Assign(Var(x), Plus(Var(x), Int("1")))
          ]))])
-  where printI(fresh) : Id => end  // capture?
+  where int2string(fresh) : Id => end  // capture?
   
   Break() --> BreakV()
   
