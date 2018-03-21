@@ -44,6 +44,9 @@ rules
     Var{"print"} <- s,   
     Var{"print"} : FUN([STRING()], UNIT()) !!,
     
+    Var{"printi"} <- s,
+    Var{"printi"} : FUN([INT()], UNIT()) !!,
+    
     Var{"flush"} <- s,   
     Var{"flush"} : FUN([], UNIT()) !!,
     

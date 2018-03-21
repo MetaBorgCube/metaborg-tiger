@@ -11,6 +11,7 @@ signature
 
   constructors
     nativePrintV     : Exp
+    nativePrintIV     : Exp
     nativeOrdV       : Exp
     nativeChrV       : Exp
     nativeNotV       : Exp
@@ -38,13 +39,19 @@ rules
     E6 |- bindVar("substring", ClosureV([FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("i1"), Tid(__Id2Occ__("int"))), FArg(__Id2Occ__("i2"), Tid(__Id2Occ__("int")))], nativeSubstringV(), E)) --> E7;
     E7 |- bindVar("concat",    ClosureV([FArg(__Id2Occ__("s1"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("s2"), Tid(__Id2Occ__("string")))], nativeConcatV(), E)) --> E8;
     E8 |- bindVar("getchar",   ClosureV([], nativeGetcharV(), E)) --> E9;
-    E9 |- bindVar("flush",     ClosureV([], nativeFlushV(), E)) --> E'
+    E9 |- bindVar("flush",     ClosureV([], nativeFlushV(), E)) --> E10;
+    E10|- bindVar("printi",     ClosureV([FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativePrintIV(), E)) --> E'
   
   // predefined function reductions
   nativePrintV() --> UnitV()
   where
     read(lookup("s")) => StringV(s);
     printS(s) => _
+
+  nativePrintIV() --> UnitV()
+  where
+    read(lookup("i")) => IntV(i);
+    printI(i) => _
 
   nativeOrdV() --> IntV(result)
   where

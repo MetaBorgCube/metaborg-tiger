@@ -16,7 +16,9 @@ public abstract class printI_1 extends TermBuild {
 
 	@Specialization
 	public String doString(int i) {
-		return i + "";
+		final String s = i + "";
+		System.out.print(s);
+		return s;
 	}
 
 	public static TermBuild create(SourceSection source, TermBuild stringbuild) {

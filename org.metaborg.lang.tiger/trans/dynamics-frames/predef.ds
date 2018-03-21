@@ -8,6 +8,7 @@ signature
 
   constructors
     nativePrintV     : Exp
+    nativePrintIV     : Exp
     nativeOrdV       : Exp
     nativeChrV       : Exp
     nativeNotV       : Exp
@@ -29,6 +30,7 @@ rules
   stdLib() --> U()
   where
       registerBuiltin("print", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativePrintV()) --> _;
+      registerBuiltin("printi", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativePrintIV()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _;
       registerBuiltin("ord", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativeOrdV()) --> _;
       registerBuiltin("chr", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeChrV()) --> _;
@@ -67,6 +69,12 @@ rules
     declsOf(scopeOf(F)) --> [arg];
     get(mkAddr(F, arg)) --> StringV(s);
     printS(s) => _
+  
+  F |- nativePrintIV() --> UnitV()
+  where
+    declsOf(scopeOf(F)) --> [arg];
+    get(mkAddr(F, arg)) --> IntV(i);
+    printI(i) => _
 
   F |- nativeOrdV() --> IntV(result)
   where
