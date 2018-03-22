@@ -12,7 +12,6 @@ signature
     ST : Status = OK()
     
   constructors
-    Breakable: Evaluatable -> Evaluatable
     EvSeq: Evaluatable * Evaluatable -> Evaluatable
     OK : Status
     BR : Status
@@ -20,8 +19,6 @@ signature
   arrows
     while-loop(Condition, Evaluatable) --> U
     while-loop-breakable(Condition, Evaluatable) --> U
-    for-loop(Condition, Evaluatable, Evaluatable, Evaluatable) --> U
-    for-loop-breakable(Condition, Evaluatable, Evaluatable, Evaluatable) --> U
     do-break() --> U
     
 rules
@@ -58,16 +55,6 @@ rules
       otherwise =>
         ST1 => ST'
     }
-  
-//  for-loop(cond, init, body, step) --> U()
-//  where
-//    init --> _;
-//    while-loop(cond, EvaluatableSeq(body, step)) --> _
-//  
-//  for-loop-breakable(cond, init, body, step) --> U()
-//  where
-//    init --> _;
-//    while-loop-breakable(cond, EvaluatableSeq(body, step)) --> _
   
   EvSeq(e1, e2) --> e2
   where
