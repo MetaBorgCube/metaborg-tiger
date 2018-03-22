@@ -3,7 +3,6 @@ module dynamics-frames-directed/bindings
 imports
   dynamics-frames-directed/base
   dynamics-frames-directed/variables
-  dynamics-frames-directed/unit
 
 signature
   arrows   

@@ -9,7 +9,7 @@ signature
   arrows
     Frames1 |- Map2-FunDecs(List(FunDec)) --> U
     Frames1 |- FunDec --> U
-    occurrences(List(FArg)) --> List(Occurrence)
+    unpackArgs(List(FArg)) --> List(Occurrence)
     F |- Map-Exps(List(Exp)) --> List(Val)
     
   constructors
@@ -26,7 +26,7 @@ rules // function declarations
     // NOTE: this would be a lot nicer if frames had ORDERED slots
     // we would not need to iterate the list of args
     // instead we would get them from the scope
-    initVirtualFrame(bodyScope(d), [P(F)], occurrences(args)) --> F_fun;
+    initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
     set(mkAddr(F, f), FunV(F_fun, e)) --> _
     // FIXME: how about the function body?
   
@@ -35,23 +35,23 @@ rules // function declarations
     // NOTE: this would be a lot nicer if frames had ORDERED slots
     // we would not need to iterate the list of args
     // instead we would get them from the scope
-    initVirtualFrame(bodyScope(d), [P(F)], occurrences(args)) --> F_fun;
+    initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
     set(mkAddr(F, f), FunV(F_fun, e)) --> _
     // FIXME: how about the function body?
   
   F F |- Call(f : Occurrence, exps) --> v
   where
-    // FIXME: fetch function body from SG and evaluate it instead of getting from closure
+    // FIXME: fetch function body from SG and evaluate it, instead of getting from closure
     get(lookup(pathOf(f))) --> FunV(F_fun_virt, e);
     F F |- Map-Exps(exps) --> vals;
     materializeFrame(F_fun_virt, vals) --> F_call;
     F F_call |- e --> v
 
-  occurrences([]) --> []
+  unpackArgs([]) --> []
   
-  occurrences([FArg(x : Occurrence, _) | args]) --> [x |occs]
+  unpackArgs([FArg(x : Occurrence, _) | args]) --> [x |occs]
   where
-    occurrences(args) --> occs
+    unpackArgs(args) --> occs
 
   F F |- Map-Exps([]) --> []
   

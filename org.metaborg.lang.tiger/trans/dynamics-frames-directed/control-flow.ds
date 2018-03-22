@@ -1,32 +1,21 @@
 module dynamics-frames-directed/control-flow
 
-imports ds-signatures/Control-Flow-sig
-imports dynamics-frames-directed/base
-imports dynamics-frames-directed/store
-imports dynamics-frames-directed/natives
-imports dynamics-frames-directed/numbers
+imports
+  dynamics-frames-directed/base
+  dynamics-frames-directed/numbers
+  dynamics-frames-directed/stdlib/loop
 
 signature
   arrows
-    evalSeq(List(Exp)) --> V
-  
-  sorts
-    BreakFlag
-  
-  constructors
-    OK: BreakFlag
-    BR: BreakFlag
-  
-  components
-    B : BreakFlag = OK()
+    Seq-Exps(List(Exp)) --> V
   
 rules
 
-  Seq(es) --> evalSeq(es)
+  Seq(es) --> Seq-Exps(es)
   
-  evalSeq([]) --> UnitV()
+  Seq-Exps([]) --> UnitV()
   
-  evalSeq([e | es]) --> evalSeq(es)
+  Seq-Exps([e | es]) --> Seq-Exps(es)
   where
     e --> v
   
@@ -40,46 +29,80 @@ rules
       otherwise =>
         e1 --> vv
     }
-  
+    
+signature
+  constructors
+    IsInt0: Exp -> Condition 
+    AddrLte: Addr * Int -> Condition
+    WhileBody: Exp -> Evaluatable
+    IncAddr: Addr -> Evaluatable
+    __Exp2Evaluatable__ : Exp -> Evaluatable {implicit}
+rules
+
+  Break() --> UnitV()
+  where
+    do-break() --> _
+
   F |- w@While(e1, e2) --> UnitV()
   where
-    F |- e1 --> IntV(i);
+//    while-loop-brekable(\ e1 --> IntV(i); i == 0 \, \ initDefFrame(bodyScope(w), [P(F)]) --> F'; F' |- e2 --> v \) --> _;
+    while-loop-breakable(IsInt0(e1), WhileBody(w)) --> _
+  
+  IsInt0(e) --> bv
+  where
+    e --> IntV(i);
     case i of {
-      1 =>
-        initFrame(bodyScope(w), { P() |--> { scopeOf(F) : Scope |--> F }}, {}) --> F';
-        F' |- e2 :: B OK() --> _ :: B';
-        case B' of {
-          OK() =>
-            F |- w --> _
-          otherwise =>
-        }
-      otherwise =>
+      0 => true => bv
+      otherwise => false => bv
     }
   
-  F |- stm@For(Var(x : Occurrence), IntV(i_start), IntV(i_end), e3) --> UnitV()
+  F |- WhileBody(w@While(_, e2)) --> v
   where
-    initFrame(bodyScope(stm), { P() |--> { scopeOf(F) : Scope |--> F } }, {}) --> F_for;
-    F_for |- for-loop(x, i_start, i_end, e3) --> _
-
-signature
-  arrows
-    for-loop(Occurrence, Int, Int, Exp) --> V
-
-rules
+    initDefFrame(bodyScope(w), [P(F)]) --> F';
+    F' |- e2 --> v
   
-  F |- for-loop(x, i, j, e) --> UnitV()
+  F |- stm@For(Var(x : Occurrence), e1, e2, e3) --> UnitV()
   where
-    case leqI(i, j) of {
-      1 =>
-        set(mkAddr(F, x), IntV(i)) --> _;
-        F |- e :: B OK() --> _ :: B';
-        case B' of {
-          OK() =>
-            F |- for-loop(x, addI(i, 1), j, e) --> _
-          otherwise =>
-        }
-      0 =>
+    F |- e1 --> IntV(i1);
+    F |- e2 --> IntV(i2);
+    initDefFrame(bodyScope(stm), [P(F)]) --> F_for;
+    mkAddr(F_for, x) --> x_addr;
+    set(x_addr, IntV(i1)) --> _;
+//  while-loop-breakable(\ get(x_addr) --> IntV(i); leqI(i1, i2) \, \ e3 --> _; get(x_addr) --> IntV(i); set(x_addr, addI(i, 1)) --> _ \) --> _
+    F_for |- while-loop-breakable(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr))) --> _
+  
+  AddrLte(addr, i2) --> bv
+  where
+    get(addr) --> IntV(i1);
+    case leqI(i1, i2) of {
+      0 => true => bv
+      otherwise => false => bv
     }
   
-  Break() :: B OK() --> ??? :: B BR()
-  
+  IncAddr(addr) --> UnitV()
+  where
+    get(addr) --> IntV(i);
+    set(addr, IntV(addI(i, 1))) --> _
+
+//signature
+//  arrows
+//    for-loop(Occurrence, Int, Int, Exp) --> V
+//
+//rules
+//  
+//  F |- for-loop(x, i, j, e) --> UnitV()
+//  where
+//    case leqI(i, j) of {
+//      1 =>
+//        set(mkAddr(F, x), IntV(i)) --> _;
+//        F |- e :: B OK() --> _ :: B';
+//        case B' of {
+//          OK() =>
+//            F |- for-loop(x, addI(i, 1), j, e) --> _
+//          otherwise =>
+//        }
+//      0 =>
+//    }
+//  
+//  Break() :: B OK() --> ??? :: B BR()
+//  

@@ -9,7 +9,6 @@ rules // record type
   [[ r@RecordTy(fields) ^ (s) : ty ]] := 
      new s_rec,
      ty == RECORD(s_rec),
-     @r.bodyScope := s_rec,
      NIL() <! ty,
      distinct/name D(s_rec)/Field | error $[Duplicate declaration of field [NAME]] @ NAMES,
      Map2[[ fields ^ (s_rec, s) ]].

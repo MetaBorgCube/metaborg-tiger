@@ -1,0 +1,77 @@
+module dynamics-frames-directed/stdlib/loop
+
+
+imports
+  dynamics-frames-directed/stdlib/termlib
+
+
+signature
+  sorts
+    Status
+  components
+    ST : Status = OK()
+    
+  constructors
+    Breakable: Evaluatable -> Evaluatable
+    EvSeq: Evaluatable * Evaluatable -> Evaluatable
+    OK : Status
+    BR : Status
+     
+  arrows
+    while-loop(Condition, Evaluatable) --> U
+    while-loop-breakable(Condition, Evaluatable) --> U
+    for-loop(Condition, Evaluatable, Evaluatable, Evaluatable) --> U
+    for-loop-breakable(Condition, Evaluatable, Evaluatable, Evaluatable) --> U
+    do-break() --> U
+    
+rules
+
+  r@while-loop(cond, e) --> U()
+  where
+    cond --> cv;
+    case cv of {
+      false =>
+      otherwise =>
+        e --> _;
+        r --> _
+    }
+  
+  r@while-loop-breakable(cond, e) :: ST OK() --> U() :: ST'
+  where
+    cond :: ST OK() --> cv :: ST1;
+    case ST1 of {
+      OK() =>
+        case cv of {
+          false =>
+            OK() => ST'
+          otherwise =>
+            e :: ST OK() --> _ :: ST2;
+            case ST2 of {
+              OK() =>
+                r :: ST OK() --> _ :: ST'
+              BR() =>
+                OK() => ST'
+              otherwise =>
+                ST2 => ST'
+            }
+        }
+      otherwise =>
+        ST1 => ST'
+    }
+  
+//  for-loop(cond, init, body, step) --> U()
+//  where
+//    init --> _;
+//    while-loop(cond, EvaluatableSeq(body, step)) --> _
+//  
+//  for-loop-breakable(cond, init, body, step) --> U()
+//  where
+//    init --> _;
+//    while-loop-breakable(cond, EvaluatableSeq(body, step)) --> _
+  
+  EvSeq(e1, e2) --> e2
+  where
+    e1 --> _
+      
+  
+    

@@ -1,0 +1,11 @@
+module dynamics-frames-directed/stdlib/termlib
+
+signature
+  sorts U
+    constructors U: U
+
+  sorts Evaluatable Condition Val
+  
+  arrows
+    Evaluatable --> Val
+    Condition --> Bool

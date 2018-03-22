@@ -6,7 +6,6 @@ imports
   ds-signatures/Variables-sig
   ds-signatures/Arrays-sig
   dynamics-frames-directed/natives
-  dynamics-frames-directed/store
   dynamics-frames-directed/base
   dynamics-frames-directed/numbers
   dynamics-frames-directed/bindings

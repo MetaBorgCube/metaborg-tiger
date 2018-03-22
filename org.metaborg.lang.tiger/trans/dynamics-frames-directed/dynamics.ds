@@ -2,7 +2,6 @@ module dynamics-frames-directed/dynamics
 
 imports statics/tiger
 imports ds-signatures/Tiger-sig
-imports dynamics-frames-directed/store
 imports dynamics-frames-directed/natives
 imports dynamics-frames-directed/base
 imports dynamics-frames-directed/bindings
@@ -30,7 +29,7 @@ rules
   where
     initNaBL2(mod) --> NaBL2;
     initHeap(mod) --> H;
-    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H, B OK() --> vv
+    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H, ST OK() --> vv
 
   mod@Mod(e) --> vv
   where

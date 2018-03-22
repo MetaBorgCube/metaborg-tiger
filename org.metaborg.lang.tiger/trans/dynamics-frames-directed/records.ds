@@ -3,7 +3,6 @@ module dynamics-frames-directed/records
 
 imports
   dynamics-frames-directed/base
-  dynamics-frames-directed/unit
   dynamics-frames-directed/types
 
 signature
@@ -16,7 +15,7 @@ signature
     
 rules // record type
 
-  default(RECORD(scope)) --> NilV()
+  default(RECORD(_)) --> NilV()
   
 rules // literals
   
@@ -27,6 +26,7 @@ rules // record creation
   F F |- r@Record(t, inits) --> RecordV(F_use)
   where
     F F |- t --> RECORD(s_rec);
+    // this is actually the static (shared) frame of the record
     initDefFrame(s_rec, []) --> F_rec;
     initDefFrame(bodyScope(r), [I(F_rec)]) --> F_use;
     Frames1 (F_use, F) |- Map2-InitField(inits) --> _

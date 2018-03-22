@@ -1,8 +1,10 @@
 module dynamics-frames-directed/predef
 
-imports dynamics-frames-directed/nabl2/nabl2-link
-imports dynamics-frames-directed/functions
-imports nabl2/runtime/interpreter/scopegraph-api
+imports
+  dynamics-frames-directed/nabl2/nabl2-link
+  dynamics-frames-directed/functions
+  dynamics-frames-directed/numbers
+  dynamics-frames-directed/strings
 
 signature
 
@@ -21,7 +23,7 @@ signature
   
   arrows
     stdLib() --> U
-    farg2Occurrences(List(FArg)) --> (List(FArg) * List(Occurrence))
+    fargs2occs(List(FArg)) --> List(Occurrence)
     registerBuiltin(Name, List(FArg), Exp) --> U
   
 rules
@@ -42,26 +44,27 @@ rules
       registerBuiltin("getchar", [], nativeGetcharV()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _
   
-  farg2Occurrences([]) --> ([] : List(FArg), [] : List(Occurrence)) : (List(FArg) * List(Occurrence))
   
-  T |- farg2Occurrences([FArg(__Id2Occ__(name), ty) | args]) --> ([arg | args'], [occ_decl | decls])
+  fargs2occs([]) --> []
+  
+  T |- fargs2occs([FArg(name : Id, _) | args]) --> [occ_decl | decls]
   where
     mkOccurrenceHavingIndex("Var", name, nabl2_phantomIndex(T)) --> occ_decl;
-    FArg(occ_decl, ty) => arg;
-    farg2Occurrences(args) --> (args', decls)
+    fargs2occs(args) --> decls
   
   F_parent, T |- registerBuiltin(name, args, e) --> U()
   where
     // create an occurrence for the declaration
     mkOccurrenceHavingIndex("Var", name, T) --> occ_decl;
     // create occurrences for arguments
-    farg2Occurrences(args) --> (args', decls);
+    fargs2occs(args) --> decls;
     // create a scope identifier
     Scope("<:implicit:fun:>", name) => s_fun;
     // init a scope
     newScope(s_fun, decls, [], { P() |--> [scopeOf(F_parent):Scope]}, {}) --> _;
+    initVirtualFrame(s_fun, [P(F_parent)], unpackArgs(args)) --> F_fun;
     // store
-    set(mkAddr(F_parent, occ_decl), ClosureV(args', e, s_fun, F_parent))  --> _
+    set(mkAddr(F_parent, occ_decl), FunV(F_fun, e))  --> _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()

@@ -1,5 +1,0 @@
-module dynamics-frames-directed/unit
-
-signature
-  sorts U
-    constructors U: U
