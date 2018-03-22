@@ -15,9 +15,11 @@ rules
   
   Seq-Exps([]) --> UnitV()
   
-  Seq-Exps([e | es]) --> Seq-Exps(es)
+  Seq-Exps([e]) --> e
+  
+  Seq-Exps([e | es@[_|_]]) --> Seq-Exps(es)
   where
-    e --> v
+    e --> _
   
   IfThen(e1, e2) --> If(e1, e2, Seq([]))
   
@@ -32,7 +34,7 @@ rules
     
 signature
   constructors
-    IsInt0: Exp -> Condition 
+    IsInt1: Exp -> Condition 
     AddrLte: Addr * Int -> Condition
     WhileBody: Exp -> Evaluatable
     IncAddr: Addr -> Evaluatable
@@ -46,26 +48,26 @@ rules
   F |- w@While(e1, e2) --> UnitV()
   where
 //    while-loop-brekable(\ e1 --> IntV(i); i == 0 \, \ initDefFrame(bodyScope(w), [P(F)]) --> F'; F' |- e2 --> v \) --> _;
-    while-loop-breakable(IsInt0(e1), WhileBody(w)) --> _
+    while-loop-breakable(IsInt1(e1), WhileBody(w)) --> _
   
-  IsInt0(e) --> bv
+  IsInt1(e) --> bv
   where
     e --> IntV(i);
     case i of {
-      0 => true => bv
+      1 => true => bv
       otherwise => false => bv
     }
   
   F |- WhileBody(w@While(_, e2)) --> v
   where
-    initDefFrame(bodyScope(w), [P(F)]) --> F';
+    initFrame(bodyScope(w), [P(F)]) --> F';
     F' |- e2 --> v
   
   F |- stm@For(Var(x : Occurrence), e1, e2, e3) --> UnitV()
   where
     F |- e1 --> IntV(i1);
     F |- e2 --> IntV(i2);
-    initDefFrame(bodyScope(stm), [P(F)]) --> F_for;
+    initFrame(bodyScope(stm), [P(F)]) --> F_for;
     mkAddr(F_for, x) --> x_addr;
     set(x_addr, IntV(i1)) --> _;
 //  while-loop-breakable(\ get(x_addr) --> IntV(i); leqI(i1, i2) \, \ e3 --> _; get(x_addr) --> IntV(i); set(x_addr, addI(i, 1)) --> _ \) --> _

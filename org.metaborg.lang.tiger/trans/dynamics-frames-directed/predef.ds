@@ -23,34 +23,25 @@ signature
   
   arrows
     stdLib() --> U
-    fargs2occs(List(FArg)) --> List(Occurrence)
     registerBuiltin(Name, List(FArg), Exp) --> U
-  
+    
 rules
 
   // predefined functions  
   stdLib() --> U()
   where
-      registerBuiltin("print", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativePrintV()) --> _;
-      registerBuiltin("printi", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativePrintIV()) --> _;
+      registerBuiltin("print", [FArg(__Id2Occ__("s"), mkType("string"))], nativePrintV()) --> _;
+      registerBuiltin("printi", [FArg(__Id2Occ__("i"), mkType("int"))], nativePrintIV()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _;
-      registerBuiltin("ord", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativeOrdV()) --> _;
-      registerBuiltin("chr", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeChrV()) --> _;
-      registerBuiltin("not", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeNotV()) --> _;
-      registerBuiltin("exit", [FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativeExitV()) --> _;
-      registerBuiltin("size", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string")))], nativeSizeV()) --> _;
-      registerBuiltin("substring", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("i1"), Tid(__Id2Occ__("int"))), FArg(__Id2Occ__("i2"), Tid(__Id2Occ__("int")))], nativeSubstringV()) --> _;
-      registerBuiltin("concat", [FArg(__Id2Occ__("s1"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("s2"), Tid(__Id2Occ__("string")))], nativeConcatV()) --> _;
+      registerBuiltin("ord", [FArg(__Id2Occ__("s"), mkType("string"))], nativeOrdV()) --> _;
+      registerBuiltin("chr", [FArg(__Id2Occ__("i"), mkType("int"))], nativeChrV()) --> _;
+      registerBuiltin("not", [FArg(__Id2Occ__("i"), mkType("int"))], nativeNotV()) --> _;
+      registerBuiltin("exit", [FArg(__Id2Occ__("i"), mkType("int"))], nativeExitV()) --> _;
+      registerBuiltin("size", [FArg(__Id2Occ__("s"), mkType("string"))], nativeSizeV()) --> _;
+      registerBuiltin("substring", [FArg(__Id2Occ__("s"), mkType("string")), FArg(__Id2Occ__("i1"), mkType("int")), FArg(__Id2Occ__("i2"), mkType("int"))], nativeSubstringV()) --> _;
+      registerBuiltin("concat", [FArg(__Id2Occ__("s1"), mkType("string")), FArg(__Id2Occ__("s2"), mkType("string"))], nativeConcatV()) --> _;
       registerBuiltin("getchar", [], nativeGetcharV()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _
-  
-  
-  fargs2occs([]) --> []
-  
-  T |- fargs2occs([FArg(name : Id, _) | args]) --> [occ_decl | decls]
-  where
-    mkOccurrenceHavingIndex("Var", name, nabl2_phantomIndex(T)) --> occ_decl;
-    fargs2occs(args) --> decls
   
   F_parent, T |- registerBuiltin(name, args, e) --> U()
   where
@@ -62,7 +53,7 @@ rules
     Scope("<:implicit:fun:>", name) => s_fun;
     // init a scope
     newScope(s_fun, decls, [], { P() |--> [scopeOf(F_parent):Scope]}, {}) --> _;
-    initVirtualFrame(s_fun, [P(F_parent)], unpackArgs(args)) --> F_fun;
+    initVirtualFrame(s_fun, [P(F_parent)], decls) --> F_fun;
     // store
     set(mkAddr(F_parent, occ_decl), FunV(F_fun, e))  --> _
   
@@ -131,4 +122,20 @@ rules
   nativeFlushV() --> UnitV()
   where
     flushS("") => _
+
+signature arrows // utils
+  fargs2occs(List(FArg)) --> List(Occurrence)
+  mkType(String) --> Type
+
+rules
+
+  mkType(s) --> __TypeId2Type__(Tid(__Id2Occ__(s)))
+  
+  fargs2occs([]) --> []
+  
+  T |- fargs2occs([FArg(name : Id, _) | args]) --> [occ_decl | decls]
+  where
+    mkOccurrenceHavingIndex("Var", name, nabl2_phantomIndex(T)) --> occ_decl;
+    fargs2occs(args) --> decls
+
   

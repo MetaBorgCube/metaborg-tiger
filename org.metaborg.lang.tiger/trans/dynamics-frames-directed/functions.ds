@@ -14,12 +14,23 @@ signature
     
   constructors
     FunV: Frame * Exp -> V
-    
+
+rules
+  
+  default(FUN(_, _)) --> UndefV()
+
 rules // function declarations
 
   Frames1 (F, F_outer) |- Dec(FunDecs(fdecs)) --> U()
   where
     Frames1 (F, F_outer) |- Map2-FunDecs(fdecs) --> _
+  
+  Frames1 (F, F') |- Map2-FunDecs([]) --> U()
+  
+  Frames1 (F, F') |- Map2-FunDecs([x|xs]) --> U()
+  where
+    Frames1 (F, F') |- x --> _;
+    Frames1 (F, F') |- Map2-FunDecs(xs) --> _  
   
   Frames1 (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
   where

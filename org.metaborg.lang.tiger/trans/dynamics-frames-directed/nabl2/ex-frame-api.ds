@@ -14,6 +14,7 @@ signature
     
   arrows
     initDefFrame(Scope, List(FrameLink)) --> Frame
+    initFrame(Scope, List(FrameLink)) --> Frame
     linksFrom(List(FrameLink)) --> Map(Label, Map(Scope, Frame))
     FrameLink --> Map(Label, Map(Scope, Frame))
     
@@ -21,6 +22,8 @@ signature
 rules
 
   initDefFrame(s, ls) --> initDefault(s, linksFrom(ls))
+  
+  initFrame(s, ls) --> initFrame(s, linksFrom(ls), {})
 
   linksFrom([]) --> {}
   
@@ -43,6 +46,7 @@ signature // static frames
     initVirtualFrame(Scope, List(FrameLink), List(Occurrence)) --> Frame
     materializeFrame(Frame, List(Val)) --> Frame
     Slots(List(Occurrence), List(Val)) --> Map(Occurrence, Val)
+    
 rules
 
   initVirtualFrame(s, ls, params) :: H H_(x) --> ff :: H H_({ ff |--> SFC_(s, linksFrom(ls), params), x})  

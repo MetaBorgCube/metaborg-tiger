@@ -15,6 +15,6 @@ rules // type declarations
 
 rules // types
   
-  F |- Tid(x : Occurrence) --> typeOf(declOfPath(pathOf(x)))
+  Tid(x : Occurrence) --> typeOf(declOfPath(pathOf(x)))
   
   
