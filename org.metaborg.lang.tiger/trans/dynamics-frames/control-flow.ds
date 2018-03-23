@@ -26,6 +26,8 @@ rules
   
   evalSeq([]) --> UnitV()
   
+  evalSeq([e]) --> e
+  
   evalSeq([e | es]) --> evalSeq(es)
   where
     e --> v
