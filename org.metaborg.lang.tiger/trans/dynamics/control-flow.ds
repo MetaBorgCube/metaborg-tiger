@@ -19,7 +19,7 @@ rules
   
   evalSeq([]) --> UnitV()
   
-  evalSeq([v]) --> v
+  evalSeq([e]) --> e
   
   evalSeq([v | es@[_|_]]) --> v
   where
