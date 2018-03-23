@@ -15,7 +15,7 @@ signature
     EvSeq: Evaluatable * Evaluatable -> Evaluatable
     OK : Status
     BR : Status
-     
+  
   arrows
     while-loop(Condition, Evaluatable) --> U
     while-loop-breakable(Condition, Evaluatable) --> U
