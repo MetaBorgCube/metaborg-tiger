@@ -1,16 +1,11 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.function.Supplier;
-import org.metaborg.lang.tiger.interpreter.generated.terms.*;
+import org.metaborg.lang.tiger.interpreter.generated.terms.IDecTerm;
+import org.metaborg.lang.tiger.interpreter.generated.terms.Tuple_IScopeTerm_IScopeTerm;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.NaBL2TermBuild;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
-import mb.nabl2.interpreter.*;
-import mb.nabl2.stratego.*;
-import mb.nabl2.terms.*;
-import mb.nabl2.terms.build.*;
-import org.spoofax.interpreter.terms.IStrategoTerm;
+
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
@@ -27,7 +22,7 @@ import com.oracle.truffle.api.source.SourceSection;
     return Tuple_IScopeTerm_IScopeTerm.create(getAstProperty(term.getStrategoTerm(), "Params"));
   }
 
-  public static TermBuild create(SourceSection source, TermBuild term)
+  public static NativeOpBuild create(SourceSection source, TermBuild term)
   { 
     return nabl2_paramsOfIDecTerm_1NodeGen.create(source, term);
   }

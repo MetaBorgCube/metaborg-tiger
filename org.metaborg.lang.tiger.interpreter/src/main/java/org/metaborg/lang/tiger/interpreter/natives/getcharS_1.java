@@ -2,15 +2,16 @@ package org.metaborg.lang.tiger.interpreter.natives;
 
 import java.io.IOException;
 
-import org.metaborg.lang.tiger.interpreter.natives.getcharS_1NodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
+import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
 @NodeChild(value = "stringbuild", type = TermBuild.class)
-public abstract class getcharS_1 extends TermBuild {
+public abstract class getcharS_1 extends NativeOpBuild {
 
 	public getcharS_1(SourceSection source) {
 		super(source);
@@ -24,6 +25,7 @@ public abstract class getcharS_1 extends TermBuild {
 	 * @throws IOException 
 	 */
 	@Specialization
+	@TruffleBoundary
 	public String doString(String s) {
 		try {
 			return Character.toString((char) getContext().getInput().read());
@@ -35,7 +37,7 @@ public abstract class getcharS_1 extends TermBuild {
 		return "";
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild stringbuild) {
+	public static NativeOpBuild create(SourceSection source, TermBuild stringbuild) {
 		return getcharS_1NodeGen.create(source, stringbuild);
 	}
 }

@@ -1,11 +1,11 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
-import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
-public abstract class _startTiming_0 extends TermBuild {
+public abstract class _startTiming_0 extends NativeOpBuild {
 
 	public static int startTime = -1;
 	
@@ -19,7 +19,7 @@ public abstract class _startTiming_0 extends TermBuild {
 		return startTime;
 	}
 
-	public static TermBuild create(SourceSection source) {
+	public static NativeOpBuild create(SourceSection source) {
 		return _startTiming_0NodeGen.create(source);
 	}
 

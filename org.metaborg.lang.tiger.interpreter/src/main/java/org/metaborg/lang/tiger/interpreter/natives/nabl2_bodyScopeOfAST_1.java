@@ -2,6 +2,7 @@ package org.metaborg.lang.tiger.interpreter.natives;
 
 import org.metaborg.lang.tiger.interpreter.generated.terms.IScopeTerm;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.NaBL2TermBuild;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;
@@ -22,7 +23,7 @@ public abstract class nabl2_bodyScopeOfAST_1 extends NaBL2TermBuild {
 		return IScopeTerm.create(getAstProperty(term.getStrategoTerm(), AstProperties.key("bodyScope")));
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild term) {
+	public static NativeOpBuild create(SourceSection source, TermBuild term) {
 		return nabl2_bodyScopeOfAST_1NodeGen.create(source, term);
 	}
 }

@@ -1,6 +1,6 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
-import org.metaborg.lang.tiger.interpreter.natives.mulI_2NodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;
@@ -10,7 +10,7 @@ import com.oracle.truffle.api.source.SourceSection;
 
 @NodeChildren({ @NodeChild(value = "left", type = TermBuild.class),
 		@NodeChild(value = "right", type = TermBuild.class) })
-public abstract class mulI_2 extends TermBuild {
+public abstract class mulI_2 extends NativeOpBuild {
 
 	public mulI_2(SourceSection source) {
 		super(source);
@@ -21,7 +21,7 @@ public abstract class mulI_2 extends TermBuild {
 		return left * right;
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild left,
+	public static NativeOpBuild create(SourceSection source, TermBuild left,
 			TermBuild right) {
 		return mulI_2NodeGen.create(source, left, right);
 	}

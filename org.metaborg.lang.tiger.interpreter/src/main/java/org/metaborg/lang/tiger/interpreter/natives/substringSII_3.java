@@ -1,8 +1,9 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
-import org.metaborg.lang.tiger.interpreter.natives.substringSII_3NodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
+import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.NodeChildren;
 import com.oracle.truffle.api.dsl.Specialization;
@@ -13,7 +14,7 @@ import com.oracle.truffle.api.source.SourceSection;
 	@NodeChild(value = "first", type = TermBuild.class),
 	@NodeChild(value = "length", type = TermBuild.class)
 })
-public abstract class substringSII_3 extends TermBuild {
+public abstract class substringSII_3 extends NativeOpBuild {
 
 	public substringSII_3(SourceSection source) {
 		super(source);
@@ -34,6 +35,7 @@ public abstract class substringSII_3 extends TermBuild {
 	 * @return
 	 */
 	@Specialization
+	@TruffleBoundary
 	public String doString(String s, int first, int length) {
 		String unquoted = s.substring(1, s.length()-1);
 		int size = unquoted.length();
@@ -45,7 +47,7 @@ public abstract class substringSII_3 extends TermBuild {
 		return unquoted.substring(first, first + length);
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild string, TermBuild first, TermBuild length) {
+	public static NativeOpBuild create(SourceSection source, TermBuild string, TermBuild first, TermBuild length) {
 		return substringSII_3NodeGen.create(source, string, first, length);
 	}
 }

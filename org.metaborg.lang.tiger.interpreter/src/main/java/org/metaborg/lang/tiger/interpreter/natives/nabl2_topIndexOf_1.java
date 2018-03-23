@@ -3,6 +3,7 @@ package org.metaborg.lang.tiger.interpreter.natives;
 import org.metaborg.lang.tiger.interpreter.generated.terms.ITermIndexTerm;
 import org.metaborg.lang.tiger.interpreter.generated.terms.TermIndex_2_Term;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.NaBL2TermBuild;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;
@@ -24,7 +25,7 @@ public abstract class nabl2_topIndexOf_1 extends NaBL2TermBuild {
 		return new TermIndex_2_Term(index.getResource(), 0);
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild term) {
+	public static NativeOpBuild create(SourceSection source, TermBuild term) {
 		return nabl2_topIndexOf_1NodeGen.create(source, term);
 	}
 }

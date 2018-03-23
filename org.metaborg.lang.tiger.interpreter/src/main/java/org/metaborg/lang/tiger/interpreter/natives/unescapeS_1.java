@@ -1,15 +1,16 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.metaborg.lang.tiger.interpreter.natives.unescapeS_1NodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
+import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
 @NodeChild(value = "string", type = TermBuild.class)
-public abstract class unescapeS_1 extends TermBuild {
+public abstract class unescapeS_1 extends NativeOpBuild {
 
 	public unescapeS_1(SourceSection source) {
 		super(source);
@@ -28,14 +29,16 @@ public abstract class unescapeS_1 extends TermBuild {
 	 * @return
 	 */
 	@Specialization
+	@TruffleBoundary
 	public String doEscape(String string) {
+		
 		String unescaped = StringEscapeUtils.unescapeJava(string);
 		String unquoted = unescaped.substring(1, unescaped.length()-1);
 		
 		return unquoted;
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild string) {
+	public static NativeOpBuild create(SourceSection source, TermBuild string) {
 		return unescapeS_1NodeGen.create(source, string);
 	}
 

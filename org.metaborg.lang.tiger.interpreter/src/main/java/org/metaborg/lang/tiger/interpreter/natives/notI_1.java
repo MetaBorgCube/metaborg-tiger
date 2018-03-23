@@ -1,6 +1,6 @@
 package org.metaborg.lang.tiger.interpreter.natives;
 
-import org.metaborg.lang.tiger.interpreter.natives.notI_1NodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
 import com.oracle.truffle.api.dsl.NodeChild;
@@ -8,7 +8,7 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
 @NodeChild(value = "stringbuild", type = TermBuild.class)
-public abstract class notI_1 extends TermBuild {
+public abstract class notI_1 extends NativeOpBuild {
 
 	public notI_1(SourceSection source) {
 		super(source);
@@ -29,7 +29,7 @@ public abstract class notI_1 extends TermBuild {
 		}
 	}
 
-	public static TermBuild create(SourceSection source, TermBuild stringbuild) {
+	public static NativeOpBuild create(SourceSection source, TermBuild stringbuild) {
 		return notI_1NodeGen.create(source, stringbuild);
 	}
 }
