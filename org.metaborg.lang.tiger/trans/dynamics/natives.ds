@@ -28,4 +28,6 @@ signature
     getcharS     : String -> String
     flushS       : String -> Int
     unescapeS    : String -> String
+    _startTiming : Int
+    _stopTiming  : Int
     

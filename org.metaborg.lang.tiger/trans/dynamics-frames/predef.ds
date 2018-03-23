@@ -18,6 +18,8 @@ signature
     nativeConcatV    : Exp
     nativeGetcharV   : Exp
     nativeFlushV     : Exp
+    nativeStartTiming : Exp
+    nativeStopTiming  : Exp
   
   arrows
     stdLib() --> U
@@ -40,6 +42,8 @@ rules
       registerBuiltin("substring", [FArg(__Id2Occ__("s"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("i1"), Tid(__Id2Occ__("int"))), FArg(__Id2Occ__("i2"), Tid(__Id2Occ__("int")))], nativeSubstringV()) --> _;
       registerBuiltin("concat", [FArg(__Id2Occ__("s1"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("s2"), Tid(__Id2Occ__("string")))], nativeConcatV()) --> _;
       registerBuiltin("getchar", [], nativeGetcharV()) --> _;
+      registerBuiltin("timeGo", [], nativeStartTiming()) --> _;
+      registerBuiltin("timeStop", [], nativeStopTiming()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _
   
   farg2Occurrences([]) --> ([] : List(FArg), [] : List(Occurrence)) : (List(FArg) * List(Occurrence))
@@ -120,6 +124,12 @@ rules
     get(mkAddr(F, arg1)) --> StringV(s1);
     get(mkAddr(F, arg2)) --> StringV(s2);
     concatS(s1, s2) => result
+  
+  nativeStartTiming() --> UnitV()
+  where
+    _startTiming() => _
+  
+  nativeStopTiming() --> IntV(_stopTiming())
   
   nativeGetcharV() --> StringV(result)
   where

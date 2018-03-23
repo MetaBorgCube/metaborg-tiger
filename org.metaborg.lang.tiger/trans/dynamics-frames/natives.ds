@@ -28,4 +28,6 @@ signature
     flushS       : String -> Int
     unescapeS    : String -> String
     int2string   : Int -> String
+    _startTiming : Int
+    _stopTiming  : Int
     

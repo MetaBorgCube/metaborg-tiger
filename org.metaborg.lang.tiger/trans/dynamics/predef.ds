@@ -21,6 +21,8 @@ signature
     nativeConcatV    : Exp
     nativeGetcharV   : Exp
     nativeFlushV     : Exp
+    nativeStartTiming : Exp
+    nativeStopTiming  : Exp
   
   arrows
     E |- stdLib() :: H --> Env :: H
@@ -40,7 +42,9 @@ rules
     E7 |- bindVar("concat",    ClosureV([FArg(__Id2Occ__("s1"), Tid(__Id2Occ__("string"))), FArg(__Id2Occ__("s2"), Tid(__Id2Occ__("string")))], nativeConcatV(), E)) --> E8;
     E8 |- bindVar("getchar",   ClosureV([], nativeGetcharV(), E)) --> E9;
     E9 |- bindVar("flush",     ClosureV([], nativeFlushV(), E)) --> E10;
-    E10|- bindVar("printi",     ClosureV([FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativePrintIV(), E)) --> E'
+    E10|- bindVar("printi",    ClosureV([FArg(__Id2Occ__("i"), Tid(__Id2Occ__("int")))], nativePrintIV(), E)) --> E11;
+    E11|- bindVar("timeGo",    ClosureV([], nativeStartTiming(), E)) --> E12;
+    E12|- bindVar("timeStop",  ClosureV([], nativeStopTiming(), E)) --> E'
   
   // predefined function reductions
   nativePrintV() --> UnitV()
@@ -90,6 +94,12 @@ rules
     read(lookup("s1")) => StringV(s1);
     read(lookup("s2")) => StringV(s2);
     concatS(s1, s2) => result
+  
+  nativeStartTiming() --> UnitV()
+  where
+    _startTiming() => _
+  
+  nativeStopTiming() --> IntV(_stopTiming())
   
   nativeGetcharV() --> StringV(result)
   where

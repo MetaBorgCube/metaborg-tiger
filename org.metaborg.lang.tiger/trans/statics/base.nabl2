@@ -44,6 +44,12 @@ rules
     Var{"print"} <- s,   
     Var{"print"} : FUN([STRING()], UNIT()) !!,
     
+    Var{"timeGo"} <- s,
+    Var{"timeGo"} : FUN([], UNIT()) !!,
+    Var{"timeStop"} <- s,
+    Var{"timeStop"} : FUN([], INT()) !!,
+    
+    
     Var{"printi"} <- s,
     Var{"printi"} : FUN([INT()], UNIT()) !!,
     

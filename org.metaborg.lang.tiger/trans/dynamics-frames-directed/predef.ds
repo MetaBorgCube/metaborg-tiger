@@ -9,17 +9,19 @@ imports
 signature
 
   constructors
-    nativePrintV     : Exp
+    nativePrintV      : Exp
     nativePrintIV     : Exp
-    nativeOrdV       : Exp
-    nativeChrV       : Exp
-    nativeNotV       : Exp
-    nativeExitV      : Exp
-    nativeSizeV      : Exp
-    nativeSubstringV : Exp
-    nativeConcatV    : Exp
-    nativeGetcharV   : Exp
-    nativeFlushV     : Exp
+    nativeOrdV        : Exp
+    nativeChrV        : Exp
+    nativeNotV        : Exp
+    nativeExitV       : Exp
+    nativeSizeV       : Exp
+    nativeSubstringV  : Exp
+    nativeConcatV     : Exp
+    nativeGetcharV    : Exp
+    nativeFlushV      : Exp
+    nativeStartTiming : Exp
+    nativeStopTiming  : Exp
   
   arrows
     stdLib() --> U
@@ -41,6 +43,8 @@ rules
       registerBuiltin("substring", [FArg(__Id2Occ__("s"), mkType("string")), FArg(__Id2Occ__("i1"), mkType("int")), FArg(__Id2Occ__("i2"), mkType("int"))], nativeSubstringV()) --> _;
       registerBuiltin("concat", [FArg(__Id2Occ__("s1"), mkType("string")), FArg(__Id2Occ__("s2"), mkType("string"))], nativeConcatV()) --> _;
       registerBuiltin("getchar", [], nativeGetcharV()) --> _;
+      registerBuiltin("timeGo", [], nativeStartTiming()) --> _;
+      registerBuiltin("timeStop", [], nativeStopTiming()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _
   
   F_parent, T |- registerBuiltin(name, args, e) --> U()
@@ -118,6 +122,12 @@ rules
   nativeGetcharV() --> StringV(result)
   where
     getcharS("") => result
+    
+  nativeStartTiming() --> UnitV()
+  where
+    _startTiming() => _
+  
+  nativeStopTiming() --> IntV(_stopTiming())
   
   nativeFlushV() --> UnitV()
   where
