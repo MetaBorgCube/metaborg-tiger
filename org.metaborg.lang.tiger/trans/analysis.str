@@ -6,6 +6,7 @@ imports
   nabl2runtime
   nabl2/api
   statics/tiger
+  statics/tiger-ds
 
   pp
 
