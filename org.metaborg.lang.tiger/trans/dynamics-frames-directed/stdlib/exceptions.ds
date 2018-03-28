@@ -1,0 +1,55 @@
+module dynamics-frames-directed/stdlib/exceptions
+
+
+signature
+  sorts U
+    
+  constructors
+    U: U
+  
+//  exceptions
+  
+  sorts
+    _Thrown
+    _Throwing
+    _Catching
+    _ExcVal
+  
+  constructors
+    OK: _Thrown
+  
+  components
+    _Exc: _Thrown = OK()
+  
+  arrows
+    _Throwing --> _ExcVal
+    handle(_Throwing, _Catching) --> _ExcVal
+    handle(_Throwing, _Catching, _Throwing) --> _ExcVal
+    handler(_Thrown, _Catching) --> _ExcVal
+    raise(_Thrown) --> U
+
+rules
+
+  raise(thrown) :: _Exc OK() --> ??? :: _Exc thrown 
+  
+  handle(throwing, catching) :: _Exc OK() --> ev :: _Exc
+  where
+    throwing :: _Exc OK() --> ev1 :: _Exc1;
+    case _Exc1 of {
+      OK() =>
+        ev1 => ev;
+        _Exc1 => _Exc
+      otherwise =>
+        handler(_Exc1, catching) :: _Exc OK() --> ev :: _Exc
+    }
+  
+  handle(throwing, catching, continuing) :: _Exc OK() --> ev :: _Exc
+  where
+    throwing :: _Exc OK() --> _ :: _Exc1;
+    case _Exc1 of {
+      OK() =>
+        continuing :: _Exc OK() --> ev :: _Exc
+      otherwise =>
+        handler(_Exc1, catching) :: _Exc OK() --> ev :: _Exc
+    }
+

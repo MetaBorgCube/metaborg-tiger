@@ -45,10 +45,10 @@ rules
   where
     do-break() --> _
 
-  F |- w@While(e1, e2) --> UnitV()
+  w@While(e1, e2) --> UnitV()
   where
 //    while-loop-brekable(\ e1 --> IntV(i); i == 0 \, \ initDefFrame(bodyScope(w), [P(F)]) --> F'; F' |- e2 --> v \) --> _;
-    while-loop-breakable(IsInt1(e1), WhileBody(w)) --> _
+    while-loop-breakable(IsInt1(e1), w) --> _
   
   IsInt1(e) --> bv
   where
@@ -58,7 +58,7 @@ rules
       otherwise => false => bv
     }
   
-  F |- WhileBody(w@While(_, e2)) --> v
+  F |- __Exp2Evaluatable__(w@While(_, e2)) --> v
   where
     initFrame(bodyScope(w), [P(F)]) --> F';
     F' |- e2 --> v

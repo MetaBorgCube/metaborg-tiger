@@ -34,7 +34,6 @@ rules // function declarations
      [[ t ^ (s_outer) : ty ]],
      Var{f} <- s, 
 //     Var{x} =I=> s_fun,
-     Var{f}.treedata := e,
      Var{f} : FUN(tys, ty) !, 
      [[ e ^ (s_fun) : ty_body ]],
      ty == ty_body| error $[return type does not match body] @ t.

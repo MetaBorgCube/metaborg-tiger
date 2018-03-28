@@ -5,7 +5,7 @@ signature
     constructors U: U
 
   sorts Evaluatable Condition Val
-  
+    
   arrows
     Evaluatable --> Val
     Condition --> Bool
