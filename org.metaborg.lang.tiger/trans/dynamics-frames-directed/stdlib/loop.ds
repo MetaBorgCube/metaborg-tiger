@@ -3,7 +3,7 @@ module dynamics-frames-directed/stdlib/loop
 
 imports
   dynamics-frames-directed/stdlib/termlib
-  dynamics-frames-directed/stdlib/exceptions
+  dynamics-frames-directed/stdlib/exceptions-native
 
 signature
   
@@ -55,7 +55,7 @@ rules
   
   handler(BR(), BRHandler()) --> U()
   
-  handler(thrown, ReThrow()) --> raise(thrown)
+//  handler(thrown, ReThrow()) --> raise(thrown)
   
   __Evaluatable2Throwing__(evaluatable) --> U()
   where
