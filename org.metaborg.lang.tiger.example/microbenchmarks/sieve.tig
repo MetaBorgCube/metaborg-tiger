@@ -33,7 +33,7 @@ do
     in
       let var flags := intArray[5000] of 1
       in
-        sieve(flags, 5000)
+        sieve(flags, 5000) // 669
       end
     end
   end;
