@@ -23,7 +23,7 @@ rules // literals
 
 rules // record creation
   
-  F F |- r@Record(t, inits) --> RecordV(F_use)
+  F F |- r@Record(t, inits) --> RecordV(F_rec)
   where
     F F |- t --> RECORD(s_rec);
     // this is actually the static (shared) frame of the record
@@ -46,9 +46,10 @@ rules // record creation
  
 rules // record field access
 
-  F F |- fv@FieldVar(e, f : Occurrence) --> mkAddr(F_use, f)
+  F F |- fv@FieldVar(e, f : Occurrence) --> addr_field
   where
-    F F |- e --> addr;
-    get(addr) --> RecordV(F_rec);
-    initDefFrame(bodyScope(fv), [I(F_rec)]) --> F_use
+    F F |- e --> addr_rec;
+    get(addr_rec) --> RecordV(F_rec);
+    initDefFrame(bodyScope(fv), [I(F_rec)]) --> F_use;
+    F_use |- lookup(pathOf(f)) --> addr_field
 
