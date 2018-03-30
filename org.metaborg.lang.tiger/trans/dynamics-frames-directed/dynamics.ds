@@ -29,7 +29,7 @@ rules
   where
     initNaBL2(mod) --> NaBL2;
     initHeap(mod) --> H;
-    T nabl2_topIndexOf(mod), NaBL2 |- mod :: H, _Exc OK() --> vv
+    T nabl2_topIndexOf(mod) |- mod :: NaBL2, H --> vv
 
   mod@Mod(e) --> vv
   where
