@@ -27,7 +27,7 @@ rules // Debugging
 
 rules
 
-  editor-transform-occurrences: (selected, _, _, path, _) -> (filename, result)
+  editor-transform-occurrences: (selected, _, _, path, _) -> result
   with
     filename := <guarantee-extension(|"aterm")> path;
     result := <nabl2--transform-all-occurrences> selected
