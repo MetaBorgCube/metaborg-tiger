@@ -4,7 +4,6 @@ do
   (
   timeGo();
   let 
-    var x := 33
     type TowersDisk = {size: int, next: TowersDisk}
     
     type arrayOfTowersDisk = array of TowersDisk
