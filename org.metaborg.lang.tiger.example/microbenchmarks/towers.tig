@@ -58,5 +58,5 @@ do
     ;moveDisks(13, 0, 1)
     ;movesDone // 8191
   end;
-  printi(timeStop())
+  timeStop()
 )

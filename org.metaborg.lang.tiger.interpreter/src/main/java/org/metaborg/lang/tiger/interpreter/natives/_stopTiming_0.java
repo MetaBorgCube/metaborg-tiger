@@ -13,8 +13,9 @@ public abstract class _stopTiming_0 extends NativeOpBuild {
 
 	@Specialization
 	public int doStart() {
-		int endTime = (int) (System.currentTimeMillis() % 100000) -  _startTiming_0.startTime;
-		return endTime;
+		long endTime = System.currentTimeMillis() -  _startTiming_0.startTime;
+		getContext().getOutput().println(endTime);
+		return (int) endTime;
 	}
 
 	public static NativeOpBuild create(SourceSection source) {

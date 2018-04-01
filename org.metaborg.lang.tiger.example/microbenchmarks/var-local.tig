@@ -8,5 +8,5 @@ do
   in
     cumsum := cumsum + 1
   end;
-printi(timeStop())
+  timeStop()
 )

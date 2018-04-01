@@ -47,7 +47,7 @@ rules
     Var{"timeGo"} <- s,
     Var{"timeGo"} : FUN([], UNIT()) !!,
     Var{"timeStop"} <- s,
-    Var{"timeStop"} : FUN([], INT()) !!,
+    Var{"timeStop"} : FUN([], UNIT()) !!,
     
     
     Var{"printi"} <- s,

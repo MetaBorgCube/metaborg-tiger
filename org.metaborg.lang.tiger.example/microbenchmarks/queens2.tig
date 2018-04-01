@@ -60,5 +60,5 @@ do
       queens()
      end
   end;
-  printi(timeStop())
+  timeStop()
 )

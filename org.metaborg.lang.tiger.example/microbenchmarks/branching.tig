@@ -11,6 +11,6 @@ in
           cumsum := cumsum + 1
         else
           cumsum := cumsum - 1);
-      printi(timeStop()))
+      timeStop())
 end
  

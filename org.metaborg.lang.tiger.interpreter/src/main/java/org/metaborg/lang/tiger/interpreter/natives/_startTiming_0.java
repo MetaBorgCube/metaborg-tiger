@@ -7,7 +7,7 @@ import com.oracle.truffle.api.source.SourceSection;
 
 public abstract class _startTiming_0 extends NativeOpBuild {
 
-	public static int startTime = -1;
+	public static long startTime = -1;
 	
 	public _startTiming_0(SourceSection source) {
 		super(source);
@@ -15,8 +15,8 @@ public abstract class _startTiming_0 extends NativeOpBuild {
 
 	@Specialization
 	public int doStart() {
-		startTime = (int) (System.currentTimeMillis() % 100000);
-		return startTime;
+		startTime = System.currentTimeMillis();
+		return (int) startTime;
 	}
 
 	public static NativeOpBuild create(SourceSection source) {

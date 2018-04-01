@@ -46,7 +46,7 @@ in
     (
       timeGo();
       try(0);
-      printi(timeStop())
+      timeStop()
     )
 end
 	

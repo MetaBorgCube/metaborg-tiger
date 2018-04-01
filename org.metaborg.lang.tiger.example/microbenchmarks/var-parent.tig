@@ -12,5 +12,5 @@ do
       cumsum := cumsum + 1
     end
   end;
-printi(timeStop())
+  timeStop()
 )

@@ -127,7 +127,9 @@ rules
   where
     _startTiming() => _
   
-  nativeStopTiming() --> IntV(_stopTiming())
+  nativeStopTiming() --> UnitV()
+  where
+    _stopTiming() => _
   
   nativeFlushV() --> UnitV()
   where

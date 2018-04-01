@@ -10,5 +10,5 @@ do
     do
       counter := counter + 1
   end;
-  printi(timeStop())
+  timeStop()
 )
