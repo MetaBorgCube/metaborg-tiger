@@ -1,4 +1,4 @@
-// Sieve of Eratosthenes
+//https://github.com/smarr/are-we-fast-yet/blob/master/benchmarks/Java/src/Sieve.java
 for i := 0 to 20
 do
   (
