@@ -24,7 +24,9 @@ rules // sequence
      [[ e1 ^ (s) : INT() ]], 
      [[ e2 ^ (s) : ty2 ]], 
      [[ e3 ^ (s) : ty3 ]],
-     ty2 == ty3 | error $[branches should have same type].
+     ty2 <? ty3 | error $[branches types do not match].
+//     (ty2 <? ty3) | (ty3 <? ty2) | error $[branches types do not match].
+//     ty2 == ty3 | error $[branches should have same type].
      
   [[ IfThen(e1, e2) ^ (s) : UNIT() ]] := 
      [[ e1 ^ (s) : INT() ]], 

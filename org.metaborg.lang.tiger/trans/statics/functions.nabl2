@@ -36,7 +36,8 @@ rules // function declarations
 //     Var{x} =I=> s_fun,
      Var{f} : FUN(tys, ty) !, 
      [[ e ^ (s_fun) : ty_body ]],
-     ty == ty_body| error $[return type does not match body] @ t.
+     ty_body <? ty | error $[return type does not match body] @ t.
+//     ty == ty_body| error $[return type does not match body] @ t.
      
 //  Args[[ args ^ (s_fun, s_outer) : tys ]] := 
 //     new s_fun,      
