@@ -3,7 +3,7 @@ module dynamics-frames-directed/variables
 imports
   dynamics-frames-directed/base
   dynamics-frames-directed/values
-  dynamics-frames-directed/stdlib/termlib
+  dynamics-frames-directed/stdlib/native/shared-terms
   dynamics-frames-directed/bindings
  
 

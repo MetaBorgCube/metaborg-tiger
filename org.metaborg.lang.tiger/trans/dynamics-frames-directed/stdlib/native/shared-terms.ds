@@ -1,0 +1,21 @@
+module dynamics-frames-directed/stdlib/native/shared-terms
+
+signature
+  sorts U Val
+  constructors
+    U: U
+
+  sorts Evaluatable Condition
+  
+  constructors
+    EvSeq: Evaluatable * Evaluatable -> Evaluatable
+    
+  arrows
+    Evaluatable --> Val
+    Condition --> Bool
+
+rules
+  EvSeq(e1, e2) --> v2
+  where
+    e1 --> _;
+    e2 --> v2

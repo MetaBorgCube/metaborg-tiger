@@ -1,0 +1,14 @@
+module dynamics-frames-directed/stdlib/native/exceptions
+
+imports
+  dynamics-frames-directed/stdlib/native/shared-terms
+
+signature
+  exceptions
+  
+rules
+  
+      
+
+
+    

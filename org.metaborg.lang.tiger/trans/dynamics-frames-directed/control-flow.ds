@@ -43,12 +43,11 @@ rules
 
   Break() --> UnitV()
   where
-    do-break() --> _
+    doBreak() --> _
 
   w@While(e1, e2) --> UnitV()
   where
-//    while-loop-brekable(\ e1 --> IntV(i); i == 0 \, \ initDefFrame(bodyScope(w), [P(F)]) --> F'; F' |- e2 --> v \) --> _;
-    while-loop-breakable(IsInt1(e1), w) --> _
+    whileLoop(IsInt1(e1), w) --> _
   
   IsInt1(e) --> bv
   where
@@ -70,8 +69,7 @@ rules
     initFrame(bodyScope(stm), [P(F)]) --> F_for;
     mkAddr(F_for, x) --> x_addr;
     set(x_addr, v1) --> _;
-//  while-loop-breakable(\ get(x_addr) --> IntV(i); leqI(i1, i2) \, \ e3 --> _; get(x_addr) --> IntV(i); set(x_addr, addI(i, 1)) --> _ \) --> _
-    F_for |- while-loop-breakable(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr))) --> _
+    F_for |- whileLoop(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr))) --> _
   
   AddrLte(addr, i2) --> bv
   where

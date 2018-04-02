@@ -1,13 +1,9 @@
 module dynamics-frames-directed/stdlib/exceptions
 
+imports
+  dynamics-frames-directed/stdlib/native/shared-terms
 
 signature
-  sorts U
-    
-  constructors
-    U: U
-  
-//  exceptions
   
   sorts
     _Thrown
@@ -21,10 +17,16 @@ signature
   components
     _Exc: _Thrown = OK()
   
+  sorts _handle_meta
+  
+  constructors
+    handle: _Throwing * _Catching -> _Throwing
+    handle: _Throwing * _Catching * _Throwing -> _Throwing
+    
   arrows
     _Throwing --> _ExcVal
-    handle(_Throwing, _Catching) --> _ExcVal
-    handle(_Throwing, _Catching, _Throwing) --> _ExcVal
+    _Throwing --> _ExcVal
+    _Throwing --> _ExcVal
     handler(_Thrown, _Catching) --> _ExcVal
     raise(_Thrown) --> U
 
