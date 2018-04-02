@@ -1,12 +1,21 @@
 module dynamics-frames-directed/stdlib/native/exceptions
 
 imports
-  dynamics-frames-directed/stdlib/native/shared-terms
+  dynamics-frames-directed/stdlib/native/exceptions-shared
 
 signature
-  exceptions
-  
+  arrows
+    _native_handle(Evaluatable, Catching) --> Val {native}
+    _native_handle(Evaluatable, Catching, Evaluatable) --> Val {native}
+    _native_raise(Thrown) --> U {native}
+
 rules
+  
+  raise(t) --> _native_raise(t)
+  
+  handle(e, c) --> _native_handle(e, c)
+  
+  handle(e, c, next) --> _native_handle(e, c, next) 
   
       
 

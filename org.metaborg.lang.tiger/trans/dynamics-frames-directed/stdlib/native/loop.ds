@@ -1,28 +1,20 @@
-module dynamics-frames-directed/stdlib/loop
+module dynamics-frames-directed/stdlib/native/loop
 
 
 imports
-  dynamics-frames-directed/stdlib/native/shared-terms
-  dynamics-frames-directed/stdlib/native/exceptions
-
+  dynamics-frames-directed/stdlib/native/loop-shared
 
 signature
-  sorts _LoopVal
-  
   arrows
-    whileLoop(Condition, Evaluatable) --> _LoopVal
-    doBreak() --> _LoopVal
-    doContinue() --> _LoopVal
-    
-    _native_while(Condition, Evaluatable) --> _LoopVal {native}
-    _native_loop_break() --> _LoopVal {native}
-    _native_loop_continue() --> _LoopVal {native}
+    _native_while(Condition, Evaluatable, Val) --> Val {native}
+    _native_loop_break(Val) --> U {native}
+    _native_loop_continue(Val) --> U {native}
     
 rules
   
-  whileLoop(c, e) --> _native_while(c, e)
+  whileLoop(c, e, v_default) --> _native_while(c, e, v_default)
   
-  doBreak() --> _native_loop_break()
+  doBreak(v) --> _native_loop_break(v)
   
-  doContinue() --> _native_loop_continue()
+  doContinue(v) --> _native_loop_continue(v)
   

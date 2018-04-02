@@ -17,7 +17,9 @@ imports dynamics-frames-directed/predef
 imports dynamics-frames-directed/equality
 
 imports dynamics-frames-directed/nabl2/nabl2-link
-  
+// should not be necessary, but there is a bug in import resolution
+imports dynamics-frames-directed/stdlib/native/exceptions-shared
+
 signature
   arrows
     Module -init-> V

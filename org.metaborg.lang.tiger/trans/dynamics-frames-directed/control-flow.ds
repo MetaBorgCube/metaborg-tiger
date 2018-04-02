@@ -3,8 +3,11 @@ module dynamics-frames-directed/control-flow
 imports
   dynamics-frames-directed/base
   dynamics-frames-directed/numbers
-  dynamics-frames-directed/stdlib/loop
-
+  dynamics-frames-directed/stdlib/loop // pure DynSem
+  dynamics-frames-directed/stdlib/exceptions // pure DynSem
+  
+//  dynamics-frames-directed/stdlib/native/loop // native implementation
+//  dynamics-frames-directed/stdlib/native/exceptions // native implementation
 signature
   arrows
     Seq-Exps(List(Exp)) --> V
@@ -43,11 +46,11 @@ rules
 
   Break() --> UnitV()
   where
-    doBreak() --> _
+    doBreak(UnitV()) --> _
 
   w@While(e1, e2) --> UnitV()
   where
-    whileLoop(IsInt1(e1), w) --> _
+    whileLoop(IsInt1(e1), w, UnitV()) --> _
   
   IsInt1(e) --> bv
   where
@@ -69,7 +72,7 @@ rules
     initFrame(bodyScope(stm), [P(F)]) --> F_for;
     mkAddr(F_for, x) --> x_addr;
     set(x_addr, v1) --> _;
-    F_for |- whileLoop(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr))) --> _
+    F_for |- whileLoop(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr)), UnitV()) --> _
   
   AddrLte(addr, i2) --> bv
   where
