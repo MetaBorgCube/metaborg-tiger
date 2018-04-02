@@ -4,6 +4,7 @@ signature
   sorts U Val
   constructors
     U: U
+    UnitV: Val
 
   sorts Evaluatable Condition
   
