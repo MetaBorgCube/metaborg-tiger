@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.metaborg.lang.tiger.interpreter/src/main/java/org/metaborg/lang/tiger/interpreter/generated/TigerRunner.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="SPOOFAXPATH" value="${workspace_project_locations}"/>
+</mapAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Graal 0.32"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.metaborg.lang.tiger.interpreter.generated.TigerRunner"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="${resource_loc}"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.metaborg.lang.tiger.interpreter"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss32m&#10;-XX:+TraceDeoptimization&#10;-XX:+UnlockDiagnosticVMOptions&#10;-Dgraal.TruffleBackgroundCompilation=false&#10;-Dgraal.TraceTrufflePerformanceWarnings=true&#10;-Dgraal.TraceTruffleCompilation=true&#10;-Dgraal.TraceTruffleCompilationDetails=true&#10;-Dgraal.TraceTruffleExpansionSource=true&#10;-Dgraal.TraceTruffleTransferToInterpreter=true&#10;-Dgraal.TraceTruffleAssumptions=true&#10;-Dgraal.TruffleCompilationExceptionsAreFatal=true&#10;&#10;-Dgraal.TruffleCompilationThreshold=191&#10;-Dgraal.TruffleInliningMaxCallerSize=10000&#10;-Dgraal.TruffleSplittingMaxCalleeSize=100000"/>
+</launchConfiguration>
