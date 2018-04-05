@@ -30,23 +30,9 @@ rules
         handle(handle(e, CCHandler(), w), BRHandler(), w) --> v
     }
   
-  handler(t, BRHandler()) --> v
-  where
-    case t of {
-      BR(v) =>
-      otherwise =>
-        raise(t) --> _;
-        UnitV() => v
-    }
+  handler(BR(v), BRHandler()) --> v
   
-  handler(t, CCHandler()) --> v
-  where
-    case t of {
-      CC(v) =>
-      otherwise =>
-        raise(t) --> _;
-        UnitV() => v
-    }
+  handler(CC(v), CCHandler()) --> v
   
 
   
