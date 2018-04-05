@@ -4,10 +4,10 @@ imports
   dynamics-frames-directed/base
   dynamics-frames-directed/numbers
   dynamics-frames-directed/stdlib/loop // pure DynSem
-  dynamics-frames-directed/stdlib/exceptions // pure DynSem
+//  dynamics-frames-directed/stdlib/exceptions // pure DynSem
   
 //  dynamics-frames-directed/stdlib/native/loop // native implementation
-//  dynamics-frames-directed/stdlib/native/exceptions // native implementation
+  dynamics-frames-directed/stdlib/native/exceptions // native implementation
 signature
   arrows
     Seq-Exps(List(Exp)) --> V
