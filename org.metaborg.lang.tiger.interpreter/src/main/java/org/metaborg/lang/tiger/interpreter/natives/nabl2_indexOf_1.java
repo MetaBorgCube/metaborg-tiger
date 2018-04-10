@@ -12,21 +12,20 @@ import com.oracle.truffle.api.source.SourceSection;
 
 import mb.nabl2.stratego.TermIndex;
 
-@SuppressWarnings("unused") @NodeChild(value = "term", type = TermBuild.class) public abstract class nabl2_indexOf_1 extends NaBL2TermBuild 
-{ 
-  public nabl2_indexOf_1 (SourceSection source) 
-  { 
-    super(source);
-  }
+@SuppressWarnings("unused")
+@NodeChild(value = "term", type = TermBuild.class)
+public abstract class nabl2_indexOf_1 extends NaBL2TermBuild {
+	public nabl2_indexOf_1(SourceSection source) {
+		super(source);
+	}
 
-  @Specialization public ITermIndexTerm doGet(org.metaborg.meta.lang.dynsem.interpreter.terms.ITerm term)
-  { 
-    TermIndex index = getTermIndex(term.getStrategoTerm());
-    return new TermIndex_2_Term(index.getResource(), index.getId());
-  }
+	@Specialization
+	public ITermIndexTerm doGet(org.metaborg.meta.lang.dynsem.interpreter.terms.ITerm term) {
+		TermIndex index = getTermIndex(term.getStrategoTerm());
+		return new TermIndex_2_Term(index.getResource(), index.getId());
+	}
 
-  public static NativeOpBuild create(SourceSection source, TermBuild term)
-  { 
-    return nabl2_indexOf_1NodeGen.create(source, term);
-  }
+	public static NativeOpBuild create(SourceSection source, TermBuild term) {
+		return nabl2_indexOf_1NodeGen.create(source, term);
+	}
 }

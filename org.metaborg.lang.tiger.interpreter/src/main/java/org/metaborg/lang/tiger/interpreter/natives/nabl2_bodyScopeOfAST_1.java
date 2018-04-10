@@ -27,8 +27,12 @@ public abstract class nabl2_bodyScopeOfAST_1 extends NaBL2TermBuild {
 	}
 
 	@Specialization(replaces = "doGet")
-	@TruffleBoundary
 	protected IScopeTerm uncachedGet(ITerm term) {
+		return doActualGet(term);
+	}
+	
+	@TruffleBoundary
+	private IScopeTerm doActualGet(ITerm term) {
 		return IScopeTerm.create(getAstProperty(term.getStrategoTerm(), AstProperties.key("bodyScope")));
 	}
 
