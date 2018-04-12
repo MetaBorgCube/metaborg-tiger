@@ -22,3 +22,4 @@ src/test/java/org/metaborg/lang/tiger/interpreter/generated/test
 /Tiger-server
 /Tiger-client
 /Tiger
+/dumps/
