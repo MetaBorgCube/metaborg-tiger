@@ -38,7 +38,7 @@ rules // function declarations
     // we would not need to iterate the list of args
     // instead we would get them from the scope
     initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
-    set(mkAddr(F, f), FunV(F_fun, e)) --> _
+    set(loc(F, f), FunV(F_fun, e)) => _
     // FIXME: how about the function body?
   
   Frames1 (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
@@ -47,13 +47,13 @@ rules // function declarations
     // we would not need to iterate the list of args
     // instead we would get them from the scope
     initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
-    set(mkAddr(F, f), FunV(F_fun, e)) --> _
+    set(loc(F, f), FunV(F_fun, e)) => _
     // FIXME: how about the function body?
   
   F F |- Call(f : Occurrence, exps) --> v
   where
     // FIXME: fetch function body from SG and evaluate it, instead of getting from closure
-    get(lookup(pathOf(f))) --> FunV(F_fun_virt, e);
+    get(lookup(F, f)) => FunV(F_fun_virt, e);
     F F |- Map-Exps(exps) --> vals;
     materializeFrame(F_fun_virt, vals) --> F_call;
     F F_call |- e --> v

@@ -1,4 +1,7 @@
-module dynamics-frames-native/nabl2/sg-frames-native
+module dynamics-frames-native/nabl2/frames-native
+
+imports
+  dynamics-frames-native/nabl2/scopegraph-native
 
 signature
   native datatypes
@@ -6,27 +9,17 @@ signature
       equals: Frame -> Bool
     }
     
-    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier" as Scope {}
-    
-    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Label" as Label {}
-
     "" as FrameLink {}
     
     "com.oracle.truffle.api.object.Location" as Addr {}
     
-    "" as Occurrence {}
-    
   components
     F: Frame
   
-  sorts Val Type
+  sorts Val
   
   native operators
-    P           :                            Label //
-    I           :                            Label //
-    Label       : String                  -> Label // 
     L           : Label * Frame           -> FrameLink
-    scopeOfTerm : AST                     -> Scope // ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
     scopeOfFrame: Frame                   -> Scope //
     frame       : Scope * List(FrameLink) -> Frame //
     framed      : AST   * List(FrameLink) -> Frame //

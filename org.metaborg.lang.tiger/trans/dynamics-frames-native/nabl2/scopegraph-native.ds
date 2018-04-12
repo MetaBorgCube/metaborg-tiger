@@ -1,0 +1,29 @@
+module dynamics-frames-native/nabl2/scopegraph-native
+
+signature
+  native datatypes
+    
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier" as Scope {}
+    
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Label" as Label {}
+
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence" as Occurrence {}
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.TermIndex"  as TermIndex {}
+    
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Path" as Path {}
+    
+  sorts Type
+  
+  native operators
+    P           :                                Label //
+    I           :                                Label //
+    Label       : String                      -> Label // 
+    Occurrence  : String * String * TermIndex -> Occurrence //   
+    Occurrence  : String * String             -> Occurrence //
+    Scope       : String * String             -> Scope //
+    scopeOfTerm : AST                         -> Scope // ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
+    declsOf     : Scope                       -> List(Occurrence)
+    scopeOfDecl : Occurrence                  -> Scope //
+    newScope    : Scope * List(Occurrence) * List(Occurrence) * Map(Label, List(Scope)) * Map(Label, List(Occurrence)) -> Scope //
+
+  
