@@ -1,7 +1,7 @@
-module dynamics-frames-native//stdlib/native/exceptions-shared
+module dynamics-frames-native/stdlib/native/exceptions-shared
 
 imports
-  dynamics-frames-native//stdlib/native/shared-terms
+  dynamics-frames-native/stdlib/native/shared-terms
 
 signature
   sorts

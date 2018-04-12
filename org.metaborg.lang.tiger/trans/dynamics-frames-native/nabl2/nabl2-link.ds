@@ -1,4 +1,4 @@
-module dynamics-frames-native//nabl2/nabl2-link
+module dynamics-frames-native/nabl2/nabl2-link
 
 imports
   ds-signatures/Tiger-sig
@@ -7,9 +7,9 @@ imports
 //  nabl2/runtime/interpreter/util
 //  nabl2/runtime/interpreter/scopegraph-api
 //  nabl2/runtime/interpreter/scopegraph-impl
-  dynamics-frames-native//nabl2/sg-frames-native
-//  dynamics-frames-native//natives
-  dynamics-frames-native//values
+  dynamics-frames-native/nabl2/sg-frames-native
+//  dynamics-frames-native/natives
+  dynamics-frames-native/values
 //  utils
 
 signature

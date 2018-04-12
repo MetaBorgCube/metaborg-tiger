@@ -1,12 +1,12 @@
-module dynamics-frames-native//equality
+module dynamics-frames-native/equality
 
 imports ds-signatures/Numbers-sig 
-imports dynamics-frames-native//numbers
-imports dynamics-frames-native//strings
-imports dynamics-frames-native//control-flow
-imports dynamics-frames-native//records
-imports dynamics-frames-native//natives
-imports dynamics-frames-native//arrays
+imports dynamics-frames-native/numbers
+imports dynamics-frames-native/strings
+imports dynamics-frames-native/control-flow
+imports dynamics-frames-native/records
+imports dynamics-frames-native/natives
+imports dynamics-frames-native/arrays
 
 rules
 
@@ -30,17 +30,27 @@ rules
           RecordV(_) =>
             IntV(0) => vv
         }
-      RecordV(F_(f1)) =>
+      RecordV(f1) =>
         case vv2 of {
           NilV() => 
             IntV(0) => vv
-          RecordV(F_(f2)) =>
-            IntV(eqI(f1, f2)) => vv
+          RecordV(f2) =>
+            case equals[f1](f2) of {
+              true =>
+                IntV(1) => vv
+              otherwise =>
+                IntV(0) => vv    
+            }
         }
-      ArrayV(F_(f1)) =>
+      ArrayV(f1) =>
         case vv2 of {
-          ArrayV(F_(f2)) =>
-            IntV(eqI(f1, f2)) => vv
+          ArrayV(f2) =>
+            case equals[f1](f2) of {
+              true =>
+                IntV(1) => vv
+              otherwise =>
+                IntV(0) => vv    
+            }
           otherwise =>
             IntV(0) => vv
         }    

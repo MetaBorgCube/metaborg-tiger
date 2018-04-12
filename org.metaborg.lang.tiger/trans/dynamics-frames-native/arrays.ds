@@ -1,14 +1,14 @@
-module dynamics-frames-native//arrays
+module dynamics-frames-native/arrays
 
 imports
-  dynamics-frames-native//nabl2/arrays
+  dynamics-frames-native/nabl2/arrays
   ds-signatures/Identifiers-sig
   ds-signatures/Variables-sig
   ds-signatures/Arrays-sig
-  dynamics-frames-native//natives
-  dynamics-frames-native//base
-  dynamics-frames-native//numbers
-  dynamics-frames-native//bindings
+  dynamics-frames-native/natives
+  dynamics-frames-native/base
+  dynamics-frames-native/numbers
+  dynamics-frames-native/bindings
 
 signature
   constructors

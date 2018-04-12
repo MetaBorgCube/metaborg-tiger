@@ -1,4 +1,4 @@
-module dynamics-frames-native//desugar
+module dynamics-frames-native/desugar
 
 signature
   arrows

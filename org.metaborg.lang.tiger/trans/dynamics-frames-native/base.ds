@@ -1,14 +1,14 @@
-module dynamics-frames-native//base
+module dynamics-frames-native/base
 
 imports
   ds-signatures/Tiger-sig
-  dynamics-frames-native//values
-  dynamics-frames-native//nabl2/nabl2-link
+  dynamics-frames-native/values
+  dynamics-frames-native/nabl2/nabl2-link
 
 signature
   arrows
     Exp --> V
-    LValue --> Location
+    LValue --> Addr
   
   components
     Frames1 : (Frame * Frame)

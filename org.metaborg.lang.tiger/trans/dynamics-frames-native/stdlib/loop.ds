@@ -1,8 +1,8 @@
-module dynamics-frames-native//stdlib/loop
+module dynamics-frames-native/stdlib/loop
 
 
 imports
-  dynamics-frames-native//stdlib/native/loop-shared
+  dynamics-frames-native/stdlib/native/loop-shared
 
 signature
   

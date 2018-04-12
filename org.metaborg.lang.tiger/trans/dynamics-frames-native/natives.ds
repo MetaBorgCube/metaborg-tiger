@@ -1,4 +1,4 @@
-module dynamics-frames-native//natives
+module dynamics-frames-native/natives
 
 signature 
 

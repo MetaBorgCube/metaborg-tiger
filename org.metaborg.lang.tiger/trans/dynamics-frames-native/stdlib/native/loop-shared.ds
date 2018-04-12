@@ -1,9 +1,9 @@
-module dynamics-frames-native//stdlib/native/loop-shared
+module dynamics-frames-native/stdlib/native/loop-shared
 
 
 imports
-  dynamics-frames-native//stdlib/native/shared-terms
-  dynamics-frames-native//stdlib/native/exceptions-shared
+  dynamics-frames-native/stdlib/native/shared-terms
+  dynamics-frames-native/stdlib/native/exceptions-shared
 
 
 signature

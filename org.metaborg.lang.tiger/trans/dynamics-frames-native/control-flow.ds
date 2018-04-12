@@ -1,13 +1,13 @@
-module dynamics-frames-native//control-flow
+module dynamics-frames-native/control-flow
 
 imports
-  dynamics-frames-native//base
-  dynamics-frames-native//numbers
-//  dynamics-frames-native//stdlib/loop // pure DynSem
-//  dynamics-frames-native//stdlib/exceptions // pure DynSem
+  dynamics-frames-native/base
+  dynamics-frames-native/numbers
+//  dynamics-frames-native/stdlib/loop // pure DynSem
+//  dynamics-frames-native/stdlib/exceptions // pure DynSem
   
-  dynamics-frames-native//stdlib/native/loop // native implementation
-  dynamics-frames-native//stdlib/native/exceptions // native implementation
+  dynamics-frames-native/stdlib/native/loop // native implementation
+  dynamics-frames-native/stdlib/native/exceptions // native implementation
 signature
   arrows
     Seq-Exps(List(Exp)) --> V
@@ -62,21 +62,21 @@ rules
   
   F |- __Exp2Evaluatable__(w@While(_, e2)) --> v
   where
-    initFrame(bodyScope(w), [P(F)]) --> F';
+    framed(w, [L(P(), F)]) => F';
     F' |- e2 --> v
   
   F |- stm@For(Var(x : Occurrence), e1, e2, e3) --> UnitV()
   where
     F |- e1 --> v1@IntV(_);
     F |- e2 --> IntV(i2);
-    initFrame(bodyScope(stm), [P(F)]) --> F_for;
-    mkAddr(F_for, x) --> x_addr;
-    set(x_addr, v1) --> _;
+    framed(stm, [L(P(), F)]) => F_for;
+    loc(F_for, x) => x_addr;
+    set(x_addr, v1) => _;
     F_for |- whileLoop(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr)), UnitV()) --> _
   
   AddrLte(addr, i2) --> bv
   where
-    get(addr) --> IntV(i1);
+    get(addr) => IntV(i1);
     case leqI(i1, i2) of {
       1 => true => bv
       otherwise => false => bv
@@ -84,7 +84,7 @@ rules
   
   IncAddr(addr) --> UnitV()
   where
-    get(addr) --> IntV(i);
-    set(addr, IntV(addI(i, 1))) --> _
+    get(addr) => IntV(i);
+    set(addr, IntV(addI(i, 1))) => _
 
   __Exp2Evaluatable__(e) --> e

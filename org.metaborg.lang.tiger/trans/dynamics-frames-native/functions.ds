@@ -1,9 +1,9 @@
-module dynamics-frames-native//functions
+module dynamics-frames-native/functions
 
 
 imports
-  dynamics-frames-native//base
-  dynamics-frames-native//bindings
+  dynamics-frames-native/base
+  dynamics-frames-native/bindings
   
 signature
   arrows

@@ -1,7 +1,7 @@
-module dynamics-frames-native//stdlib/native/exceptions
+module dynamics-frames-native/stdlib/native/exceptions
 
 imports
-  dynamics-frames-native//stdlib/native/exceptions-shared
+  dynamics-frames-native/stdlib/native/exceptions-shared
 
 signature
   arrows

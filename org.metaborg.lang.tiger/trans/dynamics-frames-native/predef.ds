@@ -1,10 +1,10 @@
-module dynamics-frames-native//predef
+module dynamics-frames-native/predef
 
 imports
-  dynamics-frames-native//nabl2/nabl2-link
-  dynamics-frames-native//functions
-  dynamics-frames-native//numbers
-  dynamics-frames-native//strings
+  dynamics-frames-native/nabl2/nabl2-link
+  dynamics-frames-native/functions
+  dynamics-frames-native/numbers
+  dynamics-frames-native/strings
 
 signature
 

@@ -1,4 +1,4 @@
-module dynamics-frames-native//nabl2/ex-frame-api
+module dynamics-frames-native/nabl2/ex-frame-api
 
 imports
   nabl2/runtime/interpreter/frame-impl

@@ -1,4 +1,4 @@
-module dynamics-frames-native//stdlib/native/shared-terms
+module dynamics-frames-native/stdlib/native/shared-terms
 
 signature
   sorts U Val

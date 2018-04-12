@@ -1,7 +1,7 @@
-module dynamics-frames-native//nabl2/arrays
+module dynamics-frames-native/nabl2/arrays
 
 imports
-  dynamics-frames-native//nabl2/nabl2-link
+  dynamics-frames-native/nabl2/nabl2-link
 
 signature
   sort aliases

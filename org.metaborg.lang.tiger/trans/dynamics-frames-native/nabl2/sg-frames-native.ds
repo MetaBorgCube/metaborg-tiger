@@ -1,8 +1,10 @@
-module dynamics-frames-native//nabl2/sg-frames-native
+module dynamics-frames-native/nabl2/sg-frames-native
 
 signature
   native datatypes
-    "com.oracle.truffle.api.object.DynamicObject" as Frame {}
+    "com.oracle.truffle.api.object.DynamicObject" as Frame {
+      equals: Frame -> Bool
+    }
     
     "org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier" as Scope {}
     
@@ -10,7 +12,7 @@ signature
 
     "" as FrameLink {}
     
-    "com.oracle.truffle.api.object.Location" as Location {}
+    "com.oracle.truffle.api.object.Location" as Addr {}
     
     "" as Occurrence {}
     
@@ -23,19 +25,21 @@ signature
     P           :                            Label //
     I           :                            Label //
     Label       : String                  -> Label // 
-    LK          : Label * Frame           -> FrameLink
+    L           : Label * Frame           -> FrameLink
     scopeOfTerm : AST                     -> Scope // ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
     scopeOfFrame: Frame                   -> Scope //
     frame       : Scope * List(FrameLink) -> Frame //
+    framed      : AST   * List(FrameLink) -> Frame //
     link        : Frame * FrameLink       -> Frame //
     clone       : Frame                   -> Frame //
-    lookup      : Frame * Occurrence      -> Location //
-    get         : Location                -> Val //
-    set         : Location * Val          -> Val //
+    lookup      : Frame * Occurrence      -> Addr //
+    loc         : Frame * Occurrence      -> Addr //
+    get         : Addr                    -> Val //
+    set         : Addr * Val              -> Val //
+    
 
   arrows
     default(Type) --> Val
-    F |- lookup(Occurrence) --> Location
 
 
   

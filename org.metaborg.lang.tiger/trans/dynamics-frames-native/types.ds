@@ -1,8 +1,8 @@
-module dynamics-frames-native//types
+module dynamics-frames-native/types
 
 imports
-  dynamics-frames-native//base
-  dynamics-frames-native//variables  
+  dynamics-frames-native/base
+  dynamics-frames-native/variables  
 
 signature
   arrows
@@ -15,6 +15,6 @@ rules // type declarations
 
 rules // types
   
-  Tid(x : Occurrence) --> typeOf(declOfPath(pathOf(x)))
+//  Tid(x : Occurrence) --> typeOf(declOfPath(pathOf(x)))
   
   

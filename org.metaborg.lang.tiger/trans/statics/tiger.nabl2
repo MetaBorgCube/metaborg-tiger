@@ -25,5 +25,6 @@ rules // top-level module
   init ^ (s) :=
     new s.
 
-  [[ Mod(e) ^ (s) : ty ]] :=
+  [[ m@Mod(e) ^ (s) : ty ]] :=
+     @m.bodyScope := s,
      [[ e ^ (s) : ty ]].
