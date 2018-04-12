@@ -1,0 +1,40 @@
+module dynamics-frames-native//nabl2/nabl2-link
+
+imports
+  ds-signatures/Tiger-sig
+
+imports
+//  nabl2/runtime/interpreter/util
+//  nabl2/runtime/interpreter/scopegraph-api
+//  nabl2/runtime/interpreter/scopegraph-impl
+  dynamics-frames-native//nabl2/sg-frames-native
+//  dynamics-frames-native//natives
+  dynamics-frames-native//values
+//  utils
+
+signature
+  sort aliases
+    Val = V
+//    Name = Id
+
+  constructors
+    __Ty2Type__: Ty -> Type {implicit}
+    
+  constructors
+    __Occurrence2Occ__: Occurrence -> Occ {implicit}
+  
+//  components
+//    T : TermIndex
+//    FS: (Frame * Frame)
+//  
+//  native operators
+//    nabl2_bodyScopeOfAST: AST -> Scope
+//    nabl2_topIndexOf: AST -> TermIndex
+//    nabl2_phantomIndex: TermIndex -> TermIndex
+//    
+//  arrows
+//    bodyScope(AST) --> Scope
+//
+//rules
+//
+//  bodyScope(ast) --> nabl2_bodyScopeOfAST(ast)

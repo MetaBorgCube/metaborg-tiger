@@ -1,0 +1,18 @@
+module dynamics-frames-native//stdlib/native/loop-shared
+
+
+imports
+  dynamics-frames-native//stdlib/native/shared-terms
+  dynamics-frames-native//stdlib/native/exceptions-shared
+
+
+signature
+  constructors
+    whileLoop: Condition * Evaluatable * Val -> Evaluatable
+    
+  arrows
+    arrows
+    doBreak(Val) --> U
+    doContinue(Val) --> U
+ 
+  

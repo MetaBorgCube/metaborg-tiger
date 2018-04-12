@@ -1,0 +1,42 @@
+module dynamics-frames-native//dynamics
+
+imports statics/tiger
+imports ds-signatures/Tiger-sig
+imports dynamics-frames-native//natives
+imports dynamics-frames-native//base
+imports dynamics-frames-native//bindings
+imports dynamics-frames-native//variables
+imports dynamics-frames-native//functions
+imports dynamics-frames-native//numbers
+imports dynamics-frames-native//strings 
+imports dynamics-frames-native//records
+imports dynamics-frames-native//arrays
+imports dynamics-frames-native//control-flow
+imports dynamics-frames-native//types
+imports dynamics-frames-native//predef
+imports dynamics-frames-native//equality
+
+imports dynamics-frames-native//nabl2/nabl2-link
+// should not be necessary, but there is a bug in import resolution
+imports dynamics-frames-native//stdlib/native/exceptions-shared
+
+signature
+  arrows
+    Module -init-> V
+    Module --> V
+    
+rules
+
+  mod@Mod(_) -init-> vv
+  where
+    initNaBL2(mod) --> NaBL2;
+    initHeap(mod) --> H;
+    T nabl2_topIndexOf(mod) |- mod :: NaBL2, H --> vv
+
+  mod@Mod(e) --> vv
+  where
+    mod -paramsOf-> scope;
+    initDefault(scope, {}) --> F;
+    F |- stdLib() --> _;
+    F |- e --> vv
+
