@@ -42,10 +42,10 @@ rules
                 IntV(0) => vv    
             }
         }
-      ArrayV(f1) =>
+      ArrayV(a1) =>
         case vv2 of {
-          ArrayV(f2) =>
-            case equals[f1](f2) of {
+          ArrayV(a2) =>
+            case equals[a1](a2) of {
               true =>
                 IntV(1) => vv
               otherwise =>

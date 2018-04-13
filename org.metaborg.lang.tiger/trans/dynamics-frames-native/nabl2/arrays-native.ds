@@ -5,10 +5,11 @@ imports
 
 signature
   native datatypes
-    "" as Array {
+    "Object" as Array {
       lookup: Int -> Addr
       get: Int -> Val
       set: Int * Val -> Val
+      equals: Array -> Bool
     }
     
   sort aliases

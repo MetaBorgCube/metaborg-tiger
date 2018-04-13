@@ -9,9 +9,9 @@ signature
       equals: Frame -> Bool
     }
     
-    "" as FrameLink {}
+    "Object" as FrameLink {}
     
-    "" as Addr {}
+    "Object" as Addr {}
     
   components
     F: Frame
