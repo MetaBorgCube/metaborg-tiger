@@ -24,7 +24,7 @@ signature
     scopeOfTerm : AST                         -> Scope ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
     declsOf     : Scope                       -> List(Occurrence)
     scopeOfDecl : Occurrence                  -> Scope //
-    newScope    : Scope * List(Occurrence) * List(Occurrence) * Map(Label, List(Scope)) * Map(Label, List(Occurrence)) -> Scope //
+    scope       : Scope * List(Occurrence) * List(Occurrence) * Map(Label, List(Scope)) * Map(Label, List(Occurrence)) -> Scope //
 
   arrows
     scope(String, String) --> Scope

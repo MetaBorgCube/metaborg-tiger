@@ -49,17 +49,12 @@ rules
   
   F_parent |- registerBuiltin(name, args, e) --> U()
   where
-    // create an occurrence for the declaration
     Occurrence("Var", name) => occ_decl;
-    // create occurrences for arguments
     fargs2occs(args) --> decls;
-    // create a scope identifier
-    Scope("<:implicit:fun:>", name) => s_fun;
-    // init a scope
-    newScope(s_fun, decls, [], { P() |--> [scopeOfFrame(F_parent)]}, {}) => _;
-    initVirtualFrame(s_fun, [P(F_parent)], decls) --> F_fun;
+    scope(Scope("<:implicit:fun:>", name), decls, [], { P() |--> [scopeOfFrame(F_parent)]}, {}) => s_fun;
+    frame(s_fun, [L(P(), F_parent)]) => F_fun;
     // store
-    set(loc(F_parent, occ_decl), FunV(F_fun, e))  => _
+    set(loc(F_parent, occ_decl), FunV(F_fun, decls, e))  => _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()
