@@ -10,7 +10,8 @@ To run a Tiger program afterwards invoke the Tiger (Core) runner on a program
 */
 
 //imports dynamics-frames/dynamics
-imports dynamics-frames-directed/dynamics
+//imports dynamics-frames-directed/dynamics
+imports dynamics-frames-native/dynamics
 
 
 ////////////////////////////////////////////

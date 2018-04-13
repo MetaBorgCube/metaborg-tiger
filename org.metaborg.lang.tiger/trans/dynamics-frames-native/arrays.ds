@@ -1,7 +1,8 @@
 module dynamics-frames-native/arrays
 
 imports
-  dynamics-frames-native/nabl2/arrays
+  dynamics-frames-native/nabl2/nabl2-link
+  dynamics-frames-native/values
   ds-signatures/Identifiers-sig
   ds-signatures/Variables-sig
   ds-signatures/Arrays-sig
@@ -12,18 +13,18 @@ imports
 
 signature
   constructors
-    ArrayV : Frame -> V
+    ArrayV : Array -> V
 
 rules
   
   default(ARRAY(_, _)) --> UndefV()
   
   
-  Array(_, IntV(len), vv) --> ArrayV(F)
+  Array(_, IntV(len), vv) --> ArrayV(arr)
   where
-    newArrayFrame(len, INT(), vv) --> F
+    array(len, INT(), vv) => arr
     
   
-  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) --> mkArrayElemAddr(F, i)
+  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) --> arraySubscript(arr, i)
   where
-    get(arr_addr) --> ArrayV(F)
+    get(arr_addr) => ArrayV(arr)

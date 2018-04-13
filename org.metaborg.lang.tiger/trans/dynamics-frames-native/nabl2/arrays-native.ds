@@ -1,0 +1,23 @@
+module dynamics-frames-native/nabl2/arrays-native
+
+imports
+  dynamics-frames-native/nabl2/frames-native
+
+signature
+  native datatypes
+    "" as Array {
+      lookup: Int -> Addr
+      get: Int -> Val
+      set: Int * Val -> Val
+    }
+    
+  sort aliases
+    Length = Int
+    
+  native operators
+    array: Length * Type -> Array // 
+    array: Length * Type * Val -> Array //
+    arrayGet: Array * Int -> Val //
+    arraySet: Array * Int * Val -> Val //
+    arraySubscript: Array * Int -> Addr //
+  

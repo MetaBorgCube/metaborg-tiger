@@ -11,7 +11,7 @@ signature
     
     "" as FrameLink {}
     
-    "com.oracle.truffle.api.object.Location" as Addr {}
+    "" as Addr {}
     
   components
     F: Frame

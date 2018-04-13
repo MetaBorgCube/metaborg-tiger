@@ -15,15 +15,20 @@ signature
   sorts Type
   
   native operators
-    P           :                                Label //
+    P           :                                Label // 
     I           :                                Label //
     Label       : String                      -> Label // 
     Occurrence  : String * String * TermIndex -> Occurrence //   
     Occurrence  : String * String             -> Occurrence //
-    Scope       : String * String             -> Scope //
-    scopeOfTerm : AST                         -> Scope // ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
+    Scope       : String * String             -> Scope ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
+    scopeOfTerm : AST                         -> Scope ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
     declsOf     : Scope                       -> List(Occurrence)
     scopeOfDecl : Occurrence                  -> Scope //
     newScope    : Scope * List(Occurrence) * List(Occurrence) * Map(Label, List(Scope)) * Map(Label, List(Occurrence)) -> Scope //
 
+  arrows
+    scope(String, String) --> Scope
+
+rules
+  scope(s1, s2) --> Scope(s1, s2)
   
