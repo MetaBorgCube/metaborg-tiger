@@ -35,7 +35,7 @@ rules
           NilV() => 
             IntV(0) => vv
           RecordV(f2) =>
-            case equals[f1](f2) of {
+            case same(f1, f2) of {
               true =>
                 IntV(1) => vv
               otherwise =>

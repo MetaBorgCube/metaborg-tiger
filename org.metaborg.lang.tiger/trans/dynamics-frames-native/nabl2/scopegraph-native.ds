@@ -20,8 +20,8 @@ signature
     Label       : String                      -> Label // 
     Occurrence  : String * String * TermIndex -> Occurrence //   
     Occurrence  : String * String             -> Occurrence //
-    Scope       : String * String             -> Scope ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
-    scopeOfTerm : AST                         -> Scope ("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeIdentifierOfITermNode")
+    Scope       : String * String             -> Scope //
+    scopeOfTerm : AST                         -> Scope //
     declsOf     : Scope                       -> List(Occurrence)
     scopeOfDecl : Occurrence                  -> Scope //
     scope       : Scope * List(Occurrence) * List(Occurrence) * Map(Label, List(Scope)) * Map(Label, List(Occurrence)) -> Scope //

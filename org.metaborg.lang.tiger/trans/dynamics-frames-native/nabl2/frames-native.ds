@@ -2,27 +2,25 @@ module dynamics-frames-native/nabl2/frames-native
 
 imports
   dynamics-frames-native/nabl2/scopegraph-native
-
+  dynamics-frames-native/stdlib/native/shared-terms
+  
 signature
   native datatypes
-    "com.oracle.truffle.api.object.DynamicObject" as Frame {
-      equals: Frame -> Bool
-    }
+    "com.oracle.truffle.api.object.DynamicObject" as Frame { }
     
-    "Object" as FrameLink {}
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameLink" as FrameLink {}
     
-    "Object" as Addr {}
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Addr" as Addr {}
     
   components
     F: Frame
-  
-  sorts Val
   
   native operators
     L           : Label * Frame           -> FrameLink
     scopeOfFrame: Frame                   -> Scope //
     frame       : Scope * List(FrameLink) -> Frame //
     framed      : AST   * List(FrameLink) -> Frame //
+    same        : Frame * Frame           -> Bool //       
     link        : Frame * FrameLink       -> Frame //
     clone       : Frame                   -> Frame //
     lookup      : Frame * Occurrence      -> Addr //
