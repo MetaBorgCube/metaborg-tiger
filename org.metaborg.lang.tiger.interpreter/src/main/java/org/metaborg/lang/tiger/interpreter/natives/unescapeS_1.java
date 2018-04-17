@@ -15,14 +15,14 @@ public abstract class unescapeS_1 extends NativeOpBuild {
 	public unescapeS_1(SourceSection source) {
 		super(source);
 	}
-	
+
 	/**
 	 * After parsing, a string literal contains a leading and ending quote. In
 	 * addition, it may contain escape sequences. This function makes a string
 	 * literal a "real" string.
 	 * 
-	 * This uses Apache Commons Lang's unescape function, but we should write
-	 * a custom function for Tiger: https://www.lrde.epita.fr/~tiger/tiger.html
+	 * This uses Apache Commons Lang's unescape function, but we should write a
+	 * custom function for Tiger: https://www.lrde.epita.fr/~tiger/tiger.html
 	 * 
 	 * @param left
 	 * @param right
@@ -31,10 +31,10 @@ public abstract class unescapeS_1 extends NativeOpBuild {
 	@Specialization
 	@TruffleBoundary
 	public String doEscape(String string) {
-		
+
 		String unescaped = StringEscapeUtils.unescapeJava(string);
-		String unquoted = unescaped.substring(1, unescaped.length()-1);
-		
+		String unquoted = unescaped.substring(1, unescaped.length() - 1);
+
 		return unquoted;
 	}
 

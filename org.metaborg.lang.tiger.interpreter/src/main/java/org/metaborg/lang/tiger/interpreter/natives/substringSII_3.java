@@ -9,11 +9,8 @@ import com.oracle.truffle.api.dsl.NodeChildren;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
-@NodeChildren({
-	@NodeChild(value = "string", type = TermBuild.class),
-	@NodeChild(value = "first", type = TermBuild.class),
-	@NodeChild(value = "length", type = TermBuild.class)
-})
+@NodeChildren({ @NodeChild(value = "string", type = TermBuild.class),
+		@NodeChild(value = "first", type = TermBuild.class), @NodeChild(value = "length", type = TermBuild.class) })
 public abstract class substringSII_3 extends NativeOpBuild {
 
 	public substringSII_3(SourceSection source) {
@@ -21,15 +18,13 @@ public abstract class substringSII_3 extends NativeOpBuild {
 	}
 
 	/**
-	 * Return a string composed of the characters of string starting at the
-	 * first character (0 being the origin), and composed of length characters
-	 * (i.e., up to and including the character first + length - 1).
+	 * Return a string composed of the characters of string starting at the first
+	 * character (0 being the origin), and composed of length characters (i.e., up
+	 * to and including the character first + length - 1).
 	 * 
-	 * Let size be the size of the string, the following assertions must hold:
-	 *   0 <= first
-	 *   0 <= length
-	 *   first + length <= size
-	 * otherwise a runtime failure is raised: 'substring: arguments out of bounds'.
+	 * Let size be the size of the string, the following assertions must hold: 0 <=
+	 * first 0 <= length first + length <= size otherwise a runtime failure is
+	 * raised: 'substring: arguments out of bounds'.
 	 * 
 	 * @param s
 	 * @return
@@ -37,9 +32,9 @@ public abstract class substringSII_3 extends NativeOpBuild {
 	@Specialization
 	@TruffleBoundary
 	public String doString(String s, int first, int length) {
-		String unquoted = s.substring(1, s.length()-1);
+		String unquoted = s.substring(1, s.length() - 1);
 		int size = unquoted.length();
-		
+
 		if (0 > first || 0 > length || first + length > size) {
 			throw new RuntimeException("substring: arguments out of bounds");
 		}

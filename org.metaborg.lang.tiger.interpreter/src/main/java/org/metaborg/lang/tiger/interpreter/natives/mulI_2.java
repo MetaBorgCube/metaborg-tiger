@@ -21,8 +21,7 @@ public abstract class mulI_2 extends NativeOpBuild {
 		return left * right;
 	}
 
-	public static NativeOpBuild create(SourceSection source, TermBuild left,
-			TermBuild right) {
+	public static NativeOpBuild create(SourceSection source, TermBuild left, TermBuild right) {
 		return mulI_2NodeGen.create(source, left, right);
 	}
 

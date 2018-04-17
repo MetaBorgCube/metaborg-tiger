@@ -20,9 +20,10 @@ public abstract class getcharS_1 extends NativeOpBuild {
 	/**
 	 * Read a character on input. Return an empty string on an end of file.
 	 * 
-	 * @param s Dummy parameter; I don't know how to hook up DynSem otherwise
+	 * @param s
+	 *            Dummy parameter; I don't know how to hook up DynSem otherwise
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Specialization
 	@TruffleBoundary
@@ -32,7 +33,7 @@ public abstract class getcharS_1 extends NativeOpBuild {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		// TODO: Dummy return; I don't know how to do this properly in DynSem
 		return "";
 	}

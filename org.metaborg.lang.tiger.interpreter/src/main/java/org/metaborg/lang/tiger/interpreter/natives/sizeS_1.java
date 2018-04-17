@@ -30,5 +30,5 @@ public abstract class sizeS_1 extends NativeOpBuild {
 	public static NativeOpBuild create(SourceSection source, TermBuild stringbuild) {
 		return sizeS_1NodeGen.create(source, stringbuild);
 	}
-	
+
 }

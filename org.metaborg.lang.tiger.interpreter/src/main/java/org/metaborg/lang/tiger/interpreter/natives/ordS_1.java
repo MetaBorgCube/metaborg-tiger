@@ -16,8 +16,8 @@ public abstract class ordS_1 extends NativeOpBuild {
 	}
 
 	/**
-	 * Return the ascii code of the first character in string and -1 if the
-     * given string is empty.
+	 * Return the ascii code of the first character in string and -1 if the given
+	 * string is empty.
 	 * 
 	 * @param s
 	 * @return
@@ -28,7 +28,7 @@ public abstract class ordS_1 extends NativeOpBuild {
 		if (s.isEmpty()) {
 			return -1;
 		}
-		
+
 		return (int) s.charAt(0);
 	}
 

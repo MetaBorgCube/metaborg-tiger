@@ -20,10 +20,9 @@ signature
     scopeOfFrame: Frame                    -> Scope {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.ScopeOfFrame")}
     frame       : Scope * List(FrameLink)  -> Frame {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrame")}
     framed      : AST   * List(FrameLink)  -> Frame {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrameFromTermScope")}
-    link        : Frame * FrameLink        -> Frame {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddLink")}
+    link        : Frame * FrameLink        -> Frame {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddFrameLink")}
     clone       : Frame                    -> Frame {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.CloneFrame")}
     same        : Frame * Frame            -> Bool  {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.IdentFrames")}
-//    lookup      : Frame * Occurrence      -> Addr //
     lookup      : Frame * Occurrence       -> Addr  {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Lookup")}
     get         : Frame * Occurrence       -> Val   {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.LookupAndGet")}
     get         : Addr                     -> Val   {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Get")}

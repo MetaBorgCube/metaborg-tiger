@@ -16,9 +16,25 @@ signature
     Length = Int
     
   native operators
-    array: Length * Type -> Array // 
-    array: Length * Type * Val -> Array //
-    arrayGet: Array * Int -> Val //
-    arraySet: Array * Int * Val -> Val //
-    arraySubscript: Array * Int -> Addr //
+    _newArray: Length * Type * Val -> Array // make array and fill with value
+    
+  arrows
+    newArray(Length, Type) --> Array
+    newArray(Length, Type, Val) --> Array
+    arrayGet(Array, Int) --> Val 
+    arraySet(Array, Int, Val) --> Val
+    arraySubscript(Array, Int) --> Addr
+    
+rules
+
+  newArray(length, ty) --> newArray(length, ty, default(ty))
+
+  newArray(length, ty, val) --> _newArray(length, ty, val)
+
+  arrayGet(array, idx) --> get[array](idx)
+  
+  arraySet(array, idx, val) --> set[array](idx, val)
+  
+  arraySubscript(array, idx) --> lookup[array](idx)
+
   

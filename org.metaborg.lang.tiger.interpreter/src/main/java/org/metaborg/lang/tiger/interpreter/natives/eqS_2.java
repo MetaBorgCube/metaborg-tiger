@@ -23,8 +23,7 @@ public abstract class eqS_2 extends NativeOpBuild {
 		return left.equals(right) ? 1 : 0;
 	}
 
-	public static NativeOpBuild create(SourceSection source, TermBuild left,
-			TermBuild right) {
+	public static NativeOpBuild create(SourceSection source, TermBuild left, TermBuild right) {
 		return eqS_2NodeGen.create(source, left, right);
 	}
 

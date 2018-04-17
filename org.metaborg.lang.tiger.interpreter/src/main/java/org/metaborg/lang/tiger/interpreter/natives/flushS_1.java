@@ -18,14 +18,15 @@ public abstract class flushS_1 extends NativeOpBuild {
 	/**
 	 * Flush the output buffer.
 	 * 
-	 * @param s Dummy parameter; I don't know how to hook up DynSem otherwise
+	 * @param s
+	 *            Dummy parameter; I don't know how to hook up DynSem otherwise
 	 * @return
 	 */
 	@Specialization
 	@TruffleBoundary
 	public int doString(String s) {
 		System.out.flush();
-		
+
 		// TODO: I don't know how to return void in DynSem
 		return 0;
 	}

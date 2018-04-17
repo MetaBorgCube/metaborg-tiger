@@ -8,7 +8,8 @@ import com.oracle.truffle.api.dsl.NodeChildren;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
-@NodeChildren({@NodeChild(value = "left", type = TermBuild.class), @NodeChild(value = "right", type = TermBuild.class) })
+@NodeChildren({ @NodeChild(value = "left", type = TermBuild.class),
+		@NodeChild(value = "right", type = TermBuild.class) })
 public abstract class ltS_2 extends NativeOpBuild {
 
 	public ltS_2(SourceSection source) {

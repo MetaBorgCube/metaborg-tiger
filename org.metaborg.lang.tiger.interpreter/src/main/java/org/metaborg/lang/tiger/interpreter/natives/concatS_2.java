@@ -27,8 +27,7 @@ public abstract class concatS_2 extends NativeOpBuild {
 		return left + right;
 	}
 
-	public static NativeOpBuild create(SourceSection source, TermBuild left,
-			TermBuild right) {
+	public static NativeOpBuild create(SourceSection source, TermBuild left, TermBuild right) {
 		return concatS_2NodeGen.create(source, left, right);
 	}
 

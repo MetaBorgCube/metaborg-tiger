@@ -21,8 +21,7 @@ public abstract class leqI_2 extends NativeOpBuild {
 		return left <= right ? 1 : 0;
 	}
 
-	public static NativeOpBuild create(SourceSection source, TermBuild left,
-			TermBuild right) {
+	public static NativeOpBuild create(SourceSection source, TermBuild left, TermBuild right) {
 		return leqI_2NodeGen.create(source, left, right);
 	}
 

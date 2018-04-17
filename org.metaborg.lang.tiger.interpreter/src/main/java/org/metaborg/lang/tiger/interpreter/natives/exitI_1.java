@@ -25,7 +25,7 @@ public abstract class exitI_1 extends NativeOpBuild {
 	@TruffleBoundary
 	public int doInt(int i) {
 		System.exit(i);
-		
+
 		return 0;
 	}
 

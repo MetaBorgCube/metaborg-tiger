@@ -19,7 +19,7 @@ public abstract class printS_1 extends NativeOpBuild {
 	@TruffleBoundary
 	public String doString(String s) {
 		System.out.print(s);
-		
+
 		return s;
 	}
 

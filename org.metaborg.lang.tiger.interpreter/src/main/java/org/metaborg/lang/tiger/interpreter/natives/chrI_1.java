@@ -16,9 +16,9 @@ public abstract class chrI_1 extends NativeOpBuild {
 	}
 
 	/**
-	 * Return the one character long string containing the character which code
-	 * is code. If code does not belong to the range [0..255], raise a runtime
-	 * error: 'chr: character out of range'.
+	 * Return the one character long string containing the character which code is
+	 * code. If code does not belong to the range [0..255], raise a runtime error:
+	 * 'chr: character out of range'.
 	 * 
 	 * @param i
 	 * @return
@@ -29,7 +29,7 @@ public abstract class chrI_1 extends NativeOpBuild {
 		if (i < 0 || i > 255) {
 			throw new RuntimeException("chr: character out of range");
 		}
-		
+
 		return Character.toString((char) i);
 	}
 

@@ -9,7 +9,7 @@ import com.oracle.truffle.api.source.SourceSection;
 public abstract class _startTiming_0 extends NativeOpBuild {
 
 	public static long startTime = -1;
-	
+
 	public _startTiming_0(SourceSection source) {
 		super(source);
 	}

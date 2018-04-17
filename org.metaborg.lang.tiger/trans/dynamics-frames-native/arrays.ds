@@ -19,12 +19,8 @@ rules
   
   default(ARRAY(_, _)) --> UndefV()
   
+  Array(_, IntV(len), vv) --> ArrayV(_array(len, INT(), vv))
   
-  Array(_, IntV(len), vv) --> ArrayV(arr)
-  where
-    array(len, INT(), vv) => arr
-    
-  
-  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) --> arraySubscript(arr, i)
+  Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) --> _arraySubscript(arr, i)
   where
     get(arr_addr) => ArrayV(arr)

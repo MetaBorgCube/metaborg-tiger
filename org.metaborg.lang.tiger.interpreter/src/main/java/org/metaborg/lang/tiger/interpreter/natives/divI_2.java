@@ -21,8 +21,7 @@ public abstract class divI_2 extends NativeOpBuild {
 		return left / right;
 	}
 
-	public static NativeOpBuild create(SourceSection source, TermBuild left,
-			TermBuild right) {
+	public static NativeOpBuild create(SourceSection source, TermBuild left, TermBuild right) {
 		return divI_2NodeGen.create(source, left, right);
 	}
 
