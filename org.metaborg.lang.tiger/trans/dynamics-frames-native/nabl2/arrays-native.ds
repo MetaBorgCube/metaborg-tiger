@@ -5,7 +5,7 @@ imports
 
 signature
   native datatypes
-    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Array" as Array {
+    "org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.arrays.Array" as Array {
       lookup: Int -> Addr
       get: Int -> Val
       set: Int * Val -> Val

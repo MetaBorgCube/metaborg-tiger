@@ -2,8 +2,8 @@ module dynamics-frames-native/stdlib/native/shared-terms
 
 signature
   sorts
-    U   {value}
-    Val {value, class("org.metaborg.meta.lang.dynsem.interpreter.terms.shared.IValTerm")}
+    U   {value, class("org.metaborg.meta.lang.dynsem.interpreter.terms.shared.USort")}
+    Val {value, class("org.metaborg.meta.lang.dynsem.interpreter.terms.shared.ValSort")}
     
   constructors
     U: U
