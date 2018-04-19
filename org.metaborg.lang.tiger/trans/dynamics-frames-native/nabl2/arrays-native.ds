@@ -16,7 +16,7 @@ signature
     Length = Int
     
   native operators
-    _newArray: Length * Type * Val -> Array // make array and fill with value
+    _newArray: Length * Val -> Array {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.arrays.nodes.NewArray")}
     
   arrows
     newArray(Length, Type) --> Array
@@ -29,7 +29,7 @@ rules
 
   newArray(length, ty) --> newArray(length, ty, default(ty))
 
-  newArray(length, ty, val) --> _newArray(length, ty, val)
+  newArray(length, ty, val) --> _newArray(length, val)
 
   arrayGet(array, idx) --> get[array](idx)
   

@@ -23,24 +23,13 @@ signature
   arrows
     Module -init-> V
     Module --> V
-    
+  
 rules
 
   m@Mod(e) -init-> vv
   where
     framed(m, []) => F;
-    F |- stdLib() --> _;
+    F, TOP topLevelIdx(m) |- stdLib() --> _;
     F |- e --> vv
 
-//  
-//    initNaBL2(mod) --> NaBL2;
-//    initHeap(mod) --> H;
-//    T nabl2_topIndexOf(mod) |- mod :: NaBL2, H --> vv
-//
-//  mod@Mod(e) --> vv
-//  where
-//    mod -paramsOf-> scope;
-//    initDefault(scope, {}) --> F;
-//    F |- stdLib() --> _;
-//    F |- e --> vv
 

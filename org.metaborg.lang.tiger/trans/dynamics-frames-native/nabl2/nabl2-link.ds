@@ -11,10 +11,9 @@ imports
 signature
   sort aliases
     V = Val
-
-  constructors
-    __Ty2Type__: Ty -> Type {implicit}
+    Type = Ty
     
   constructors
     __Occurrence2Occ__: Occurrence -> Occ {implicit}
+
   

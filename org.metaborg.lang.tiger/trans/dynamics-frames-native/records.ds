@@ -50,6 +50,6 @@ rules // record field access
   where
     F F |- e --> addr_rec;
     get(addr_rec) => RecordV(F_rec);
-    frame(scopeOfTerm(fv), [L(I(), F_rec)]) => F_use;
+    framed(fv, [L(I(), F_rec)]) => F_use;
     lookup(F_use, f) => addr_field
 

@@ -16,12 +16,12 @@ rules // variable declarations
   Frames1 (F, F_outer) |- Dec(VarDec(x : Occurrence, t, e)) --> U()
   where
     F F_outer |- e --> v2;
-    set(F, x, v2) => _
+    set(Addr(F, x), v2) => _
     
   Frames1 (F, F_outer) |- Dec(VarDecNoType(x : Occurrence, e)) --> U()
   where
     F F_outer |- e --> v;
-    set(F, x, v) => _
+    set(Addr(F, x), v) => _
 
 rules // variable references
 

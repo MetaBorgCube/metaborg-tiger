@@ -1,9 +1,10 @@
 module dynamics-frames-native/numbers
 
-imports ds-signatures/Numbers-sig
-imports dynamics-frames-native/base
-imports dynamics-frames-native/natives
-imports dynamics-frames-native/nabl2/nabl2-link
+
+imports
+  dynamics-frames-native/base
+  dynamics-frames-native/natives
+
 
 signature
   constructors

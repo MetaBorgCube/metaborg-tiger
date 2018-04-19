@@ -27,6 +27,9 @@ signature
     stdLib() --> U
     registerBuiltin(String, List(FArg), Exp) --> U
   
+  components
+    TOP: TermIndex
+  
 rules
 
   // predefined functions  
@@ -47,14 +50,15 @@ rules
       registerBuiltin("timeStop", [], nativeStopTiming()) --> _;
       registerBuiltin("flush", [], nativeFlushV()) --> _
   
-  F_parent |- registerBuiltin(name, args, e) --> U()
+  F_parent, TOP |- registerBuiltin(name, args, e) --> U()
   where
-    Occurrence("Var", name) => occ_decl;
-    fargs2occs(args) --> decls;
-    scope(Scope("<:implicit:fun:>", name), decls, [], { P() |--> [scopeOfFrame(F_parent)]}, {}) => s_fun;
+    Occurrence("Var", name, TOP) => dec;
+    fargs2occs(args) --> decs;
+    typeOf(dec) => FUN(types, _);
+    scope(Scope("<:implicit:fun:>", name), decs, types, [], { P() |--> [scopeOfFrame(F_parent)]}, {}) => s_fun;
     frame(s_fun, [L(P(), F_parent)]) => F_fun;
     // store
-    set(F_parent, occ_decl, FunV(F_fun, decls, e))  => _
+    set(F_parent, dec, FunV(F_fun, decs, e))  => _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()
@@ -132,7 +136,7 @@ rules
 
 signature arrows // utils
   fargs2occs(List(FArg)) --> List(Occurrence)
-  mkType(String) --> Type
+  mkType(String) --> Ty
 
 rules
 
@@ -144,4 +148,3 @@ rules
   where
     fargs2occs(args) --> decls
 
-  

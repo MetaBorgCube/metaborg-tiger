@@ -15,20 +15,15 @@ signature
   sorts Type
 //  
   native operators
-    P           :                                Label      {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkLabelP")}
-    I           :                                Label      {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkLabelI")}
-    Label       : String                      -> Label      {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkLabel")}
-    Occurrence  : String * String * TermIndex -> Occurrence {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.MakeOccurrence_3")}
-    Occurrence  : String * String             -> Occurrence {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.MakeOccurrence_2")}
-    Scope       : String * String             -> Scope      {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkScopeIdentifier")}
-    scopeOfTerm : AST                         -> Scope      {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.ScopeIdentifierOfTerm")}
+    topLevelIdx : AST                         -> TermIndex        {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetTopLevelTermIndex")}
+    P           :                                Label            {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkLabelP")}
+    I           :                                Label            {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkLabelI")}
+    Label       : String                      -> Label            {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkLabel")}
+    Occurrence  : String * String * TermIndex -> Occurrence       {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.MakeOccurrence_3")}
+    Occurrence  : String * String             -> Occurrence       {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.MakeOccurrence_2")}
+    Scope       : String * String             -> Scope            {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.mkScopeIdentifier")}
+    scopeOfTerm : AST                         -> Scope            {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.ScopeIdentifierOfTerm")}
     declsOf     : Scope                       -> List(Occurrence) {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.DeclsOfScope")}
-//    scopeOfDecl : Occurrence                  -> Scope //
-    scope       : Scope * List(Occurrence) * List(Occurrence) * Map(Label, List(Scope)) * Map(Label, List(Occurrence)) -> Scope {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.CreateScope")}
-//
-//  arrows
-//    scope(String, String) --> Scope
-
-rules
-//  scope(s1, s2) --> Scope(s1, s2)
+    typeOf      : Occurrence                  -> Type             {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.TypeOfDec")}
+    scope       : Scope * List(Occurrence) * List(Type) * List(Occurrence) * Map(Label, List(Scope)) * Map(Label, List(Occurrence)) -> Scope {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.CreateScope")}
   
