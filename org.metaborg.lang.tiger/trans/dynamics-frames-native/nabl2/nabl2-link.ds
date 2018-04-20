@@ -12,8 +12,8 @@ signature
   sort aliases
     V = Val
     Type = Ty
-    
-  constructors
+  
+  constructors 
     __Occurrence2Occ__: Occurrence -> Occ {implicit}
 
   

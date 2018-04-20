@@ -8,7 +8,7 @@ imports dynamics-frames-native/numbers
 
 signature
   constructors
-    StringV : String -> V 
+    StringV : String -> V
     
 rules
  

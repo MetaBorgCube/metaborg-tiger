@@ -58,64 +58,64 @@ rules
     scope(Scope("<:implicit:fun:>", name), decs, types, [], { P() |--> [scopeOfFrame(F_parent)]}, {}) => s_fun;
     frame(s_fun, [L(P(), F_parent)]) => F_fun;
     // store
-    set(F_parent, dec, FunV(F_fun, decs, e))  => _
+    set(Addr(F_parent, dec), FunV(F_fun, decs, e))  => _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(F, arg) => StringV(s);
+    get(Addr(F, arg)) => StringV(s);
     printS(s) => _
   
   F |- nativePrintIV() --> UnitV()
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(F, arg) => IntV(i);
+    get(Addr(F, arg)) => IntV(i);
     printI(i) => _
 
   F |- nativeOrdV() --> IntV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(F, arg) => StringV(s);
+    get(Addr(F, arg)) => StringV(s);
     ordS(s) => result
 
   F |- nativeChrV() --> StringV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(F, arg) => IntV(i);
+    get(Addr(F, arg)) => IntV(i);
     chrI(i) => result
     
   F |- nativeNotV() --> IntV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(F, arg) => IntV(i);
+    get(Addr(F, arg)) => IntV(i);
     notI(i) => result
   
   F |- nativeExitV() --> UnitV()
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(F, arg) => IntV(i);
+    get(Addr(F, arg)) => IntV(i);
     notI(i) => _
     
   F |- nativeSizeV() --> IntV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(F, arg) => StringV(s);
+    get(Addr(F, arg)) => StringV(s);
     sizeS(s) => result
   
   F |- nativeSubstringV() --> StringV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg1, arg2, arg3];
-    get(F, arg1) => StringV(s);
-    get(F, arg2) => IntV(i1);
-    get(F, arg3) => IntV(i2);
+    get(Addr(F, arg1)) => StringV(s);
+    get(Addr(F, arg2)) => IntV(i1);
+    get(Addr(F, arg3)) => IntV(i2);
     substringSII(s, i1, i2) => result
   
   F |- nativeConcatV() --> StringV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg1, arg2];
-    get(F, arg1) => StringV(s1);
-    get(F, arg2) => StringV(s2);
+    get(Addr(F, arg1)) => StringV(s1);
+    get(Addr(F, arg2)) => StringV(s2);
     concatS(s1, s2) => result
   
   nativeGetcharV() --> StringV(result)

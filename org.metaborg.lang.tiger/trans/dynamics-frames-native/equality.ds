@@ -10,6 +10,27 @@ imports dynamics-frames-native/arrays
 
 rules
 
+//  Eq(vv1, vv2) --> IntV(i_res)
+//  where
+//    case (vv1, vv2) of {
+//      (IntV(i), IntV(j))         => eqI(i, j) => i_res
+//      (StringV(s1), StringV(s2)) => eqS(s1, s2) => i_res
+//      (NilV(), NilV())           => 1 => i_res
+//      (NilV(), RecordV(_))       => 0 => i_res
+//      (RecordV(_), NilV(_))      => 0 => i_res
+//      (RecordV(f1), RecordV(f2)) =>
+//        case same(f1, f2) of {
+//          true                   => 1 => i_res
+//          otherwise              => 0 => i_res
+//        }
+//      (ArrayV(a1), ArrayV(a2)) =>
+//        case equals[a1](a2) of {
+//          true                   => 1 => i_res
+//          otherwise              => 0 => i_res
+//        }
+//    }
+
+
   Eq(vv1, vv2) --> vv
   where
     case vv1 of {

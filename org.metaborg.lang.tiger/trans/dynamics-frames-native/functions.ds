@@ -10,8 +10,8 @@ signature
     Frames1 |- Map2-FunDecs(List(FunDec)) --> U
     Frames1 |- FunDec --> U
     unpackArgs(List(FArg)) --> List(Occurrence)
-    F |- Map-Exps(List(Exp)) --> List(Val)
-    F |- setArgs(List(Occurrence), List(Val)) --> U
+    F |- Map-Exps(List(Exp)) --> List(V)
+    F |- setArgs(List(Occurrence), List(V)) --> U
     
   constructors
     FunV: Frame * List(Occurrence) * Exp -> V
@@ -62,7 +62,7 @@ rules // function declarations
   
   F |- setArgs([x|xs],[v|vs]) --> setArgs(xs, vs)
   where
-    set(lookup(F, x), v) => _
+    set(Addr(F, x), v) => _
 
   F F |- Map-Exps([]) --> []
   
