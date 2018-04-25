@@ -32,7 +32,7 @@ rules // record creation
     frame(scopeOfTerm(r), [L(I(), F_rec)]) => F_use;
     Frames1 (F_use, F) |- Map2-InitField(inits) --> _
   
-  Frames1 (F, F') |- Map2-InitField([]) --> U()
+  Frames1 x@(F, F') |- Map2-InitField([]) --> U()
   
   Frames1 (F, F') |- Map2-InitField([x | xs]) --> U()
   where

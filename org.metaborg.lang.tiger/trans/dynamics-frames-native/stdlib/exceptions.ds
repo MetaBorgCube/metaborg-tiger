@@ -20,10 +20,10 @@ rules
   where
     throwing :: _Exc OK() --> ev1 :: _Exc1;
     case _Exc1 of {
-      OK() =>
+      OK() ->
         ev1 => ev;
         _Exc1 => _Exc
-      otherwise =>
+      otherwise ->
         handler(_Exc1, catching) :: _Exc OK() --> ev :: _Exc
     }
   
@@ -31,9 +31,9 @@ rules
   where
     throwing :: _Exc OK() --> _ :: _Exc1;
     case _Exc1 of {
-      OK() =>
+      OK() ->
         continuing :: _Exc OK() --> ev :: _Exc
-      otherwise =>
+      otherwise ->
         handler(_Exc1, catching) :: _Exc OK() --> ev :: _Exc
     }
 

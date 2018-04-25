@@ -24,9 +24,9 @@ rules
   where
     cond --> cv;
     case cv of {
-      false =>
+      false ->
         v_default => v
-      otherwise =>
+      otherwise ->
         handle(handle(e, CCHandler(), w), BRHandler(), w) --> v
     }
   
