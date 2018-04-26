@@ -1,9 +1,9 @@
-module dynamics-frames-native/stdlib/loop
+module dynamics/stdlib/loop
 
 
 imports
-  dynamics-frames-native/stdlib/native/loop-shared
-  dynamics-frames-native/natives
+  dynamics/stdlib/native/loop-shared
+  dynamics/natives
   utils
   
 signature
@@ -16,9 +16,6 @@ signature
     BRHandler: Catching 
     CCHandler: Catching
   
-  sorts
-    KK
-  constructors KK: Bool -> KK
   
 rules
 
@@ -28,15 +25,11 @@ rules
   
   w@whileLoop(cond, e, v_default) --> v
   where
-    printS("hello") => _;
     cond --> cv;
-    printTerm(cond) --> _;
-    printTerm(KK(cv)) --> _;
     case cv of {
       false ->
         v_default => v
       otherwise ->
-        printS("exec") => _;
         handle(handle(e, CCHandler(), w), BRHandler(), w) --> v
     }
   

@@ -29,10 +29,10 @@ rules
   initArray(i, j, v, I) --> I'
   where 
     case ltI(i, j) of {
-      1 => 
+      1 -> 
         allocate(v) --> a;
         initArray(addI(i, 1), j, v, {i |--> a, I}) --> I'
-      0 => 
+      0 -> 
         I => I'
     }
   

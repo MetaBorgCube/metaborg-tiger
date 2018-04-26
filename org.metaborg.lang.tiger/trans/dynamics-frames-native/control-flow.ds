@@ -56,8 +56,8 @@ rules
   where
     e --> IntV(i);
     case i of {
-      1       -> true => bv
-      default -> false => bv
+      1        -> true => bv
+      otherwise -> false => bv
     }
   
   F |- __Exp2Evaluatable__(w@While(_, e2)) --> v

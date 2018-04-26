@@ -21,7 +21,7 @@ imports dynamics/equality
 imports dynamics/nabl2-dummy-link
 
 signature
-  
+    
   arrows
     Module -init-> V
     
@@ -30,4 +30,4 @@ rules
   Mod(e) -init-> v
   where
     E {} |- stdLib() :: H {} --> E' :: H';
-    E' |- e :: H' --> v
+    E' |- e :: H', _Exc OK()  --> v

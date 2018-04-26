@@ -13,35 +13,35 @@ rules
   Eq(v1, v2) --> v
   where
     case v1 of {
-      IntV(i) => 
+      IntV(i) -> 
         case v2 of {
-           IntV(j) => 
+           IntV(j) -> 
              IntV(eqI(i, j)) => v
         }
-      StringV(x) =>
+      StringV(x) ->
         case v2 of {
-          StringV(y) => 
+          StringV(y) -> 
             IntV(eqS(x, y)) => v
         }
-      NilV() =>
+      NilV() ->
         case v2 of {
-          NilV() => 
+          NilV() -> 
             IntV(1) => v
-          RecordV(_, _) =>
+          RecordV(_, _) ->
             IntV(0) => v
         }
-      RecordV(_, id1) =>
+      RecordV(_, id1) ->
         case v2 of {
-          NilV() => 
+          NilV() -> 
             IntV(0) => v
-          RecordV(_, id2) =>
+          RecordV(_, id2) ->
             IntV(eqI(id1, id2)) => v
         }
-      ArrayV(_, id1) =>
+      ArrayV(_, id1) ->
         case v2 of {
-          ArrayV(_, id2) =>
+          ArrayV(_, id2) ->
             IntV(eqI(id1, id2)) => v
-          otherwise =>
+          otherwise ->
             IntV(0) => v
         }     
     }

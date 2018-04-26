@@ -5,13 +5,20 @@ imports dynamics/base
 imports dynamics/store
 imports dynamics/natives
 imports dynamics/numbers
+imports
+  dynamics/stdlib/exceptions
+  dynamics/stdlib/loop
 
 signature
+  sort aliases
+    V = Val
+  
   constructors
-    BreakV : V
-    Breakable : Exp * Exp -> Exp
+    __Exp2Evaluatable__ : Exp -> Evaluatable {implicit}
+    __Exp2Condition__: Exp -> Condition {implicit}
+    
   arrows
-    E |- evalSeq(List(Exp)) :: H --> V :: H
+    E |- evalSeq(List(Exp)) --> V
   
 rules
 
@@ -21,14 +28,9 @@ rules
   
   evalSeq([e]) --> e
   
-  evalSeq([v | es@[_|_]]) --> v
+  evalSeq([e | es@[_|_]]) --> evalSeq(es)
   where
-    case v of {
-      BreakV() =>
-        BreakV() => v
-      otherwise =>
-        evalSeq(es) --> v
-    }
+    e --> v
   
   
   IfThen(e1, e2) --> If(e1, e2, Seq([]))
@@ -36,22 +38,24 @@ rules
   If(IntV(i), e1, e2) --> v
   where
     case i of {
-      0 =>
-        e2 --> v
-      otherwise =>
-        e1 --> v
+      0         -> e2 --> v
+      otherwise -> e1 --> v
     }
   
-  e@While(e1, e2) --> IfThen(e1, Breakable(e2, e))
-  
-  Breakable(v1, e2) --> v
+  Break() --> UnitV()
   where
-    case v1 of {
-      BreakV() =>
-        UnitV() => v
-      otherwise =>
-        e2 --> v
+    doBreak(UnitV()) --> _
+  
+  e@While(e1, _) -->  whileLoop(e1, e, UnitV())
+  
+  __Exp2Condition__(IntV(i)) --> bv
+  where
+    case i of {
+      1         -> true => bv
+      otherwise -> false => bv
     }
+  
+  __Exp2Evaluatable__(While(_, e)) --> e
   
   For(Var(x), e1, e2, e3) -->
     Let([VarDecNoType(x, e1),
@@ -61,6 +65,4 @@ rules
            Assign(Var(x), Plus(Var(x), Int("1")))
          ]))])
   where int2string(fresh) : Id => end  // capture?
-  
-  Break() --> BreakV()
   
