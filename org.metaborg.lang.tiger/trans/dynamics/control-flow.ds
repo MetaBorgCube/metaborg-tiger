@@ -57,12 +57,21 @@ rules
   
   __Exp2Evaluatable__(While(_, e)) --> e
   
-  For(Var(x), e1, e2, e3) -->
-    Let([VarDecNoType(x, e1),
-         VarDecNoType(__Id2Occ__(end), e2)], 
-        [While(Leq(Var(x), Var(__Id2Occ__(end))), Seq([
+//  For(Var(x), e1, e2, e3) -->
+//    Let([VarDecNoType(x, e1),
+//         VarDecNoType(__Id2Occ__(end), e2)], 
+//        [While(Leq(Var(x), Var(__Id2Occ__(end))), Seq([
+//           e3,
+//           Assign(Var(x), Plus(Var(x), Int("1")))
+//         ]))])
+//  where int2string(fresh) : Id => end  // capture?
+  
+  For(Var(x), e1, e2, e3) --> 
+    Let([VarDecNoType(x, e1)], 
+        [While(Leq(Var(x), Int(int2string(i2))), Seq([
            e3,
            Assign(Var(x), Plus(Var(x), Int("1")))
          ]))])
-  where int2string(fresh) : Id => end  // capture?
+  where
+    e2 --> IntV(i2)
   
