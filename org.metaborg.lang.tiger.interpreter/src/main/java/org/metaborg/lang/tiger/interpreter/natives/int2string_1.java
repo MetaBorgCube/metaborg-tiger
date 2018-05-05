@@ -16,7 +16,7 @@ public abstract class int2string_1 extends NativeOpBuild {
 
 	@Specialization
 	public String doInt(int i) {
-		return i + "";
+		return (i + "").intern();
 	}
 
 	public static NativeOpBuild create(SourceSection source, TermBuild t) {
