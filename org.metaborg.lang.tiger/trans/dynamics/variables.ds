@@ -2,6 +2,7 @@ module dynamics/variables
 
 imports ds-signatures/Identifiers-sig
 imports ds-signatures/Variables-sig
+imports dynamics/control-flow
 imports dynamics/base
 imports dynamics/bindings
 imports dynamics/store

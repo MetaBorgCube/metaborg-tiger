@@ -1,6 +1,7 @@
 module dynamics/predef
 
 imports ds-signatures/Tiger-sig
+imports dynamics/control-flow
 imports dynamics/base
 imports dynamics/natives
 imports dynamics/store
