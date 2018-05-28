@@ -8,74 +8,37 @@ imports dynamics-frames-native/control-flow
 imports dynamics-frames-native/natives
 imports dynamics-frames-native/arrays
 
+signature
+  arrows
+    eqV(V,V) --> Int
+
 rules
+  
+  Eq(v1, v2) --> IntV(eqV(v1, v2))
 
-  Eq(vv1, vv2) --> IntV(i_res)
+  eqV(IntV(i), IntV(j)) --> eqI(i, j)
+  
+  eqV(StringV(x), StringV(y)) --> eqS(x, y)
+  
+  eqV(NilV(), NilV()) --> 1
+  
+  eqV(NilV(), RecordV(_)) --> 0
+  
+  eqV(RecordV(f1), RecordV(f2)) --> i
   where
-    case (vv1, vv2) of {
-      (IntV(i), IntV(j))         -> eqI(i, j) => i_res
-      (StringV(s1), StringV(s2)) -> eqS(s1, s2) => i_res
-      (NilV(), NilV())           -> 1 => i_res
-      (NilV(), RecordV(_))       -> 0 => i_res
-      (RecordV(_), NilV())       -> 0 => i_res
-      (RecordV(f1), RecordV(f2)) ->
-        case same(f1, f2) of {
-          true                   -> 1 => i_res
-          otherwise              -> 0 => i_res
-        }
-      (ArrayV(a1), ArrayV(a2))   -> 
-        case equals[a1](a2) of {
-          true                   -> 1 => i_res
-          otherwise              -> 0 => i_res
-        }
+    case same(f1, f2) of {
+        true      -> 1 => i
+        otherwise -> 0 => i
     }
+  
+  eqV(RecordV(_), NilV()) --> 0 
 
-
-//  Eq(vv1, vv2) --> vv
-//  where
-//    case vv1 of {
-//      IntV(i) => 
-//        case vv2 of {
-//           IntV(j) => 
-//             IntV(eqI(i, j)) => vv
-//        }
-//      StringV(x) =>
-//        case vv2 of {
-//          StringV(y) => 
-//            IntV(eqS(x, y)) => vv
-//        }
-//      NilV() =>
-//        case vv2 of {
-//          NilV() => 
-//            IntV(1) => vv
-//          RecordV(_) =>
-//            IntV(0) => vv
-//        }
-//      RecordV(f1) =>
-//        case vv2 of {
-//          NilV() => 
-//            IntV(0) => vv
-//          RecordV(f2) =>
-//            case same(f1, f2) of {
-//              true =>
-//                IntV(1) => vv
-//              otherwise =>
-//                IntV(0) => vv    
-//            }
-//        }
-//      ArrayV(a1) =>
-//        case vv2 of {
-//          ArrayV(a2) =>
-//            case equals[a1](a2) of {
-//              true =>
-//                IntV(1) => vv
-//              otherwise =>
-//                IntV(0) => vv    
-//            }
-//          otherwise =>
-//            IntV(0) => vv
-//        }    
-//    }
+  eqV(ArrayV(a1), ArrayV(a2)) --> i
+  where
+    case equals[a1](a2) of {
+      true      -> 1 => i
+      otherwise -> 0 => i
+    }
       
   Neq(e1, e2) --> If(Eq(e1, e2), Int("0"), Int("1"))
   

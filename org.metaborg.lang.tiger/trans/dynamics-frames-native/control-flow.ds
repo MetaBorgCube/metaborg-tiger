@@ -3,11 +3,7 @@ module dynamics-frames-native/control-flow
 imports
   dynamics-frames-native/base
   dynamics-frames-native/numbers
-//  dynamics-frames-native/stdlib/loop // pure DynSem
-//  dynamics-frames-native/stdlib/exceptions // pure DynSem
-  
-  dynamics-frames-native/stdlib/native/loop // native implementation
-  dynamics-frames-native/stdlib/native/exceptions // native implementation
+  dynamics-frames-native/stdlib/native/loop
 signature
   arrows
     Seq-Exps(List(Exp)) --> V
