@@ -1,0 +1,71 @@
+module dynamics/frames/functions
+
+
+imports
+  dynamics/frames/base
+  dynamics/frames/bindings
+  
+signature
+  arrows
+    Frames1 |- Map2-FunDecs(List(FunDec)) --> U
+    Frames1 |- FunDec --> U
+    unpackArgs(List(FArg)) --> List(Occurrence)
+    F |- Map-Exps(List(Exp)) --> List(Val)
+    
+  constructors
+    FunV: Frame * Exp -> V
+
+rules
+  
+  default(FUN(_, _)) --> UndefV()
+
+rules // function declarations
+
+  Frames1 (F, F_outer) |- Dec(FunDecs(fdecs)) --> U()
+  where
+    Frames1 (F, F_outer) |- Map2-FunDecs(fdecs) --> _
+  
+  Frames1 (F, F') |- Map2-FunDecs([]) --> U()
+  
+  Frames1 (F, F') |- Map2-FunDecs([x|xs]) --> U()
+  where
+    Frames1 (F, F') |- x --> _;
+    Frames1 (F, F') |- Map2-FunDecs(xs) --> _  
+  
+  Frames1 (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
+  where
+    // NOTE: this would be a lot nicer if frames had ORDERED slots
+    // we would not need to iterate the list of args
+    // instead we would get them from the scope
+    initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
+    set(mkAddr(F, f), FunV(F_fun, e)) --> _
+    // FIXME: how about the function body?
+  
+  Frames1 (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
+  where
+    // NOTE: this would be a lot nicer if frames had ORDERED slots
+    // we would not need to iterate the list of args
+    // instead we would get them from the scope
+    initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
+    set(mkAddr(F, f), FunV(F_fun, e)) --> _
+    // FIXME: how about the function body?
+  
+  F F |- Call(f : Occurrence, exps) --> v
+  where
+    get(lookup(pathOf(f))) --> FunV(F_fun_virt, e);
+    F F |- Map-Exps(exps) --> vals;
+    materializeFrame(F_fun_virt, vals) --> F_call;
+    F F_call |- e --> v
+
+  unpackArgs([]) --> []
+  
+  unpackArgs([FArg(x : Occurrence, _) | args]) --> [x |occs]
+  where
+    unpackArgs(args) --> occs
+
+  F F |- Map-Exps([]) --> []
+  
+  F F |- Map-Exps([e|es]) --> [v|vs]
+  where
+    F F |- e --> v;
+    F F |- Map-Exps(es) --> vs
