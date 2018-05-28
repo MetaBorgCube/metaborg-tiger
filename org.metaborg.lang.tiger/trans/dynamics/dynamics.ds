@@ -30,4 +30,4 @@ rules
   Mod(e) -init-> v
   where
     E {} |- stdLib() :: H {} --> E' :: H';
-    E' |- e :: H', _Exc OK()  --> v
+    E' |- e :: H'  --> v

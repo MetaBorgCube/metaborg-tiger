@@ -6,8 +6,8 @@ imports dynamics/store
 imports dynamics/natives
 imports dynamics/numbers
 imports
-  dynamics/stdlib/exceptions
-  dynamics/stdlib/loop
+//  dynamics/stdlib/exceptions
+  dynamics/stdlib/native/loop
 
 signature
   sort aliases
@@ -46,7 +46,7 @@ rules
   where
     doBreak(UnitV()) --> _
   
-  e@While(e1, _) -->  whileLoop(e1, e, UnitV())
+  While(e1, e2) -->  whileLoop(e1, e2, UnitV())
   
   __Exp2Condition__(IntV(i)) --> bv
   where
@@ -55,7 +55,8 @@ rules
       otherwise -> false => bv
     }
   
-  __Exp2Evaluatable__(While(_, e)) --> e
+  __Exp2Evaluatable__(e) --> e
+  
   
   For(Var(x), e1, e2, e3) -->
     Let([VarDecNoType(x, e1),
