@@ -3,11 +3,8 @@ module dynamics-frames-directed/control-flow
 imports
   dynamics-frames-directed/base
   dynamics-frames-directed/numbers
-//  dynamics-frames-directed/stdlib/loop // pure DynSem
-//  dynamics-frames-directed/stdlib/exceptions // pure DynSem
-  
   dynamics-frames-directed/stdlib/native/loop // native implementation
-  dynamics-frames-directed/stdlib/native/exceptions // native implementation
+  
 signature
   arrows
     Seq-Exps(List(Exp)) --> V
@@ -29,9 +26,9 @@ rules
   If(IntV(i), e1, e2) --> vv
   where
     case i of {
-      0 =>
+      0 ->
         e2 --> vv
-      otherwise =>
+      otherwise ->
         e1 --> vv
     }
     
@@ -56,8 +53,8 @@ rules
   where
     e --> IntV(i);
     case i of {
-      1 => true => bv
-      otherwise => false => bv
+      1 -> true => bv
+      otherwise -> false => bv
     }
   
   F |- __Exp2Evaluatable__(w@While(_, e2)) --> v
@@ -78,8 +75,8 @@ rules
   where
     get(addr) --> IntV(i1);
     case leqI(i1, i2) of {
-      1 => true => bv
-      otherwise => false => bv
+      1 -> true => bv
+      otherwise -> false => bv
     }
   
   IncAddr(addr) --> UnitV()

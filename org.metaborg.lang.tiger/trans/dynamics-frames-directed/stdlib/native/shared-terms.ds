@@ -1,9 +1,12 @@
 module dynamics-frames-directed/stdlib/native/shared-terms
 
 signature
-  sorts U Val
+  sorts
+    U   {value, class("org.metaborg.meta.lang.dynsem.interpreter.terms.shared.USort")}
+    Val {value, class("org.metaborg.meta.lang.dynsem.interpreter.terms.shared.ValSort")}
+    
   constructors
-    U: U
+    U: U {class("org.metaborg.meta.lang.dynsem.interpreter.terms.shared.U0")}
     UnitV: Val
 
   sorts Evaluatable Condition

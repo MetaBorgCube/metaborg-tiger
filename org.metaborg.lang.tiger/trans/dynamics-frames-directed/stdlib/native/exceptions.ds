@@ -1,4 +1,4 @@
-module dynamics-frames-directed/stdlib/native/exceptions
+ module dynamics-frames-directed/stdlib/native/exceptions
 
 imports
   dynamics-frames-directed/stdlib/native/exceptions-shared
