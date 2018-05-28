@@ -39,45 +39,45 @@ rules
 
 /* DEBUGGING HELPERS */
 
-//signature 
-//  sorts PrintWrapper
-//  constructors
-//    Decls: List(Occurrence) -> PrintWrapper
-//    Edges: Map(Label, List(Scope)) -> PrintWrapper
-//    Imports: Map(Label, List(Occurrence)) -> PrintWrapper
-//    Links: Map(Label, Map(Scope, Frame)) -> PrintWrapper
-//    Slots: Map(Occurrence, Val) -> PrintWrapper
-//
-//  arrows
-//    printScope(Scope) --> Scope
-//    printFrame(Frame) --> Frame
-//    printPath(Path) --> Path
-//    H |- printHeap() --> Heap
-//rules
-//
-//  printScope(s) --> s
-//  where
-//    printTerm(s) --> _;
-//    printTerm(Decls(declsOf(s))) --> _;
-//    printTerm(Edges(edgesOf(s))) --> _;
-//    printTerm(Imports(importsOf(s))) --> _
-//  
-//  printFrame(f) --> f
-//  where
-//    printTerm(f) --> _;
-//    printScope(scopeOf(f)) --> _;
-//    printTerm(Links(linksOf(f))) --> _;
-//    printTerm(Slots(slotsOf(f))) --> _
-//  
-//  printPath([p]) --> [p]
-//  where
-//    printTerm(p) --> _
-//
-//  printPath([p1 | p2@[_|_]]) --> [p1 | p2]
-//  where
-//    printTerm(p1) --> _;
-//    printPath(p2) --> _
-//  
-//  H |- printHeap() --> H
-//  where
-//    printTerm(H) --> _
+signature 
+  sorts PrintWrapper
+  constructors
+    Decls: List(Occurrence) -> PrintWrapper
+    Edges: Map(Label, List(Scope)) -> PrintWrapper
+    Imports: Map(Label, List(Occurrence)) -> PrintWrapper
+    Links: Map(Label, Map(Scope, Frame)) -> PrintWrapper
+    Slots: Map(Occurrence, Val) -> PrintWrapper
+
+  arrows
+    printScope(Scope) --> Scope
+    printFrame(Frame) --> Frame
+    printPath(Path) --> Path
+    H |- printHeap() --> Heap
+rules
+
+  printScope(s) --> s
+  where
+    printTerm(s) --> _;
+    printTerm(Decls(declsOf(s))) --> _;
+    printTerm(Edges(edgesOf(s))) --> _;
+    printTerm(Imports(importsOf(s))) --> _
+  
+  printFrame(f) --> f
+  where
+    printTerm(f) --> _;
+    printScope(scopeOf(f)) --> _;
+    printTerm(Links(linksOf(f))) --> _;
+    printTerm(Slots(slotsOf(f))) --> _
+  
+  printPath([p]) --> [p]
+  where
+    printTerm(p) --> _
+
+  printPath([p1 | p2@[_|_]]) --> [p1 | p2]
+  where
+    printTerm(p1) --> _;
+    printPath(p2) --> _
+  
+  H |- printHeap() --> H
+  where
+    printTerm(H) --> _

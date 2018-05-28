@@ -52,7 +52,6 @@ rules // function declarations
   
   F F |- Call(f : Occurrence, exps) --> v
   where
-    // FIXME: fetch function body from SG and evaluate it, instead of getting from closure
     get(lookup(pathOf(f))) --> FunV(F_fun_virt, e);
     F F |- Map-Exps(exps) --> vals;
     materializeFrame(F_fun_virt, vals) --> F_call;
