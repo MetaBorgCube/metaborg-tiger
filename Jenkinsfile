@@ -6,7 +6,7 @@ properties([
 ])
 
 node {
-  def slackChannel = '#dynsem'
+  def slackChannel = '#spoofax-dev'
 
   try {
     stage('Checkout') {
