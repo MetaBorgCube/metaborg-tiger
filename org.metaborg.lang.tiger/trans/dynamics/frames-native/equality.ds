@@ -26,7 +26,7 @@ rules
   
   eqV(RecordV(f1), RecordV(f2)) --> i
   where
-    case same(f1, f2) of {
+    case eqFrames(f1, f2) of {
         true      -> 1 => i
         otherwise -> 0 => i
     }

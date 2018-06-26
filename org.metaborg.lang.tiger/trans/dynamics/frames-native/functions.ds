@@ -35,12 +35,12 @@ rules // function declarations
   
   Frames1 (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
   where
-    framed(d, [L(P(), F)]) => F_fun;
+    framed(d, [L(P(), F)]) --> F_fun;
     set(Addr(F, f), FunV(F_fun, unpackArgs(args), e)) => _
   
   Frames1 (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
   where
-    framed(d, [L(P(), F)]) => F_fun;
+    framed(d, [L(P(), F)]) --> F_fun;
     set(Addr(F, f), FunV(F_fun, unpackArgs(args), e)) => _
   
   F F |- Call(f : Occurrence, exps) --> v

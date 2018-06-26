@@ -28,11 +28,11 @@ rules // record creation
   where
     F F |- t --> RECORD(s_rec);
     // this is actually the static (shared) frame of the record
-    frame(s_rec, []) => F_rec;
-    frame(scopeOfTerm(r), [L(I(), F_rec)]) => F_use;
+    frame(s_rec, []) --> F_rec;
+    frame(scopeOfTerm(r), [L(I(), F_rec)]) --> F_use;
     Frames1 (F_use, F) |- Map2-InitField(inits) --> _
   
-  Frames1 x@(F, F') |- Map2-InitField([]) --> U()
+  Frames1 (F, F') |- Map2-InitField([]) --> U()
   
   Frames1 (F, F') |- Map2-InitField([x | xs]) --> U()
   where
@@ -50,6 +50,6 @@ rules // record field access
   where
     F F |- e --> addr_rec;
     get(addr_rec) => RecordV(F_rec);
-    framed(fv, [L(I(), F_rec)]) => F_use;
+    framed(fv, [L(I(), F_rec)]) --> F_use;
     lookup(F_use, f) => addr_field
 

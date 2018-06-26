@@ -56,7 +56,7 @@ rules
     fargs2occs(args) --> decs;
     typeOf(dec) => FUN(types, _);
     scope(Scope("<:implicit:fun:>", name), decs, types, [], { P() |--> [scopeOfFrame(F_parent)]}, {}) => s_fun;
-    frame(s_fun, [L(P(), F_parent)]) => F_fun;
+    frame(s_fun, [L(P(), F_parent)]) --> F_fun;
     // store
     set(Addr(F_parent, dec), FunV(F_fun, decs, e))  => _
   

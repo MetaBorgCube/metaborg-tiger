@@ -28,7 +28,7 @@ rules
 
   m@Mod(e) -init-> vv
   where
-    framed(m, []) => F;
+    framed(m, []) --> F;
     F, TOP topLevelIdx(m) |- stdLib() --> _;
     F |- e --> vv
 
