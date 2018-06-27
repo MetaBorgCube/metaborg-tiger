@@ -19,7 +19,7 @@ public abstract class nabl2_bodyScopeOfAST_1 extends NativeOpBuild {
 
 	@Specialization
 	public Scope doGet(org.metaborg.meta.lang.dynsem.interpreter.terms.ITerm term) {
-		return Scope.create(getAstProperty(term.getStrategoTerm(), AstProperties.key("bodyScope")));
+		return Scope.create(getAstProperty(term.getStrategoTerm(), getAstPropertyKey("bodyScope")));
 	}
 
 	public static NativeOpBuild create(SourceSection source, TermBuild term) {

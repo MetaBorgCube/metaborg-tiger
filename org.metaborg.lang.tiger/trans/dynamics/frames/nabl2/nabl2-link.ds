@@ -2,14 +2,14 @@ module dynamics/frames/nabl2/nabl2-link
 
 imports
   ds-signatures/Tiger-sig
+  nabl2/runtime/interpreter/util
   nabl2/runtime/interpreter/scopegraph-impl
   nabl2/runtime/interpreter/scopegraph-api
   dynamics/frames/nabl2/ex-frame-api
   dynamics/frames/natives
   dynamics/frames/values
-  nabl2/runtime/interpreter/util
   utils
-
+  
 signature
   sort aliases
     Val = V
@@ -17,14 +17,12 @@ signature
 
   constructors
     __Ty2Type__: Ty -> Type {implicit}
-    
-  constructors
     __Occurrence2Occ__: Occurrence -> Occ {implicit}
-  
+    
   components
     T : TermIndex
     FS: (Frame * Frame)
-  
+
   native operators
     nabl2_bodyScopeOfAST: AST -> Scope
     nabl2_topIndexOf: AST -> TermIndex
@@ -81,3 +79,6 @@ rules
   H |- printHeap() --> H
   where
     printTerm(H) --> _
+  
+       
+  

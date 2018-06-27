@@ -35,7 +35,7 @@ rules
 
   mod@Mod(e) --> vv
   where
-    mod -paramsOf-> scope;
+    bodyScope(mod) --> scope;
     initDefault(scope, {}) --> F;
     F |- stdLib() --> _;
     F |- e --> vv

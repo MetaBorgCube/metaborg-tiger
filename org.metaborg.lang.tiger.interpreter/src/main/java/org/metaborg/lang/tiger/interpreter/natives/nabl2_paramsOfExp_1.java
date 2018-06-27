@@ -25,7 +25,7 @@ import com.oracle.truffle.api.source.SourceSection;
 
   @Specialization public Scope doGet(Exp term)
   { 
-    return Scope.create(getAstProperty(term.getStrategoTerm(), "Params"));
+    return Scope.create(getAstProperty(term.getStrategoTerm(), getAstPropertyKey("Params")));
   }
 
   public static NativeOpBuild create(SourceSection source, TermBuild term)

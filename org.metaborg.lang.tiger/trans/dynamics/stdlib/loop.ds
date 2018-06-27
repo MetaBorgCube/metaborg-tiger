@@ -3,7 +3,6 @@ module dynamics/stdlib/loop
 
 imports
   dynamics/stdlib/native/loop-shared
-  utils
   
 signature
   
