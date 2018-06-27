@@ -1,6 +1,6 @@
 module statics/functions
 
-imports signatures/Functions-sig
+imports signatures/-
 imports statics/nabl-lib
 imports statics/base
 

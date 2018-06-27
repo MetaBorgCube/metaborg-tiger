@@ -1,6 +1,6 @@
 module statics/control-flow
 
-imports signatures/Control-Flow-sig
+imports signatures/-
 imports statics/nabl-lib
 imports statics/base
 

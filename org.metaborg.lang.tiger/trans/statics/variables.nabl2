@@ -1,6 +1,6 @@
 module statics/variables
 
-imports signatures/Variables-sig
+imports signatures/-
 imports statics/nabl-lib
 imports statics/base
 

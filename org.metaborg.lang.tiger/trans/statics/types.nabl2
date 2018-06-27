@@ -1,6 +1,6 @@
 module statics/types
 
-imports signatures/Types-sig
+imports signatures/-
 imports statics/nabl-lib
 imports statics/base
 

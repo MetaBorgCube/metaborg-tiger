@@ -1,6 +1,6 @@
 module statics/records
 
-imports signatures/Records-sig
+imports signatures/-
 imports statics/nabl-lib
 imports statics/base
 
