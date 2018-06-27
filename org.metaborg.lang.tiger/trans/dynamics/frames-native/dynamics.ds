@@ -22,14 +22,12 @@ imports dynamics/stdlib/native/exceptions-shared
 signature
   arrows
     Module -init-> V
-    Module --> V
-  
+    
 rules
 
   m@Mod(e) -init-> vv
   where
     framed(m, []) --> F;
-    F, TOP topLevelIdx(m) |- stdLib() --> _;
+    F |- stdLib(m) --> _;
     F |- e --> vv
-
 

@@ -10,8 +10,8 @@ signature
     Frames1 |- Map2-FunDecs(List(FunDec)) --> U
     Frames1 |- FunDec --> U
     unpackArgs(List(FArg)) --> List(Occurrence)
-    F |- Map-Exps(List(Exp)) --> List(V)
-    F |- setArgs(List(Occurrence), List(V)) --> U
+    Frames1 |- Zip-Params(List(Exp), List(Occurrence)) --> U
+//    F |- Map-Exps(List(Exp)) --> List(Val)
     
   constructors
     FunV: Frame * List(Occurrence) * Exp -> V
@@ -45,28 +45,21 @@ rules // function declarations
   
   F F |- Call(f : Occurrence, exps) --> v
   where
-    // FIXME: fetch function body from SG and evaluate it, instead of getting from closure
     get(lookup(F, f)) => FunV(F_fun_virt, args, e);
     clone(F_fun_virt) => F_call;
-    F F |- Map-Exps(exps) --> vals;
-    F F_call |- setArgs(args, vals) --> _;
-    F F_call |- e --> v
-
+    Frames1 (F, F_call) |- Zip-Params(exps, args) --> _;
+    F_call |- e --> v
+    
   unpackArgs([]) --> []
   
   unpackArgs([FArg(x : Occurrence, _) | args]) --> [x |occs]
   where
     unpackArgs(args) --> occs
-  
-  setArgs([], []) --> U()
-  
-  F |- setArgs([x|xs],[v|vs]) --> setArgs(xs, vs)
-  where
-    set(Addr(F, x), v) => _
 
-  F F |- Map-Exps([]) --> []
+  Zip-Params([], []) --> U()
   
-  F F |- Map-Exps([e|es]) --> [v|vs]
+  Frames1 (F, F_call) |- Zip-Params([e|es], [p|ps]) --> Zip-Params(es, ps)
   where
-    F F |- e --> v;
-    F F |- Map-Exps(es) --> vs
+    F |- e --> v;
+    set(Addr(F_call, p), v) => _
+

@@ -1,13 +1,8 @@
 module dynamics/frames-native/values
 
-imports
-  dynamics/frames-native/nabl2/nabl2-link
-
 signature
-
+  sorts V
   constructors
     UndefV : V
-  
   variables 
     vv : V
-    v : V

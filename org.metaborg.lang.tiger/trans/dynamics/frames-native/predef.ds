@@ -24,41 +24,42 @@ signature
     nativeStopTiming  : Exp
   
   arrows
-    stdLib() --> U
+    stdLib(Module) --> U
     registerBuiltin(String, List(FArg), Exp) --> U
   
   components
-    TOP: TermIndex
+    T : TermIndex
   
 rules
 
   // predefined functions  
-  stdLib() --> U()
+  stdLib(m) --> U()
   where
-      registerBuiltin("print", [FArg(__Id2Occ__("s"), mkType("string"))], nativePrintV()) --> _;
-      registerBuiltin("printi", [FArg(__Id2Occ__("i"), mkType("int"))], nativePrintIV()) --> _;
-      registerBuiltin("flush", [], nativeFlushV()) --> _;
-      registerBuiltin("ord", [FArg(__Id2Occ__("s"), mkType("string"))], nativeOrdV()) --> _;
-      registerBuiltin("chr", [FArg(__Id2Occ__("i"), mkType("int"))], nativeChrV()) --> _;
-      registerBuiltin("not", [FArg(__Id2Occ__("i"), mkType("int"))], nativeNotV()) --> _;
-      registerBuiltin("exit", [FArg(__Id2Occ__("i"), mkType("int"))], nativeExitV()) --> _;
-      registerBuiltin("size", [FArg(__Id2Occ__("s"), mkType("string"))], nativeSizeV()) --> _;
-      registerBuiltin("substring", [FArg(__Id2Occ__("s"), mkType("string")), FArg(__Id2Occ__("i1"), mkType("int")), FArg(__Id2Occ__("i2"), mkType("int"))], nativeSubstringV()) --> _;
-      registerBuiltin("concat", [FArg(__Id2Occ__("s1"), mkType("string")), FArg(__Id2Occ__("s2"), mkType("string"))], nativeConcatV()) --> _;
-      registerBuiltin("getchar", [], nativeGetcharV()) --> _;
-      registerBuiltin("timeGo", [], nativeStartTiming()) --> _;
-      registerBuiltin("timeStop", [], nativeStopTiming()) --> _;
-      registerBuiltin("flush", [], nativeFlushV()) --> _
+      topLevelIdx(m) => T;
+      T |- registerBuiltin("print", [FArg(__Id2Occ__("s"), mkType("string"))], nativePrintV()) --> _;
+      T |- registerBuiltin("printi", [FArg(__Id2Occ__("i"), mkType("int"))], nativePrintIV()) --> _;
+      T |- registerBuiltin("flush", [], nativeFlushV()) --> _;
+      T |- registerBuiltin("ord", [FArg(__Id2Occ__("s"), mkType("string"))], nativeOrdV()) --> _;
+      T |- registerBuiltin("chr", [FArg(__Id2Occ__("i"), mkType("int"))], nativeChrV()) --> _;
+      T |- registerBuiltin("not", [FArg(__Id2Occ__("i"), mkType("int"))], nativeNotV()) --> _;
+      T |- registerBuiltin("exit", [FArg(__Id2Occ__("i"), mkType("int"))], nativeExitV()) --> _;
+      T |- registerBuiltin("size", [FArg(__Id2Occ__("s"), mkType("string"))], nativeSizeV()) --> _;
+      T |- registerBuiltin("substring", [FArg(__Id2Occ__("s"), mkType("string")), FArg(__Id2Occ__("i1"), mkType("int")), FArg(__Id2Occ__("i2"), mkType("int"))], nativeSubstringV()) --> _;
+      T |- registerBuiltin("concat", [FArg(__Id2Occ__("s1"), mkType("string")), FArg(__Id2Occ__("s2"), mkType("string"))], nativeConcatV()) --> _;
+      T |- registerBuiltin("getchar", [], nativeGetcharV()) --> _;
+      T |- registerBuiltin("timeGo", [], nativeStartTiming()) --> _;
+      T |- registerBuiltin("timeStop", [], nativeStopTiming()) --> _;
+      T |- registerBuiltin("flush", [], nativeFlushV()) --> _
   
-  F_parent, TOP |- registerBuiltin(name, args, e) --> U()
+  
+  F, T |- registerBuiltin(name, args, e) --> U()
   where
-    Occurrence("Var", name, TOP) => dec;
-    fargs2occs(args) --> decs;
+    Occurrence("Var", name, T) => dec;
+    T |- fargs2occs(args) --> decs;
     typeOf(dec) => FUN(types, _);
-    scope(Scope("<:implicit:fun:>", name), decs, types, [], { P() |--> [scopeOfFrame(F_parent)]}, {}) => s_fun;
-    frame(s_fun, [L(P(), F_parent)]) --> F_fun;
-    // store
-    set(Addr(F_parent, dec), FunV(F_fun, decs, e))  => _
+    scope(Scope("<:implicit:fun:>", name), decs, types, [], { P() |--> [scopeOfFrame(F)]}, {}) => s_fun;
+    frame(s_fun, [L(P(), F)]) --> F_fun;
+    set(Addr(F, dec), FunV(F_fun, decs, e)) => _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()
@@ -136,7 +137,7 @@ rules
 
 signature arrows // utils
   fargs2occs(List(FArg)) --> List(Occurrence)
-  mkType(String) --> Ty
+  mkType(String) --> Type
 
 rules
 
@@ -148,3 +149,4 @@ rules
   where
     fargs2occs(args) --> decls
 
+  

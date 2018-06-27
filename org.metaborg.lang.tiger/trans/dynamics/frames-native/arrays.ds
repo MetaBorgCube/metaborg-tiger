@@ -2,7 +2,7 @@ module dynamics/frames-native/arrays
 
 imports
   dynamics/frames-native/nabl2/nabl2-link
-  dynamics/frames-native/values
+  dynamics/frames-native/nabl2/arrays-native
   ds-signatures/Identifiers-sig
   ds-signatures/Variables-sig
   ds-signatures/Arrays-sig
@@ -19,7 +19,9 @@ rules
   
   default(ARRAY(_, _)) --> UndefV()
   
+  
   Array(_, IntV(len), vv) --> ArrayV(newArray(len, INT(), vv))
+    
   
   Subscript(arr_addr : Addr, __Exp2Index__(IntV(i))) --> arraySubscript(arr, i)
   where

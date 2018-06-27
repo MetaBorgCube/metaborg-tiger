@@ -1,9 +1,9 @@
 module dynamics/frames-native/base
 
 imports
-  dynamics/frames-native/nabl2/nabl2-link
   ds-signatures/Tiger-sig
   dynamics/frames-native/values
+  dynamics/frames-native/nabl2/nabl2-link
 
 signature
   arrows

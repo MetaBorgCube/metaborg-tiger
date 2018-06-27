@@ -3,7 +3,8 @@ module dynamics/frames-native/control-flow
 imports
   dynamics/frames-native/base
   dynamics/frames-native/numbers
-  dynamics/stdlib/native/loop
+  dynamics/stdlib/native/loop // native implementation
+  
 signature
   arrows
     Seq-Exps(List(Exp)) --> V
@@ -52,7 +53,7 @@ rules
   where
     e --> IntV(i);
     case i of {
-      1        -> true => bv
+      1 -> true => bv
       otherwise -> false => bv
     }
   
@@ -74,8 +75,10 @@ rules
   where
     get(addr) => IntV(i1);
     case leqI(i1, i2) of {
-      1         -> true => bv
-      otherwise -> false => bv
+      1 ->
+        true => bv
+      otherwise ->
+        false => bv
     }
   
   IncAddr(addr) --> UnitV()

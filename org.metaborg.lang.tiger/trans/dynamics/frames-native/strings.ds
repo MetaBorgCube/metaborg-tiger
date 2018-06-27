@@ -1,14 +1,16 @@
 module dynamics/frames-native/strings
 
-imports ds-signatures/Strings-sig
-imports dynamics/frames-native/nabl2/nabl2-link
-imports dynamics/frames-native/base
-imports dynamics/frames-native/natives
-imports dynamics/frames-native/numbers
+imports
+  ds-signatures/Strings-sig
+  dynamics/frames-native/base
+  dynamics/frames-native/natives
+  dynamics/frames-native/numbers
+  dynamics/frames-native/nabl2/nabl2-link
+  dynamics/frames-native/values
 
 signature
   constructors
-    StringV : String -> V
+    StringV : String -> V 
     
 rules
  

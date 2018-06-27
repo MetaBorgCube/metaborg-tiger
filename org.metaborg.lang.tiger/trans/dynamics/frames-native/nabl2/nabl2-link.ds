@@ -7,14 +7,15 @@ imports
   dynamics/frames-native/nabl2/scopegraph-native
   dynamics/frames-native/nabl2/frames-native
   dynamics/frames-native/nabl2/arrays-native
+  dynamics/frames-native/values
 
 signature
   sort aliases
-    V = Val
+    Val = V
     Type = Ty
     
-  
   constructors
     __Occurrence2Occ__: Occurrence -> Occ {implicit}
+//    __Ty2Type__: Ty -> Type {implicit}
 
   
