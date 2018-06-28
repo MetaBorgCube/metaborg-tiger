@@ -2,6 +2,7 @@ module dynamics/frames-native/functions
 
 
 imports
+  dynamics/frames-native/nabl2/nabl2-link
   dynamics/frames-native/base
   dynamics/frames-native/bindings
   

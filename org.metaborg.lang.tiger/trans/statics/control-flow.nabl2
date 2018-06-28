@@ -36,6 +36,7 @@ rules // sequence
      new s', s' -P-> s,
      @stm.bodyScope := s',
      Loop{"__break__"@stm} <- s',
+     Loop{"__break__"@stm} : UNIT(),
      [[ e1 ^ (s) : INT() ]], 
      [[ e2 ^ (s') : UNIT() ]].
 
@@ -46,6 +47,7 @@ rules // sequence
      Var{x} <- s_for,
      Var{x} : INT(),
      Loop{"__break__"@stm} <- s_for,
+     Loop{"__break__"@stm} : UNIT(),
      [[ e1 ^ (s) : INT() ]], // x not bound in loop bounds
      [[ e2 ^ (s) : INT() ]], 
      [[ e3 ^ (s_for) : UNIT() ]]. // x bound in body

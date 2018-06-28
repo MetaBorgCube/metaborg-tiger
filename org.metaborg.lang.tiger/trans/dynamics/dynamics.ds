@@ -10,7 +10,7 @@ Uncomment the import below to enable Frame-based semantics.
 To run a Tiger program afterwards invoke the Tiger (Core) runner on a program
 */
 
-imports dynamics/frames/dynamics
+//imports dynamics/frames/dynamics
 //imports dynamics/frames-native/dynamics
 
 
@@ -24,5 +24,5 @@ To run a Tiger program afterwards invoke the Tiger runner on a program
 (NB: not the Tiger (Core) run configuration)
 */
 
-//imports dynamics/env/dynamics
+imports dynamics/env/dynamics
 

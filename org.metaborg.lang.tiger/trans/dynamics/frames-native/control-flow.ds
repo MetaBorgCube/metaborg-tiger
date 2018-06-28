@@ -39,7 +39,10 @@ signature
     WhileBody: Exp -> Evaluatable
     IncAddr: Addr -> Evaluatable
     __Exp2Evaluatable__ : Exp -> Evaluatable {implicit}
+    
 rules
+
+  default(UNIT()) --> UnitV()
 
   Break() --> UnitV()
   where
