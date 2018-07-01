@@ -10,7 +10,7 @@ signature
     NilV : V 
     RecordV: Frame -> V
   arrows
-    Frames1 |- Map2-InitField(List(InitField)) --> U
+    FS |- Map2-InitField(List(InitField)) --> U
     InitField --> U
     
 rules // record type
@@ -23,31 +23,31 @@ rules // literals
 
 rules // record creation
   
-  F F |- r@Record(t, inits) --> RecordV(F_rec)
+  F |- r@Record(t, inits) --> RecordV(F_rec)
   where
-    F F |- t --> RECORD(s_rec);
+    F |- t --> RECORD(s_rec);
     frame(s_rec, []) --> F_rec;
     framed(r, [L(I(), F_rec)]) --> F_use;
-    Frames1 (F_use, F) |- Map2-InitField(inits) --> _
+    FS (F_use, F) |- Map2-InitField(inits) --> _
   
-  Frames1 (F, F') |- Map2-InitField([]) --> U()
+  Map2-InitField([]) --> U()
   
-  Frames1 (F, F') |- Map2-InitField([x | xs]) --> U()
+  FS (F, F') |- Map2-InitField([x | xs]) --> U()
   where
-    Frames1 (F, F') |- x --> _;
-    Frames1 (F, F') |- Map2-InitField(xs) --> _
+    FS (F, F') |- x --> _;
+    FS (F, F') |- Map2-InitField(xs) --> _
   
-  Frames1 (F_use, F) |- InitField(x : Occurrence, e) --> U()
+  FS (F_use, F) |- InitField(x : Occurrence, e) --> U()
   where
-    F F |- e --> v;
-    F F_use |- lookup(x) --> addr;
+    F |- e --> v;
+    F_use |- lookup(x) --> addr;
     set(addr, v) --> _
  
 rules // record field access
 
-  F F |- fv@FieldVar(e, f : Occurrence) --> addr_field
+  F |- fv@FieldVar(e, f : Occurrence) --> addr_field
   where
-    F F |- e --> addr_rec;
+    F |- e --> addr_rec;
     get(addr_rec) --> RecordV(F_rec);
     framed(fv, [L(I(), F_rec)]) --> F_use;
     F_use |- lookup(f) --> addr_field

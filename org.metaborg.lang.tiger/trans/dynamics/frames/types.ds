@@ -11,7 +11,7 @@ signature
     
 rules // type declarations
 
-  Frames1 (F, F_outer) |- Dec(TypeDecs(_)) --> U()
+  Dec(TypeDecs(_)) --> U()
 
 rules // types
   

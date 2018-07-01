@@ -10,5 +10,3 @@ signature
     Exp --> V
     LValue --> Addr
   
-  components
-    Frames1 : (Frame * Frame)

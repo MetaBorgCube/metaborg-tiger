@@ -7,8 +7,8 @@ imports
   
 signature
   arrows
-    Frames1 |- Map2-FunDecs(List(FunDec)) --> U
-    Frames1 |- FunDec --> U
+    FS |- Map2-FunDecs(List(FunDec)) --> U
+    FS |- FunDec --> U
     unpackArgs(List(FArg)) --> List(Occurrence)
     F |- Zip-Params(List(Exp), List(Occurrence)) --> U
     
@@ -21,22 +21,22 @@ rules
 
 rules // function declarations
 
-  Frames1 (F, F_outer) |- Dec(FunDecs(fdecs)) --> U()
+  Dec(FunDecs(fdecs)) --> U()
   where
-    Frames1 (F, F_outer) |- Map2-FunDecs(fdecs) --> _
+    Map2-FunDecs(fdecs) --> _
   
-  Frames1 (F, F') |- Map2-FunDecs([]) --> U()
+  Map2-FunDecs([]) --> U()
   
-  Frames1 (F, F') |- Map2-FunDecs([x|xs]) --> U()
+  Map2-FunDecs([x|xs]) --> U()
   where
-    Frames1 (F, F') |- x --> _;
-    Frames1 (F, F') |- Map2-FunDecs(xs) --> _  
+    x --> _;
+    Map2-FunDecs(xs) --> _  
   
-  Frames1 (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
+  FS (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
   where
     set(Addr(F, f), FunV(F, scopeOfTerm(d), unpackArgs(args), e)) --> _
   
-  Frames1 (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
+  FS (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
   where
     set(Addr(F, f), FunV(F, scopeOfTerm(d), unpackArgs(args), e)) --> _
   
@@ -44,7 +44,7 @@ rules // function declarations
   where
     get(lookup(f)) --> FunV(F_p, s, args, e);
     frame(s, [L(P(), F_p)]) --> F_call;
-    Frames1 (F_call, F) |- Zip-Params(exps, args) --> _;
+    FS (F_call, F) |- Zip-Params(exps, args) --> _;
     F_call |- e --> v
 
   unpackArgs([]) --> []
@@ -55,7 +55,7 @@ rules // function declarations
 
   Zip-Params([], []) --> U()
   
-  Frames1 (F_call, F) |- Zip-Params([e|es], [d|ds]) --> Zip-Params(es, ds)
+  FS (F_call, F) |- Zip-Params([e|es], [d|ds]) --> Zip-Params(es, ds)
   where
     F |- e --> v;
     set(Addr(F_call, d), v) --> _
