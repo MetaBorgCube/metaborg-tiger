@@ -26,9 +26,8 @@ rules // record creation
   F F |- r@Record(t, inits) --> RecordV(F_rec)
   where
     F F |- t --> RECORD(s_rec);
-    // this is actually the static (shared) frame of the record
-    initDefFrame(s_rec, []) --> F_rec;
-    initDefFrame(bodyScope(r), [I(F_rec)]) --> F_use;
+    frame(s_rec, []) --> F_rec;
+    framed(r, [L(I(), F_rec)]) --> F_use;
     Frames1 (F_use, F) |- Map2-InitField(inits) --> _
   
   Frames1 (F, F') |- Map2-InitField([]) --> U()
@@ -41,7 +40,7 @@ rules // record creation
   Frames1 (F_use, F) |- InitField(x : Occurrence, e) --> U()
   where
     F F |- e --> v;
-    F F_use |- lookup(pathOf(x)) --> addr;
+    F F_use |- lookup(x) --> addr;
     set(addr, v) --> _
  
 rules // record field access
@@ -50,6 +49,6 @@ rules // record field access
   where
     F F |- e --> addr_rec;
     get(addr_rec) --> RecordV(F_rec);
-    initDefFrame(bodyScope(fv), [I(F_rec)]) --> F_use;
-    F_use |- lookup(pathOf(f)) --> addr_field
+    framed(fv, [L(I(), F_rec)]) --> F_use;
+    F_use |- lookup(f) --> addr_field
 

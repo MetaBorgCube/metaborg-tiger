@@ -18,7 +18,7 @@ signature
   constructors
     __Ty2Type__: Ty -> Type {implicit}
     __Occurrence2Occ__: Occurrence -> Occ {implicit}
-    
+  
   components
     T : TermIndex
     FS: (Frame * Frame)
@@ -28,12 +28,13 @@ signature
     nabl2_topIndexOf: AST -> TermIndex
     nabl2_phantomIndex: TermIndex -> TermIndex
     
-  arrows
-    bodyScope(AST) --> Scope
+//  arrows
+//    bodyScope(AST) --> Scope
 
 rules
 
-  bodyScope(ast) --> nabl2_bodyScopeOfAST(ast)
+//  bodyScope(ast) --> nabl2_bodyScopeOfAST(ast)
+  scopeOfTerm(ast) --> nabl2_bodyScopeOfAST(ast)
 
 /* DEBUGGING HELPERS */
 
@@ -60,12 +61,15 @@ rules
     printTerm(Edges(edgesOf(s))) --> _;
     printTerm(Imports(importsOf(s))) --> _
   
-  printFrame(f) --> f
+//  printFrame(f) --> f
+//  where
+//    printTerm(f) --> _;
+//    printScope(scopeOf(f)) --> _;
+//    printTerm(Links(linksOfF(f))) --> _;
+//    printTerm(Slots(slotsOfF(f))) --> _
+  printFrame(f) :: H H_(x) --> f
   where
-    printTerm(f) --> _;
-    printScope(scopeOf(f)) --> _;
-    printTerm(Links(linksOf(f))) --> _;
-    printTerm(Slots(slotsOf(f))) --> _
+    printTerm(x[f]) --> _
   
   printPath([p]) --> [p]
   where

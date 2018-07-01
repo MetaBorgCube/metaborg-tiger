@@ -10,10 +10,10 @@ signature
     Frames1 |- Map2-FunDecs(List(FunDec)) --> U
     Frames1 |- FunDec --> U
     unpackArgs(List(FArg)) --> List(Occurrence)
-    F |- Map-Exps(List(Exp)) --> List(Val)
+    F |- Zip-Params(List(Exp), List(Occurrence)) --> U
     
   constructors
-    FunV: Frame * Exp -> V
+    FunV: Frame * Scope * List(Occurrence) * Exp -> V
 
 rules
   
@@ -34,28 +34,18 @@ rules // function declarations
   
   Frames1 (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
   where
-    // NOTE: this would be a lot nicer if frames had ORDERED slots
-    // we would not need to iterate the list of args
-    // instead we would get them from the scope
-    initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
-    set(mkAddr(F, f), FunV(F_fun, e)) --> _
-    // FIXME: how about the function body?
+    set(Addr(F, f), FunV(F, scopeOfTerm(d), unpackArgs(args), e)) --> _
   
   Frames1 (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
   where
-    // NOTE: this would be a lot nicer if frames had ORDERED slots
-    // we would not need to iterate the list of args
-    // instead we would get them from the scope
-    initVirtualFrame(bodyScope(d), [P(F)], unpackArgs(args)) --> F_fun;
-    set(mkAddr(F, f), FunV(F_fun, e)) --> _
-    // FIXME: how about the function body?
+    set(Addr(F, f), FunV(F, scopeOfTerm(d), unpackArgs(args), e)) --> _
   
-  F F |- Call(f : Occurrence, exps) --> v
+  F |- Call(f : Occurrence, exps) --> v
   where
-    get(lookup(pathOf(f))) --> FunV(F_fun_virt, e);
-    F F |- Map-Exps(exps) --> vals;
-    materializeFrame(F_fun_virt, vals) --> F_call;
-    F F_call |- e --> v
+    get(lookup(f)) --> FunV(F_p, s, args, e);
+    frame(s, [L(P(), F_p)]) --> F_call;
+    Frames1 (F_call, F) |- Zip-Params(exps, args) --> _;
+    F_call |- e --> v
 
   unpackArgs([]) --> []
   
@@ -63,9 +53,10 @@ rules // function declarations
   where
     unpackArgs(args) --> occs
 
-  F F |- Map-Exps([]) --> []
+  Zip-Params([], []) --> U()
   
-  F F |- Map-Exps([e|es]) --> [v|vs]
+  Frames1 (F_call, F) |- Zip-Params([e|es], [d|ds]) --> Zip-Params(es, ds)
   where
-    F F |- e --> v;
-    F F |- Map-Exps(es) --> vs
+    F |- e --> v;
+    set(Addr(F_call, d), v) --> _
+

@@ -26,7 +26,7 @@ rules
     ArrayScope(fresh) => s;
     mkArraySlots(s, ty, subI(length, 1), val) --> slots;
     newScope(s, allkeys(slots), [], {}, {}) --> _;
-    initFrame(s, {}, slots) --> F 
+    frame(s, [], slots) --> F
   
   mkArraySlots(arr, ty, -1, val) --> {}
   
@@ -39,4 +39,4 @@ rules
   
   mkArrayElemOcc(arr, idx) --> ElemOcc(arr, idx)
   
-  mkArrayElemAddr(F, idx) --> mkAddr(F, mkArrayElemOcc(scopeOf(F), idx))
+  mkArrayElemAddr(F, idx) --> Addr(F, mkArrayElemOcc(scopeOf(F), idx))
