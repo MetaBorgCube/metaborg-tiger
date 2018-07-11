@@ -22,7 +22,7 @@ signature
 
 rules // top-level module
 
-  init ^ (s) :=
+  init ^ (s) : ty_init :=
     new s.
 
   [[ m@Mod(e) ^ (s) : ty ]] :=

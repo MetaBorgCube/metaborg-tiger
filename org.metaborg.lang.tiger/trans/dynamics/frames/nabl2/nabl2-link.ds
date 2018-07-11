@@ -4,8 +4,7 @@ imports
   ds-signatures/Tiger-sig
   nabl2/runtime/interpreter/util
   nabl2/runtime/interpreter/scopegraph-impl
-  nabl2/runtime/interpreter/scopegraph-api
-  dynamics/frames/nabl2/ex-frame-api
+  nabl2/runtime/interpreter/frame-impl
   dynamics/frames/natives
   dynamics/frames/values
   utils
