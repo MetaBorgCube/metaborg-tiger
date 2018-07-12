@@ -18,7 +18,7 @@ signature
     ArrayV : Idx * Int -> V
   arrows    
     initArray(Int, Int, V, Idx) --> Idx
-     getIndex(Index) --> Int
+    getIndex(Index) --> Int
 
 rules
     

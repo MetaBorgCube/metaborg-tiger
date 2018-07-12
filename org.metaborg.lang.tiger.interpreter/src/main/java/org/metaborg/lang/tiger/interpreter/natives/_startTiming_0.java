@@ -17,7 +17,7 @@ public abstract class _startTiming_0 extends NativeOpBuild {
 	@Specialization
 	@TruffleBoundary
 	public int doStart() {
-		startTime = System.currentTimeMillis();
+		startTime = System.nanoTime();
 		return (int) startTime;
 	}
 
