@@ -16,6 +16,7 @@ pardonedLanguages:
 - EditorService
 - Stratego-Sugar
 - SDF
+- ds
 debug:
   typesmart: false
 language:
