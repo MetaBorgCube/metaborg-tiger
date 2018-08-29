@@ -2,6 +2,7 @@ package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
+import org.metaborg.lang.tiger.ninterpreter.TigerMutableEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerUtils;
 import org.metaborg.lang.tiger.ninterpreter.objects.BreakException;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
@@ -35,7 +36,7 @@ public final class For_4 extends Exp {
 	public Object evaluate(TigerHeap heap, TigerEnv env) {
 		IntV firstV = (IntV) _2.evaluate(heap, env);
 		IntV lastV = (IntV) _3.evaluate(heap, env);
-		TigerEnv forEnv = new TigerEnv(env);
+		TigerEnv forEnv = new TigerMutableEnv(env);
 		TigerUtils.bindVar(_1.getId(), new UnitV(), heap, forEnv);
 		for (int i = firstV.value(); i <= lastV.value(); i++) {
 			TigerUtils.writeVar(_1.getId(), new IntV(i), heap, forEnv);

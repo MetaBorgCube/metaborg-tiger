@@ -24,7 +24,7 @@ public final class String_1 extends Exp {
 
 	@Override
 	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		return new StringV(_1);
+		return new StringV(_1.substring(1, _1.length() - 1));
 	}
 
 	private String_1(String _1) {

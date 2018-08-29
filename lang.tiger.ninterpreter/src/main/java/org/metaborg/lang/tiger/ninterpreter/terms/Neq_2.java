@@ -2,6 +2,7 @@ package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
+import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -25,7 +26,7 @@ public final class Neq_2 extends Exp {
 
 	@Override
 	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		return new Eq_2(_1, _2).evaluate(heap, env);
+		return ((IntV) new Eq_2(_1, _2).evaluate(heap, env)).value() == 1 ? new IntV(0) : new IntV(1);
 	}
 
 	private Neq_2(Exp _1, Exp _2) {

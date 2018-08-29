@@ -35,7 +35,7 @@ public final class Lt_2 extends Exp {
 		}
 	}
 
-	private Lt_2(Exp _1, Exp _2) {
+	public Lt_2(Exp _1, Exp _2) {
 		this._1 = _1;
 		this._2 = _2;
 	}

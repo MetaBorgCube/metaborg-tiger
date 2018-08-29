@@ -2,6 +2,7 @@ package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
+import org.metaborg.lang.tiger.ninterpreter.TigerMutableEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.TigerUtils;
 import org.spoofax.interpreter.core.Tools;
@@ -30,7 +31,7 @@ public final class VarDec_3 extends Dec {
 	@Override
 	public TigerEnv evaluate(TigerHeap h, TigerEnv e) {
 		TigerObject res = (TigerObject) _3.evaluate(h, e);
-		return TigerUtils.bindVar(_1.getId(), res, h, new TigerEnv(e));
+		return TigerUtils.bindVar(_1.getId(), res, h, new TigerMutableEnv(e));
 	}
 
 	private VarDec_3(Occ _1, Type _2, Exp _3) {

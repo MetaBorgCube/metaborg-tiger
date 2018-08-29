@@ -19,7 +19,7 @@ public final class Tid_1 extends TypeId {
 		return sb.toString();
 	}
 
-	private Tid_1(Occ _1) {
+	public Tid_1(Occ _1) {
 		this._1 = _1;
 	}
 

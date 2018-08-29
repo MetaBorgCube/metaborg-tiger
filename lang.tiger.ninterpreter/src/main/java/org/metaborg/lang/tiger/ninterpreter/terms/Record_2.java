@@ -2,6 +2,7 @@ package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
+import org.metaborg.lang.tiger.ninterpreter.TigerMutableEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.TigerUtils;
 import org.metaborg.lang.tiger.ninterpreter.objects.RecordV;
@@ -29,7 +30,7 @@ public final class Record_2 extends Exp {
 
 	@Override
 	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		TigerEnv fieldEnv = new TigerEnv(null);
+		TigerEnv fieldEnv = new TigerMutableEnv(null);
 		for (InitField initField : _2) {
 			InitField_2 init = (InitField_2) initField;
 			TigerUtils.bindVar(init.get_1().getId(), (TigerObject) init.get_2().evaluate(heap, env), heap, fieldEnv);

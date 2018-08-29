@@ -21,7 +21,7 @@ public final class FArg_2 extends FArg {
 		return sb.toString();
 	}
 
-	private FArg_2(Occ _1, Type _2) {
+	public FArg_2(Occ _1, Type _2) {
 		this._1 = _1;
 		this._2 = _2;
 	}
