@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -22,7 +21,7 @@ public final class __Var2LValue___1 extends LValue {
 	}
 
 	@Override
-	public Integer evaluate(TigerHeap h, TigerEnv e) {
+	public Integer evaluate(TigerEnv e) {
 		return e.lookup(_1.getId());
 	}
 

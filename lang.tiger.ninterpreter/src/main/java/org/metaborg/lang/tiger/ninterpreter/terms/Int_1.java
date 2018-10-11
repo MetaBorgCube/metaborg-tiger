@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.spoofax.interpreter.core.Tools;
@@ -24,7 +23,7 @@ public final class Int_1 extends Exp {
 	}
 
 	@Override
-	public TigerObject evaluate(TigerHeap h, TigerEnv e) {
+	public TigerObject evaluate(TigerEnv e) {
 		return new IntV(Integer.parseInt(_1));
 	}
 

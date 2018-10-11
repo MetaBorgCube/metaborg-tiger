@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoList;
@@ -13,15 +12,15 @@ public final class Let_2 extends Exp {
 	public final static int ARITY = 2;
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
+	public Object evaluate(TigerEnv env) {
 		for (Dec dec : _1) {
-			env = (TigerEnv) dec.evaluate(heap, env);
+			env = (TigerEnv) dec.evaluate(env);
 		}
 
 		Object res = null;
 
 		for (Exp exp : _2) {
-			res = exp.evaluate(heap, env);
+			res = exp.evaluate(env);
 		}
 		return res;
 	}

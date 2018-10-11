@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.BreakException;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.metaborg.lang.tiger.ninterpreter.objects.UnitV;
@@ -27,10 +26,10 @@ public final class While_2 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		while (((IntV) _1.evaluate(heap, env)).value() == 1) {
+	public Object evaluate(TigerEnv env) {
+		while (((IntV) _1.evaluate(env)).value() == 1) {
 			try {
-				_2.evaluate(heap, env);
+				_2.evaluate(env);
 			} catch (BreakException brex) {
 				break;
 			}

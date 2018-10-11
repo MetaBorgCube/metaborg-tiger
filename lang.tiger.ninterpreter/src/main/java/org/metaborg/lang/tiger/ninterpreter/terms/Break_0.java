@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.BreakException;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -22,7 +21,7 @@ public final class Break_0 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
+	public Object evaluate(TigerEnv env) {
 		throw new BreakException();
 	}
 

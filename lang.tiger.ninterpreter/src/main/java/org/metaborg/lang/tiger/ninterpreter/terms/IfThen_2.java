@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.metaborg.lang.tiger.ninterpreter.objects.UnitV;
 import org.spoofax.interpreter.core.Tools;
@@ -26,10 +25,10 @@ public final class IfThen_2 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		IntV cv = (IntV) _1.evaluate(heap, env);
+	public Object evaluate(TigerEnv env) {
+		IntV cv = (IntV) _1.evaluate(env);
 		if (cv.value() == 1) {
-			return _2.evaluate(heap, env);
+			return _2.evaluate(env);
 		} else {
 			return new UnitV();
 		}

@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -12,8 +11,8 @@ public final class __Exp2Index___1 extends Index {
 	public final static int ARITY = 1;
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		return _1.evaluate(heap, env);
+	public Object evaluate(TigerEnv env) {
+		return _1.evaluate(env);
 	}
 
 	@Override

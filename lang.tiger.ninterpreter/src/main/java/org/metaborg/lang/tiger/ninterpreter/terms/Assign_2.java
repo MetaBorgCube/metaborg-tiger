@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.objects.UnitV;
 import org.spoofax.interpreter.core.Tools;
@@ -26,10 +25,10 @@ public final class Assign_2 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		int a = (int) _1.evaluate(heap, env);
-		TigerObject v = (TigerObject) _2.evaluate(heap, env);
-		heap.write(a, v);
+	public Object evaluate(TigerEnv env) {
+		int a = (int) _1.evaluate(env);
+		TigerObject v = (TigerObject) _2.evaluate(env);
+		context().heap().write(a, v);
 		return new UnitV();
 	}
 

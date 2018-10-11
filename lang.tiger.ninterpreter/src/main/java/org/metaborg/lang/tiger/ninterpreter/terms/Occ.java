@@ -1,12 +1,12 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
-import org.metaborg.lang.tiger.ninterpreter.IEvaluatableTerm;
+import org.metaborg.lang.tiger.ninterpreter.EvaluatableTigerTerm;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoString;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
-public abstract class Occ implements IEvaluatableTerm {
+public abstract class Occ extends EvaluatableTigerTerm {
 	public static Occ create(IStrategoTerm term) {
 		assert term != null;
 		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "__Id2Occ__", 1)) {

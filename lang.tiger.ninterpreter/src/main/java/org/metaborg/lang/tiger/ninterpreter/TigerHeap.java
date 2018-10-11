@@ -1,11 +1,25 @@
 package org.metaborg.lang.tiger.ninterpreter;
 
-public interface TigerHeap {
+import java.util.HashMap;
+import java.util.Map;
 
-	int allocate(TigerObject v);
+public class TigerHeap {
 
-	void write(int a, TigerObject v);
+	private final Map<Integer, TigerObject> heap = new HashMap<>();
 
-	TigerObject read(int a);
+	private int nextAddress = Integer.MIN_VALUE;
+
+	public int allocate(TigerObject v) {
+		heap.put(nextAddress, v);
+		return nextAddress++;
+	}
+
+	public void write(int a, TigerObject v) {
+		heap.put(a, v);
+	}
+
+	public TigerObject read(int a) {
+		return heap.get(a);
+	}
 
 }

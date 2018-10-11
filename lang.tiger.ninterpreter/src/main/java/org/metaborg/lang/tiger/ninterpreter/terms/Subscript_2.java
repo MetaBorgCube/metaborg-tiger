@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.ArrayV;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.spoofax.interpreter.core.Tools;
@@ -26,10 +25,10 @@ public final class Subscript_2 extends LValue {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		int arrAddr = (int) _1.evaluate(heap, env);
-		IntV idxV = (IntV) _2.evaluate(heap, env);
-		ArrayV arr = (ArrayV) heap.read(arrAddr);
+	public Object evaluate(TigerEnv env) {
+		int arrAddr = (int) _1.evaluate(env);
+		IntV idxV = (IntV) _2.evaluate(env);
+		ArrayV arr = (ArrayV) context().heap().read(arrAddr);
 		return arr.get(idxV.value());
 	}
 

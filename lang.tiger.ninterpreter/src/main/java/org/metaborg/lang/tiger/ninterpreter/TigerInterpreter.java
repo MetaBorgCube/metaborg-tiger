@@ -12,19 +12,19 @@ public class TigerInterpreter {
 
 	public final static String START_SYMBOL = "Module";
 
+	public final static TigerContext ctx = new TigerContext(new TigerHeap());
+
 	public static void main(String[] args) {
 		String file = args[0];
 		String workingDirectory = System.getProperty("user.dir");
-		TigerHeap heap = new TigerMutableHeap();
-		TigerEnv env = new TigerMutableEnv(null);
-		// TigerHeap heap = new TigerPersistentHeap();
-		// TigerEnv env = new TigerPersistentEnv(null);
+		TigerHeap heap = new TigerHeap();
+		TigerEnv env = new TigerEnv(null);
 
 		Module mod = new TigerInterpreter(workingDirectory).getCallable(file);
 
 		TigerObject result;
 		try {
-			result = (TigerObject) mod.evaluate(heap, env);
+			result = (TigerObject) mod.evaluate(env);
 			System.out.println(result);
 		} catch (Exception e) {
 			e.printStackTrace();

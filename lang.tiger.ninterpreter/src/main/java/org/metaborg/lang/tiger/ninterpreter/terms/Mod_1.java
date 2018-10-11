@@ -2,7 +2,6 @@ package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.StdLib;
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -23,9 +22,9 @@ public final class Mod_1 extends Module {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap h, TigerEnv e) {
-		new StdLib().evaluate(h, e);
-		return _1.evaluate(h, e);
+	public Object evaluate(TigerEnv e) {
+		new StdLib().evaluate(e);
+		return _1.evaluate(e);
 	}
 
 	private Mod_1(Exp _1) {

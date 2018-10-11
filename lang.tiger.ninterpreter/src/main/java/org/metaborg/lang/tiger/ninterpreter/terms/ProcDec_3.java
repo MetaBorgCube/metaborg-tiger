@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.TigerUtils;
 import org.metaborg.lang.tiger.ninterpreter.objects.ClosureV;
 import org.spoofax.interpreter.core.Tools;
@@ -29,9 +28,9 @@ public final class ProcDec_3 extends FunDec {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap h, TigerEnv e) {
+	public Object evaluate(TigerEnv e) {
 		ClosureV clos = new ClosureV(_2, _3, e);
-		TigerUtils.writeVar(_1.getId(), clos, h, e);
+		TigerUtils.writeVar(_1.getId(), clos, context().heap(), e);
 		return null;
 	}
 

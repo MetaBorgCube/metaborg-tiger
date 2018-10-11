@@ -1,30 +1,30 @@
 package org.metaborg.lang.tiger.ninterpreter.objects;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
-
-import com.github.krukow.clj_lang.IPersistentMap;
-import com.github.krukow.clj_lang.PersistentHashMap;
 
 public class ArrayV implements TigerObject {
 
 	private static int nextArrayIdx = Integer.MIN_VALUE;
 
-	private final IPersistentMap<Integer, Integer> arrIndices;
+	private final Map<Integer, Integer> arraySlots;
 
 	private final int idx;
 
 	public ArrayV(int length, TigerObject fillValue, TigerHeap heap) {
-		IPersistentMap<Integer, Integer> arrPMap = PersistentHashMap.EMPTY;
-		for (int i = 0; i < length; i++) {
-			arrPMap = arrPMap.assoc(i, heap.allocate(fillValue));
-		}
-		arrIndices = arrPMap;
 		this.idx = nextArrayIdx++;
+		Map<Integer, Integer> arraySlots = new HashMap<>();
+		for (int i = 0; i < length; i++) {
+			arraySlots.put(i, heap.allocate(fillValue));
+		}
+		this.arraySlots = arraySlots;
 	}
 
 	public int get(int idx) {
-		return arrIndices.valAt(idx);
+		return arraySlots.get(idx);
 	}
 
 	public int idx() {

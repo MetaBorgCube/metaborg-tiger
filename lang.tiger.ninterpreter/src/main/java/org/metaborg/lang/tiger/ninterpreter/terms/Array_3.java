@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.objects.ArrayV;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
@@ -29,11 +28,11 @@ public final class Array_3 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		IntV lenV = (IntV) _2.evaluate(heap, env);
-		TigerObject defV = (TigerObject) _3.evaluate(heap, env);
+	public Object evaluate(TigerEnv env) {
+		IntV lenV = (IntV) _2.evaluate(env);
+		TigerObject defV = (TigerObject) _3.evaluate(env);
 
-		return new ArrayV(lenV.value(), defV, heap);
+		return new ArrayV(lenV.value(), defV, context().heap());
 	}
 
 	private Array_3(TypeId _1, Exp _2, Exp _3) {

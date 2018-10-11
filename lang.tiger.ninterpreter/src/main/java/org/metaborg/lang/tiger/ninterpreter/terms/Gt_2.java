@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -25,8 +24,8 @@ public final class Gt_2 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		IntV lte = (IntV) new Leq_2(_1, _2).evaluate(heap, env);
+	public Object evaluate(TigerEnv env) {
+		IntV lte = (IntV) new Leq_2(_1, _2).evaluate(env);
 
 		return lte.value() == 1 ? new IntV(0) : new IntV(1);
 	}

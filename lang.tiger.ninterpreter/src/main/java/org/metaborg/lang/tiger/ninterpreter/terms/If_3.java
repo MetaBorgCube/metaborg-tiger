@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -27,12 +26,12 @@ public final class If_3 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		IntV cv = (IntV) _1.evaluate(heap, env);
+	public Object evaluate(TigerEnv env) {
+		IntV cv = (IntV) _1.evaluate(env);
 		if (cv.value() == 1) {
-			return _2.evaluate(heap, env);
+			return _2.evaluate(env);
 		} else {
-			return _3.evaluate(heap, env);
+			return _3.evaluate(env);
 		}
 	}
 

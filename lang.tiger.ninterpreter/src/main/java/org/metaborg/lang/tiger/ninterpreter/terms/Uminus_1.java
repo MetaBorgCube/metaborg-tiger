@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -23,8 +22,8 @@ public final class Uminus_1 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		IntV v = (IntV) _1.evaluate(heap, env);
+	public Object evaluate(TigerEnv env) {
+		IntV v = (IntV) _1.evaluate(env);
 		return new IntV(v.value() * -1);
 	}
 

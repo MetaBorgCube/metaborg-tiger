@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoList;
@@ -23,7 +22,7 @@ public final class TypeDecs_1 extends Dec {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
+	public Object evaluate(TigerEnv env) {
 		return env;
 	}
 

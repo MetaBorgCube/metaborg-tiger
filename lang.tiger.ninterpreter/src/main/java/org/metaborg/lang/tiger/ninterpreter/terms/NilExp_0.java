@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.NilV;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -24,7 +23,7 @@ public final class NilExp_0 extends Exp {
 	public final static NilExp_0 SINGLETON = new NilExp_0();
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
+	public Object evaluate(TigerEnv env) {
 		return new NilV();
 	}
 

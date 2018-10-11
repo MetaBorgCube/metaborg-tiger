@@ -1,8 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
-import org.metaborg.lang.tiger.ninterpreter.TigerMutableEnv;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.TigerUtils;
 import org.metaborg.lang.tiger.ninterpreter.objects.ClosureV;
@@ -29,15 +27,15 @@ public final class Call_2 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		ClosureV clos = (ClosureV) TigerUtils.readVar(_1.getId(), heap, env);
+	public Object evaluate(TigerEnv env) {
+		ClosureV clos = (ClosureV) TigerUtils.readVar(_1.getId(), context().heap(), env);
 		FArg[] fparams = clos.args();
-		TigerEnv callEnv = new TigerMutableEnv(clos.env());
+		TigerEnv callEnv = new TigerEnv(clos.env());
 		for (int i = 0; i < _2.length; i++) {
-			TigerUtils.bindVar(fparams[i].getId(), (TigerObject) _2[i].evaluate(heap, env), heap, callEnv);
+			TigerUtils.bindVar(fparams[i].getId(), (TigerObject) _2[i].evaluate(env), context().heap(), callEnv);
 		}
 
-		return clos.body().evaluate(heap, callEnv);
+		return clos.body().evaluate(callEnv);
 	}
 
 	private Call_2(Occ _1, Exp[] _2) {

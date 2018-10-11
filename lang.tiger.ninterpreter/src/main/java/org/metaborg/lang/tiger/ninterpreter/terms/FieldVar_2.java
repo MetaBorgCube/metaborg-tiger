@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.objects.RecordV;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -25,9 +24,9 @@ public final class FieldVar_2 extends LValue {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
-		int a = (int) _1.evaluate(heap, env);
-		RecordV rec = (RecordV) heap.read(a);
+	public Object evaluate(TigerEnv env) {
+		int a = (int) _1.evaluate(env);
+		RecordV rec = (RecordV) context().heap().read(a);
 		return rec.get(_2.getId());
 	}
 

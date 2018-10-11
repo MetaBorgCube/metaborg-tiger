@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.objects.UnitV;
 import org.spoofax.interpreter.core.Tools;
@@ -25,10 +24,10 @@ public final class Seq_1 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
+	public Object evaluate(TigerEnv env) {
 		TigerObject res = new UnitV();
 		for (Exp exp : _1) {
-			res = (TigerObject) exp.evaluate(heap, env);
+			res = (TigerObject) exp.evaluate(env);
 		}
 		return res;
 	}

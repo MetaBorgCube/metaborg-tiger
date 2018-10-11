@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.ninterpreter.terms;
 
 import org.metaborg.lang.tiger.ninterpreter.TigerEnv;
-import org.metaborg.lang.tiger.ninterpreter.TigerHeap;
 import org.metaborg.lang.tiger.ninterpreter.TigerObject;
 import org.metaborg.lang.tiger.ninterpreter.objects.ArrayV;
 import org.metaborg.lang.tiger.ninterpreter.objects.IntV;
@@ -30,11 +29,11 @@ public final class Eq_2 extends Exp {
 	}
 
 	@Override
-	public Object evaluate(TigerHeap heap, TigerEnv env) {
+	public Object evaluate(TigerEnv env) {
 		IntV t = new IntV(1);
 		IntV f = new IntV(0);
-		TigerObject v1 = (TigerObject) _1.evaluate(heap, env);
-		TigerObject v2 = (TigerObject) _2.evaluate(heap, env);
+		TigerObject v1 = (TigerObject) _1.evaluate(env);
+		TigerObject v2 = (TigerObject) _2.evaluate(env);
 		if (v1 instanceof IntV) {
 			if (v2 instanceof IntV) {
 				return ((IntV) v1).value() == ((IntV) v2).value() ? t : f;
