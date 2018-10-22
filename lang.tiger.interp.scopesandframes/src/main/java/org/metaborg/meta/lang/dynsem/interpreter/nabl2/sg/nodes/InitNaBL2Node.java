@@ -1,6 +1,5 @@
 package org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes;
 
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.IWithScopesAndFramesContext;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.NaBL2Context;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.NaBL2SolutionUtils;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ObjectFactories;
@@ -8,14 +7,13 @@ import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesContext;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 
-import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 
 public class InitNaBL2Node extends ScopesAndFramesNode {
 
-	public InitNaBL2Node(TruffleLanguage<? extends IWithScopesAndFramesContext> language) {
-		super(language);
+	public InitNaBL2Node() {
+		super();
 	}
 
 	public void execute(VirtualFrame frame) {

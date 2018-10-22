@@ -1,22 +1,21 @@
 package org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes;
 
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.NaBL2SolutionUtils;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.TermIndex;
-import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
-import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.ITerm;
 
 import com.oracle.truffle.api.dsl.Cached;
-import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
-import com.oracle.truffle.api.source.SourceSection;
+import com.oracle.truffle.api.frame.VirtualFrame;
 
-@NodeChild(value = "term", type = TermBuild.class)
-public abstract class GetTopLevelTermIndex extends NativeOpBuild {
+public abstract class GetTopLevelTermIndex extends ScopesAndFramesNode {
 
-	public GetTopLevelTermIndex(SourceSection source) {
-		super(source);
+	public GetTopLevelTermIndex() {
+		super();
 	}
+	
+	public abstract TermIndex execute(VirtualFrame frame, ITerm term);
 
 	@Specialization(guards = "term_cached == term", limit = "100")
 	public TermIndex doCached(ITerm term, @Cached("term") ITerm term_cached,
@@ -31,7 +30,4 @@ public abstract class GetTopLevelTermIndex extends NativeOpBuild {
 		return new TermIndex(termIndex.getResource(), 0);
 	}
 
-	public static GetTopLevelTermIndex create(SourceSection source, TermBuild term) {
-		return ScopeNodeFactories.createGetTopLevelTermIndex(source, term);
-	}
 }

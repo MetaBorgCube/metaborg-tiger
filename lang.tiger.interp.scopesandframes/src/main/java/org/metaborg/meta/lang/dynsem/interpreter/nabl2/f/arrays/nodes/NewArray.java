@@ -1,27 +1,18 @@
 package org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.arrays.nodes;
 
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.arrays.Array;
-import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.NativeOpBuild;
-import org.metaborg.meta.lang.dynsem.interpreter.nodes.building.TermBuild;
 
-import com.oracle.truffle.api.dsl.NodeChild;
-import com.oracle.truffle.api.dsl.NodeChildren;
-import com.oracle.truffle.api.dsl.Specialization;
-import com.oracle.truffle.api.source.SourceSection;
+import com.oracle.truffle.api.frame.VirtualFrame;
 
-@NodeChildren({ @NodeChild(value = "len", type = TermBuild.class), @NodeChild(value = "val", type = TermBuild.class) })
-public abstract class NewArray extends NativeOpBuild {
+public final class NewArray extends ScopesAndFramesNode {
 
-	public NewArray(SourceSection source) {
-		super(source);
+	public NewArray() {
+		super();
 	}
 
-	@Specialization
-	public Array executeNewArray(int len, Object val) {
-		return new Array(len, val);
+	public Array execute(VirtualFrame frame, int length, Object fill) {
+		return new Array(length, fill);
 	}
 
-	public static NewArray create(SourceSection source, TermBuild len, TermBuild val) {
-		return ArrayNodeFactories.createNewArray(source, len, val);
-	}
 }

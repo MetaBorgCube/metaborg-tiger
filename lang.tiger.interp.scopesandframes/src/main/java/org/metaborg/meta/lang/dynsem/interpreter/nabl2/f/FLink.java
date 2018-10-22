@@ -18,11 +18,6 @@ public abstract class FLink implements IApplTerm {
 		this.identifier = identifier;
 	}
 
-	@Override
-	public final Class<?> getSortClass() {
-		return FLink.class;
-	}
-
 	public final FrameLinkIdentifier link() {
 		return this.identifier;
 	}

@@ -6,10 +6,6 @@ import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 public abstract class ALabel implements IApplTerm {
-	@Override
-	public Class<? extends IApplTerm> getSortClass() {
-		return ALabel.class;
-	}
 
 	public static ALabel create(IStrategoTerm t) {
 		assert Tools.isTermAppl(t);

@@ -1,23 +1,21 @@
 package org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes;
 
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.IWithScopesAndFramesContext;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier;
 
-import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 
-public abstract class NewFrame2 extends ScopesAndFramesNode {
+public abstract class NewFrame extends ScopesAndFramesNode {
 
 	@Child
 	private CloneFrame frameCloner;
 
-	public NewFrame2(TruffleLanguage<? extends IWithScopesAndFramesContext> language) {
-		super(language);
-		this.frameCloner = CloneFrameNodeGen.create(language);
+	public NewFrame() {
+		super();
+		this.frameCloner = CloneFrameNodeGen.create();
 	}
 
 	public abstract DynamicObject execute(VirtualFrame frame, ScopeIdentifier sid);

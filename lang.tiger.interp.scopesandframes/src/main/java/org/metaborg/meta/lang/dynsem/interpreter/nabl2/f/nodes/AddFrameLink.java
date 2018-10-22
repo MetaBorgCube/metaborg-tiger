@@ -17,8 +17,8 @@ import com.oracle.truffle.api.object.Shape;
 
 public abstract class AddFrameLink extends ScopesAndFramesNode {
 
-	public AddFrameLink(TruffleLanguage<? extends IWithScopesAndFramesContext> language) {
-		super(language);
+	public AddFrameLink() {
+		super();
 	}
 
 	public abstract void execute(VirtualFrame frame, DynamicObject f, FLink link);

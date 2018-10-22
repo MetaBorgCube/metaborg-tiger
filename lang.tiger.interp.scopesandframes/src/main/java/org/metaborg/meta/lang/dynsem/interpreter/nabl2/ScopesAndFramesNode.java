@@ -2,10 +2,11 @@ package org.metaborg.meta.lang.dynsem.interpreter.nabl2;
 
 import java.util.Optional;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerLanguage;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
+import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.TruffleLanguage.ContextReference;
 import com.oracle.truffle.api.nodes.Node;
 
@@ -16,23 +17,32 @@ import mb.nabl2.stratego.TermIndex;
 import mb.nabl2.terms.ITerm;
 
 public abstract class ScopesAndFramesNode extends Node {
-	private final TruffleLanguage<?> language;
-	private final ContextReference<? extends IWithScopesAndFramesContext> ctxRef;
 
-	public ScopesAndFramesNode(TruffleLanguage<? extends IWithScopesAndFramesContext> language) {
-		this.ctxRef = language.getContextReference();
-		this.language = language;
-		getRootNode().
+	public ScopesAndFramesNode() {
 	}
 
-	public final TruffleLanguage<?> language() {
+
+	@CompilationFinal
+	private TigerLanguage language;
+
+	public final TigerLanguage language() {
+		if (language == null) {
+			language = this.getRootNode().getLanguage(TigerLanguage.class);
+		}
+
 		return language;
 	}
 
+	@CompilationFinal
+	private ContextReference<? extends IWithScopesAndFramesContext> ctxRef;
+
 	public final ScopesAndFramesContext context() {
+		if (ctxRef == null) {
+			ctxRef = language().getContextReference();
+		}
 		return ctxRef.get().getScopesAndFramesContext();
 	}
-	
+
 	protected IStrategoTerm getAstProperty(IStrategoTerm sterm, String key) {
 		return getAstProperty(sterm, getAstPropertyKey(key));
 	}

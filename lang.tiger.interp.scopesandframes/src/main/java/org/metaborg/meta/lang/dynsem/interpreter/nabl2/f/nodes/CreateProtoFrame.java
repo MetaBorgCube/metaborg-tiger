@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.IWithScopesAndFramesContext;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.layouts.FrameEdgeIdentifier;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.layouts.FrameImportIdentifier;
@@ -18,7 +17,6 @@ import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.layouts.NaBL2LayoutImp
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.layouts.ScopeEntryLayout;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.layouts.ScopeEntryLayoutImpl;
 
-import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 import com.oracle.truffle.api.object.FinalLocationException;
@@ -31,9 +29,9 @@ public class CreateProtoFrame extends ScopesAndFramesNode {
 
 	@Child private DefaultValue defaultValueNode;
 
-	public CreateProtoFrame(TruffleLanguage<? extends IWithScopesAndFramesContext> language) {
-		super(language);
-		this.defaultValueNode = FrameNodeFactories.createDefaultValue(language);
+	public CreateProtoFrame() {
+		super();
+		this.defaultValueNode = DefaultValueNodeGen.create();
 	}
 
 	public DynamicObject execute(VirtualFrame frame, DynamicObject scopeEntry) {

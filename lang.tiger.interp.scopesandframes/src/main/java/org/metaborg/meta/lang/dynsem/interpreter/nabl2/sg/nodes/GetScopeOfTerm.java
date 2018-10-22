@@ -1,21 +1,19 @@
 package org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes;
 
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.IWithScopesAndFramesContext;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.ITerm;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
 
 public abstract class GetScopeOfTerm extends ScopesAndFramesNode {
 
-	public GetScopeOfTerm(TruffleLanguage<? extends IWithScopesAndFramesContext> language) {
-		super(language);
+	public GetScopeOfTerm() {
+		super();
 	}
 
 	public abstract ScopeIdentifier execute(VirtualFrame frame, ITerm t);

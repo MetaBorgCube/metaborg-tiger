@@ -21,7 +21,7 @@ public final class Mod_1 extends Module {
 	private Mod_1(Exp _1, IStrategoTerm strategoTerm) {
 		this._1 = _1;
 		this.strategoTerm = strategoTerm;
-		this.framedCreationNode = new Framed
+//		this.framedCreationNode = new Framed
 	}
 
 	@Child

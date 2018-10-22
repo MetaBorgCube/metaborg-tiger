@@ -1,7 +1,6 @@
 package org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.arrays;
 
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Addr;
-import org.metaborg.meta.lang.dynsem.interpreter.nodes.matching.ITermInstanceChecker;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 public final class ArrayAddr extends Addr {
@@ -33,11 +32,6 @@ public final class ArrayAddr extends Addr {
 
 	public int get_2() {
 		return idx();
-	}
-
-	@Override
-	public ITermInstanceChecker getCheck() {
-		return null;
 	}
 
 	@Override
