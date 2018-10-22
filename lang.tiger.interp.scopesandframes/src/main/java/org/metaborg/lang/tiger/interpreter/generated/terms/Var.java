@@ -9,10 +9,6 @@ import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 
 public abstract class Var implements IApplTerm {
-	@Override
-	public Class<? extends IApplTerm> getSortClass() {
-		return Var.class;
-	}
 
 	@TruffleBoundary
 	public static Var create(IStrategoTerm term) {

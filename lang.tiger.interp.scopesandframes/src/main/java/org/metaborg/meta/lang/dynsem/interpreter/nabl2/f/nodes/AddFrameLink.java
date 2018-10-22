@@ -1,11 +1,9 @@
 package org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes;
 
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.IWithScopesAndFramesContext;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FLink;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.layouts.FrameLinkIdentifier;
 
-import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;

@@ -1,7 +1,10 @@
-package org.metaborg.lang.tiger.interpreter.generated.terms;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
+import org.metaborg.lang.tiger.interpreter.generated.terms.V;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Addr;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddr;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddrNodeGen;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -10,25 +13,34 @@ import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.object.DynamicObject;
 
 public final class __LValue2Exp___1 extends Exp {
 	public final static String CONSTRUCTOR = "__LValue2Exp__";
 
 	public final static int ARITY = 1;
 
+	@Child
+	private LValue lv;
+
+	@Child
+	private GetAtAddr getAtAddrNode;
+
 	public __LValue2Exp___1(LValue _1) {
 		this(_1, null);
 	}
 
 	private __LValue2Exp___1(LValue _1, IStrategoTerm strategoTerm) {
-		this._1 = _1;
+		this.lv = _1;
 		this.strategoTerm = strategoTerm;
+		this.getAtAddrNode = GetAtAddrNodeGen.create();
 	}
 
-	private final LValue _1;
-
-	public LValue get_1() {
-		return _1;
+	@Override
+	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
+		Addr addr = this.lv.execute(frame, currentFrame);
+		return (V) this.getAtAddrNode.execute(frame, addr);
 	}
 
 	@TruffleBoundary
@@ -38,25 +50,6 @@ public final class __LValue2Exp___1 extends Exp {
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
 		return new __LValue2Exp___1(LValue.create(term.getSubterm(0)), term);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		__LValue2Exp___1 other = (__LValue2Exp___1) obj;
-		if (_1 == null) {
-			if (other._1 != null) {
-				return false;
-			}
-		} else if (!_1.equals(other._1)) {
-			return false;
-		}
-		return true;
 	}
 
 	private final IStrategoTerm strategoTerm;
@@ -82,29 +75,9 @@ public final class __LValue2Exp___1 extends Exp {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
-		sb.append(_1);
+		sb.append(lv);
 		sb.append(")");
 		return sb.toString();
 	}
 
-	@CompilationFinal
-	private boolean hashCodeComputed;
-
-	@CompilationFinal
-	private int hashcode;
-
-	@Override
-	public int hashCode() {
-		if (!hashCodeComputed) {
-			CompilerDirectives.transferToInterpreterAndInvalidate();
-			hashcode = makeHashCode();
-			hashCodeComputed = true;
-		}
-		return hashcode;
-	}
-
-	@TruffleBoundary
-	private int makeHashCode() {
-		return new HashCodeBuilder().append(_1).toHashCode();
-	}
 }

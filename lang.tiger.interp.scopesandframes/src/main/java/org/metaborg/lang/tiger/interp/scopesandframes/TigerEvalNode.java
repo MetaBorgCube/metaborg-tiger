@@ -1,13 +1,20 @@
 package org.metaborg.lang.tiger.interp.scopesandframes;
 
-import com.oracle.truffle.api.frame.VirtualFrame;
+import org.metaborg.lang.tiger.interpreter.generated.terms.IntV_1;
+import org.metaborg.lang.tiger.interpreter.generated.terms.V;
 
+import com.oracle.truffle.api.dsl.TypeSystemReference;
+import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.nodes.UnexpectedResultException;
+import com.oracle.truffle.api.object.DynamicObject;
+
+@TypeSystemReference(TigerTypes.class)
 public abstract class TigerEvalNode extends TigerTruffleNode {
 
 	public TigerEvalNode() {
 		super();
 	}
 
-	public abstract Object executeGeneric(VirtualFrame frame);
+	public abstract V executeGeneric(VirtualFrame frame, DynamicObject currentFrame);
 
 }

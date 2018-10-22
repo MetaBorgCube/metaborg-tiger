@@ -6,12 +6,12 @@ import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FLink;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 
-public final class Links extends ScopesAndFramesNode {
+public final class AddLinks extends ScopesAndFramesNode {
 
 	@Child
 	private AddFrameLink linkNode;
 
-	public Links() {
+	public AddLinks() {
 		super();
 		this.linkNode = AddFrameLinkNodeGen.create();
 	}

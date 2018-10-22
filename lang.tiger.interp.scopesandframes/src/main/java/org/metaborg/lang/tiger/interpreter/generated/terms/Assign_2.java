@@ -2,6 +2,7 @@ package org.metaborg.lang.tiger.interpreter.generated.terms;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.LValue;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;

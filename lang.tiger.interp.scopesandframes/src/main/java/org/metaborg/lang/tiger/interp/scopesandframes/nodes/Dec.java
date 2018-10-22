@@ -1,5 +1,9 @@
-package org.metaborg.lang.tiger.interpreter.generated.terms;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerTruffleNode;
+import org.metaborg.lang.tiger.interpreter.generated.terms.FunDecs_1;
+import org.metaborg.lang.tiger.interpreter.generated.terms.TypeDecs_1;
+import org.metaborg.lang.tiger.interpreter.generated.terms.VarDecNoType_2;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.IApplTerm;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -7,12 +11,10 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.object.DynamicObject;
 
-public abstract class Dec implements IApplTerm {
-	@Override
-	public Class<? extends IApplTerm> getSortClass() {
-		return Dec.class;
-	}
+public abstract class Dec extends TigerTruffleNode implements IApplTerm {
 
 	@TruffleBoundary
 	public static Dec create(IStrategoTerm term) {
@@ -32,4 +34,6 @@ public abstract class Dec implements IApplTerm {
 		}
 		throw new IllegalStateException("Unsupported term: " + term);
 	}
+	
+	public abstract void execute(VirtualFrame frame, DynamicObject f, DynamicObject f_outer);
 }

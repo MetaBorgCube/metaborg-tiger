@@ -24,5 +24,5 @@ public interface FrameLayout {
 	boolean isFrame(Object object);
 
 	boolean isFrame(ObjectType objectType);
-
+	
 }

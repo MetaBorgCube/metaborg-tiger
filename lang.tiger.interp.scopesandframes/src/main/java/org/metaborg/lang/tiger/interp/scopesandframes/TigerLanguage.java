@@ -20,7 +20,14 @@ import org.metaborg.spoofax.core.unit.ISpoofaxAnalyzeUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxInputUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxParseUnit;
 import org.metaborg.util.concurrent.IClosableLock;
+import org.spoofax.interpreter.terms.IStrategoAppl;
+import org.spoofax.interpreter.terms.IStrategoList;
 import org.spoofax.interpreter.terms.IStrategoTerm;
+import org.spoofax.interpreter.terms.ITermFactory;
+import org.spoofax.jsglr.client.imploder.ImploderAttachment;
+import org.spoofax.terms.TermFactory;
+import org.spoofax.terms.TermTransformer;
+import org.spoofax.terms.attachments.OriginAttachment;
 
 import com.google.common.collect.ImmutableMap;
 import com.oracle.truffle.api.CallTarget;
@@ -125,6 +132,27 @@ public final class TigerLanguage extends TruffleLanguage<TigerContext> {
 				program = parsed.ast();
 				props = ImmutableMap.of();
 			}
+			ITermFactory factory = new TermFactory();
+
+			// convert origin attachments to annotations
+			program = new TermTransformer(factory, false) {
+
+				@Override
+				@TruffleBoundary
+				public IStrategoTerm preTransform(IStrategoTerm term) {
+					OriginAttachment orig = OriginAttachment.get(term);
+					IStrategoList annos = null;
+					if (orig != null) {
+						IStrategoAppl attachmentTerm = ImploderAttachment.TYPE.toTerm(factory,
+								ImploderAttachment.get(orig.getOrigin()));
+						annos = factory.makeListCons(attachmentTerm, term.getAnnotations());
+					}
+					if (annos != null) {
+						return factory.annotateTerm(term, annos);
+					}
+					return term;
+				}
+			}.transform(program);
 		} catch (IOException e) {
 			throw new MetaborgException("Analysis failed.", e);
 		}

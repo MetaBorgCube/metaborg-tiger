@@ -1,5 +1,7 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
 
+import org.metaborg.lang.tiger.interpreter.generated.terms.V;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FLink;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Framed;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -8,12 +10,19 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
 import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.object.DynamicObject;
 
 public final class Mod_1 extends Module {
 	public final static String CONSTRUCTOR = "Mod";
 
 	public final static int ARITY = 1;
 
+	@Child
+	private Exp _1;
+	
+	@Child
+	private Framed framedCreationNode;
+	
 	public Mod_1(Exp _1) {
 		this(_1, null);
 	}
@@ -21,17 +30,13 @@ public final class Mod_1 extends Module {
 	private Mod_1(Exp _1, IStrategoTerm strategoTerm) {
 		this._1 = _1;
 		this.strategoTerm = strategoTerm;
-//		this.framedCreationNode = new Framed
+		this.framedCreationNode = new Framed();
 	}
 
-	@Child
-	private Exp _1;
 	
-	@Child
-	private Framed framedCreationNode;
 
 	@Override
-	public Object executeGeneric(VirtualFrame frame) {
+	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
 		// framed -->		frame(scopeOfTerm(t), links)
 		// @formatter:off
 		/*
@@ -42,7 +47,9 @@ public final class Mod_1 extends Module {
 		    F |- e --> vv
 		*/
 		// @formatter:on
-		return _1.executeGeneric(frame);
+		currentFrame = framedCreationNode.executeNewFrame(frame, this, new FLink[0]);
+		// FIXME: standard library of Tiger functions
+		return _1.executeGeneric(frame, currentFrame);
 	}
 	
 	@TruffleBoundary

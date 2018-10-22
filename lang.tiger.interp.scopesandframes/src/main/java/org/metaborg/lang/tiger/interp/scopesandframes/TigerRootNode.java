@@ -19,8 +19,8 @@ public class TigerRootNode extends RootNode {
 	public TigerRootNode(TigerLanguage language, FrameDescriptor frameDescriptor, Module programNode) {
 		super(language, frameDescriptor);
 		this.programNode = programNode;
-		this.initNabl2 = new InitNaBL2Node(language);
-		this.initProtoFrames = new InitProtoFrames(language);
+		this.initNabl2 = new InitNaBL2Node();
+		this.initProtoFrames = new InitProtoFrames();
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class TigerRootNode extends RootNode {
 		initNabl2.execute(frame);
 		initProtoFrames.execute(frame);
 		// FIXME: built-ins?
-		return programNode.executeGeneric(frame);
+		return programNode.executeGeneric(frame, null);
 	}
 
 }

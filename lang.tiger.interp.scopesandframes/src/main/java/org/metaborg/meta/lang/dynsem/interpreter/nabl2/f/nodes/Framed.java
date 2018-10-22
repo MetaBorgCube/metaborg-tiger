@@ -14,14 +14,16 @@ public final class Framed extends ScopesAndFramesNode {
 
 	@Child private GetScopeOfTerm scopeOfTermNode;
 	@Child private NewFrame newFrameNode;
-	@Child private Links addLinksNode;
+	@Child private AddLinks addLinksNode;
 	
 	public Framed() {
 		super();
 		this.scopeOfTermNode = GetScopeOfTermNodeGen.create();
 		this.newFrameNode = NewFrameNodeGen.create();
-		this.addLinksNode = new Links();
+		this.addLinksNode = new AddLinks();
 	}
+	
+	
 	
 	public DynamicObject executeNewFrame(VirtualFrame frame, ITerm t, FLink[] links) {
 		ScopeIdentifier sid = scopeOfTermNode.execute(frame, t);

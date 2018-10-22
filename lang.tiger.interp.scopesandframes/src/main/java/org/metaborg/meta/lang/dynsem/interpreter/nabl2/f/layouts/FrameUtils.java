@@ -15,7 +15,6 @@ public final class FrameUtils {
 		return FrameLayoutImpl.LAYOUT;
 	}
 
-
 	public static Shape lookupShape(DynamicObject frm) {
 		assert FrameLayoutImpl.INSTANCE.isFrame(frm);
 		return frm.getShape();
@@ -37,5 +36,10 @@ public final class FrameUtils {
 					+ FrameLayoutImpl.INSTANCE.getScope(shape.createFactory()));
 		}
 		return property.getLocation();
+	}
+
+	public static DynamicObject asFrame(Object o) {
+		assert FrameLayoutImpl.INSTANCE.isFrame(o);
+		return (DynamicObject) o;
 	}
 }

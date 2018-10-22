@@ -13,9 +13,12 @@ import org.metaborg.spoofax.core.shell.CLIUtils;
 
 import com.google.inject.Module;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.frame.FrameDescriptor;
+import com.oracle.truffle.api.frame.FrameSlot;
+import com.oracle.truffle.api.frame.FrameSlotKind;
 
-public class TigerContext implements IWithScopesAndFramesContext {
-
+public final class TigerContext implements IWithScopesAndFramesContext {
+	
 	private Spoofax S;
 	private CLIUtils cli;
 	private ILanguageImpl spoofaxLanguage;
@@ -24,6 +27,11 @@ public class TigerContext implements IWithScopesAndFramesContext {
 	private final InputStream in;
 	private final OutputStream out;
 	private final OutputStream err;
+	
+//	private FrameDescriptor baseFrameDescriptor;
+//	private FrameSlot currentFrame1;
+//	private FrameSlot currentFrame2;
+	
 	private ScopesAndFramesContext scopesAndFramesContext;
 
 	public TigerContext(InputStream in, OutputStream out, OutputStream err) {
@@ -39,7 +47,22 @@ public class TigerContext implements IWithScopesAndFramesContext {
 		cli = new CLIUtils(S);
 		cli.loadLanguagesFromPath();
 		spoofaxLanguage = cli.getLanguage(TigerLanguage.NAME);
+//		baseFrameDescriptor = new FrameDescriptor();
+//		currentFrame1 = baseFrameDescriptor.addFrameSlot("__F1", FrameSlotKind.Object);
+//		currentFrame2 = baseFrameDescriptor.addFrameSlot("__F2", FrameSlotKind.Object);
 	}
+	
+//	public FrameDescriptor baseDescriptor() {
+//		return baseFrameDescriptor;
+//	}
+//	
+//	public FrameSlot frame1slot() {
+//		return currentFrame1;
+//	}
+//	
+//	public FrameSlot frame2slot() {
+//		return currentFrame2;
+//	}
 
 	public Spoofax getSpoofax() {
 		if (!isInitialized) {
