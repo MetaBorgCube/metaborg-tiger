@@ -1,9 +1,9 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings;
 
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Occ;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Ty;
-import org.metaborg.lang.tiger.interpreter.generated.terms.V;
 import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameAddr;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddr;

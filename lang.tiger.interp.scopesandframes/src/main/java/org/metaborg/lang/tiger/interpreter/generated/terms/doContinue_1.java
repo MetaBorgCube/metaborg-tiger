@@ -1,6 +1,7 @@
 package org.metaborg.lang.tiger.interpreter.generated.terms;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerDirectives;

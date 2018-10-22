@@ -1,6 +1,7 @@
-package org.metaborg.lang.tiger.interpreter.generated.terms;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.metaborg.lang.tiger.interpreter.generated.terms.TypeDec;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -9,38 +10,43 @@ import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.object.DynamicObject;
 
-public final class FUN_2 extends Ty {
-	public final static String CONSTRUCTOR = "FUN";
+public final class TypeDecs_1 extends Dec {
+	public final static String CONSTRUCTOR = "TypeDecs";
 
-	public final static int ARITY = 2;
+	public final static int ARITY = 1;
 
-	public FUN_2(Ty[] _1, Ty _2) {
-		this(_1, _2, null);
+	public TypeDecs_1(TypeDec[] _1) {
+		this(_1, null);
 	}
 
-	private FUN_2(Ty[] _1, Ty _2, IStrategoTerm strategoTerm) {
-		this.fArgTys = _1;
-		this.returnTy = _2;
+	private TypeDecs_1(TypeDec[] _1, IStrategoTerm strategoTerm) {
+		this.typeDecs = _1;
 		this.strategoTerm = strategoTerm;
 	}
 
-	private final Ty[] fArgTys;
+	@Children private final TypeDec[] typeDecs;
 
-	private final Ty returnTy;
+	
+	@Override
+	public void execute(VirtualFrame frame, DynamicObject f, DynamicObject f_outer) {
+		// we're not doing anything for type declarations
+	}
 
 	@TruffleBoundary
-	public static FUN_2 create(IStrategoTerm term) {
+	public static TypeDecs_1 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		IStrategoTerm[] fargTyTerms = Tools.listAt(term, 0).getAllSubterms();
-		Ty[] fargtys = new Ty[fargTyTerms.length];
-		for (int i = 0; i < fargTyTerms.length; i++) {
-			fargtys[i] = Ty.create(fargTyTerms[i]);
+		IStrategoTerm[] tyDecTerms = Tools.listAt(term, 0).getAllSubterms();
+		TypeDec[] typeDecs = new TypeDec[tyDecTerms.length];
+		for (int i = 0; i < typeDecs.length; i++) {
+			typeDecs[i] = TypeDec.create(tyDecTerms[i]);
 		}
-		return new FUN_2(fargtys, Ty.create(term.getSubterm(1)), term);
+		return new TypeDecs_1(typeDecs, term);
 	}
 
 	@Override
@@ -51,19 +57,12 @@ public final class FUN_2 extends Ty {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FUN_2 other = (FUN_2) obj;
-		if (fArgTys == null) {
-			if (other.fArgTys != null) {
+		TypeDecs_1 other = (TypeDecs_1) obj;
+		if (typeDecs == null) {
+			if (other.typeDecs != null) {
 				return false;
 			}
-		} else if (!fArgTys.equals(other.fArgTys)) {
-			return false;
-		}
-		if (returnTy == null) {
-			if (other.returnTy != null) {
-				return false;
-			}
-		} else if (!returnTy.equals(other.returnTy)) {
+		} else if (!typeDecs.equals(other.typeDecs)) {
 			return false;
 		}
 		return true;
@@ -92,9 +91,7 @@ public final class FUN_2 extends Ty {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
-		sb.append(fArgTys);
-		sb.append(", ");
-		sb.append(returnTy);
+		sb.append(typeDecs);
 		sb.append(")");
 		return sb.toString();
 	}
@@ -117,6 +114,6 @@ public final class FUN_2 extends Ty {
 
 	@TruffleBoundary
 	private int makeHashCode() {
-		return new HashCodeBuilder().append(returnTy).append(fArgTys).toHashCode();
+		return new HashCodeBuilder().append(typeDecs).toHashCode();
 	}
 }

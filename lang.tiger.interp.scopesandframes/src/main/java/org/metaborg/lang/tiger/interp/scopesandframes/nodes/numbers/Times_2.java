@@ -1,5 +1,6 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerTypesGen;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.IntV_1;
 import org.spoofax.interpreter.core.Tools;
@@ -8,44 +9,45 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.dsl.Cached;
-import com.oracle.truffle.api.dsl.Specialization;
+import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.object.DynamicObject;
 
-public abstract class Int_1 extends Exp {
-	public final static String CONSTRUCTOR = "Int";
+public final class Times_2 extends Exp {
+	public final static String CONSTRUCTOR = "Times";
 
-	public final static int ARITY = 1;
+	public final static int ARITY = 2;
 
-	public Int_1(String _1) {
-		this(_1, null);
+	public Times_2(Exp _1, Exp _2) {
+		this(_1, _2, null);
 	}
 
-	public Int_1(String _1, IStrategoTerm strategoTerm) {
-		this._1 = _1;
+	private Times_2(Exp _1, Exp _2, IStrategoTerm strategoTerm) {
+		this.left = _1;
+		this.right = _2;
 		this.strategoTerm = strategoTerm;
 	}
 
-	private final String _1;
+	@Child
+	private Exp left;
 
-	@Specialization
-	public IntV_1 doCached(@Cached("parse()") IntV_1 cached) {
-		return cached;
+	@Child
+	private Exp right;
+
+	@Override
+	public IntV_1 executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
+		IntV_1 left = TigerTypesGen.asIntV_1(this.left.executeGeneric(frame, currentFrame));
+		IntV_1 right = TigerTypesGen.asIntV_1(this.right.executeGeneric(frame, currentFrame));
+		return new IntV_1(left.get_1() * right.get_1());
 	}
-	
-	protected IntV_1 parse() {
-		return new IntV_1(Integer.parseInt(_1));
-	}
-	
+
 	@TruffleBoundary
-	public static Int_1 create(IStrategoTerm term) {
+	public static Times_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return Int_1NodeGen.create(Tools.asJavaString(term.getSubterm(0)), term);
+		return new Times_2(Exp.create(term.getSubterm(0)), Exp.create(term.getSubterm(1)), term);
 	}
-
-	
 
 	private final IStrategoTerm strategoTerm;
 
@@ -70,10 +72,11 @@ public abstract class Int_1 extends Exp {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
-		sb.append(_1);
+		sb.append(left);
+		sb.append(", ");
+		sb.append(right);
 		sb.append(")");
 		return sb.toString();
 	}
-
 
 }

@@ -2,8 +2,9 @@ package org.metaborg.lang.tiger.interp.scopesandframes.nodes.control;
 
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerTypesGen;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
-import org.metaborg.lang.tiger.interpreter.generated.terms.IntV_1;
-import org.metaborg.lang.tiger.interpreter.generated.terms.V;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.IntV_1;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
+import org.metaborg.lang.tiger.interpreter.generated.terms.UnitV_0;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -34,7 +35,7 @@ public final class If_3 extends Exp {
 		this(_1, _2, _3, null);
 	}
 
-	private If_3(Exp _1, Exp _2, Exp _3, IStrategoTerm strategoTerm) {
+	public If_3(Exp _1, Exp _2, Exp _3, IStrategoTerm strategoTerm) {
 		this.condition = _1;
 		this.thenBranch = _2;
 		this.elseBranch = _3;
@@ -46,7 +47,11 @@ public final class If_3 extends Exp {
 		if (conditionProfile.profile(evaluateCondition(frame, currentFrame))) {
 			return thenBranch.executeGeneric(frame, currentFrame);
 		} else {
-			return elseBranch.executeGeneric(frame, currentFrame);
+			if (elseBranch != null) {
+				return elseBranch.executeGeneric(frame, currentFrame);
+			} else {
+				return UnitV_0.SINGLETON;
+			}
 		}
 	}
 

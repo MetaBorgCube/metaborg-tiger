@@ -1,8 +1,7 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.values.IntV_1;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FLink;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Framed;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -12,53 +11,45 @@ import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 
-public final class Mod_1 extends Module {
-	public final static String CONSTRUCTOR = "Mod";
+public final class Eq_2 extends Exp {
+	public final static String CONSTRUCTOR = "Eq";
 
-	public final static int ARITY = 1;
+	public final static int ARITY = 2;
+
+	public Eq_2(Exp _1, Exp _2) {
+		this(_1, _2, null);
+	}
+
+	private Eq_2(Exp _1, Exp _2, IStrategoTerm strategoTerm) {
+		this._1 = _1;
+		this._2 = _2;
+		this.helper = EqHelperNodeGen.create();
+		this.strategoTerm = strategoTerm;
+	}
 
 	@Child
 	private Exp _1;
-	
+
 	@Child
-	private Framed framedCreationNode;
-	
-	public Mod_1(Exp _1) {
-		this(_1, null);
-	}
+	private Exp _2;
 
-	private Mod_1(Exp _1, IStrategoTerm strategoTerm) {
-		this._1 = _1;
-		this.strategoTerm = strategoTerm;
-		this.framedCreationNode = new Framed();
-	}
-
-	
+	@Child
+	private EqHelper helper;
 
 	@Override
 	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
-		// framed -->		frame(scopeOfTerm(t), links)
-		// @formatter:off
-		/*
-		  m@Mod(e) -init-> vv
-		  where
-		    framed(m, []) --> F;
-		    F |- stdLib(m) --> _;
-		    F |- e --> vv
-		*/
-		// @formatter:on
-		currentFrame = framedCreationNode.executeNewFrame(frame, this, new FLink[0]);
-		// FIXME: standard library of Tiger functions
-		return _1.executeGeneric(frame, currentFrame);
+		V v1 = _1.executeGeneric(frame, currentFrame);
+		V v2 = _2.executeGeneric(frame, currentFrame);
+		return helper.executeGeneric(v1, v2) ? new IntV_1(1) : new IntV_1(0);
 	}
-	
+
 	@TruffleBoundary
-	public static Mod_1 create(IStrategoTerm term) {
+	public static Eq_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new Mod_1(Exp.create(term.getSubterm(0)), term);
+		return new Eq_2(Exp.create(term.getSubterm(0)), Exp.create(term.getSubterm(1)), term);
 	}
 
 	private final IStrategoTerm strategoTerm;
@@ -85,6 +76,8 @@ public final class Mod_1 extends Module {
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
 		sb.append(_1);
+		sb.append(", ");
+		sb.append(_2);
 		sb.append(")");
 		return sb.toString();
 	}
