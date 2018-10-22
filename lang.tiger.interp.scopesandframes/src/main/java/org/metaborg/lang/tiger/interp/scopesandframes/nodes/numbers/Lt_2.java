@@ -1,10 +1,10 @@
-package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerTypesGen;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
+import org.metaborg.lang.tiger.interpreter.generated.terms.IntV_1;
 import org.metaborg.lang.tiger.interpreter.generated.terms.V;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Addr;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddr;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddrNodeGen;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -16,40 +16,45 @@ import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 
-public final class __LValue2Exp___1 extends Exp {
-	public final static String CONSTRUCTOR = "__LValue2Exp__";
+public final class Lt_2 extends Exp {
+	public final static String CONSTRUCTOR = "Lt";
 
-	public final static int ARITY = 1;
+	public final static int ARITY = 2;
 
-	@Child
-	private LValue lv;
-
-	@Child
-	private GetAtAddr getAtAddrNode;
-
-	public __LValue2Exp___1(LValue _1) {
-		this(_1, null);
+	public Lt_2(Exp _1, Exp _2) {
+		this(_1, _2, null);
 	}
 
-	private __LValue2Exp___1(LValue _1, IStrategoTerm strategoTerm) {
-		this.lv = _1;
+	private Lt_2(Exp _1, Exp _2, IStrategoTerm strategoTerm) {
+		this.left = _1;
+		this.right = _2;
 		this.strategoTerm = strategoTerm;
-		this.getAtAddrNode = GetAtAddrNodeGen.create();
 	}
+
+	@Child
+	private Exp left;
+
+	@Child
+	private Exp right;
 
 	@Override
-	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
-		Addr addr = this.lv.execute(frame, currentFrame);
-		return (V) this.getAtAddrNode.execute(frame, addr);
+	public IntV_1 executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
+		IntV_1 left = TigerTypesGen.asIntV_1(this.left.executeGeneric(frame, currentFrame));
+		IntV_1 right = TigerTypesGen.asIntV_1(this.right.executeGeneric(frame, currentFrame));
+		if (left.get_1() < right.get_1()) {
+			return new IntV_1(1);
+		} else {
+			return new IntV_1(0);
+		}
 	}
 
 	@TruffleBoundary
-	public static __LValue2Exp___1 create(IStrategoTerm term) {
+	public static Lt_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new __LValue2Exp___1(LValue.create(term.getSubterm(0)), term);
+		return new Lt_2(Exp.create(term.getSubterm(0)), Exp.create(term.getSubterm(1)), term);
 	}
 
 	private final IStrategoTerm strategoTerm;
@@ -75,7 +80,9 @@ public final class __LValue2Exp___1 extends Exp {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
-		sb.append(lv);
+		sb.append(left);
+		sb.append(", ");
+		sb.append(right);
 		sb.append(")");
 		return sb.toString();
 	}

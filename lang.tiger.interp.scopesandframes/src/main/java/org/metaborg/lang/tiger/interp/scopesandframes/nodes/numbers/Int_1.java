@@ -1,5 +1,6 @@
-package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interpreter.generated.terms.IntV_1;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;

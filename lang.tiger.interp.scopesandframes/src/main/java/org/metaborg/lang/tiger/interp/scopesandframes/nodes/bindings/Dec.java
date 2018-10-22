@@ -1,4 +1,4 @@
-package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings;
 
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerTruffleNode;
 import org.metaborg.lang.tiger.interpreter.generated.terms.FunDecs_1;

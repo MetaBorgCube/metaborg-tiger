@@ -1,5 +1,6 @@
-package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Occ;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Ty;
 import org.metaborg.lang.tiger.interpreter.generated.terms.V;

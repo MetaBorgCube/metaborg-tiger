@@ -1,6 +1,12 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
 
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerEvalNode;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings.Let_2;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings.__LValue2Exp___1;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.control.If_3;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Int_1;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Lt_2;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Plus_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.And_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Array_3;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Assign_2;
@@ -12,9 +18,7 @@ import org.metaborg.lang.tiger.interpreter.generated.terms.For_4;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Geq_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Gt_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.IfThen_2;
-import org.metaborg.lang.tiger.interpreter.generated.terms.If_3;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Leq_2;
-import org.metaborg.lang.tiger.interpreter.generated.terms.Lt_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Minus_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Neq_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.NilExp_0;
