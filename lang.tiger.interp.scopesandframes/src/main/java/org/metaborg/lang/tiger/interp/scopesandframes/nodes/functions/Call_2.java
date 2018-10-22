@@ -6,13 +6,22 @@ import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Occ;
 import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameEdgeLink;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddFrameLink;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddFrameLinkNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.CloneFrame;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.CloneFrameNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddr;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddrNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Lookup;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.LookupNodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrame;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrameNodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddr;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlot;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlotNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.P;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -37,7 +46,9 @@ public final class Call_2 extends Exp {
 
 	@Child private GetAtAddr getNode;
 	@Child private Lookup lookupNode;
-	@Child private CloneFrame cloneNode;
+	@Child private NewFrame newFrame;
+	@Child private AddFrameLink linkFrames;
+	@Child private SetFrameSlot setSlot;
 	
 	public Call_2(Occ _1, Exp[] _2) {
 		this(_1, _2, null);
@@ -49,12 +60,15 @@ public final class Call_2 extends Exp {
 		this.strategoTerm = strategoTerm;
 		this.getNode = GetAtAddrNodeGen.create();
 		this.lookupNode = LookupNodeGen.create();
-		this.cloneNode = CloneFrameNodeGen.create();
+		this.newFrame = NewFrameNodeGen.create();
+		this.linkFrames = AddFrameLinkNodeGen.create();
+		this.setSlot = SetFrameSlotNodeGen.create();
 	}
 
 	@Override
 	@ExplodeLoop
 	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
+		// FIXME: a lot of caching opportunity for what comes out of the closure (FunV): function scope, parent scope, fargs
 //		@formatter:off
 //		  F F |- Call(f : Occurrence, exps) --> v
 //		  where
@@ -63,12 +77,17 @@ public final class Call_2 extends Exp {
 //		    Frames1 (F, F_call) |- Zip-Params(exps, args) --> _;
 //		    F_call |- e --> v
 //		@formatter:on
+		// lookup closure
 		FunV clos = (FunV) getNode.execute(frame, lookupNode.execute(frame, currentFrame, refOcc));
-		Object[] params = new Object[exps.length];
-		for(int i = 0; i < params.length; i++) {
-			params[i] = exps[i].executeGeneric(frame, currentFrame);
+		// create call frame
+		DynamicObject callFrame = newFrame.execute(frame, clos.getFunctionScope());
+		// link call frame
+		this.linkFrames.execute(frame, callFrame, new FrameEdgeLink(P.SINGLETON, clos.getParentFrame()));
+		Occurrence[] fargs = clos.getArguments();
+		for(int i = 0; i < exps.length; i++) {
+			setSlot.execute(frame, callFrame, fargs[i], exps[i].executeGeneric(frame, currentFrame));
 		}
-		return (V) clos.getCallTarget().call(clos.getParentFrame(), params);
+		return (V) clos.getCallTarget().call(callFrame);
 	}
 	
 	

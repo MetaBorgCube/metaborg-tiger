@@ -28,7 +28,8 @@ public final class Path extends RootNode {
 
 	@Override
 	public FrameAddr execute(VirtualFrame frame) {
-		return p.executeLookup(FrameUtils.layout().getType().cast(frame.getArguments()[0]));
+		// FIXME: add cache for the FrameAddr
+		return p.executeLookup(FrameUtils.asFrame(frame.getArguments()[0]));
 	}
 
 	public static Path create(IStrategoList steps, TruffleLanguage<?> lang) {

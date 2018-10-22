@@ -39,7 +39,6 @@ public final class FrameUtils {
 	}
 
 	public static DynamicObject asFrame(Object o) {
-		assert FrameLayoutImpl.INSTANCE.isFrame(o);
-		return (DynamicObject) o;
+		return FrameUtils.layout().getType().cast(o);
 	}
 }

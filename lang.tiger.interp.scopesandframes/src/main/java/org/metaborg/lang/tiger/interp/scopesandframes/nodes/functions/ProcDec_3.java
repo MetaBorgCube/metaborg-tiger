@@ -15,7 +15,6 @@ public abstract class ProcDec_3 extends FunDec {
 
 	public final static int ARITY = 3;
 
-
 	@TruffleBoundary
 	public static FunDec create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
@@ -27,7 +26,8 @@ public abstract class ProcDec_3 extends FunDec {
 		for (int i = 0; i < fargTerms.length; i++) {
 			fargs[i] = FArg.create(fargTerms[i]);
 		}
-		return new FunDec_4(Occ.create(term.getSubterm(0)), fargs, null, Exp.create(term.getSubterm(2)), term);
+		return FunDec_4NodeGen.create(Occ.create(term.getSubterm(0)), fargs, null, Exp.create(term.getSubterm(2)),
+				term);
 	}
 
 }
