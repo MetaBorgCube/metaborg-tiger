@@ -1,5 +1,6 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.strings;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.StringV_1;
 import org.spoofax.interpreter.core.Tools;
@@ -33,7 +34,9 @@ public abstract class String_1 extends Exp {
 	}
 
 	protected StringV_1 mkString() {
-		return new StringV_1(_1);
+		String unescaped = StringEscapeUtils.unescapeJava(_1);
+		String unquoted = unescaped.substring(1, unescaped.length() - 1);
+		return new StringV_1(unquoted);
 	}
 
 	@TruffleBoundary

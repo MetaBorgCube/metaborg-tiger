@@ -1,6 +1,7 @@
-package org.metaborg.lang.tiger.interpreter.generated.terms;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes.records;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.metaborg.lang.tiger.interpreter.generated.terms.Ty;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -10,33 +11,35 @@ import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 
-public final class Tid_1 extends TypeId {
-	public final static String CONSTRUCTOR = "Tid";
+public final class RECORD_1 extends Ty {
+	public final static String CONSTRUCTOR = "RECORD";
 
 	public final static int ARITY = 1;
 
-	public Tid_1(Occ _1) {
+	public RECORD_1(org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier _1) {
 		this(_1, null);
 	}
 
-	private Tid_1(Occ _1, IStrategoTerm strategoTerm) {
+	private RECORD_1(org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier _1,
+			IStrategoTerm strategoTerm) {
 		this._1 = _1;
 		this.strategoTerm = strategoTerm;
 	}
 
-	private final Occ _1;
+	private final org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier _1;
 
-	public Occ get_1() {
+	public org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier get_1() {
 		return _1;
 	}
 
 	@TruffleBoundary
-	public static Tid_1 create(IStrategoTerm term) {
+	public static RECORD_1 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new Tid_1(Occ.create(term.getSubterm(0)), term);
+		return new RECORD_1(
+				org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier.create(term.getSubterm(0)), term);
 	}
 
 	@Override
@@ -47,7 +50,7 @@ public final class Tid_1 extends TypeId {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tid_1 other = (Tid_1) obj;
+		RECORD_1 other = (RECORD_1) obj;
 		if (_1 == null) {
 			if (other._1 != null) {
 				return false;

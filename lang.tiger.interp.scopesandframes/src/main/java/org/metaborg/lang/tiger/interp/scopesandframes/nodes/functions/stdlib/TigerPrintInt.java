@@ -37,7 +37,7 @@ public class TigerPrintInt extends TigerBuiltinNode {
 	public V executeGeneric(VirtualFrame frame, DynamicObject callFrame) {
 		Occurrence[] decs = declsOf.execute(frame, scopeOf.execute(frame, callFrame));
 		int i = TigerTypesGen.asIntV_1(getSlot.execute(frame, callFrame, decs[0])).get_1();
-		context().out().println(i);
+		context().out().print(i);
 		return UnitV_0.SINGLETON;
 	}
 

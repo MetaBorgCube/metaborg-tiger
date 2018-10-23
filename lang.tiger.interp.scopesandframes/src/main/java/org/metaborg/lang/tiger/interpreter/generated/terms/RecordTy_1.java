@@ -15,20 +15,16 @@ public final class RecordTy_1 extends Ty {
 
 	public final static int ARITY = 1;
 
-	public RecordTy_1(List_Field _1) {
+	public RecordTy_1(Field[] _1) {
 		this(_1, null);
 	}
 
-	private RecordTy_1(List_Field _1, IStrategoTerm strategoTerm) {
+	private RecordTy_1(Field[] _1, IStrategoTerm strategoTerm) {
 		this._1 = _1;
 		this.strategoTerm = strategoTerm;
 	}
 
-	private final List_Field _1;
-
-	public List_Field get_1() {
-		return _1;
-	}
+	private final Field[] _1;
 
 	@TruffleBoundary
 	public static RecordTy_1 create(IStrategoTerm term) {
@@ -36,7 +32,12 @@ public final class RecordTy_1 extends Ty {
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new RecordTy_1(List_Field.create(term.getSubterm(0)), term);
+		IStrategoTerm[] fieldTerms = Tools.listAt(term, 0).getAllSubterms();
+		Field[] fields = new Field[fieldTerms.length];
+		for (int i = 0; i < fields.length; i++) {
+			fields[i] = Field.create(fieldTerms[i]);
+		}
+		return new RecordTy_1(fields, term);
 	}
 
 	@Override

@@ -2,9 +2,9 @@ package org.metaborg.lang.tiger.interp.scopesandframes.nodes.arrays;
 
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerTypesGen;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.TypeId;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.ArrayV_1;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
-import org.metaborg.lang.tiger.interpreter.generated.terms.TypeId;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.arrays.Array;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.arrays.nodes.NewArray;
 import org.spoofax.interpreter.core.Tools;

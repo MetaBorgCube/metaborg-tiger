@@ -1,7 +1,6 @@
-package org.metaborg.lang.tiger.interpreter.generated.terms;
+package org.metaborg.lang.tiger.interp.scopesandframes.values;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -11,40 +10,33 @@ import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 
-public final class InitField_2 extends InitField {
-	public final static String CONSTRUCTOR = "InitField";
+public final class RecordV_1 extends V {
+	public final static String CONSTRUCTOR = "RecordV";
 
-	public final static int ARITY = 2;
+	public final static int ARITY = 1;
 
-	public InitField_2(Occ _1, Exp _2) {
-		this(_1, _2, null);
+	public RecordV_1(com.oracle.truffle.api.object.DynamicObject _1) {
+		this(_1, null);
 	}
 
-	private InitField_2(Occ _1, Exp _2, IStrategoTerm strategoTerm) {
+	private RecordV_1(com.oracle.truffle.api.object.DynamicObject _1, IStrategoTerm strategoTerm) {
 		this._1 = _1;
-		this._2 = _2;
 		this.strategoTerm = strategoTerm;
 	}
 
-	private final Occ _1;
+	private final com.oracle.truffle.api.object.DynamicObject _1;
 
-	private final Exp _2;
-
-	public Occ get_1() {
+	public com.oracle.truffle.api.object.DynamicObject get_1() {
 		return _1;
 	}
 
-	public Exp get_2() {
-		return _2;
-	}
-
 	@TruffleBoundary
-	public static InitField_2 create(IStrategoTerm term) {
+	public static RecordV_1 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new InitField_2(Occ.create(term.getSubterm(0)), Exp.create(term.getSubterm(1)), term);
+		return new RecordV_1(null, term);
 	}
 
 	@Override
@@ -55,19 +47,12 @@ public final class InitField_2 extends InitField {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InitField_2 other = (InitField_2) obj;
+		RecordV_1 other = (RecordV_1) obj;
 		if (_1 == null) {
 			if (other._1 != null) {
 				return false;
 			}
 		} else if (!_1.equals(other._1)) {
-			return false;
-		}
-		if (_2 == null) {
-			if (other._2 != null) {
-				return false;
-			}
-		} else if (!_2.equals(other._2)) {
 			return false;
 		}
 		return true;
@@ -97,8 +82,6 @@ public final class InitField_2 extends InitField {
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
 		sb.append(_1);
-		sb.append(", ");
-		sb.append(_2);
 		sb.append(")");
 		return sb.toString();
 	}
@@ -121,6 +104,6 @@ public final class InitField_2 extends InitField {
 
 	@TruffleBoundary
 	private int makeHashCode() {
-		return new HashCodeBuilder().append(_2).append(_1).toHashCode();
+		return new HashCodeBuilder().append(_1).toHashCode();
 	}
 }

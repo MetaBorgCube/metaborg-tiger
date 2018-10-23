@@ -1,7 +1,5 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.values;
 
-import org.metaborg.lang.tiger.interpreter.generated.terms.NilV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.RecordV_1;
 import org.metaborg.lang.tiger.interpreter.generated.terms.UndefV_0;
 import org.metaborg.lang.tiger.interpreter.generated.terms.UnitV_0;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.IApplTerm;

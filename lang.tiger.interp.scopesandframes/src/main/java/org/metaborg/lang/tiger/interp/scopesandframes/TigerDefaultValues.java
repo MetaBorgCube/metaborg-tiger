@@ -1,11 +1,11 @@
 package org.metaborg.lang.tiger.interp.scopesandframes;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.records.RECORD_1;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.IntV_1;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.NilV_0;
 import org.metaborg.lang.tiger.interpreter.generated.terms.ARRAY_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.FUN_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.INT_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.NilV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.RECORD_1;
 import org.metaborg.lang.tiger.interpreter.generated.terms.STRING_0;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Ty;
 import org.metaborg.lang.tiger.interpreter.generated.terms.UNIT_0;

@@ -3,7 +3,7 @@ package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerTruffleNode;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.arrays.Subscript_2;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings.__Var2LValue___1;
-import org.metaborg.lang.tiger.interpreter.generated.terms.FieldVar_2;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.records.FieldVar_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Var;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Addr;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.IApplTerm;

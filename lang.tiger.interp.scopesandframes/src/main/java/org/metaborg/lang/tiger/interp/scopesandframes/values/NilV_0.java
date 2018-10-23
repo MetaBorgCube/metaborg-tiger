@@ -1,7 +1,6 @@
-package org.metaborg.lang.tiger.interpreter.generated.terms;
+package org.metaborg.lang.tiger.interp.scopesandframes.values;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -11,40 +10,28 @@ import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 
-public final class Record_2 extends Exp {
-	public final static String CONSTRUCTOR = "Record";
+public final class NilV_0 extends V {
+	public final static String CONSTRUCTOR = "NilV";
 
-	public final static int ARITY = 2;
+	public final static int ARITY = 0;
 
-	public Record_2(TypeId _1, List_InitField _2) {
-		this(_1, _2, null);
+	public final static NilV_0 SINGLETON = new NilV_0();
+
+	private NilV_0() {
+		this(null);
 	}
 
-	private Record_2(TypeId _1, List_InitField _2, IStrategoTerm strategoTerm) {
-		this._1 = _1;
-		this._2 = _2;
+	private NilV_0(IStrategoTerm strategoTerm) {
 		this.strategoTerm = strategoTerm;
 	}
 
-	private final TypeId _1;
-
-	private final List_InitField _2;
-
-	public TypeId get_1() {
-		return _1;
-	}
-
-	public List_InitField get_2() {
-		return _2;
-	}
-
 	@TruffleBoundary
-	public static Record_2 create(IStrategoTerm term) {
+	public static NilV_0 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new Record_2(TypeId.create(term.getSubterm(0)), List_InitField.create(term.getSubterm(1)), term);
+		return new NilV_0(term);
 	}
 
 	@Override
@@ -55,21 +42,6 @@ public final class Record_2 extends Exp {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Record_2 other = (Record_2) obj;
-		if (_1 == null) {
-			if (other._1 != null) {
-				return false;
-			}
-		} else if (!_1.equals(other._1)) {
-			return false;
-		}
-		if (_2 == null) {
-			if (other._2 != null) {
-				return false;
-			}
-		} else if (!_2.equals(other._2)) {
-			return false;
-		}
 		return true;
 	}
 
@@ -96,9 +68,6 @@ public final class Record_2 extends Exp {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
-		sb.append(_1);
-		sb.append(", ");
-		sb.append(_2);
 		sb.append(")");
 		return sb.toString();
 	}
@@ -121,6 +90,6 @@ public final class Record_2 extends Exp {
 
 	@TruffleBoundary
 	private int makeHashCode() {
-		return new HashCodeBuilder().append(_2).append(_1).toHashCode();
+		return new HashCodeBuilder().toHashCode();
 	}
 }

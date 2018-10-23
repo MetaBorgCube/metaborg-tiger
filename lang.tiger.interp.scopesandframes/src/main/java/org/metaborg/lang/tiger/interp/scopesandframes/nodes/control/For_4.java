@@ -93,10 +93,11 @@ public abstract class For_4 extends Exp {
 	public V executeWithCaching(VirtualFrame frame, DynamicObject currentFrame,
 			@Cached(value = "label()") ALabel linkLabel,
 			@Cached("getEdgeIdent(linkLabel, currentFrame)") FrameEdgeIdentifier edgeIdent) {
+
 		int lb = TigerTypesGen.asIntV_1(e1.executeGeneric(frame, currentFrame)).get_1();
 		int ub = TigerTypesGen.asIntV_1(e2.executeGeneric(frame, currentFrame)).get_1();
 		DynamicObject f_for = newFrameNode.execute(frame, this,
-				new FLink[] { new FrameEdgeLink(P.SINGLETON, currentFrame, edgeIdent) });
+				new FLink[] { new FrameEdgeLink(linkLabel, currentFrame, edgeIdent) });
 
 		VirtualFrame loopFrame = Truffle.getRuntime().createVirtualFrame(null, loopDescriptor);
 		loopFrame.setInt(lowerBoundSlot, lb);
@@ -145,8 +146,9 @@ public abstract class For_4 extends Exp {
 		}
 
 		@Specialization
-		public boolean doWithCaching(VirtualFrame frame, @Cached("getCurrentFrame(frame)") DynamicObject currentFrame,
-				@Cached("getLowerBound(frame)") int lb, @Cached("getUpperBound(frame)") int ub) {
+		public boolean doDirect(VirtualFrame frame) {
+			DynamicObject currentFrame = getCurrentFrame(frame);
+			int ub = getUpperBound(frame);
 			try {
 				// evaluate body
 				body.executeGeneric(frame, currentFrame);

@@ -52,6 +52,7 @@ public class StdLib extends TigerTruffleNode {
 		installBuiltin(frame, currentFrame, new TigerPrintInt(topTrmIdx));
 		installBuiltin(frame, currentFrame, new TigerTimeGo(topTrmIdx));
 		installBuiltin(frame, currentFrame, new TigerTimeStop(topTrmIdx));
+		installBuiltin(frame, currentFrame, new TigerFlush(topTrmIdx));
 	}
 
 	private void installBuiltin(VirtualFrame frame, DynamicObject currentFrame, TigerBuiltinNode builtin) {
