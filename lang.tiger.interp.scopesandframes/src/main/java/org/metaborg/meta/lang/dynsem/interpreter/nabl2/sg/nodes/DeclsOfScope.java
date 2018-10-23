@@ -19,7 +19,7 @@ public abstract class DeclsOfScope extends ScopesAndFramesNode {
 	}
 
 	public abstract Occurrence[] execute(VirtualFrame frame, ScopeIdentifier scope);
-	
+
 	@Specialization(guards = { "scope == scope_cached" }, limit = "20")
 	public Occurrence[] executeCached(ScopeIdentifier scope, @Cached("scope") ScopeIdentifier scope_cached,
 			@Cached(value = "lookupScopeDecls(scope)", dimensions = 1) Occurrence[] decs_cached) {

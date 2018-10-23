@@ -23,8 +23,8 @@ public abstract class E extends PathStep {
 	private final ALabel edgeLabel;
 	protected final FrameEdgeIdentifier linkIdent;
 
-	@Child private PathStep next;
-
+	@Child
+	private PathStep next;
 
 	public E(ScopeIdentifier scopeIdent, ALabel edgeLabel, PathStep next) {
 		super(scopeIdent);
@@ -39,8 +39,7 @@ public abstract class E extends PathStep {
 	}
 
 	@Specialization(guards = { "shape_cached.check(frm)" })
-	public FrameAddr lookupCached(DynamicObject frm,
-			@Cached("frm.getShape()") Shape shape_cached,
+	public FrameAddr lookupCached(DynamicObject frm, @Cached("frm.getShape()") Shape shape_cached,
 			@Cached("frm.getShape().getProperty(linkIdent)") Property linkProp) {
 		DynamicObject nextFrame = FrameUtils.layout().getType().cast(linkProp.get(frm, shape_cached));
 		return next.executeLookup(nextFrame);

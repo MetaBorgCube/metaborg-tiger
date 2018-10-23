@@ -10,10 +10,6 @@ import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 
 public abstract class Occ implements IApplTerm {
-	@Override
-	public Class<? extends IApplTerm> getSortClass() {
-		return Occ.class;
-	}
 
 	@TruffleBoundary
 	public static Occ create(IStrategoTerm term) {

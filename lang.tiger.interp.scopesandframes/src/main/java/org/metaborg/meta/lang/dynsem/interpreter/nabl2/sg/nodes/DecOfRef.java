@@ -16,7 +16,7 @@ public abstract class DecOfRef extends ScopesAndFramesNode {
 	}
 
 	public abstract Occurrence execute(VirtualFrame frame, Occurrence ref);
-	
+
 	@Specialization(guards = { "ref == ref_cached" })
 	public Occurrence getCached(Occurrence ref, @Cached("ref") Occurrence ref_cached,
 			@Cached("getUncached(ref_cached)") Occurrence dec) {
@@ -28,6 +28,5 @@ public abstract class DecOfRef extends ScopesAndFramesNode {
 		return ((Path) NaBL2LayoutImpl.INSTANCE.getNameResolution(context().getNaBL2Solution()).get(ref))
 				.getTargetDec();
 	}
-
 
 }

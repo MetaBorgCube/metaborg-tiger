@@ -58,63 +58,71 @@ public final class FrameImportLink extends FLink {
 		return "ImportLink(" + frame() + ", " + link() + ")";
 	}
 
-//	@NodeChildren({ @NodeChild(value = "label", type = TermBuild.class),
-//			@NodeChild(value="ref_occ", type=TermBuild.class),
-//			@NodeChild(value = "frm", type = TermBuild.class) })
-//	public abstract static class Build extends TermBuild {
-//
-//		public Build(SourceSection source) {
-//			super(source);
-//		}
-//
-//		@Specialization(guards = { "label_cached.equals(label)", "ref_occ_cached.equals(ref_occ)" })
-//		public FrameImportLink doBuildCached(ALabel label, Occurrence ref_occ, DynamicObject frm,
-//				@Cached("label") ALabel label_cached, @Cached("ref_occ") Occurrence ref_occ_cached,
-//				@Cached("createLinkIdentifier(label_cached, ref_occ_cached)") FrameImportIdentifier linkIdentifier) {
-//			return new FrameImportLink(label, ref_occ, frm, linkIdentifier);
-//		}
-//		
-//		@Specialization
-//		public FrameImportLink doBuild(ALabel label, Occurrence ref_occ, DynamicObject frm) {
-//			return new FrameImportLink(label, ref_occ, frm, createLinkIdentifier(label, ref_occ));
-//		}
-//		
-//		protected static FrameImportIdentifier createLinkIdentifier(ALabel label, Occurrence ref_occ) {
-//			return new FrameImportIdentifier(label, ref_occ);
-//		}
-//		
-//		
-//	}
-//
-//	public abstract static class Match extends MatchPattern {
-//
-//		@Child private MatchPattern label;
-//		@Child private MatchPattern ref_occ;
-//		@Child private MatchPattern frm;
-//
-//		public Match(SourceSection s, MatchPattern label_pat, MatchPattern ref_occ, MatchPattern frm_pat) {
-//			super(s);
-//			this.label = label_pat;
-//			this.ref_occ = ref_occ;
-//			this.frm = frm_pat;
-//		}
-//
-//		@Specialization
-//		public void doDeepMatch(VirtualFrame frame, FrameImportLink importLink) {
-//			label.executeMatch(frame, importLink.label());
-//			ref_occ.executeMatch(frame, importLink.occurrence());
-//			frm.executeMatch(frame, importLink.frame());
-//		}
-//
-//		@Fallback
-//		public void doGeneric(VirtualFrame frame, Object term) {
-//			if (term instanceof FrameImportLink) {
-//				doDeepMatch(frame, (FrameImportLink) term);
-//			} else {
-//				throw PremiseFailureException.SINGLETON;
-//			}
-//		}
-//
-//	}
+	// @NodeChildren({ @NodeChild(value = "label", type = TermBuild.class),
+	// @NodeChild(value="ref_occ", type=TermBuild.class),
+	// @NodeChild(value = "frm", type = TermBuild.class) })
+	// public abstract static class Build extends TermBuild {
+	//
+	// public Build(SourceSection source) {
+	// super(source);
+	// }
+	//
+	// @Specialization(guards = { "label_cached.equals(label)",
+	// "ref_occ_cached.equals(ref_occ)" })
+	// public FrameImportLink doBuildCached(ALabel label, Occurrence ref_occ,
+	// DynamicObject frm,
+	// @Cached("label") ALabel label_cached, @Cached("ref_occ") Occurrence
+	// ref_occ_cached,
+	// @Cached("createLinkIdentifier(label_cached, ref_occ_cached)")
+	// FrameImportIdentifier linkIdentifier) {
+	// return new FrameImportLink(label, ref_occ, frm, linkIdentifier);
+	// }
+	//
+	// @Specialization
+	// public FrameImportLink doBuild(ALabel label, Occurrence ref_occ,
+	// DynamicObject frm) {
+	// return new FrameImportLink(label, ref_occ, frm, createLinkIdentifier(label,
+	// ref_occ));
+	// }
+	//
+	// protected static FrameImportIdentifier createLinkIdentifier(ALabel label,
+	// Occurrence ref_occ) {
+	// return new FrameImportIdentifier(label, ref_occ);
+	// }
+	//
+	//
+	// }
+	//
+	// public abstract static class Match extends MatchPattern {
+	//
+	// @Child private MatchPattern label;
+	// @Child private MatchPattern ref_occ;
+	// @Child private MatchPattern frm;
+	//
+	// public Match(SourceSection s, MatchPattern label_pat, MatchPattern ref_occ,
+	// MatchPattern frm_pat) {
+	// super(s);
+	// this.label = label_pat;
+	// this.ref_occ = ref_occ;
+	// this.frm = frm_pat;
+	// }
+	//
+	// @Specialization
+	// public void doDeepMatch(VirtualFrame frame, FrameImportLink importLink) {
+	// label.executeMatch(frame, importLink.label());
+	// ref_occ.executeMatch(frame, importLink.occurrence());
+	// frm.executeMatch(frame, importLink.frame());
+	// }
+	//
+	// @Fallback
+	// public void doGeneric(VirtualFrame frame, Object term) {
+	// if (term instanceof FrameImportLink) {
+	// doDeepMatch(frame, (FrameImportLink) term);
+	// } else {
+	// throw PremiseFailureException.SINGLETON;
+	// }
+	// }
+	//
+	// }
 
 }

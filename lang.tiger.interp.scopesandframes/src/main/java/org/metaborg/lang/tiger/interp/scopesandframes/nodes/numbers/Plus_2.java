@@ -39,7 +39,7 @@ public final class Plus_2 extends Exp {
 		IntV_1 right = TigerTypesGen.asIntV_1(this.right.executeGeneric(frame, currentFrame));
 		return new IntV_1(left.get_1() + right.get_1());
 	}
-	
+
 	@TruffleBoundary
 	public static Plus_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();

@@ -12,17 +12,20 @@ import com.oracle.truffle.api.object.DynamicObject;
 
 public final class Framed extends ScopesAndFramesNode {
 
-	@Child private GetScopeOfTerm scopeOfTermNode;
-	@Child private NewFrame newFrameNode;
-	@Child private AddLinks addLinksNode;
-	
+	@Child
+	private GetScopeOfTerm scopeOfTermNode;
+	@Child
+	private NewFrame newFrameNode;
+	@Child
+	private AddLinks addLinksNode;
+
 	public Framed() {
 		super();
 		this.scopeOfTermNode = GetScopeOfTermNodeGen.create();
 		this.newFrameNode = NewFrameNodeGen.create();
 		this.addLinksNode = new AddLinks();
 	}
-	
+
 	public DynamicObject execute(VirtualFrame frame, ITerm t, FLink[] links) {
 		ScopeIdentifier sid = scopeOfTermNode.execute(frame, t);
 		DynamicObject newFrame = newFrameNode.execute(frame, sid);
@@ -30,6 +33,4 @@ public final class Framed extends ScopesAndFramesNode {
 		return newFrame;
 	}
 
-	
-	
 }

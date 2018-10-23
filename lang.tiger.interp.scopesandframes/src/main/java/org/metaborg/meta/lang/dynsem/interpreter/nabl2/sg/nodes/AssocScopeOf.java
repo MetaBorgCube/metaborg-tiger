@@ -21,7 +21,7 @@ public abstract class AssocScopeOf extends ScopesAndFramesNode {
 	}
 
 	public abstract ScopeIdentifier execute(VirtualFrame frame, Occurrence occurrence, ALabel label);
-	
+
 	@Specialization(guards = { "occurrence == occurrence_cached", "label_cached.equals(label)" }, limit = "20")
 	public ScopeIdentifier doGetCached(Occurrence occurrence, ALabel label,
 			@Cached("occurrence") Occurrence occurrence_cached, @Cached("label") ALabel label_cached,
@@ -29,7 +29,7 @@ public abstract class AssocScopeOf extends ScopesAndFramesNode {
 		return scope;
 	}
 
-	@Specialization(replaces="doGetCached")
+	@Specialization(replaces = "doGetCached")
 	public ScopeIdentifier doGet(Occurrence occurrence, ALabel label) {
 		DynamicObject nabl2 = context().getNaBL2Solution();
 

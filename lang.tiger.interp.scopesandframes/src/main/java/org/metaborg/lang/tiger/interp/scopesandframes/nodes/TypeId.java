@@ -22,6 +22,6 @@ public abstract class TypeId extends TigerTruffleNode implements IApplTerm {
 		}
 		throw new IllegalStateException("Unsupported term: " + term);
 	}
-	
+
 	public abstract Ty execute(VirtualFrame frame);
 }

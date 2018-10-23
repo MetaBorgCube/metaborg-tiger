@@ -21,7 +21,6 @@ public abstract class ScopesAndFramesNode extends Node {
 	public ScopesAndFramesNode() {
 	}
 
-
 	@CompilationFinal
 	private TigerLanguage language;
 

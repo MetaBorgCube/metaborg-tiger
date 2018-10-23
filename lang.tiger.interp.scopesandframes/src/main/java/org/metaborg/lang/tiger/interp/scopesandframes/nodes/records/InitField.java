@@ -22,7 +22,7 @@ public abstract class InitField extends TigerTruffleNode implements IApplTerm {
 		}
 		throw new IllegalStateException("Unsupported term: " + term);
 	}
-	
+
 	public abstract void execute(VirtualFrame frame, DynamicObject record_frame, DynamicObject surrounding_frame);
-	
+
 }

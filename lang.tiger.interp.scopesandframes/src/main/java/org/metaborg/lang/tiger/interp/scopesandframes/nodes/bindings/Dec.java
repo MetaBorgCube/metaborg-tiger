@@ -32,6 +32,6 @@ public abstract class Dec extends TigerTruffleNode implements IApplTerm {
 		}
 		throw new IllegalStateException("Unsupported term: " + term);
 	}
-	
+
 	public abstract void execute(VirtualFrame frame, DynamicObject f, DynamicObject f_outer);
 }

@@ -17,7 +17,8 @@ public final class FrameEdgeIdentifier extends FrameLinkIdentifier {
 		this.toScope = toScope;
 	}
 
-	@CompilationFinal private int hashcode = -1;
+	@CompilationFinal
+	private int hashcode = -1;
 
 	@Override
 	public int hashCode() {

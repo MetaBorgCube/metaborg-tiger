@@ -27,7 +27,8 @@ import com.oracle.truffle.api.object.Shape.Allocator;
 
 public class CreateProtoFrame extends ScopesAndFramesNode {
 
-	@Child private DefaultValue defaultValueNode;
+	@Child
+	private DefaultValue defaultValueNode;
 
 	public CreateProtoFrame() {
 		super();
@@ -36,7 +37,8 @@ public class CreateProtoFrame extends ScopesAndFramesNode {
 
 	public DynamicObject execute(VirtualFrame frame, DynamicObject scopeEntry) {
 		/*
-		 * We're going to build shapes for a prototype frame, instantiate it and populate it with default values
+		 * We're going to build shapes for a prototype frame, instantiate it and
+		 * populate it with default values
 		 */
 		ScopeEntryLayout scopeLayout = ScopeEntryLayoutImpl.INSTANCE;
 		assert scopeLayout.isScopeEntry(scopeEntry);
@@ -64,7 +66,6 @@ public class CreateProtoFrame extends ScopesAndFramesNode {
 			prop2val.put(prop, defaultValueNode.execute(frame, types.get(dec)));
 		}
 
-
 		// create props for every edge. NB: we're flattening the structure by encoding
 		// multiplicity in the property name (edgeIdentifier)
 		DynamicObject scopeEdges = scopeLayout.getEdges(scopeEntry);
@@ -80,8 +81,10 @@ public class CreateProtoFrame extends ScopesAndFramesNode {
 			}
 		}
 
-		// create props for every import edge. these are imports of scopes associated with
-		// declarations (identified by reference). NB: we are flattening the representation by encoding
+		// create props for every import edge. these are imports of scopes associated
+		// with
+		// declarations (identified by reference). NB: we are flattening the
+		// representation by encoding
 		// the label and via occurrence in the link identifier
 		DynamicObject scopeImports = scopeLayout.getImports(scopeEntry);
 		List<Object> importLinkLabels = scopeImports.getShape().getKeyList();

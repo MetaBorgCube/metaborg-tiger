@@ -45,7 +45,8 @@ public final class Occurrence {
 		return new Occurrence(namespace, name, index);
 	}
 
-	@CompilationFinal private int hashcode = -1;
+	@CompilationFinal
+	private int hashcode = -1;
 
 	@Override
 	public int hashCode() {

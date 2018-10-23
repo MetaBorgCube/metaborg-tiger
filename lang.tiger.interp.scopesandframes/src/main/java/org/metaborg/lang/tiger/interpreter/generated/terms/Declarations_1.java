@@ -1,6 +1,7 @@
 package org.metaborg.lang.tiger.interpreter.generated.terms;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings.Dec;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -15,20 +16,16 @@ public final class Declarations_1 extends Declarations {
 
 	public final static int ARITY = 1;
 
-	public Declarations_1(List_Dec _1) {
+	public Declarations_1(Dec[] _1) {
 		this(_1, null);
 	}
 
-	private Declarations_1(List_Dec _1, IStrategoTerm strategoTerm) {
+	private Declarations_1(Dec[] _1, IStrategoTerm strategoTerm) {
 		this._1 = _1;
 		this.strategoTerm = strategoTerm;
 	}
 
-	private final List_Dec _1;
-
-	public List_Dec get_1() {
-		return _1;
-	}
+	private final Dec[] _1;
 
 	@TruffleBoundary
 	public static Declarations_1 create(IStrategoTerm term) {
@@ -36,7 +33,12 @@ public final class Declarations_1 extends Declarations {
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new Declarations_1(List_Dec.create(term.getSubterm(0)), term);
+		IStrategoTerm[] decTerms = Tools.listAt(term, 0).getAllSubterms();
+		Dec[] decs = new Dec[decTerms.length];
+		for (int i = 0; i < decs.length; i++) {
+			decs[i] = Dec.create(decTerms[i]);
+		}
+		return new Declarations_1(decs, term);
 	}
 
 	@Override

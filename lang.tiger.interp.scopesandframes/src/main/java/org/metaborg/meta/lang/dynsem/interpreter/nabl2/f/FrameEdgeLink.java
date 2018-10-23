@@ -32,7 +32,6 @@ public final class FrameEdgeLink extends FLink {
 		return 2;
 	}
 
-
 	@Override
 	public boolean hasStrategoTerm() {
 		return false;
@@ -48,62 +47,67 @@ public final class FrameEdgeLink extends FLink {
 		return "EdgeLink(" + frame() + ", " + link() + ")";
 	}
 
-//	@NodeChildren({ @NodeChild(value = "label", type = TermBuild.class),
-//			@NodeChild(value = "frm", type = TermBuild.class) })
-//	public abstract static class Build extends TermBuild {
-//
-//		public Build(SourceSection source) {
-//			super(source);
-//		}
-//
-//		@Specialization(guards = { "label_cached.equals(label)", "scope_cached.equals(getFrameScope(frm))" })
-//		public FrameEdgeLink doBuildCached(ALabel label, DynamicObject frm, @Cached("label") ALabel label_cached,
-//				@Cached("getFrameScope(frm)") ScopeIdentifier scope_cached,
-//				@Cached("createLinkIdentifier(label_cached, scope_cached)") FrameEdgeIdentifier linkIdent) {
-//			return new FrameEdgeLink(label, frm, linkIdent);
-//		}
-//
-//		@Specialization
-//		public FrameEdgeLink doBuild(ALabel label, DynamicObject frm) {
-//			return new FrameEdgeLink(label, frm, createLinkIdentifier(label, getFrameScope(frm)));
-//		}
-//
-//		protected static ScopeIdentifier getFrameScope(DynamicObject frm) {
-//			return FrameLayoutImpl.INSTANCE.getScope(frm);
-//		}
-//
-//		protected static FrameEdgeIdentifier createLinkIdentifier(ALabel label, ScopeIdentifier scope) {
-//			return new FrameEdgeIdentifier(label, scope);
-//		}
-//
-//	}
-//
-//	public abstract static class Match extends MatchPattern {
-//
-//		@Child private MatchPattern label;
-//		@Child private MatchPattern frm;
-//
-//		public Match(SourceSection s, MatchPattern label_pat, MatchPattern frm_pat) {
-//			super(s);
-//			this.label = label_pat;
-//			this.frm = frm_pat;
-//		}
-//
-//		@Specialization
-//		public void doDeepMatch(VirtualFrame frame, FrameEdgeLink edgeLink) {
-//			label.executeMatch(frame, edgeLink.label());
-//			frm.executeMatch(frame, edgeLink.frame());
-//		}
-//
-//		@Fallback
-//		public void doGeneric(VirtualFrame frame, Object term) {
-//			if (term instanceof FrameEdgeLink) {
-//				doDeepMatch(frame, (FrameEdgeLink) term);
-//			} else {
-//				throw PremiseFailureException.SINGLETON;
-//			}
-//		}
-//
-//	}
+	// @NodeChildren({ @NodeChild(value = "label", type = TermBuild.class),
+	// @NodeChild(value = "frm", type = TermBuild.class) })
+	// public abstract static class Build extends TermBuild {
+	//
+	// public Build(SourceSection source) {
+	// super(source);
+	// }
+	//
+	// @Specialization(guards = { "label_cached.equals(label)",
+	// "scope_cached.equals(getFrameScope(frm))" })
+	// public FrameEdgeLink doBuildCached(ALabel label, DynamicObject frm,
+	// @Cached("label") ALabel label_cached,
+	// @Cached("getFrameScope(frm)") ScopeIdentifier scope_cached,
+	// @Cached("createLinkIdentifier(label_cached, scope_cached)")
+	// FrameEdgeIdentifier linkIdent) {
+	// return new FrameEdgeLink(label, frm, linkIdent);
+	// }
+	//
+	// @Specialization
+	// public FrameEdgeLink doBuild(ALabel label, DynamicObject frm) {
+	// return new FrameEdgeLink(label, frm, createLinkIdentifier(label,
+	// getFrameScope(frm)));
+	// }
+	//
+	// protected static ScopeIdentifier getFrameScope(DynamicObject frm) {
+	// return FrameLayoutImpl.INSTANCE.getScope(frm);
+	// }
+	//
+	// protected static FrameEdgeIdentifier createLinkIdentifier(ALabel label,
+	// ScopeIdentifier scope) {
+	// return new FrameEdgeIdentifier(label, scope);
+	// }
+	//
+	// }
+	//
+	// public abstract static class Match extends MatchPattern {
+	//
+	// @Child private MatchPattern label;
+	// @Child private MatchPattern frm;
+	//
+	// public Match(SourceSection s, MatchPattern label_pat, MatchPattern frm_pat) {
+	// super(s);
+	// this.label = label_pat;
+	// this.frm = frm_pat;
+	// }
+	//
+	// @Specialization
+	// public void doDeepMatch(VirtualFrame frame, FrameEdgeLink edgeLink) {
+	// label.executeMatch(frame, edgeLink.label());
+	// frm.executeMatch(frame, edgeLink.frame());
+	// }
+	//
+	// @Fallback
+	// public void doGeneric(VirtualFrame frame, Object term) {
+	// if (term instanceof FrameEdgeLink) {
+	// doDeepMatch(frame, (FrameEdgeLink) term);
+	// } else {
+	// throw PremiseFailureException.SINGLETON;
+	// }
+	// }
+	//
+	// }
 
 }

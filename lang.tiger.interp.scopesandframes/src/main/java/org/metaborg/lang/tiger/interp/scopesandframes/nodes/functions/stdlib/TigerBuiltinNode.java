@@ -9,12 +9,12 @@ public abstract class TigerBuiltinNode extends TigerEvalNode {
 	private final Occurrence dec;
 
 	private final Occurrence[] fArgDecs;
-	
+
 	public TigerBuiltinNode(TermIndex topTrmIdx, Occurrence dec, Occurrence[] fArgDecs) {
 		this.dec = dec;
 		this.fArgDecs = fArgDecs;
 	}
-	
+
 	public final Occurrence getDeclarationOccurrence() {
 		return dec;
 	}

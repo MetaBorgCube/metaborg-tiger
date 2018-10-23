@@ -17,7 +17,8 @@ public final class Neq_2 extends Exp {
 
 	public final static int ARITY = 2;
 
-	@Child private Eq_2 eqNode;
+	@Child
+	private Eq_2 eqNode;
 
 	public Neq_2(Exp _1, Exp _2) {
 		this(_1, _2, null);
@@ -33,8 +34,7 @@ public final class Neq_2 extends Exp {
 		int b = TigerTypesGen.asIntV_1(eqNode.executeGeneric(frame, currentFrame)).get_1();
 		return new IntV_1(b == 0 ? 1 : 0);
 	}
-	
-	
+
 	@TruffleBoundary
 	public static Neq_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
@@ -60,6 +60,5 @@ public final class Neq_2 extends Exp {
 	public IStrategoTerm getStrategoTerm() {
 		return strategoTerm;
 	}
-
 
 }

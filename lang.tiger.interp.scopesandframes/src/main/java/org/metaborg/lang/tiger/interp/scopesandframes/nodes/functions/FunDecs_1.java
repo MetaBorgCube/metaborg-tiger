@@ -16,7 +16,8 @@ public final class FunDecs_1 extends Dec {
 
 	public final static int ARITY = 1;
 
-	@Children private final FunDec[] funDecs;
+	@Children
+	private final FunDec[] funDecs;
 
 	public FunDecs_1(FunDec[] _1) {
 		this(_1, null);
@@ -38,7 +39,7 @@ public final class FunDecs_1 extends Dec {
 //		    Frames1 (F, F') |- x --> _;
 //		    Frames1 (F, F') |- Map2-FunDecs(xs) --> _
 		// @formatter:on
-		for(int i = 0; i < funDecs.length; i++) {
+		for (int i = 0; i < funDecs.length; i++) {
 			funDecs[i].execute(frame, f, f_outer);
 		}
 	}

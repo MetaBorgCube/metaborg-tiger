@@ -10,7 +10,8 @@ import com.oracle.truffle.api.object.DynamicObject;
 
 public abstract class InitProtoFrame extends ScopesAndFramesNode {
 
-	@Child private CreateProtoFrame protoFrameFactory;
+	@Child
+	private CreateProtoFrame protoFrameFactory;
 
 	public InitProtoFrame() {
 		super();
@@ -18,7 +19,7 @@ public abstract class InitProtoFrame extends ScopesAndFramesNode {
 	}
 
 	public abstract void execute(VirtualFrame frame, Object scopeEntry);
-	
+
 	@Specialization(guards = { "isScopeEntry(scopeEntry)" })
 	public void executeScopeEntry(VirtualFrame frame, DynamicObject scopeEntry) {
 		DynamicObject protoFrame = protoFrameFactory.execute(frame, scopeEntry);

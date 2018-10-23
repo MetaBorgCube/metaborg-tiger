@@ -11,12 +11,11 @@ import com.oracle.truffle.api.object.DynamicObject;
 public class TigerTimeGo extends TigerBuiltinNode {
 
 	public static long starttime;
-	
-	
+
 	public TigerTimeGo(TermIndex topTrmIdx) {
 		this(topTrmIdx, new Occurrence("Var", "timeGo", topTrmIdx), new Occurrence[] {});
 	}
-	
+
 	public TigerTimeGo(TermIndex topTrmIdx, Occurrence dec, Occurrence[] fArgDecs) {
 		super(topTrmIdx, dec, fArgDecs);
 	}

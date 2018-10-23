@@ -20,5 +20,4 @@ public abstract class PathStep extends Node {
 
 	public abstract void setNext(PathStep next);
 
-
 }

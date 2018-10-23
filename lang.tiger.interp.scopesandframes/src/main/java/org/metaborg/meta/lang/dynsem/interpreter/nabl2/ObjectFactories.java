@@ -3,7 +3,6 @@ package org.metaborg.meta.lang.dynsem.interpreter.nabl2;
 import java.util.EnumSet;
 
 import org.metaborg.lang.tiger.interpreter.generated.terms.Ty;
-import org.metaborg.lang.tiger.interpreter.generated.terms.Type;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.lookup.Path;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ALabel;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
@@ -37,7 +36,8 @@ public class ObjectFactories {
 	private ObjectFactories() {
 	}
 
-	public static DynamicObject createNaBL2(IStrategoAppl solution, ScopesAndFramesContext ctx, TruffleLanguage<?> lang) {
+	public static DynamicObject createNaBL2(IStrategoAppl solution, ScopesAndFramesContext ctx,
+			TruffleLanguage<?> lang) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert Tools.isTermAppl(solution);
 		IStrategoAppl nabl2Appl = solution;

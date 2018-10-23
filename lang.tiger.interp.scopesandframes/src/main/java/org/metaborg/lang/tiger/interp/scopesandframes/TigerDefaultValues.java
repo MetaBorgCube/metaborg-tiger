@@ -13,28 +13,28 @@ import org.metaborg.lang.tiger.interpreter.generated.terms.UndefV_0;
 import org.metaborg.lang.tiger.interpreter.generated.terms.UnitV_0;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.IDefaultValueProvider;
 
-public class TigerDefaultValues implements IDefaultValueProvider{
+public class TigerDefaultValues implements IDefaultValueProvider {
 
 	public TigerDefaultValues() {
 	}
-	
+
 	public Object defaultValue(Ty ty) {
-		if(ty instanceof ARRAY_2) {
+		if (ty instanceof ARRAY_2) {
 			return UndefV_0.SINGLETON;
 		}
-		if(ty instanceof UNIT_0) {
+		if (ty instanceof UNIT_0) {
 			return UnitV_0.SINGLETON;
 		}
-		if(ty instanceof FUN_2) {
+		if (ty instanceof FUN_2) {
 			return UndefV_0.SINGLETON;
 		}
-		if(ty instanceof INT_0) {
+		if (ty instanceof INT_0) {
 			return new IntV_1(0);
 		}
-		if(ty instanceof RECORD_1) {
+		if (ty instanceof RECORD_1) {
 			return NilV_0.SINGLETON;
 		}
-		if(ty instanceof STRING_0) {
+		if (ty instanceof STRING_0) {
 			return UndefV_0.SINGLETON;
 		}
 		throw new IllegalArgumentException("Unknown/unsupported type: " + ty);
@@ -42,7 +42,7 @@ public class TigerDefaultValues implements IDefaultValueProvider{
 
 	@Override
 	public Object defaultValue(Object ty) {
-		if(ty instanceof Ty){
+		if (ty instanceof Ty) {
 			return defaultValue((Ty) ty);
 		}
 		throw new IllegalArgumentException("Unknown/unsupported type: " + ty);

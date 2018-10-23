@@ -9,10 +9,6 @@ import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 
 public abstract class Field implements IApplTerm {
-	@Override
-	public Class<? extends IApplTerm> getSortClass() {
-		return Field.class;
-	}
 
 	@TruffleBoundary
 	public static Field create(IStrategoTerm term) {

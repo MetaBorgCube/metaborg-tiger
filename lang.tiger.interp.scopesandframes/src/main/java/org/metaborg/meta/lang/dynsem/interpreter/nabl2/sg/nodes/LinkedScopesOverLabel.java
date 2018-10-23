@@ -17,12 +17,13 @@ public abstract class LinkedScopesOverLabel extends ScopesAndFramesNode {
 
 	public LinkedScopesOverLabel(SourceSection source) {
 	}
-	
+
 	public abstract ScopeIdentifier[] execute(VirtualFrame frame, ScopeIdentifier scope, ALabel label);
-	
+
 	@Specialization(guards = { "scope.equals(scope_cached)", "label.equals(label_cached)" }, limit = "1000")
-	public ScopeIdentifier[] doGetScopesCached(ScopeIdentifier scope, ALabel label, @Cached("scope") ScopeIdentifier scope_cached,
-			@Cached("label") ALabel label_cached, @Cached(value="lookupScopes(scope_cached, label_cached)", dimensions=1) ScopeIdentifier[] scopes) {
+	public ScopeIdentifier[] doGetScopesCached(ScopeIdentifier scope, ALabel label,
+			@Cached("scope") ScopeIdentifier scope_cached, @Cached("label") ALabel label_cached,
+			@Cached(value = "lookupScopes(scope_cached, label_cached)", dimensions = 1) ScopeIdentifier[] scopes) {
 		return scopes;
 	}
 

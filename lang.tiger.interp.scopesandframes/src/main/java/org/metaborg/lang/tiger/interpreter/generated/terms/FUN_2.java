@@ -30,9 +30,9 @@ public final class FUN_2 extends Ty {
 	public Ty[] getArgumentTypes() {
 		return fArgTys;
 	}
-	
+
 	private final Ty returnTy;
-	
+
 	public Ty getReturnType() {
 		return returnTy;
 	}

@@ -1,8 +1,7 @@
-package org.metaborg.lang.tiger.interp.scopesandframes.nodes.records;
+package org.metaborg.lang.tiger.interp.scopesandframes.nodes;
 
-import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
-import org.metaborg.lang.tiger.interp.scopesandframes.values.NilV_0;
-import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerTypesGen;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.IntV_1;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -12,33 +11,44 @@ import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 
-public final class NilExp_0 extends Exp {
-	public final static String CONSTRUCTOR = "NilExp";
+public final class And_2 extends Exp {
+	public final static String CONSTRUCTOR = "And";
 
-	public final static int ARITY = 0;
+	public final static int ARITY = 2;
 
-	public final static NilExp_0 SINGLETON = new NilExp_0();
-
-	private NilExp_0() {
-		this(null);
+	public And_2(Exp _1, Exp _2) {
+		this(_1, _2, null);
 	}
 
-	private NilExp_0(IStrategoTerm strategoTerm) {
+	private And_2(Exp _1, Exp _2, IStrategoTerm strategoTerm) {
+		this.left = _1;
+		this.right = _2;
 		this.strategoTerm = strategoTerm;
 	}
 
+	@Child
+	private Exp left;
+
+	@Child
+	private Exp right;
+
 	@Override
-	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
-		return NilV_0.SINGLETON;
+	public IntV_1 executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
+		IntV_1 left = TigerTypesGen.asIntV_1(this.left.executeGeneric(frame, currentFrame));
+		if (left.get_1() != 0) {
+			return TigerTypesGen.asIntV_1(this.right.executeGeneric(frame, currentFrame));
+		} else {
+			return left;
+		}
 	}
 
 	@TruffleBoundary
-	public static NilExp_0 create(IStrategoTerm term) {
+	public static And_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new NilExp_0(term);
+		return new And_2(Exp.create(term.getSubterm(0)), Exp.create(term.getSubterm(1)), term);
 	}
 
 	private final IStrategoTerm strategoTerm;
@@ -64,8 +74,10 @@ public final class NilExp_0 extends Exp {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(CONSTRUCTOR);
 		sb.append("(");
+		sb.append(left);
+		sb.append(", ");
+		sb.append(right);
 		sb.append(")");
 		return sb.toString();
 	}
-
 }

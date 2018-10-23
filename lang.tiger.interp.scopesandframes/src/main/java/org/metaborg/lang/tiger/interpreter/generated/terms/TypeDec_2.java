@@ -9,6 +9,8 @@ import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.object.DynamicObject;
 
 public final class TypeDec_2 extends TypeDec {
 	public final static String CONSTRUCTOR = "TypeDec";
@@ -35,6 +37,11 @@ public final class TypeDec_2 extends TypeDec {
 
 	public Ty get_2() {
 		return _2;
+	}
+
+	@Override
+	public void execute(VirtualFrame frame, DynamicObject f, DynamicObject f_outer) {
+		throw new RuntimeException("Not implemented");
 	}
 
 	@TruffleBoundary
@@ -122,4 +129,5 @@ public final class TypeDec_2 extends TypeDec {
 	private int makeHashCode() {
 		return new HashCodeBuilder().append(_2).append(_1).toHashCode();
 	}
+
 }

@@ -12,6 +12,7 @@ import org.metaborg.lang.tiger.interp.scopesandframes.nodes.control.If_3;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.control.Seq_1;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.control.While_2;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions.Call_2;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Divide_2;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Geq_2;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Gt_2;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Int_1;
@@ -24,22 +25,6 @@ import org.metaborg.lang.tiger.interp.scopesandframes.nodes.numbers.Uminus_1;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.records.NilExp_0;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.records.Record_2;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.strings.String_1;
-import org.metaborg.lang.tiger.interpreter.generated.terms.And_2;
-import org.metaborg.lang.tiger.interpreter.generated.terms.Divide_2;
-import org.metaborg.lang.tiger.interpreter.generated.terms.Or_2;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeChrV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeConcatV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeExitV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeFlushV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeGetcharV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeNotV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeOrdV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativePrintIV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativePrintV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeSizeV_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeStartTiming_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeStopTiming_0;
-import org.metaborg.lang.tiger.interpreter.generated.terms.nativeSubstringV_0;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.IApplTerm;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -54,45 +39,6 @@ public abstract class Exp extends TigerEvalNode implements IApplTerm {
 	public static Exp create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativePrintV", 0)) {
-			return nativePrintV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativePrintIV", 0)) {
-			return nativePrintIV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeOrdV", 0)) {
-			return nativeOrdV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeChrV", 0)) {
-			return nativeChrV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeNotV", 0)) {
-			return nativeNotV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeExitV", 0)) {
-			return nativeExitV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeSizeV", 0)) {
-			return nativeSizeV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeSubstringV", 0)) {
-			return nativeSubstringV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeConcatV", 0)) {
-			return nativeConcatV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeGetcharV", 0)) {
-			return nativeGetcharV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeFlushV", 0)) {
-			return nativeFlushV_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeStartTiming", 0)) {
-			return nativeStartTiming_0.create(term);
-		}
-		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "nativeStopTiming", 0)) {
-			return nativeStopTiming_0.create(term);
-		}
 		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "Seq", 1)) {
 			return Seq_1.create(term);
 		}

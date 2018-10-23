@@ -7,9 +7,9 @@ public class OccurrenceUtils {
 
 	private OccurrenceUtils() {
 	}
-	
+
 	private static int freshCounter = Integer.MIN_VALUE;
-	
+
 	public static Occurrence freshPhantomOccurrence(String namespace, String name) {
 		return new Occurrence(namespace, name, new TermIndex("<phantom>", freshCounter++));
 	}

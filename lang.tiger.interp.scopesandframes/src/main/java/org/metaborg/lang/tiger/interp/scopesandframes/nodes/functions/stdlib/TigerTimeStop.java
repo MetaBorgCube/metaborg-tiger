@@ -13,7 +13,7 @@ public class TigerTimeStop extends TigerBuiltinNode {
 	public TigerTimeStop(TermIndex topTrmIdx) {
 		this(topTrmIdx, new Occurrence("Var", "timeStop", topTrmIdx), new Occurrence[] {});
 	}
-	
+
 	public TigerTimeStop(TermIndex topTrmIdx, Occurrence dec, Occurrence[] fArgDecs) {
 		super(topTrmIdx, dec, fArgDecs);
 	}

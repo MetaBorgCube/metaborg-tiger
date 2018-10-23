@@ -16,7 +16,7 @@ public abstract class TypeOfDec extends ScopesAndFramesNode {
 	}
 
 	public abstract Ty execute(VirtualFrame frame, Occurrence dec);
-	
+
 	@Specialization(guards = { "dec == dec_cached" }, limit = "20")
 	public Ty getTypeCached(Occurrence dec, @Cached("dec") Occurrence dec_cached,
 			@Cached("getTypeUncached(dec)") Ty type) {

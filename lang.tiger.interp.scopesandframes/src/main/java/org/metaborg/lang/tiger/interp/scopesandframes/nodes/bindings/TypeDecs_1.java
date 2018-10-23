@@ -27,9 +27,9 @@ public final class TypeDecs_1 extends Dec {
 		this.strategoTerm = strategoTerm;
 	}
 
-	@Children private final TypeDec[] typeDecs;
+	@Children
+	private final TypeDec[] typeDecs;
 
-	
 	@Override
 	public void execute(VirtualFrame frame, DynamicObject f, DynamicObject f_outer) {
 		// we're not doing anything for type declarations

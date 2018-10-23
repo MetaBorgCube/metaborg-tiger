@@ -31,11 +31,11 @@ public abstract class Int_1 extends Exp {
 	public IntV_1 doCached(@Cached("parse()") IntV_1 cached) {
 		return cached;
 	}
-	
+
 	protected IntV_1 parse() {
 		return new IntV_1(Integer.parseInt(_1));
 	}
-	
+
 	@TruffleBoundary
 	public static Int_1 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
@@ -44,8 +44,6 @@ public abstract class Int_1 extends Exp {
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
 		return Int_1NodeGen.create(Tools.asJavaString(term.getSubterm(0)), term);
 	}
-
-	
 
 	private final IStrategoTerm strategoTerm;
 
@@ -74,6 +72,5 @@ public abstract class Int_1 extends Exp {
 		sb.append(")");
 		return sb.toString();
 	}
-
 
 }

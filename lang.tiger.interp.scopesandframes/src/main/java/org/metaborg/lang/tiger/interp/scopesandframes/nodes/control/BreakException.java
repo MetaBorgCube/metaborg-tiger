@@ -10,7 +10,7 @@ public final class BreakException extends ControlFlowException {
 	private static final long serialVersionUID = 7252354674511859587L;
 
 	public static final BreakException SINGLETON = new BreakException();
-	
+
 	private BreakException() {
 	}
 

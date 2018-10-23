@@ -10,8 +10,7 @@ import com.oracle.truffle.api.object.dsl.Layout;
 @Layout
 public interface ScopeEntryLayout {
 	DynamicObject createScopeEntry(ScopeIdentifier identifier, Occurrence[] declarations, Occurrence[] references,
-			DynamicObject edges,
-			DynamicObject imports);
+			DynamicObject edges, DynamicObject imports);
 
 	ScopeIdentifier getIdentifier(DynamicObject object);
 
@@ -28,6 +27,5 @@ public interface ScopeEntryLayout {
 	boolean isScopeEntry(Object object);
 
 	boolean isScopeEntry(ObjectType objectType);
-
 
 }

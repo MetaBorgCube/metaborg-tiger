@@ -37,6 +37,6 @@ public abstract class LValue extends TigerTruffleNode implements IApplTerm {
 			throw new IllegalStateException("Unsupported term: " + term);
 		}
 	}
-	
+
 	public abstract Addr execute(VirtualFrame frame, DynamicObject currentFrame);
 }

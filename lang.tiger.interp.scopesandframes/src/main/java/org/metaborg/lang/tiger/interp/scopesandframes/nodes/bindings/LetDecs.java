@@ -60,7 +60,8 @@ public abstract class LetDecs extends TigerTruffleNode {
 		}
 
 		@Specialization
-		public void doWithCaching(VirtualFrame frame, DynamicObject f_outer, DynamicObject f_body, @Cached(value = "label()") ALabel linkLabel,
+		public void doWithCaching(VirtualFrame frame, DynamicObject f_outer, DynamicObject f_body,
+				@Cached(value = "label()") ALabel linkLabel,
 				@Cached("getEdgeIdent(linkLabel, f_outer)") FrameEdgeIdentifier edgeIdent) {
 			FrameEdgeLink link = new FrameEdgeLink(linkLabel, f_outer, edgeIdent);
 			linkNode.execute(frame, f_body, link);

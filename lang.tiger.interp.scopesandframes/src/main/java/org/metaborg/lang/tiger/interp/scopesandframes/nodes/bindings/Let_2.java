@@ -52,7 +52,7 @@ public final class Let_2 extends Exp {
 		DynamicObject f_body = this.createFrameNode.execute(frame, this, new FLink[] {});
 		decs.execute(frame, f, f_body);
 		V result = UnitV_0.SINGLETON;
-		for(int i = 0; i < bodyExps.length; i++) {
+		for (int i = 0; i < bodyExps.length; i++) {
 			result = bodyExps[i].executeGeneric(frame, f_body);
 		}
 		return result;

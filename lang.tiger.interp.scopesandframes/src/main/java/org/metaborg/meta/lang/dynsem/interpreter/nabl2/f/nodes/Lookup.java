@@ -2,7 +2,6 @@ package org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes;
 
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesNode;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameAddr;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.LookupFactory.LookupCachedNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.LookupFactory.LookupUncachedNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.lookup.Path;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
@@ -26,9 +25,9 @@ public abstract class Lookup extends ScopesAndFramesNode {
 
 	public static Lookup create() {
 		return LookupUncachedNodeGen.create();
-//		return LookupCachedNodeGen.create();
+		// return LookupCachedNodeGen.create();
 	}
-	
+
 	public static abstract class LookupCached extends Lookup {
 		@Child
 		private Lookup lookupNode;

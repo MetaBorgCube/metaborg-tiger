@@ -20,8 +20,9 @@ public abstract class DefaultValue extends ScopesAndFramesNode {
 	}
 
 	@Specialization(guards = { "type != null" })
-	public Object executeDefault(VirtualFrame frame, Object type, @Cached("context().getDefaultValues()") IDefaultValueProvider defaultProvider) {
+	public Object executeDefault(VirtualFrame frame, Object type,
+			@Cached("context().getDefaultValues()") IDefaultValueProvider defaultProvider) {
 		return defaultProvider.defaultValue(type);
 	}
-	
+
 }

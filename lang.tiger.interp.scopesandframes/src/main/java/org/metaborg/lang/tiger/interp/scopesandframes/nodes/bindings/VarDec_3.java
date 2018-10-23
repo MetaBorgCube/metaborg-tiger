@@ -31,7 +31,7 @@ public final class VarDec_3 extends Dec {
 
 	@Child
 	private SetFrameSlot setNode;
-	
+
 	public VarDec_3(Occ _1, Ty _2, Exp _3) {
 		this(_1, _2, _3, null);
 	}

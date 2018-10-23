@@ -13,7 +13,7 @@ public class TigerFlush extends TigerBuiltinNode {
 	public TigerFlush(TermIndex topTrmIdx) {
 		this(topTrmIdx, new Occurrence("Var", "flush", topTrmIdx), new Occurrence[] {});
 	}
-	
+
 	public TigerFlush(TermIndex topTrmIdx, Occurrence dec, Occurrence[] fArgDecs) {
 		super(topTrmIdx, dec, fArgDecs);
 	}

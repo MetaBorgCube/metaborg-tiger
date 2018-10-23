@@ -23,7 +23,7 @@ public final class D extends ALabel {
 	public IStrategoTerm getStrategoTerm() {
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "D()";

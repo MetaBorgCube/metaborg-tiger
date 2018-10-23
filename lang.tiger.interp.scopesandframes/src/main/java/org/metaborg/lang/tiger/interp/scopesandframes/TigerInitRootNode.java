@@ -12,9 +12,11 @@ public class TigerInitRootNode extends RootNode {
 
 	@Child
 	private Module programNode;
-	
-	@Child private InitNaBL2Node initNabl2;
-	@Child private InitProtoFrames initProtoFrames;
+
+	@Child
+	private InitNaBL2Node initNabl2;
+	@Child
+	private InitProtoFrames initProtoFrames;
 
 	public TigerInitRootNode(TigerLanguage language, FrameDescriptor frameDescriptor, Module programNode) {
 		super(language, frameDescriptor);

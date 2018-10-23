@@ -14,7 +14,8 @@ import com.oracle.truffle.api.nodes.RootNode;
 
 public final class Path extends RootNode {
 
-	@Child private PathStep p;
+	@Child
+	private PathStep p;
 
 	public Path(TruffleLanguage<?> lang, PathStep p) {
 		super(lang);

@@ -18,7 +18,8 @@ public final class Seq_1 extends Exp {
 
 	public final static int ARITY = 1;
 
-	@Children private final Exp[] exps;
+	@Children
+	private final Exp[] exps;
 
 	public Seq_1(Exp[] _1) {
 		this(_1, null);
@@ -33,7 +34,7 @@ public final class Seq_1 extends Exp {
 	@ExplodeLoop
 	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
 		V result = UnitV_0.SINGLETON;
-		for(int i = 0; i < exps.length; i++) {
+		for (int i = 0; i < exps.length; i++) {
 			result = exps[i].executeGeneric(frame, currentFrame);
 		}
 		return result;
@@ -52,8 +53,6 @@ public final class Seq_1 extends Exp {
 		}
 		return new Seq_1(exps, term);
 	}
-
-
 
 	private final IStrategoTerm strategoTerm;
 
@@ -82,6 +81,5 @@ public final class Seq_1 extends Exp {
 		sb.append(")");
 		return sb.toString();
 	}
-
 
 }

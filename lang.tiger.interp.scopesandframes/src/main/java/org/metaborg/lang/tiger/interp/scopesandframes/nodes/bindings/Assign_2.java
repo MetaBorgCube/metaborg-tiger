@@ -23,10 +23,10 @@ public final class Assign_2 extends Exp {
 
 	@Child
 	private LValue _1;
-	
+
 	@Child
 	private Exp _2;
-	
+
 	@Child
 	private SetAtAddr setNode;
 
@@ -48,7 +48,7 @@ public final class Assign_2 extends Exp {
 		setNode.execute(frame, addr, v);
 		return UnitV_0.SINGLETON;
 	}
-	
+
 	@TruffleBoundary
 	public static Assign_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();

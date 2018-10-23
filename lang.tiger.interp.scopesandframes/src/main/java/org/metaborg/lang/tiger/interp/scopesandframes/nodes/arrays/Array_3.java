@@ -22,12 +22,15 @@ public final class Array_3 extends Exp {
 	public final static int ARITY = 3;
 
 	private final TypeId _1;
-	
-	@Child private Exp lengthExp;
-	
-	@Child private Exp fillValueExp;
-	
-	@Child private NewArray newArrayNode;
+
+	@Child
+	private Exp lengthExp;
+
+	@Child
+	private Exp fillValueExp;
+
+	@Child
+	private NewArray newArrayNode;
 
 	public Array_3(TypeId _1, Exp _2, Exp _3) {
 		this(_1, _2, _3, null);
@@ -41,7 +44,6 @@ public final class Array_3 extends Exp {
 		this.strategoTerm = strategoTerm;
 	}
 
-	
 	@Override
 	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
 		int length = TigerTypesGen.asIntV_1(lengthExp.executeGeneric(frame, currentFrame)).get_1();

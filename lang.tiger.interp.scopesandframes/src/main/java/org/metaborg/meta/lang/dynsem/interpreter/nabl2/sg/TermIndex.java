@@ -28,7 +28,8 @@ public final class TermIndex {
 		return new TermIndex(Tools.javaStringAt(termIndexT, 0), Tools.javaIntAt(termIndexT, 1));
 	}
 
-	@CompilationFinal private int hashcode = -1;
+	@CompilationFinal
+	private int hashcode = -1;
 
 	@Override
 	public int hashCode() {

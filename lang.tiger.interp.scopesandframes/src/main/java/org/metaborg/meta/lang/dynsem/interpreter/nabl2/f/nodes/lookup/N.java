@@ -24,7 +24,8 @@ public abstract class N extends PathStep {
 	private final Occurrence importRef;
 	protected final FrameImportIdentifier linkIdent;
 
-	@Child private PathStep next;
+	@Child
+	private PathStep next;
 
 	public N(ScopeIdentifier scopeIdent, ALabel importLabel, Occurrence importRef, PathStep next) {
 		super(scopeIdent);

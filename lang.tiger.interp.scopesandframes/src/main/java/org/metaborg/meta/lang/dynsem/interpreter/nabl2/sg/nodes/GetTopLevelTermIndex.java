@@ -14,7 +14,7 @@ public abstract class GetTopLevelTermIndex extends ScopesAndFramesNode {
 	public GetTopLevelTermIndex() {
 		super();
 	}
-	
+
 	public abstract TermIndex execute(VirtualFrame frame, ITerm term);
 
 	@Specialization(guards = "term_cached == term", limit = "100")

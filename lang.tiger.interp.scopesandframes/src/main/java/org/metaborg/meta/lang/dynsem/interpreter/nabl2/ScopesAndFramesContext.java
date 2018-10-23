@@ -15,17 +15,18 @@ public class ScopesAndFramesContext {
 
 	private final NaBL2Context nabl2context;
 	private final IDefaultValueProvider defaultValues;
-	
+
 	public ScopesAndFramesContext(NaBL2Context nabl2context, IDefaultValueProvider defaultValues) {
 		this.nabl2context = nabl2context;
 		this.defaultValues = defaultValues;
 	}
-	
+
 	public NaBL2Context getNaBL2Context() {
 		return nabl2context;
 	}
-	
-	@CompilationFinal private DynamicObject nabl2solution;
+
+	@CompilationFinal
+	private DynamicObject nabl2solution;
 
 	public boolean hasNaBL2Solution() {
 		return nabl2solution != null;
@@ -38,14 +39,13 @@ public class ScopesAndFramesContext {
 	}
 
 	public DynamicObject getNaBL2Solution() {
-		return Objects.requireNonNull(nabl2solution,
-				"No NaBL2 context available. Does the language use NaBL2?");
+		return Objects.requireNonNull(nabl2solution, "No NaBL2 context available. Does the language use NaBL2?");
 	}
-	
+
 	public IDefaultValueProvider getDefaultValues() {
 		return this.defaultValues;
 	}
-	
+
 	private final DynamicObject protoFrames = FramePrototypesLayoutImpl.INSTANCE.createFramePrototypes();
 
 	public void addProtoFrame(ScopeIdentifier ident, DynamicObject frameProto) {

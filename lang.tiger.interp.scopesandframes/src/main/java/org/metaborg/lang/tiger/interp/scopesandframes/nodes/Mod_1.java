@@ -4,7 +4,6 @@ import org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions.stdlib.Std
 import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FLink;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Framed;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.TermIndex;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetTopLevelTermIndex;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetTopLevelTermIndexNodeGen;
 import org.spoofax.interpreter.core.Tools;
@@ -14,7 +13,6 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
 import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.nodes.Node.Child;
 import com.oracle.truffle.api.object.DynamicObject;
 
 public final class Mod_1 extends Module {

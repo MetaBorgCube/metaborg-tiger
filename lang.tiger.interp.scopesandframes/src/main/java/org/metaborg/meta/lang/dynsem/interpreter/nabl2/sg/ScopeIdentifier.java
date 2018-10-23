@@ -31,7 +31,8 @@ public final class ScopeIdentifier {
 		return new ScopeIdentifier(Tools.javaStringAt(identTerm, 0), Tools.javaStringAt(identTerm, 1));
 	}
 
-	@CompilationFinal private int hashcode = -1;
+	@CompilationFinal
+	private int hashcode = -1;
 
 	@Override
 	public int hashCode() {
