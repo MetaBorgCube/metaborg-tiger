@@ -1,6 +1,5 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
@@ -9,15 +8,11 @@ import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameEdgeLink;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddFrameLink;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddFrameLinkNodeGen;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.CloneFrame;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.CloneFrameNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddr;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddrNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Lookup;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.LookupNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrame;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrameNodeGen;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddr;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlot;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlotNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
@@ -27,8 +22,6 @@ import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerAsserts;
-import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
@@ -59,7 +52,7 @@ public final class Call_2 extends Exp {
 		this.exps = _2;
 		this.strategoTerm = strategoTerm;
 		this.getNode = GetAtAddrNodeGen.create();
-		this.lookupNode = LookupNodeGen.create();
+		this.lookupNode = Lookup.create();
 		this.newFrame = NewFrameNodeGen.create();
 		this.linkFrames = AddFrameLinkNodeGen.create();
 		this.setSlot = SetFrameSlotNodeGen.create();

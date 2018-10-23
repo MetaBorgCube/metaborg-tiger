@@ -1,6 +1,5 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.LValue;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
@@ -12,8 +11,6 @@ import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerAsserts;
-import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;

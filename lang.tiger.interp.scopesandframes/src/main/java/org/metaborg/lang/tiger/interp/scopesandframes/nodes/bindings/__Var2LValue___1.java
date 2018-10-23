@@ -6,7 +6,6 @@ import org.metaborg.lang.tiger.interpreter.generated.terms.Var_1;
 import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Addr;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Lookup;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.LookupNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -34,7 +33,7 @@ public final class __Var2LValue___1 extends LValue {
 	private __Var2LValue___1(Var _1, IStrategoTerm strategoTerm) {
 		this.refOcc = ((__Occurrence2Occ___1) ((Var_1) _1).get_1()).get_1();
 		this.strategoTerm = strategoTerm;
-		this.lookupNode = LookupNodeGen.create();
+		this.lookupNode = Lookup.create();
 	}
 
 	@Override
