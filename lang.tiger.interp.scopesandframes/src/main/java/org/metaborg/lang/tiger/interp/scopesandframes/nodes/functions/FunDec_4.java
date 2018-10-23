@@ -73,7 +73,7 @@ public abstract class FunDec_4 extends FunDec {
 			CompilerDirectives.transferToInterpreterAndInvalidate();
 			ScopeIdentifier functionScope = getScope(frame);
 			TigerLanguage language = getRootNode().getLanguage(TigerLanguage.class);
-			TigerFunctionRoot funRoot = new TigerFunctionRoot(language, NodeUtil.cloneNode(body));
+			TigerFunctionRoot funRoot = new TigerFunctionRoot(decOcc.name(), language, NodeUtil.cloneNode(body));
 			CallTarget target = Truffle.getRuntime().createCallTarget(funRoot);
 			function = new CacheableFunV(functionScope, fargs, target);
 		}
