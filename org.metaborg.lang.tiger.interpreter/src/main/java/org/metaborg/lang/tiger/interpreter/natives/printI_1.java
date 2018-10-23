@@ -18,9 +18,8 @@ public abstract class printI_1 extends NativeOpBuild {
 	@Specialization
 	@TruffleBoundary
 	public String doString(int i) {
-		final String s = i + "";
-		System.out.println(s);
-		return s;
+		System.out.print(i);
+		return i + "";
 	}
 
 	public static NativeOpBuild create(SourceSection source, TermBuild stringbuild) {

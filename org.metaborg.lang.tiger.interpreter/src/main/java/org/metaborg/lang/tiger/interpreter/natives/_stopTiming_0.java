@@ -15,7 +15,7 @@ public abstract class _stopTiming_0 extends NativeOpBuild {
 	@Specialization
 	@TruffleBoundary
 	public int doStart() {
-		long endTime = System.currentTimeMillis() - _startTiming_0.startTime;
+		long endTime = System.nanoTime() - _startTiming_0.startTime;
 		getContext().getOutput().println(endTime);
 		return (int) endTime;
 	}

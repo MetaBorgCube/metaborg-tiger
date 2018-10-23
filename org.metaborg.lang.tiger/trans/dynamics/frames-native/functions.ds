@@ -15,7 +15,7 @@ signature
 //    F |- Map-Exps(List(Exp)) --> List(Val)
     
   constructors
-    FunV: Frame * List(Occurrence) * Exp -> V
+    FunV: Frame * Scope * List(Occurrence) * Exp -> V
 
 rules
   
@@ -36,18 +36,19 @@ rules // function declarations
   
   Frames1 (F, F_outer) |- d@ProcDec(f : Occurrence, args, e) --> U()
   where
-    framed(d, [L(P(), F)]) --> F_fun;
-    set(Addr(F, f), FunV(F_fun, unpackArgs(args), e)) => _
+//    framed(d, [L(P(), F)]) --> F_fun;
+    set(Addr(F, f), FunV(F, scopeOfTerm(d), unpackArgs(args), e)) => _
   
   Frames1 (F, F_outer) |- d@FunDec(f : Occurrence, args, t, e) --> U()
   where
-    framed(d, [L(P(), F)]) --> F_fun;
-    set(Addr(F, f), FunV(F_fun, unpackArgs(args), e)) => _
+//    framed(d, [L(P(), F)]) --> F_fun;
+    set(Addr(F, f), FunV(F, scopeOfTerm(d), unpackArgs(args), e)) => _
   
   F F |- Call(f : Occurrence, exps) --> v
   where
-    get(lookup(F, f)) => FunV(F_fun_virt, args, e);
-    clone(F_fun_virt) => F_call;
+    get(lookup(F, f)) => FunV(F_parent, s_fun, args, e);
+    frame(s_fun, [L(P(), F_parent)]) --> F_call;
+//    clone(F_fun_virt) => F_call;
     Frames1 (F, F_call) |- Zip-Params(exps, args) --> _;
     F_call |- e --> v
     

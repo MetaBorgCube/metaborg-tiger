@@ -58,8 +58,8 @@ rules
     T |- fargs2occs(args) --> decs;
     typeOf(dec) => FUN(types, _);
     scope(Scope("<:implicit:fun:>", name), decs, types, [], { P() |--> [scopeOfFrame(F)]}, {}) => s_fun;
-    frame(s_fun, [L(P(), F)]) --> F_fun;
-    set(Addr(F, dec), FunV(F_fun, decs, e)) => _
+//    frame(s_fun, [L(P(), F)]) --> F_fun;
+    set(Addr(F, dec), FunV(F, s_fun, decs, e)) => _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()
