@@ -3,14 +3,14 @@ package org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions;
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerLanguage;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV.CacheableFunV;
 import org.metaborg.lang.tiger.interpreter.generated.terms.FArg;
 import org.metaborg.lang.tiger.interpreter.generated.terms.FArg_2;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Occ;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Ty;
 import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameAddr;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddr;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddrNodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlot;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlotNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.GetScopeOfTerm;
@@ -25,7 +25,6 @@ import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.Truffle;
-import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeUtil;
@@ -47,7 +46,7 @@ public abstract class FunDec_4 extends FunDec {
 	@Child
 	private GetScopeOfTerm scopeOfTermNode;
 	@Child
-	private SetAtAddr setNode;
+	private SetFrameSlot setNode;
 
 	public FunDec_4(Occ _1, FArg[] _2, Ty _3, Exp _4) {
 		this(_1, _2, _3, _4, null);
@@ -63,29 +62,29 @@ public abstract class FunDec_4 extends FunDec {
 		this.body = _4;
 		this.strategoTerm = strategoTerm;
 		this.scopeOfTermNode = GetScopeOfTermNodeGen.create();
-		this.setNode = SetAtAddrNodeGen.create();
+		this.setNode = SetFrameSlotNodeGen.create();
 	}
 
 	@CompilationFinal
-	private CallTarget functionTarget;
+	private CacheableFunV function;
 
-	private CallTarget getCallTarget(VirtualFrame frame) {
-		if (functionTarget == null) {
+	private CacheableFunV getCallTarget(VirtualFrame frame) {
+		if (function == null) {
 			CompilerDirectives.transferToInterpreterAndInvalidate();
+			ScopeIdentifier functionScope = getScope(frame);
 			TigerLanguage language = getRootNode().getLanguage(TigerLanguage.class);
 			TigerFunctionRoot funRoot = new TigerFunctionRoot(language, NodeUtil.cloneNode(body));
-			functionTarget = Truffle.getRuntime().createCallTarget(funRoot);
+			CallTarget target = Truffle.getRuntime().createCallTarget(funRoot);
+			function = new CacheableFunV(functionScope, fargs, target);
 		}
-		return functionTarget;
+		return function;
 	}
 
 	@Specialization
-	public void doCached(VirtualFrame frame, DynamicObject f, DynamicObject f_outer,
-			@Cached("getScope(frame)") ScopeIdentifier functionScope) {
-		CallTarget target = getCallTarget(frame);
+	public void doCached(VirtualFrame frame, DynamicObject f, DynamicObject f_outer) {
 		// FIXME: this is an opportunity for an Assumption on function change
-		FunV clos = new FunV(f, functionScope, fargs, target);
-		setNode.execute(frame, new FrameAddr(f, decOcc), clos);
+		FunV clos = new FunV(f, getCallTarget(frame));
+		setNode.execute(frame, f, decOcc, clos);
 	}
 
 	protected final ScopeIdentifier getScope(VirtualFrame frame) {

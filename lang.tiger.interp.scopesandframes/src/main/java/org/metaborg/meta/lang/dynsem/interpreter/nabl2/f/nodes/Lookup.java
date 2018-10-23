@@ -40,27 +40,17 @@ public abstract class Lookup extends ScopesAndFramesNode {
 		public FrameAddr doCached(VirtualFrame frame, DynamicObject frm, Occurrence ref,
 				@Cached("frm") DynamicObject frm_cached, @Cached("ref") Occurrence ref_cached,
 				@Cached("doUncached(frame, frm, ref)") FrameAddr cachedAddr) {
-			System.out.println("cache hit");
 			return cachedAddr;
 		}
 
 		@Specialization(replaces = "doCached")
 		public FrameAddr doUncached(VirtualFrame frame, DynamicObject frm, Occurrence ref) {
-			System.out.println("cache miss");
 			return lookupNode.execute(frame, frm, ref);
 		}
 
 	}
 
 	public static abstract class LookupUncached extends Lookup {
-		// FIXME: this is where we need to be very careful w.r.t. object languages
-		// because the Path stored in resolution may
-		// not be correct (method overriding)
-
-		// FIXME: this is the place to cache the lookup. if the ref is constant and the
-		// frame shape is constant then teh
-		// Location part of teh frameaddr will also be constant and then we don't need
-		// to reevaluate the entire chain
 		@Specialization(guards = { "ref.equals(ref_cached)" }, limit = "20")
 		public FrameAddr doCachedDirect(DynamicObject frm, Occurrence ref, @Cached("ref") Occurrence ref_cached,
 				@Cached("create(lookupPathResolver(ref_cached))") DirectCallNode resolverNode) {

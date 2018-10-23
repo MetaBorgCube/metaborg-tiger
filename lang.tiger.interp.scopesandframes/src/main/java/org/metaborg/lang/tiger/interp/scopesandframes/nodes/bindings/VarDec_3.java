@@ -5,9 +5,8 @@ import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Occ;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Ty;
 import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameAddr;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddr;
-import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddrNodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlot;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlotNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -31,7 +30,7 @@ public final class VarDec_3 extends Dec {
 	private Exp exp;
 
 	@Child
-	private SetAtAddr setNode;
+	private SetFrameSlot setNode;
 	
 	public VarDec_3(Occ _1, Ty _2, Exp _3) {
 		this(_1, _2, _3, null);
@@ -42,7 +41,7 @@ public final class VarDec_3 extends Dec {
 		this._2 = _2;
 		this.exp = _3;
 		this.strategoTerm = strategoTerm;
-		this.setNode = SetAtAddrNodeGen.create();
+		this.setNode = SetFrameSlotNodeGen.create();
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public final class VarDec_3 extends Dec {
 //		    set(Addr(F, x), v2) => _
 //		@formatter:on
 		V v2 = exp.executeGeneric(frame, f_outer);
-		setNode.execute(frame, new FrameAddr(f, decOcc), v2);
+		setNode.execute(frame, f, decOcc, v2);
 	}
 
 	@TruffleBoundary

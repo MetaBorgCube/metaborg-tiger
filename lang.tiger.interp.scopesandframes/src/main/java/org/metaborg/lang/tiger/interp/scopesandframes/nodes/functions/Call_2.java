@@ -1,11 +1,16 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerTruffleNode;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions.Call_2NodeGen.CallHelperNodeGen;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV.CacheableFunV;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Occ;
 import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameEdgeLink;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.layouts.FrameEdgeIdentifier;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.layouts.FrameLayoutImpl;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddFrameLink;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.AddFrameLinkNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddr;
@@ -15,77 +20,114 @@ import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrame;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.NewFrameNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlot;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlotNodeGen;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ALabel;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.P;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.dsl.Cached;
+import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.nodes.DirectCallNode;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.object.DynamicObject;
 
-public final class Call_2 extends Exp {
+public abstract class Call_2 extends Exp {
 	public final static String CONSTRUCTOR = "Call";
 
 	public final static int ARITY = 2;
 
 	private final Occurrence refOcc;
-	
-	@Children
-	private final Exp[] exps;
+	@Child
+	private Lookup lookupNode;
 
-	@Child private GetAtAddr getNode;
-	@Child private Lookup lookupNode;
-	@Child private NewFrame newFrame;
-	@Child private AddFrameLink linkFrames;
-	@Child private SetFrameSlot setSlot;
-	
+	@Child
+	private GetAtAddr getNode;
+
+	@Child
+	private CallHelper actualCallNode;
+
 	public Call_2(Occ _1, Exp[] _2) {
 		this(_1, _2, null);
 	}
 
-	private Call_2(Occ _1, Exp[] _2, IStrategoTerm strategoTerm) {
+	public Call_2(Occ _1, Exp[] _2, IStrategoTerm strategoTerm) {
 		this.refOcc = ((__Occurrence2Occ___1) _1).get_1();
-		this.exps = _2;
 		this.strategoTerm = strategoTerm;
-		this.getNode = GetAtAddrNodeGen.create();
 		this.lookupNode = Lookup.create();
-		this.newFrame = NewFrameNodeGen.create();
-		this.linkFrames = AddFrameLinkNodeGen.create();
-		this.setSlot = SetFrameSlotNodeGen.create();
+		this.getNode = GetAtAddrNodeGen.create();
+		this.actualCallNode = CallHelperNodeGen.create(_2);
 	}
 
-	@Override
+	protected FunV getFunction(VirtualFrame frame, DynamicObject currentFrame) {
+		return (FunV) getNode.execute(frame, lookupNode.execute(frame, currentFrame, refOcc));
+	}
+
+	@Specialization
 	@ExplodeLoop
-	public V executeGeneric(VirtualFrame frame, DynamicObject currentFrame) {
-		// FIXME: a lot of caching opportunity for what comes out of the closure (FunV): function scope, parent scope, fargs
-//		@formatter:off
-//		  F F |- Call(f : Occurrence, exps) --> v
-//		  where
-//		    get(lookup(F, f)) => FunV(F_fun_virt, args, e);
-//		    clone(F_fun_virt) => F_call;
-//		    Frames1 (F, F_call) |- Zip-Params(exps, args) --> _;
-//		    F_call |- e --> v
-//		@formatter:on
+	public V executeWithCaching(VirtualFrame frame, DynamicObject currentFrame) {
 		// lookup closure
 		FunV clos = (FunV) getNode.execute(frame, lookupNode.execute(frame, currentFrame, refOcc));
-		// create call frame
-		DynamicObject callFrame = newFrame.execute(frame, clos.getFunctionScope());
-		// link call frame
-		this.linkFrames.execute(frame, callFrame, new FrameEdgeLink(P.SINGLETON, clos.getParentFrame()));
-		Occurrence[] fargs = clos.getArguments();
-		for(int i = 0; i < exps.length; i++) {
-			setSlot.execute(frame, callFrame, fargs[i], exps[i].executeGeneric(frame, currentFrame));
-		}
-		return (V) clos.getCallTarget().call(callFrame);
+		return actualCallNode.execute(frame, currentFrame, clos);
 	}
-	
-	
-	
-	
+
+	public static abstract class CallHelper extends TigerTruffleNode {
+		@Children
+		private final Exp[] exps;
+
+		@Child
+		private NewFrame newFrame;
+
+		@Child
+		private AddFrameLink linkFrames;
+
+		@Child
+		private SetFrameSlot setSlot;
+
+		public CallHelper(Exp[] exps) {
+			this.exps = exps;
+			this.newFrame = NewFrameNodeGen.create();
+			this.linkFrames = AddFrameLinkNodeGen.create();
+			this.setSlot = SetFrameSlotNodeGen.create();
+		}
+
+		public abstract V execute(VirtualFrame frame, DynamicObject currentFrame, FunV funv);
+
+		@Specialization(guards = { "funv.getCacheablePart() == stablePart" }, limit = "1")
+		@ExplodeLoop
+		public V doCached(VirtualFrame frame, DynamicObject currentFrame, FunV funv,
+				@Cached("funv.getCacheablePart()") CacheableFunV stablePart,
+				@Cached("stablePart.getFunctionScope()") ScopeIdentifier functionScope,
+				@Cached("label()") ALabel linkLabel,
+				@Cached("getEdgeIdent(linkLabel, funv.getParentFrame())") FrameEdgeIdentifier edgeIdent,
+				@Cached(value = "stablePart.getArguments()", dimensions = 1) Occurrence[] fArgs,
+				@Cached("create(stablePart.getCallTarget())") DirectCallNode callNode) {
+			// create call frame
+			DynamicObject callFrame = newFrame.execute(frame, functionScope);
+			// link call frame
+			linkFrames.execute(frame, callFrame, new FrameEdgeLink(linkLabel, funv.getParentFrame(), edgeIdent));
+			// evaluate and bind parameters
+			for (int i = 0; i < exps.length; i++) {
+				setSlot.execute(frame, callFrame, fArgs[i], exps[i].executeGeneric(frame, currentFrame));
+			}
+			// actual call
+			return (V) callNode.call(new Object[] { callFrame });
+		}
+
+		protected FrameEdgeIdentifier getEdgeIdent(ALabel label, DynamicObject frm) {
+			return new FrameEdgeIdentifier(label, FrameLayoutImpl.INSTANCE.getScope(frm));
+		}
+
+		protected ALabel label() {
+			return P.SINGLETON;
+		}
+	}
+
 	@TruffleBoundary
 	public static Call_2 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
@@ -97,7 +139,7 @@ public final class Call_2 extends Exp {
 		for (int i = 0; i < exps.length; i++) {
 			exps[i] = Exp.create(expTerms[i]);
 		}
-		return new Call_2(Occ.create(term.getSubterm(0)), exps, term);
+		return Call_2NodeGen.create(Occ.create(term.getSubterm(0)), exps, term);
 	}
 
 	private final IStrategoTerm strategoTerm;
@@ -115,19 +157,6 @@ public final class Call_2 extends Exp {
 	@Override
 	public IStrategoTerm getStrategoTerm() {
 		return strategoTerm;
-	}
-
-	@TruffleBoundary
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(CONSTRUCTOR);
-		sb.append("(");
-		sb.append(refOcc);
-		sb.append(", ");
-		sb.append(exps);
-		sb.append(")");
-		return sb.toString();
 	}
 
 }

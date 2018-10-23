@@ -10,38 +10,50 @@ import com.oracle.truffle.api.object.DynamicObject;
 
 public final class FunV extends V {
 
-	private final DynamicObject parentFrame;
-	private final CallTarget target;
-	private final ScopeIdentifier functionScope;
-	@CompilationFinal(dimensions = 1)
-	private final Occurrence[] fargs;
+	public static final class CacheableFunV {
+		private final CallTarget target;
+		private final ScopeIdentifier functionScope;
+		@CompilationFinal(dimensions = 1)
+		private final Occurrence[] fargs;
 
-	public FunV(DynamicObject parentFrame, ScopeIdentifier functionScope, Occurrence[] fargs, CallTarget target) {
+		public CacheableFunV(ScopeIdentifier functionScope, Occurrence[] fargs, CallTarget target) {
+			this.target = target;
+			this.functionScope = functionScope;
+			this.fargs = fargs;
+		}
+
+		public CallTarget getCallTarget() {
+			return target;
+		}
+
+		public ScopeIdentifier getFunctionScope() {
+			return functionScope;
+		}
+
+		public Occurrence[] getArguments() {
+			return fargs;
+		}
+	}
+
+	private final DynamicObject parentFrame;
+	private final CacheableFunV cacheablePart;
+
+	public FunV(DynamicObject parentFrame, CacheableFunV cacheablePart) {
 		this.parentFrame = parentFrame;
-		this.target = target;
-		this.functionScope = functionScope;
-		this.fargs = fargs;
+		this.cacheablePart = cacheablePart;
 	}
 
 	public DynamicObject getParentFrame() {
 		return parentFrame;
 	}
 
-	public CallTarget getCallTarget() {
-		return target;
-	}
-
-	public ScopeIdentifier getFunctionScope() {
-		return functionScope;
-	}
-
-	public Occurrence[] getArguments() {
-		return fargs;
+	public CacheableFunV getCacheablePart() {
+		return cacheablePart;
 	}
 
 	@Override
 	public int size() {
-		return 4;
+		return 2;
 	}
 
 	@Override
