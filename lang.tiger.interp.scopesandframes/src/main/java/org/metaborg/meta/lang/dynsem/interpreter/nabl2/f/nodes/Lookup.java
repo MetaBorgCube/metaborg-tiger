@@ -25,7 +25,8 @@ public abstract class Lookup extends ScopesAndFramesNode {
 	public abstract FrameAddr execute(VirtualFrame frame, DynamicObject frm, Occurrence ref);
 
 	public static Lookup create() {
-		return LookupCachedNodeGen.create();
+		return LookupUncachedNodeGen.create();
+//		return LookupCachedNodeGen.create();
 	}
 	
 	public static abstract class LookupCached extends Lookup {
