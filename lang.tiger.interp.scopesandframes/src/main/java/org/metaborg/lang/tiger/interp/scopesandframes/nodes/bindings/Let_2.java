@@ -49,7 +49,7 @@ public final class Let_2 extends Exp {
 //		    Frames1 (F, F_body) |- Decs(blocks) --> _;
 //		    F F_body |- Seq(exps) --> vv
 //		@formatter:on
-		DynamicObject f_body = this.createFrameNode.executeNewFrame(frame, this, new FLink[] {});
+		DynamicObject f_body = this.createFrameNode.execute(frame, this, new FLink[] {});
 		decs.execute(frame, f, f_body);
 		V result = UnitV_0.SINGLETON;
 		for(int i = 0; i < bodyExps.length; i++) {

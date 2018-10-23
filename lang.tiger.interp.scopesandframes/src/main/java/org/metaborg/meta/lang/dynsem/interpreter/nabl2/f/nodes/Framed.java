@@ -23,9 +23,7 @@ public final class Framed extends ScopesAndFramesNode {
 		this.addLinksNode = new AddLinks();
 	}
 	
-	
-	
-	public DynamicObject executeNewFrame(VirtualFrame frame, ITerm t, FLink[] links) {
+	public DynamicObject execute(VirtualFrame frame, ITerm t, FLink[] links) {
 		ScopeIdentifier sid = scopeOfTermNode.execute(frame, t);
 		DynamicObject newFrame = newFrameNode.execute(frame, sid);
 		addLinksNode.execute(frame, newFrame, links);

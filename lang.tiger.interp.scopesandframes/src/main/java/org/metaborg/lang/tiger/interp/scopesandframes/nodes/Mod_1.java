@@ -47,7 +47,7 @@ public final class Mod_1 extends Module {
 		    F |- e --> vv
 		*/
 		// @formatter:on
-		currentFrame = framedCreationNode.executeNewFrame(frame, this, new FLink[0]);
+		currentFrame = framedCreationNode.execute(frame, this, new FLink[0]);
 		// FIXME: standard library of Tiger functions
 		return _1.executeGeneric(frame, currentFrame);
 	}
