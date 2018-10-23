@@ -2,7 +2,6 @@ package org.metaborg.lang.tiger.interp.scopesandframes.nodes.bindings;
 
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerTruffleNode;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions.FunDecs_1;
-import org.metaborg.lang.tiger.interpreter.generated.terms.VarDecNoType_2;
 import org.metaborg.meta.lang.dynsem.interpreter.terms.IApplTerm;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;

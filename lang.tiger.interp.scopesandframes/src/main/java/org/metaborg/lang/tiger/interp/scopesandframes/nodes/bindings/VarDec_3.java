@@ -36,7 +36,7 @@ public final class VarDec_3 extends Dec {
 		this(_1, _2, _3, null);
 	}
 
-	private VarDec_3(Occ _1, Ty _2, Exp _3, IStrategoTerm strategoTerm) {
+	public VarDec_3(Occ _1, Ty _2, Exp _3, IStrategoTerm strategoTerm) {
 		this.decOcc = ((__Occurrence2Occ___1) _1).get_1();
 		this._2 = _2;
 		this.exp = _3;
