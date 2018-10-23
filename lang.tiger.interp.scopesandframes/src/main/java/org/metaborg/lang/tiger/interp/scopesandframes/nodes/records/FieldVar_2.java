@@ -1,24 +1,33 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.records;
 
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerTruffleNode;
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerTypesGen;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.LValue;
+import org.metaborg.lang.tiger.interp.scopesandframes.nodes.records.FieldVar_2Factory.FieldVarHelperNodeGen;
 import org.metaborg.lang.tiger.interpreter.generated.terms.Occ;
 import org.metaborg.lang.tiger.interpreter.generated.terms.__Occurrence2Occ___1;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.Addr;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FLink;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameEdgeLink;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.layouts.FrameEdgeIdentifier;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.layouts.FrameLayoutImpl;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Framed;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddr;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddrNodeGen;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Lookup;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ALabel;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.I;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.Occurrence;
+import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.ScopeIdentifier;
+import org.metaborg.meta.lang.dynsem.interpreter.terms.ITerm;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.dsl.Cached;
+import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.object.DynamicObject;
 
@@ -33,39 +42,85 @@ public final class FieldVar_2 extends LValue {
 
 	private FieldVar_2(LValue _1, Occ _2, IStrategoTerm strategoTerm) {
 		this.recordExp = _1;
-		this.fieldRef = ((__Occurrence2Occ___1) _2).get_1();
+		this.helperNode = FieldVarHelperNodeGen.create(((__Occurrence2Occ___1) _2).get_1(), strategoTerm);
 		this.getNode = GetAtAddrNodeGen.create();
-		this.newFramedNode = new Framed();
-		this.lookupNode = Lookup.create();
 		this.strategoTerm = strategoTerm;
 	}
 
 	@Child
 	private LValue recordExp;
 
-	private final Occurrence fieldRef;
-
 	@Child
 	private GetAtAddr getNode;
 
 	@Child
-	private Framed newFramedNode;
-
-	@Child
-	private Lookup lookupNode;
+	private FieldVarHelper helperNode;
 
 	@Override
 	public Addr execute(VirtualFrame frame, DynamicObject currentFrame) {
-		// F F |- fv@FieldVar(e, f : Occurrence) --> addr_field
-		// where
-		// F F |- e --> addr_rec;
-		// get(addr_rec) => RecordV(F_rec);
-		// framed(fv, [L(I(), F_rec)]) --> F_use;
-		// lookup(F_use, f) => addr_field
 		Addr addr_rec = recordExp.execute(frame, currentFrame);
 		DynamicObject f_rec = TigerTypesGen.asRecordV_1(getNode.execute(frame, addr_rec)).get_1();
-		DynamicObject f_use = newFramedNode.execute(frame, this, new FLink[] { new FrameEdgeLink(I.SINGLETON, f_rec) });
-		return lookupNode.execute(frame, f_use, fieldRef);
+		return helperNode.execute(frame, f_rec);
+
+	}
+
+	public static abstract class FieldVarHelper extends TigerTruffleNode implements ITerm {
+
+		@Child
+		private Framed newFramedNode;
+
+		@Child
+		private Lookup lookupNode;
+
+		private final Occurrence fieldRef;
+
+		private final IStrategoTerm strategoTerm;
+
+		public FieldVarHelper(Occurrence fieldRef, IStrategoTerm strategoTerm) {
+			this.fieldRef = fieldRef;
+			this.strategoTerm = strategoTerm;
+			this.newFramedNode = new Framed();
+			this.lookupNode = Lookup.create();
+		}
+
+		public abstract Addr execute(VirtualFrame frame, DynamicObject recordFrame);
+
+		@Specialization(guards = { "getFrameScope(f_rec) == s_rec" }, limit = "1")
+		public Addr doCaching(VirtualFrame frame, DynamicObject f_rec,
+				@Cached("getFrameScope(f_rec)") ScopeIdentifier s_rec, @Cached("label()") ALabel linkLabel,
+				@Cached("getEdgeIdent(linkLabel, s_rec)") FrameEdgeIdentifier edgeIdent) {
+			DynamicObject f_use = newFramedNode.execute(frame, this,
+					new FLink[] { new FrameEdgeLink(I.SINGLETON, f_rec, edgeIdent) });
+			return lookupNode.execute(frame, f_use, fieldRef);
+		}
+
+		protected ScopeIdentifier getFrameScope(DynamicObject frame) {
+			return FrameLayoutImpl.INSTANCE.getScope(frame);
+		}
+
+		protected FrameEdgeIdentifier getEdgeIdent(ALabel label, ScopeIdentifier sid) {
+			return new FrameEdgeIdentifier(label, sid);
+		}
+
+		protected ALabel label() {
+			return I.SINGLETON;
+		}
+
+		@Override
+		public int size() {
+			return 0;
+		}
+
+		@Override
+		public boolean hasStrategoTerm() {
+			return strategoTerm != null;
+		}
+
+		@Override
+		public IStrategoTerm getStrategoTerm() {
+			return strategoTerm;
+		}
+
 	}
 
 	@TruffleBoundary
@@ -92,19 +147,6 @@ public final class FieldVar_2 extends LValue {
 	@Override
 	public IStrategoTerm getStrategoTerm() {
 		return strategoTerm;
-	}
-
-	@TruffleBoundary
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(CONSTRUCTOR);
-		sb.append("(");
-		sb.append(recordExp);
-		sb.append(", ");
-		sb.append(fieldRef);
-		sb.append(")");
-		return sb.toString();
 	}
 
 }
