@@ -20,7 +20,9 @@ signature
     eqFrames    : Frame * Frame              -> Bool      {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.FramesEqual")}
     lookup      : Frame * Occurrence         -> Addr      {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.Lookup")}
     get         : Addr                       -> Val       {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetAtAddr")}
+    get         : Frame * Occurrence         -> Val       {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.GetFrameSlot")}
     set         : Addr * Val                 -> Val       {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetAtAddr")}
+    set         : Frame * Occurrence * Val   -> Val       {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.SetFrameSlot")}
     
   arrows
     default(Type) --> Val

@@ -59,57 +59,57 @@ rules
     typeOf(dec) => FUN(types, _);
     scope(Scope("<:implicit:fun:>", name), decs, types, [], { P() |--> [scopeOfFrame(F)]}, {}) => s_fun;
 //    frame(s_fun, [L(P(), F)]) --> F_fun;
-    set(Addr(F, dec), FunV(F, s_fun, decs, e)) => _
+    set(F, dec, FunV(F, s_fun, decs, e)) => _
   
   // predefined function reductions
   F |- nativePrintV() --> UnitV()
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(Addr(F, arg)) => StringV(s);
+    get(F, arg) => StringV(s);
     printS(s) => _
   
   F |- nativePrintIV() --> UnitV()
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(Addr(F, arg)) => IntV(i);
+    get(F, arg) => IntV(i);
     printI(i) => _
 
   F |- nativeOrdV() --> IntV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(Addr(F, arg)) => StringV(s);
+    get(F, arg) => StringV(s);
     ordS(s) => result
 
   F |- nativeChrV() --> StringV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(Addr(F, arg)) => IntV(i);
+    get(F, arg) => IntV(i);
     chrI(i) => result
     
   F |- nativeNotV() --> IntV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(Addr(F, arg)) => IntV(i);
+    get(F, arg) => IntV(i);
     notI(i) => result
   
   F |- nativeExitV() --> UnitV()
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(Addr(F, arg)) => IntV(i);
+    get(F, arg) => IntV(i);
     notI(i) => _
     
   F |- nativeSizeV() --> IntV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg];
-    get(Addr(F, arg)) => StringV(s);
+    get(F, arg) => StringV(s);
     sizeS(s) => result
   
   F |- nativeSubstringV() --> StringV(result)
   where
     declsOf(scopeOfFrame(F)) => [arg1, arg2, arg3];
-    get(Addr(F, arg1)) => StringV(s);
-    get(Addr(F, arg2)) => IntV(i1);
-    get(Addr(F, arg3)) => IntV(i2);
+    get(F, arg1) => StringV(s);
+    get(F, arg2) => IntV(i1);
+    get(F, arg3) => IntV(i2);
     substringSII(s, i1, i2) => result
   
   F |- nativeConcatV() --> StringV(result)
