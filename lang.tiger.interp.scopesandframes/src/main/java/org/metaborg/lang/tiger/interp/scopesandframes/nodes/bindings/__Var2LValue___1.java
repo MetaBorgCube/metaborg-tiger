@@ -38,7 +38,6 @@ public final class __Var2LValue___1 extends LValue {
 
 	@Override
 	public Addr execute(VirtualFrame frame, DynamicObject currentFrame) {
-		// F F |- __Var2LValue__(Var(x : Occurrence)) --> lookup(F, x)
 		return lookupNode.execute(frame, currentFrame, refOcc);
 	}
 

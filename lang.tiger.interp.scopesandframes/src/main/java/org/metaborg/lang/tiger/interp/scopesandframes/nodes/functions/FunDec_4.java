@@ -1,6 +1,7 @@
 package org.metaborg.lang.tiger.interp.scopesandframes.nodes.functions;
 
 import org.metaborg.lang.tiger.interp.scopesandframes.TigerLanguage;
+import org.metaborg.lang.tiger.interp.scopesandframes.TigerRootNode;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV;
 import org.metaborg.lang.tiger.interp.scopesandframes.values.FunV.CacheableFunV;
@@ -26,6 +27,7 @@ import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.dsl.Specialization;
+import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeUtil;
 import com.oracle.truffle.api.object.DynamicObject;
@@ -73,7 +75,7 @@ public abstract class FunDec_4 extends FunDec {
 			CompilerDirectives.transferToInterpreterAndInvalidate();
 			ScopeIdentifier functionScope = getScope(frame);
 			TigerLanguage language = getRootNode().getLanguage(TigerLanguage.class);
-			TigerFunctionRoot funRoot = new TigerFunctionRoot(decOcc.name(), language, NodeUtil.cloneNode(body));
+			TigerRootNode funRoot = new TigerRootNode(language, new FrameDescriptor(), decOcc.name(), NodeUtil.cloneNode(body));
 			CallTarget target = Truffle.getRuntime().createCallTarget(funRoot);
 			function = new CacheableFunV(functionScope, fargs, target);
 		}
@@ -82,7 +84,6 @@ public abstract class FunDec_4 extends FunDec {
 
 	@Specialization
 	public void doCached(VirtualFrame frame, DynamicObject f, DynamicObject f_outer) {
-		// FIXME: this is an opportunity for an Assumption on function change
 		FunV clos = new FunV(f, getCallTarget(frame));
 		setNode.execute(frame, f, decOcc, clos);
 	}

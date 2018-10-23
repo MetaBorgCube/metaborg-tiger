@@ -1,7 +1,6 @@
-package org.metaborg.lang.tiger.interpreter.generated.terms;
+package org.metaborg.lang.tiger.interp.scopesandframes.values;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Exp;
 import org.spoofax.interpreter.core.Tools;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
@@ -11,16 +10,16 @@ import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 
-public final class String_1 extends Exp {
-	public final static String CONSTRUCTOR = "String";
+public final class StringV_1 extends V {
+	public final static String CONSTRUCTOR = "StringV";
 
 	public final static int ARITY = 1;
 
-	public String_1(String _1) {
+	public StringV_1(String _1) {
 		this(_1, null);
 	}
 
-	private String_1(String _1, IStrategoTerm strategoTerm) {
+	private StringV_1(String _1, IStrategoTerm strategoTerm) {
 		this._1 = _1;
 		this.strategoTerm = strategoTerm;
 	}
@@ -32,12 +31,12 @@ public final class String_1 extends Exp {
 	}
 
 	@TruffleBoundary
-	public static String_1 create(IStrategoTerm term) {
+	public static StringV_1 create(IStrategoTerm term) {
 		CompilerAsserts.neverPartOfCompilation();
 		assert term != null;
 		assert Tools.isTermAppl(term);
 		assert Tools.hasConstructor((IStrategoAppl) term, CONSTRUCTOR, ARITY);
-		return new String_1(Tools.asJavaString(term.getSubterm(0)), term);
+		return new StringV_1(Tools.asJavaString(term.getSubterm(0)), term);
 	}
 
 	@Override
@@ -48,7 +47,7 @@ public final class String_1 extends Exp {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		String_1 other = (String_1) obj;
+		StringV_1 other = (StringV_1) obj;
 		if (_1 == null) {
 			if (other._1 != null) {
 				return false;

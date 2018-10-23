@@ -27,7 +27,15 @@ public final class FUN_2 extends Ty {
 
 	private final Ty[] fArgTys;
 
+	public Ty[] getArgumentTypes() {
+		return fArgTys;
+	}
+	
 	private final Ty returnTy;
+	
+	public Ty getReturnType() {
+		return returnTy;
+	}
 
 	@TruffleBoundary
 	public static FUN_2 create(IStrategoTerm term) {

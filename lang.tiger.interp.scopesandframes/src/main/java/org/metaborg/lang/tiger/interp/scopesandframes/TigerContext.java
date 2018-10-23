@@ -2,6 +2,7 @@ package org.metaborg.lang.tiger.interp.scopesandframes;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import org.apache.commons.vfs2.FileObject;
 import org.metaborg.core.MetaborgException;
@@ -13,31 +14,24 @@ import org.metaborg.spoofax.core.shell.CLIUtils;
 
 import com.google.inject.Module;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.frame.FrameDescriptor;
-import com.oracle.truffle.api.frame.FrameSlot;
-import com.oracle.truffle.api.frame.FrameSlotKind;
 
 public final class TigerContext implements IWithScopesAndFramesContext {
-	
+
 	private Spoofax S;
 	private CLIUtils cli;
 	private ILanguageImpl spoofaxLanguage;
 	private boolean isInitialized;
 
 	private final InputStream in;
-	private final OutputStream out;
-	private final OutputStream err;
-	
-//	private FrameDescriptor baseFrameDescriptor;
-//	private FrameSlot currentFrame1;
-//	private FrameSlot currentFrame2;
-	
+	private final PrintStream out;
+	private final PrintStream err;
+
 	private ScopesAndFramesContext scopesAndFramesContext;
 
 	public TigerContext(InputStream in, OutputStream out, OutputStream err) {
 		this.in = in;
-		this.out = out;
-		this.err = err;
+		this.out = new PrintStream(out);
+		this.err = new PrintStream(err);
 	}
 
 	@TruffleBoundary
@@ -47,22 +41,7 @@ public final class TigerContext implements IWithScopesAndFramesContext {
 		cli = new CLIUtils(S);
 		cli.loadLanguagesFromPath();
 		spoofaxLanguage = cli.getLanguage(TigerLanguage.NAME);
-//		baseFrameDescriptor = new FrameDescriptor();
-//		currentFrame1 = baseFrameDescriptor.addFrameSlot("__F1", FrameSlotKind.Object);
-//		currentFrame2 = baseFrameDescriptor.addFrameSlot("__F2", FrameSlotKind.Object);
 	}
-	
-//	public FrameDescriptor baseDescriptor() {
-//		return baseFrameDescriptor;
-//	}
-//	
-//	public FrameSlot frame1slot() {
-//		return currentFrame1;
-//	}
-//	
-//	public FrameSlot frame2slot() {
-//		return currentFrame2;
-//	}
 
 	public Spoofax getSpoofax() {
 		if (!isInitialized) {
@@ -100,18 +79,18 @@ public final class TigerContext implements IWithScopesAndFramesContext {
 		return in;
 	}
 
-	public OutputStream out() {
+	public PrintStream out() {
 		return out;
 	}
 
-	public OutputStream err() {
+	public PrintStream err() {
 		return err;
 	}
 
 	public void setScopesAndFramesContext(ScopesAndFramesContext snfCtx) {
 		this.scopesAndFramesContext = snfCtx;
 	}
-	
+
 	@Override
 	public ScopesAndFramesContext getScopesAndFramesContext() {
 		return this.scopesAndFramesContext;

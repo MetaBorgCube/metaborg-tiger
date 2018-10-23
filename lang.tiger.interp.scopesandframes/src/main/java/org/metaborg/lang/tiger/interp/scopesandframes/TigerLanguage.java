@@ -32,8 +32,8 @@ import org.spoofax.terms.attachments.OriginAttachment;
 import com.google.common.collect.ImmutableMap;
 import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.CompilerAsserts;
-import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 
@@ -70,7 +70,8 @@ public final class TigerLanguage extends TruffleLanguage<TigerContext> {
 		FileObject file = ctx.resolve(sourceURL.getFile());
 		RunConfig runCfg = prepareForEvaluation(file, ctx);
 		ctx.setScopesAndFramesContext(new ScopesAndFramesContext(runCfg.nabl2ctx, new TigerDefaultValues()));
-		TigerRootNode rootEvalNode = new TigerRootNode(this, new FrameDescriptor(), Module.create(runCfg.program));
+		TigerInitRootNode rootEvalNode = new TigerInitRootNode(this, new FrameDescriptor(),
+				Module.create(runCfg.program));
 		return Truffle.getRuntime().createCallTarget(rootEvalNode);
 	}
 
@@ -117,7 +118,7 @@ public final class TigerLanguage extends TruffleLanguage<TigerContext> {
 								new NaBL2Context(solution.findAndLock(), S.termFactoryService.getGeneric()));
 					});
 				}
-				 props = propBuilder.build();
+				props = propBuilder.build();
 				if (analyzed.hasAst()) {
 					ITransformGoal mkoccgoal = new EndNamedGoal("Make Occurrences");
 					if (S.transformService.available(context, mkoccgoal)) {
