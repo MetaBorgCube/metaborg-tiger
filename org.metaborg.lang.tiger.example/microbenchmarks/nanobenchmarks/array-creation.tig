@@ -1,0 +1,14 @@
+let
+  type intArray = array of int
+  var arr : intArray := intArray[0] of  0
+in
+  for i := 0 to 30
+    do
+      (
+      timeGo();
+      for r := 0 to 10000
+      do
+        arr := intArray[10000] of 42;
+      timeStop()
+    )
+ end

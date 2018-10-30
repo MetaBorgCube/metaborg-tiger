@@ -1,0 +1,35 @@
+//for i := 0 to 30
+//  do
+//    (
+//    timeGo();
+//    let
+//      var i := 10000
+//    in
+//      while i > 0
+//      do
+//        i := i - 1
+//    end
+//    ;
+//    timeStop()
+//  )
+
+let
+  function work(i : int) = (
+        
+        timeGo();
+        let
+          var i := 10000
+        in
+          while i > 0
+          do
+            i := i - 1
+        end
+        ;
+        timeStop();
+        
+        if i > 0
+        then work(i-1)
+  )
+in
+  work(30)
+end

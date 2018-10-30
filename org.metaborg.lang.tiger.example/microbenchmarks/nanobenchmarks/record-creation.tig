@@ -1,0 +1,14 @@
+let
+  type rec = {size: int, next: rec}
+  var v : rec := nil
+in
+  for i := 0 to 30
+  do
+    (
+    timeGo();
+    for r := 0 to 10000
+    do
+      v := rec{size = r, next = v};
+    timeStop()
+  ) 
+end

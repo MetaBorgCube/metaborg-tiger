@@ -1,0 +1,16 @@
+let
+  function sumn(n : int) : int = 
+    if n = 0
+    then
+      0
+    else
+      n + sumn(n - 1)
+in
+  for i := 0 to 30
+  do
+    (
+    timeGo();
+    sumn(10000);
+    timeStop()
+   )
+end 
