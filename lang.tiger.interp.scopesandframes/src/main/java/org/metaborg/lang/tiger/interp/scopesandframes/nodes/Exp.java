@@ -123,6 +123,9 @@ public abstract class Exp extends TigerEvalNode implements IApplTerm {
 		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "Let", 2)) {
 			return Let_2.create(term);
 		}
+		if (Tools.isTermAppl(term) && Tools.hasConstructor((IStrategoAppl) term, "NoOp", 0)) {
+			return NoOp_0.create(term);
+		}
 		try {
 			return new __LValue2Exp___1(LValue.create(term));
 		} catch (IllegalStateException j_96) {
