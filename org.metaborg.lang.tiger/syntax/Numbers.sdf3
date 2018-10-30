@@ -12,7 +12,8 @@ lexical syntax
   Sign = "-" 
   
 context-free syntax
-
+  Exp.NoOp    = [noop]
+  
   Exp.Int     = IntConst  
 
   Exp.Uminus  = [- [Exp]] 

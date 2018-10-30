@@ -8,6 +8,8 @@ rules // literals
 
   [[ Int(i) ^ (s) : INT() ]].  
   
+  [[ NoOp() ^ (s) : UNIT() ]].
+  
 rules // operators
      
   [[ Uminus(e) ^ (s) : INT() ]] :=

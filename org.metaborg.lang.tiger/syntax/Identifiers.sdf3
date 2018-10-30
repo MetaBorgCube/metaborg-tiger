@@ -9,7 +9,7 @@ lexical restrictions
   Id -/- [a-zA-Z0-9\_]
 
 lexical syntax
-
+  Id = "noop" {reject}
   Id = "nil" {reject}
   Id = "let" {reject}
   Id = "in" {reject}
