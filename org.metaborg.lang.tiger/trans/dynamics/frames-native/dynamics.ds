@@ -27,7 +27,7 @@ rules
 
   m@Mod(e) -init-> vv
   where
-    framed(m, []) --> F;
+    newframe(scopeOfTerm(m)) => F;
     F |- stdLib(m) --> _;
     F |- e --> vv
 

@@ -40,20 +40,20 @@ signature
     L : Label * Frame -> FrameLink {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameEdgeLink")}
     L : Label * Occurrence * Frame -> FrameLink {class("org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.FrameImportLink")}
   
-  arrows
-    frame(Scope, List(FrameLink)) --> Frame
-    framed(AST, List(FrameLink)) --> Frame
-    links(Frame, List(FrameLink)) --> Frame
-    
-rules
-  framed(t, links) --> frame(scopeOfTerm(t), links)
-  
-  frame(s, links) --> links(newframe(s), links)
-  
-  links(F, []) --> F
-  
-  links(F, [l|ls]) --> links(F, ls)
-  where
-    link(F, l) => _
+//  arrows
+//    frame(Scope, List(FrameLink)) --> Frame
+//    framed(AST, List(FrameLink)) --> Frame
+//    links(Frame, List(FrameLink)) --> Frame
+//    
+//rules
+//  framed(t, links) --> frame(scopeOfTerm(t), links)
+//  
+//  frame(s, links) --> links(newframe(s), links)
+//  
+//  links(F, []) --> F
+//  
+//  links(F, [l|ls]) --> links(F, ls)
+//  where
+//    link(F, l) => _
     
   

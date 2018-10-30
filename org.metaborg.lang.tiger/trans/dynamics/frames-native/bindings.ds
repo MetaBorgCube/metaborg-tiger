@@ -13,7 +13,7 @@ rules // bindings
 
   F F |- l@Let(blocks, exps) --> vv
   where
-    framed(l, []) --> F_body;
+    newframe(scopeOfTerm(l)) => F_body;
     Frames1 (F, F_body) |- Decs(blocks) --> _;
     F F_body |- Seq(exps) --> vv
 
@@ -28,7 +28,7 @@ rules // bindings
   
   Frames1 (F_outer, F_body) |- Decs([block | blocks@[_|_]]) --> U()
   where
-    framed(block, [L(P(), F_outer)]) --> F_dec;
+    link(newframe(scopeOfTerm(block)), L(P(), F_outer)) => F_dec;
     Frames1 (F_dec, F_outer) |- Dec(block) --> _;
     Frames1 (F_dec, F_body)  |- Decs(blocks) --> _
   
