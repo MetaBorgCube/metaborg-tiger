@@ -11,11 +11,17 @@ signature
 
 rules
   
-  raise(t) --> _native_raise(t)
+  raise(t) --> u
+  where
+    _native_raise(t) --> u
   
-  handle(e, c) --> _native_handle(e, c)
+  handle(e, c) --> v
+  where
+    _native_handle(e, c) --> v
   
-  handle(e, c, next) --> _native_handle(e, c, next) 
+  handle(e, c, next) --> v
+  where
+    _native_handle(e, c, next) --> v 
   
       
 

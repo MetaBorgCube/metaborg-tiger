@@ -12,9 +12,15 @@ signature
     
 rules
   
-  whileLoop(c, e, v_default) --> _native_while(c, e, v_default)
+  whileLoop(c, e, v_default) --> u
+  where
+    _native_while(c, e, v_default) --> u
   
-  doBreak(v) --> _native_loop_break(v)
+  doBreak(v) --> u
+  where
+    _native_loop_break(v) --> u
   
-  doContinue(v) --> _native_loop_continue(v)
+  doContinue(v) --> u
+  where
+    _native_loop_continue(v) --> u
   
