@@ -16,5 +16,5 @@
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="${resource_loc}"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.metaborg.lang.tiger.interpreter"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss32m&#10;-Dgraal.TruffleCompilationExceptionsAreFatal=true&#10;-Dgraal.TruffleCompilationThreshold=200&#10;-Dgraal.TruffleInliningMaxCallerSize=10000&#10;-Dgraal.TruffleSplittingMaxCalleeSize=100000&#10;-Dgraal.TruffleBackgroundCompilation=false"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss64m&#10;-Dgraal.TruffleCompilationExceptionsAreFatal=true&#10;-Dgraal.TruffleCompilationThreshold=200&#10;-Dgraal.TruffleInliningMaxCallerSize=10000&#10;-Dgraal.TruffleSplittingMaxCalleeSize=100000&#10;-Dgraal.TruffleBackgroundCompilation=false"/>
 </launchConfiguration>
