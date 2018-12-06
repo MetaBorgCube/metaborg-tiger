@@ -9,7 +9,7 @@ imports
 signature
   arrows
     Seq-Exps(List(Exp)) --> V
-  
+    
 rules
 
   Seq(es) --> Seq-Exps(es)
@@ -32,7 +32,7 @@ rules
       otherwise ->
         e1 --> vv
     }
-    
+  
 signature
   constructors
     IsInt1: Exp -> Condition 
@@ -49,9 +49,9 @@ rules
   where
     doBreak(UnitV()) --> _
 
-  w@While(e1, e2) --> UnitV()
+  w@While(e1, _) --> UnitV()
   where
-    whileLoop(IsInt1(e1), w, UnitV()) --> _
+    _native_while(IsInt1(e1), __Exp2Evaluatable__(w), UnitV()) --> _
   
   IsInt1(e) --> bv
   where
@@ -63,6 +63,7 @@ rules
   
   F |- __Exp2Evaluatable__(w@While(_, e2)) --> v
   where
+    // Lift this frame creation to the outside of the loop
     link(newframe(scopeOfTerm(w)), L(P(), F)) => F';
     F' |- e2 --> v
   
@@ -73,7 +74,7 @@ rules
     link(newframe(scopeOfTerm(stm)), L(P(), F)) => F_for;
     Addr(F_for, x) => x_addr;
     set(x_addr, v1) => _;
-    F_for |- whileLoop(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr)), UnitV()) --> _
+    F_for |- _native_while(AddrLte(x_addr, i2), EvSeq(e3, IncAddr(x_addr)), UnitV()) --> _
   
   AddrLte(addr, i2) --> bv
   where

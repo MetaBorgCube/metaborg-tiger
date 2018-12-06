@@ -12,7 +12,9 @@ signature
     Frames1 |- FunDec --> U
     unpackArgs(List(FArg)) --> List(Occurrence)
     Frames1 |- Zip-Params(List(Exp), List(Occurrence)) --> U
-    
+    F |- evals(List(Exp)) --> List(V)
+    F |- binds(List(V), List(Occurrence)) --> U
+        
   constructors
     FunV: Frame * Scope * List(Occurrence) * Exp -> V
 
@@ -43,9 +45,11 @@ rules // function declarations
   
   F F |- Call(f : Occurrence, exps) --> v
   where
-    get(lookup(F, f)) => FunV(F_parent, s_fun, args, e);
+    get(lookup(F, f)) => FunV(F_parent, s_fun, fargs, e);
     link(newframe(s_fun), L(P(), F_parent)) => F_call;
-    Frames1 (F, F_call) |- Zip-Params(exps, args) --> _;
+    F |- evals(exps) --> aargs;
+    F_call |- binds(aargs, fargs) --> _;
+//    Frames1 (F, F_call) |- Zip-Params(exps, fargs) --> _;
     F_call |- e --> v
     
   unpackArgs([]) --> []
@@ -53,6 +57,19 @@ rules // function declarations
   unpackArgs([FArg(x : Occurrence, _) | args]) --> [x |occs]
   where
     unpackArgs(args) --> occs
+
+  evals([]) --> []
+  
+  evals([e|es]) --> [v|vs]
+  where
+    e --> v;
+    evals(es) --> vs
+
+  binds([], []) --> U()
+
+  F |- binds([v|vs], [p|ps]) --> binds(vs,ps)
+  where
+    set(F, p, v) => _
 
   Zip-Params([], []) --> U()
   
