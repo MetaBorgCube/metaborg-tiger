@@ -35,6 +35,7 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.DirectCallNode;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
+import com.oracle.truffle.api.nodes.IndirectCallNode;
 import com.oracle.truffle.api.object.DynamicObject;
 
 public abstract class Call_2 extends Exp {
@@ -117,6 +118,21 @@ public abstract class Call_2 extends Exp {
 			}
 			// actual call
 			return (V) callNode.call(new Object[] { callFrame });
+		}
+
+		@Specialization(replaces = "doCached")
+		public V doDynamic(VirtualFrame frame, DynamicObject currentFrame, FunV funv,
+				@Cached("label()") ALabel linkLabel, @Cached("create()") IndirectCallNode callNode) {
+			CacheableFunV stablePart = funv.getCacheablePart();
+			ScopeIdentifier functionScope = stablePart.getFunctionScope();
+			DynamicObject callFrame = newFrame.execute(frame, functionScope);
+			linkFrames.execute(frame, callFrame, new FrameEdgeLink(linkLabel, funv.getParentFrame(), getEdgeIdent(linkLabel, funv.getParentFrame())));
+			Occurrence[] fArgs = stablePart.getArguments();
+			for (int i = 0; i < exps.length; i++) {
+				setSlot.execute(frame, callFrame, fArgs[i], exps[i].executeGeneric(frame, currentFrame));
+			}
+			
+			return (V) callNode.call(stablePart.getCallTarget(), new Object[] { callFrame });
 		}
 
 		protected FrameEdgeIdentifier getEdgeIdent(ALabel label, DynamicObject frm) {
