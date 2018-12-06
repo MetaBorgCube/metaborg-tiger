@@ -29,38 +29,5 @@ public class TigerInterpreter {
 	private static void printUsage() {
 		System.err.println("Usage: " + TigerInterpreter.class.getName() + " FILES");
 	}
-	// @TruffleBoundary
-	// private static DynSemRunner createRunner(Spoofax S) throws MetaborgException
-	// {
-	// return new DynSemRunner(S, "Tiger", TigerMain.createVM());
-	// }
-	//
-	// @TruffleBoundary
-	// private static void printStackTrace(MetaborgException mbe) {
-	// mbe.printStackTrace(System.err);
-	// }
-	//
-	//
-	//
-	// @TruffleBoundary
-	// private static void closeSpoofax(Spoofax S) {
-	// if (S != null) {
-	// S.close();
-	// }
-	// }
-	//
-	// @TruffleBoundary
-	// private static void printHelper(Object result) {
-	// System.out.println(result);
-	// }
-	//
-	// @TruffleBoundary
-	// private static FileObject resolve(Spoofax S, String fileName) {
-	// return S.resourceService.resolve(fileName);
-	// }
-	//
-	// @TruffleBoundary
-	// private static Spoofax createSpoofax() throws MetaborgException {
-	// return new Spoofax(new TigerRunnerModule(), new Module[0]);
-	// }
+	
 }
