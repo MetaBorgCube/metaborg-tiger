@@ -4,8 +4,10 @@ import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Module;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.f.nodes.InitProtoFrames;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.sg.nodes.InitNaBL2Node;
 
+import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.RootNode;
 
 public class TigerInitRootNode extends RootNode {
@@ -26,10 +28,23 @@ public class TigerInitRootNode extends RootNode {
 	}
 
 	@Override
+	@ExplodeLoop
 	public Object execute(VirtualFrame frame) {
 		initNabl2.execute(frame);
 		initProtoFrames.execute(frame);
-		return programNode.executeGeneric(frame, null);
+		Object res = null;
+		for (int i = 0; i < 30; i++) {
+			long st = System.nanoTime();
+			res = programNode.executeGeneric(frame, null);
+			long et = System.nanoTime();
+			logtime(et - st);
+		}
+		return res;
+	}
+
+	@TruffleBoundary
+	private static final void logtime(long t) {
+		System.out.println(t);
 	}
 
 }
