@@ -1,7 +1,6 @@
 package org.metaborg.lang.tiger.interp.scopesandframes;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.apache.commons.vfs2.FileObject;
 import org.metaborg.core.MetaborgException;
@@ -11,6 +10,7 @@ import org.metaborg.core.context.IContext;
 import org.metaborg.core.language.ILanguageImpl;
 import org.metaborg.core.project.IProject;
 import org.metaborg.lang.tiger.interp.scopesandframes.nodes.Module;
+import org.metaborg.lang.tiger.interp.scopesandframes.values.V;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.NaBL2Context;
 import org.metaborg.meta.lang.dynsem.interpreter.nabl2.ScopesAndFramesContext;
 import org.metaborg.spoofax.core.Spoofax;
@@ -57,17 +57,14 @@ public final class TigerLanguage extends TruffleLanguage<TigerContext> {
 
 	@Override
 	protected boolean isObjectOfLanguage(Object object) {
-		return false;
+		return object instanceof V;
 	}
 
 	@Override
 	protected CallTarget parse(ParsingRequest request) throws Exception {
-		URL sourceURL = request.getSource().getURL();
-		if (sourceURL == null) {
-			throw new RuntimeException("Cannot parse null URL");
-		}
+		String filePath = request.getSource().getPath();
 		TigerContext ctx = getContextReference().get();
-		FileObject file = ctx.resolve(sourceURL.getFile());
+		FileObject file = ctx.resolve(filePath);
 		RunConfig runCfg = prepareForEvaluation(file, ctx);
 		ctx.setScopesAndFramesContext(new ScopesAndFramesContext(runCfg.nabl2ctx, new TigerDefaultValues()));
 		TigerInitRootNode rootEvalNode = new TigerInitRootNode(this, new FrameDescriptor(),

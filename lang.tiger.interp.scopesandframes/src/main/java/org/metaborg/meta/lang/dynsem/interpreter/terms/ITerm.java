@@ -2,13 +2,16 @@ package org.metaborg.meta.lang.dynsem.interpreter.terms;
 
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
+import com.oracle.truffle.api.interop.ForeignAccess;
+import com.oracle.truffle.api.interop.TruffleObject;
+
 /**
  * Most generic interface of all terms used in DynSem interpreters.
  * 
  * @author vladvergu
  *
  */
-public interface ITerm {
+public interface ITerm extends TruffleObject {
 
 	/**
 	 * Compute and return the size of this {@link ITerm}. The size of the
@@ -35,4 +38,9 @@ public interface ITerm {
 	 *         {@link IStrategoTerm} term (i.e. it was created directly).
 	 */
 	public IStrategoTerm getStrategoTerm();
+	
+	@Override
+	default ForeignAccess getForeignAccess() {
+		return null;
+	}
 }

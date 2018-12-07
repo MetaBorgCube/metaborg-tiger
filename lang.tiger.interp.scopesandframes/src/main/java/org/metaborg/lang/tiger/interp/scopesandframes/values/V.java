@@ -9,6 +9,8 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
+import com.oracle.truffle.api.interop.ForeignAccess;
+import com.oracle.truffle.api.interop.TruffleObject;
 
 public abstract class V implements IApplTerm {
 
@@ -39,4 +41,5 @@ public abstract class V implements IApplTerm {
 		}
 		throw new IllegalStateException("Unsupported term: " + term);
 	}
+	
 }
