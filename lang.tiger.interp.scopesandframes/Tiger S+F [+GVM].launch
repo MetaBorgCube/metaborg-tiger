@@ -11,7 +11,7 @@
     </mapAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Graal 1.0.0-RC2"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Graal EE 1.0.0-RC9"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.metaborg.lang.tiger.interp.scopesandframes.TigerInterpreter"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="${resource_loc}"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="lang.tiger.interp.scopesandframes"/>

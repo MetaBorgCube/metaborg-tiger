@@ -11,10 +11,10 @@
     </mapAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Graal EE 1.0.0-RC9"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 8 [1.8.0_101]"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.metaborg.lang.tiger.interpreter.generated.TigerRunner"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="/Users/vladvergu/tud/slde/software/languages/nonmeta/metaborg-tiger/org.metaborg.lang.tiger.example/microbenchmarks/towers.tig"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.metaborg.lang.tiger.interpreter"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dtiger.specification=Foobar&#10;-Xss64m&#10;-Dgraal.TruffleCompilationExceptionsAreFatal=true&#10;-Dgraal.TruffleCompilationThreshold=49&#10;-Dgraal.TruffleOSRCompilationThreshold=49&#10;-Dgraal.TruffleInliningMaxCallerSize=20000&#10;-Dgraal.TruffleSplittingMaxCalleeSize=200000&#10;-Dgraal.MaximumInliningSize=3000&#10;-Dgraal.MaximumRecursiveInlining=50&#10;-Dgraal.TruffleMaximumRecursiveInlining=50&#10;-Dgraal.MaxSplitsPerNode=64&#10;&#10;&#10;-Dgraal.TruffleBackgroundCompilation=false&#10;-Dgraal.TruffleInlineAcrossTruffleBoundary=false&#10;-Dgraal.GraalCompileOnly='org.metaborg.meta.lang.dynsem.interpreter.*.*,org.metaborg.lang.tiger.interpreter.*.*'"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss64m"/>
 </launchConfiguration>
