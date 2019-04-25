@@ -1,0 +1,43 @@
+---
+id: org.metaborg:org.metaborg.lang.tiger.refactoring:0.1.0-SNAPSHOT
+name: TigerRefactoring
+dependencies:
+  compile:
+  - org.metaborg:org.metaborg.meta.lang.esv:${metaborgVersion}
+  - org.metaborg:org.metaborg.meta.lang.template:${metaborgVersion}
+  - org.metaborg:org.metaborg.meta.nabl2.lang:${metaborgVersion}
+  source:
+  - org.metaborg:meta.lib.spoofax:${metaborgVersion}
+  - org.metaborg:org.metaborg.meta.nabl2.shared:${metaborgVersion}
+  - org.metaborg:org.metaborg.meta.nabl2.runtime:${metaborgVersion}
+pardonedLanguages:
+- EditorService
+- Stratego-Sugar
+- SDF
+- ds
+debug:
+  typesmart: false
+language:
+  sdf:
+    pretty-print: TigerRefactoring
+    sdf2table: java
+    placeholder:
+      prefix: "$"
+  stratego:
+    format: jar
+    args:
+    - -la
+    - stratego-lib
+    - -la
+    - stratego-sglr
+    - -la
+    - stratego-gpp
+    - -la
+    - stratego-xtc
+    - -la
+    - stratego-aterm
+    - -la
+    - stratego-sdf
+    - -la
+    - strc
+
