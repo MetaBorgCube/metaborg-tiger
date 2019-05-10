@@ -6,7 +6,7 @@ imports
 	pp
 	libspoofax/stratego/debug
 
-rules
+rules //rename-variable-action
   rename-variable-action :
     (selected-id, _, ast, path, project-path) -> (filename, result)
     where
@@ -16,8 +16,14 @@ rules
       filename := <guarantee-extension(|"refactored.tig")> path
     ; target-dec-occ := <collect-one(get-variable-declaration(|analysis, selected-id, "message")) > ast
     ; result := <topdown(try(rename-variable(|analysis, selected-id, target-dec-occ, "message"))); pp-Tiger-string> ast
-      
+ 
+rules //rename - variable     
   rename-variable(|analysis, selected-id, target-dec-occ, target-name): VarDecNoType(name, exp) -> VarDecNoType(target-name, exp)
+  	where
+  		dec-occ := <nabl2-mk-occurrence(|"Var")> name
+  		; <?dec-occ> target-dec-occ
+  		
+  rename-variable(|analysis, selected-id, target-dec-occ, target-name): VarDec(name, type, exp) -> VarDec(target-name, type, exp)
   	where
   		dec-occ := <nabl2-mk-occurrence(|"Var")> name
   		; <?dec-occ> target-dec-occ
@@ -29,19 +35,21 @@ rules
     ref-occ := <nabl2-mk-occurrence(|"Var")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     ; <?dec-occ> target-dec-occ
-  		
+
+rules //get-variable-declaration  		
   get-variable-declaration(|analysis, selected-id, target-name): VarDecNoType(name, exp) -> dec-occ
+	where
+		<?selected-id> name
+		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
+		
+  get-variable-declaration(|analysis, selected-id, target-name): VarDec(name, type, exp) -> dec-occ
 	where
 		<?selected-id> name
 		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
   	
   get-variable-declaration(|analysis, selected-id, target-name): node@Var(name) -> dec-occ
 	where
-		<ppdebug0> "Var";
-		<ppdebug(|"Selected-id")> selected-id;
-		<ppdebug(|"Var name")> name;
 		<?selected-id> node
-		; <ppdebug1> "Var same name"
 		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
   		
