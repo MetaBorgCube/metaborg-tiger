@@ -8,5 +8,4 @@ menus
 
   menu: "Refactoring" (openeditor) (realtime)
   
-    action: "Rename Variable" = rename-variable-action
-    action: "Rename Type" = rename-type-action
+    action: "Rename" = rename-action
