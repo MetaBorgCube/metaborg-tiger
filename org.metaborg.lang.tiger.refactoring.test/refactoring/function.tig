@@ -1,13 +1,12 @@
 /* 
 test file to rename a function 
-printnl -> printNewLine
+plus -> add
 */
 
 let 
-	function printnl(x : string) = (
-		print(x); 
-		print("\n")
+	function plus(a : int, b:int) : int = (
+		a + b
 	)
 in
-   	printnl("Hello World")
+   	plus(1,1)
 end

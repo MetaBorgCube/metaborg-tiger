@@ -14,11 +14,14 @@ rules // menu action strategies
       <not(nabl2-analysis-has-errors)> analysis
     with
       filename := <guarantee-extension(|"refactored.tig")> path
+    ; <ppdebug(|"Selected node: ")> selected-id
     ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
-    ; target-name := "message"
+    ; target-name := "add"
     ; result := <topdown(try(rename(|analysis, selected-id, target-dec-occ, target-name))); pp-Tiger-string> ast
     
 rules //rename    
+
+	//Variable
   rename(|analysis, selected-id, target-dec-occ, target-name): VarDecNoType(name, exp) -> VarDecNoType(target-name, exp)
   	where
   		dec-occ := <nabl2-mk-occurrence(|"Var")> name
@@ -37,6 +40,7 @@ rules //rename
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     ; <?dec-occ> target-dec-occ
     
+  //Type
   rename(|analysis, selected-id, target-dec-occ, target-name): TypeDec(name, type) -> TypeDec(target-name, type)
   	where
   		dec-occ := <nabl2-mk-occurrence(|"Type")> name
@@ -47,8 +51,27 @@ rules //rename
     ref-occ := <nabl2-mk-occurrence(|"Type")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     ; <?dec-occ> target-dec-occ
+    
+  //Function
+  rename(|analysis, selected-id, target-dec-occ, target-name): ProcDec(name, args, body) -> ProcDec(target-name, args, body)
+	where
+		dec-occ := <nabl2-mk-occurrence(|"Var")> name
+		; <?dec-occ> target-dec-occ
+  		
+  rename(|analysis, selected-id, target-dec-occ, target-name): FunDec(name, args, type, body) -> FunDec(target-name, args, type, body)
+	where
+		dec-occ := <nabl2-mk-occurrence(|"Var")> name
+		; <?dec-occ> target-dec-occ
+		
+	rename(|analysis, selected-id, target-dec-occ, target-name): Call(name, args) -> Call(target-name, args)
+	where
+    ref-occ := <nabl2-mk-occurrence(|"Var")> name
+		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+    ; <?dec-occ> target-dec-occ
 
-rules //get-declaration  		
+rules //get-declaration  
+	
+	//Variable	
   get-declaration(|analysis, selected-id): VarDecNoType(name, exp) -> dec-occ
 	where
 		<?selected-id> name
@@ -64,7 +87,8 @@ rules //get-declaration
 		<?selected-id> node
 		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-
+	
+	// Type
 	get-declaration(|analysis, selected-id): TypeDec(name, type) -> dec-occ
 	where
 		<?selected-id> name
@@ -75,5 +99,20 @@ rules //get-declaration
 		<?selected-id> node
 		; ref-occ := <nabl2-mk-occurrence(|"Type")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+		
+	// Function
+	get-declaration(|analysis, selected-id): ProcDec(name, args, body) -> dec-occ
+	where
+		<?selected-id> name
+		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
   		
-  		
+	get-declaration(|analysis, selected-id): FunDec(name, args, type, body) -> dec-occ
+	where
+		<?selected-id> name
+		; dec-occ := <nabl2-mk-occurrence(|"Var")> name 		
+		
+	get-declaration(|analysis, selected-id): node@Call(name, args) -> dec-occ
+	where
+		<?selected-id> name
+		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
+		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
