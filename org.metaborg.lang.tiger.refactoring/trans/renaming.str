@@ -68,6 +68,8 @@ rules //rename - type
   	where
   		<ppdebug0> "Rename Type"
   		; dec-occ := <nabl2-mk-occurrence(|"Type")> name
+  		; <ppdebug(|"Dec Oc: ")> dec-occ
+  		; <ppdebug(|"Dec Oc Target: ")> target-dec-occ
   		; <?dec-occ> target-dec-occ
   		; <ppdebugx> "Rename Type OK"
   		
@@ -92,7 +94,9 @@ rules //get-type-declaration
 	where
 		<ppdebug0> "Get Dec for Tid"
 		; <?selected-id> node
-		; dec-occ := <nabl2-mk-occurrence(|"Type")> name
+		; ref-occ := <nabl2-mk-occurrence(|"Type")> name
+		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
 		; <ppdebugx> "Get Dec for Tid OK"
+		; <ppdebug(|"Dec Oc: ")> dec-occ
   		
   		
