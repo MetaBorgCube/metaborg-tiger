@@ -1,0 +1,11 @@
+module Refactoring
+
+language
+
+  extensions : tig
+  
+menus
+
+  menu: "Refactoring" (openeditor) (realtime)
+  
+    action: "Rename Variable" = rename-variable-action

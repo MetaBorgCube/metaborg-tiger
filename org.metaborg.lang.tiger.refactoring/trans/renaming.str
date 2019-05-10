@@ -1,0 +1,48 @@
+module renaming
+
+imports 
+	signatures/-
+	nabl2/api
+	pp
+	libspoofax/stratego/debug
+
+rules
+  rename-variable-action :
+    (selected-id, _, ast, path, project-path) -> (filename, result)
+    where
+    	analysis := <nabl2-get-ast-analysis> ast;
+      <not(nabl2-analysis-has-errors)> analysis
+    with
+      filename := <guarantee-extension(|"refactored.tig")> path
+    ; target-dec-occ := <collect-one(get-variable-declaration(|analysis, selected-id, "message")) > ast
+    ; result := <topdown(try(rename-variable(|analysis, selected-id, target-dec-occ, "message"))); pp-Tiger-string> ast
+      
+  rename-variable(|analysis, selected-id, target-dec-occ, target-name): VarDecNoType(name, exp) -> VarDecNoType(target-name, exp)
+  	where
+  		dec-occ := <nabl2-mk-occurrence(|"Var")> name
+  		; <?dec-occ> target-dec-occ
+  		
+  rename-variable(|analysis, selected-id, target-dec-occ, target-name): Var(name) -> Var(target-name)
+	where
+		//  TODO comparison doesn't work because of different term indexes	  
+		//		<?selected-id> name;
+    ref-occ := <nabl2-mk-occurrence(|"Var")> name
+		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+    ; <?dec-occ> target-dec-occ
+  		
+  get-variable-declaration(|analysis, selected-id, target-name): VarDecNoType(name, exp) -> dec-occ
+	where
+		<?selected-id> name
+		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
+  	
+  get-variable-declaration(|analysis, selected-id, target-name): node@Var(name) -> dec-occ
+	where
+		<ppdebug0> "Var";
+		<ppdebug(|"Selected-id")> selected-id;
+		<ppdebug(|"Var name")> name;
+		<?selected-id> node
+		; <ppdebug1> "Var same name"
+		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
+		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+  		
+  		
