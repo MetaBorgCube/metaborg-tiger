@@ -1,5 +1,5 @@
 /* 
-test file to rename a field in a function 
+test file to rename a function argument 
 x -> text
 */
 

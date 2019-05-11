@@ -16,7 +16,7 @@ rules // menu action strategies
       filename := <guarantee-extension(|"refactored.tig")> path
     ; <ppdebug(|"Selected node: ")> selected-id
     ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
-    ; target-name := "fullName"
+    ; target-name := "text"
     ; result := <topdown(try(rename(|analysis, selected-id, target-dec-occ, target-name))); pp-Tiger-string> ast
     
 rules //rename    
@@ -69,6 +69,12 @@ rules //rename
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     ; <?dec-occ> target-dec-occ
     
+  //Function Argument
+  rename(|analysis, selected-id, target-dec-occ, target-name): FArg(name, type) -> FArg(target-name, type)
+	where
+		dec-occ := <nabl2-mk-occurrence(|"Var")> name
+		; <?dec-occ> target-dec-occ  
+		
   //Field
   rename(|analysis, selected-id, target-dec-occ, target-name): Field(name, type) -> Field(target-name, type)
 	where
@@ -77,20 +83,14 @@ rules //rename
 		
 	rename(|analysis, selected-id, target-dec-occ, target-name): InitField(name, exp) -> InitField(target-name, exp)
 	where
-		<ppdebug(|"Rename InitField Target Occ: ")> target-dec-occ;
     ref-occ := <nabl2-mk-occurrence(|"Field")> name
-    ;<ppdebug(|"Rename InitField Ref Occ: ")> ref-occ
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-		;<ppdebug(|"Rename InitField Dec Occ: ")> dec-occ
     ; <?dec-occ> target-dec-occ
   
   rename(|analysis, selected-id, target-dec-occ, target-name): FieldVar(type-var, name) -> FieldVar(type-var, target-name)
 	where
-	 <ppdebug(|"Rename FieldVar Target Occ: ")> target-dec-occ;
     ref-occ := <nabl2-mk-occurrence(|"Field")> name
-    ; <ppdebug(|"Rename FieldVar Ref Occ: ")> ref-occ
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-		; <ppdebug(|"Rename FieldVar Dec Occ: ")> dec-occ
     ; <?dec-occ> target-dec-occ
 
 rules //get-declaration  
@@ -141,6 +141,12 @@ rules //get-declaration
 		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
 		
+	//Function Argument
+	get-declaration(|analysis, selected-id): FArg(name, type) -> dec-occ
+	where
+		<?selected-id> name
+		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
+	
 	//Field
 	get-declaration(|analysis, selected-id): Field(name, type) -> dec-occ
 	where
@@ -158,4 +164,6 @@ rules //get-declaration
 		<?selected-id> name
 		; ref-occ := <nabl2-mk-occurrence(|"Field")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+		
+	
 	
