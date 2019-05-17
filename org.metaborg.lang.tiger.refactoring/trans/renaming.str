@@ -18,81 +18,62 @@ rules // menu action strategies
     ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
     ; <ppdebug(|"MAIN - Target dec occ: ")> target-dec-occ
     ; target-name := "text"
-    ; result := <topdown(try(rename(|analysis, selected-id, target-dec-occ, target-name))); pp-Tiger-string> ast
+    ; result := <topdown(try(rename(|analysis, target-dec-occ, target-name))); pp-Tiger-string> ast
     
 rules //rename    
 
 	//Variable
-  rename(|analysis, selected-id, target-dec-occ, target-name): VarDecNoType(name, exp) -> VarDecNoType(target-name, exp)
-  	where
-  		dec-occ := <nabl2-mk-occurrence(|"Var")> name
-  		; <?dec-occ> target-dec-occ
-  		
-  rename(|analysis, selected-id, target-dec-occ, target-name): VarDec(name, type, exp) -> VarDec(target-name, type, exp)
-  	where
-  		dec-occ := <nabl2-mk-occurrence(|"Var")> name
-  		; <?dec-occ> target-dec-occ
-  		
-  rename(|analysis, selected-id, target-dec-occ, target-name): Var(name) -> Var(target-name)
+  rename(|analysis, target-dec-occ, target-name): VarDecNoType(name, exp) -> VarDecNoType(target-name, exp)
 	where
-		//  TODO comparison doesn't work because of different term indexes	  
-		//		<?selected-id> name;
-    ref-occ := <nabl2-mk-occurrence(|"Var")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-    ; <?dec-occ> target-dec-occ
+	 check-dec-occ(|"Var", name, target-dec-occ)
+  		
+  rename(|analysis, target-dec-occ, target-name): VarDec(name, type, exp) -> VarDec(target-name, type, exp)
+	where
+		check-dec-occ(|"Var", name, target-dec-occ)
+  		
+  rename(|analysis, target-dec-occ, target-name): Var(name) -> Var(target-name)
+	where
+    check-ref-occ(|analysis, "Var", name, target-dec-occ)
     
   //Type
-  rename(|analysis, selected-id, target-dec-occ, target-name): TypeDec(name, type) -> TypeDec(target-name, type)
-  	where
-  		dec-occ := <nabl2-mk-occurrence(|"Type")> name
-  		; <?dec-occ> target-dec-occ
-  		
-  rename(|analysis, selected-id, target-dec-occ, target-name): Tid(name) -> Tid(target-name)
+  rename(|analysis, target-dec-occ, target-name): TypeDec(name, type) -> TypeDec(target-name, type)
 	where
-    ref-occ := <nabl2-mk-occurrence(|"Type")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-    ; <?dec-occ> target-dec-occ
+		check-dec-occ(|"Type", name, target-dec-occ)
+		
+  rename(|analysis, target-dec-occ, target-name): Tid(name) -> Tid(target-name)
+	where
+    check-ref-occ(|analysis, "Type", name, target-dec-occ)
     
   //Function
-  rename(|analysis, selected-id, target-dec-occ, target-name): ProcDec(name, args, body) -> ProcDec(target-name, args, body)
+  rename(|analysis, target-dec-occ, target-name): ProcDec(name, args, body) -> ProcDec(target-name, args, body)
 	where
-		dec-occ := <nabl2-mk-occurrence(|"Var")> name
-		; <?dec-occ> target-dec-occ
+		check-dec-occ(|"Var", name, target-dec-occ)
   		
-  rename(|analysis, selected-id, target-dec-occ, target-name): FunDec(name, args, type, body) -> FunDec(target-name, args, type, body)
+  rename(|analysis, target-dec-occ, target-name): FunDec(name, args, type, body) -> FunDec(target-name, args, type, body)
 	where
-		dec-occ := <nabl2-mk-occurrence(|"Var")> name
-		; <?dec-occ> target-dec-occ
+		check-dec-occ(|"Var", name, target-dec-occ)
 		
-	rename(|analysis, selected-id, target-dec-occ, target-name): Call(name, args) -> Call(target-name, args)
+	rename(|analysis, target-dec-occ, target-name): Call(name, args) -> Call(target-name, args)
 	where
-    ref-occ := <nabl2-mk-occurrence(|"Var")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-    ; <?dec-occ> target-dec-occ
+    check-ref-occ(|analysis, "Var", name, target-dec-occ)
     
   //Function Argument
-  rename(|analysis, selected-id, target-dec-occ, target-name): FArg(name, type) -> FArg(target-name, type)
+  rename(|analysis, target-dec-occ, target-name): FArg(name, type) -> FArg(target-name, type)
 	where
-		dec-occ := <nabl2-mk-occurrence(|"Var")> name
-		; <?dec-occ> target-dec-occ  
+		check-dec-occ(|"Var", name, target-dec-occ) 
 		
   //Field
-  rename(|analysis, selected-id, target-dec-occ, target-name): Field(name, type) -> Field(target-name, type)
+  rename(|analysis, target-dec-occ, target-name): Field(name, type) -> Field(target-name, type)
 	where
-		dec-occ := <nabl2-mk-occurrence(|"Field")> name
-		; <?dec-occ> target-dec-occ
+		check-dec-occ(|"Field", name, target-dec-occ)
 		
-	rename(|analysis, selected-id, target-dec-occ, target-name): InitField(name, exp) -> InitField(target-name, exp)
+	rename(|analysis, target-dec-occ, target-name): InitField(name, exp) -> InitField(target-name, exp)
 	where
-    ref-occ := <nabl2-mk-occurrence(|"Field")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-    ; <?dec-occ> target-dec-occ
+    check-ref-occ(|analysis, "Field", name, target-dec-occ)
   
-  rename(|analysis, selected-id, target-dec-occ, target-name): FieldVar(type-var, name) -> FieldVar(type-var, target-name)
+  rename(|analysis, target-dec-occ, target-name): FieldVar(type-var, name) -> FieldVar(type-var, target-name)
 	where
-    ref-occ := <nabl2-mk-occurrence(|"Field")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-    ; <?dec-occ> target-dec-occ
+    check-ref-occ(|analysis, "Field", name, target-dec-occ)
 
 rules //get-declaration  
 	
@@ -162,28 +143,17 @@ rules // Utility functions
 		; ref-occ := <nabl2-mk-occurrence(|namespace)> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     
-	check-ref-occ(|analysis, namespace, name, target-dec-occ): selected-id -> None()
-	where
-		<ppdebug0> "check-ref-occ";
-		<eq> (<strip-annos> selected-id, <strip-annos> name) 
-		; <ppdebug1> "check-ref-occ"
+	check-ref-occ(|analysis, namespace, name, target-dec-occ) =
+		occ-name := <nabl2-get-occurrence-name> target-dec-occ
+		; <eq> (<strip-annos> occ-name, <strip-annos> name) 
     ; ref-occ := <nabl2-mk-occurrence(|namespace)> name 
-    ;<ppdebug2> "check-ref-occ"
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-		;<ppdebug3> "check-ref-occ"
     ; <?dec-occ> target-dec-occ
-    ;<ppdebug4> "check-ref-occ"
     
-  check-dec-occ(|namespace, name, target-dec-occ) : selected-id -> None()
-  where
-    <ppdebug0> "check-def-occ";
-    <ppdebug(|"Selected id: ") > selected-id;
-    <ppdebug(|"Name: ") > name;
-    <eq> (<strip-annos> selected-id, <strip-annos> name)
-    ; <ppdebug1> "check-def-occ"
+  check-dec-occ(|namespace, name, target-dec-occ) =
+		occ-name := <nabl2-get-occurrence-name> target-dec-occ
+		; <eq> (<strip-annos> occ-name, <strip-annos> name) 
     ; dec-occ := <nabl2-mk-occurrence(|namespace)> name
-    ; <ppdebug2> "check-def-occ"
   	; <?dec-occ> target-dec-occ
-  	; <ppdebug3> "check-def-occ"
 		
 	
