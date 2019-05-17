@@ -110,7 +110,7 @@ rules //get-declaration
 		
 	get-declaration(|analysis, selected-id): node@Call(name, args) -> dec-occ
 	where
-	  dec-occ := <get-dec-from-ref(|analysis, "Var", name, node)> selected-id
+	  dec-occ := <get-dec-from-ref(|analysis, "Var", name, name)> selected-id
 		
 	//Function Argument
 	get-declaration(|analysis, selected-id): FArg(name, type) -> dec-occ
