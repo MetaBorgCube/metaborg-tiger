@@ -14,8 +14,9 @@ rules // menu action strategies
       <not(nabl2-analysis-has-errors)> analysis
     with
       filename := <guarantee-extension(|"refactored.tig")> path
-    ; <ppdebug(|"Selected node: ")> selected-id
+    ; <ppdebug(|"MAIN - Selected node: ")> selected-id
     ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
+    ; <ppdebug(|"MAIN - Target dec occ: ")> target-dec-occ
     ; target-name := "text"
     ; result := <topdown(try(rename(|analysis, selected-id, target-dec-occ, target-name))); pp-Tiger-string> ast
     
@@ -128,13 +129,12 @@ rules //get-declaration
 		
 	get-declaration(|analysis, selected-id): node@Call(name, args) -> dec-occ
 	where
-	  dec-occ := <get-dec-from-ref(|analysis, "Type", name, node)> selected-id
+	  dec-occ := <get-dec-from-ref(|analysis, "Var", name, node)> selected-id
 		
 	//Function Argument
 	get-declaration(|analysis, selected-id): FArg(name, type) -> dec-occ
 	where
-		<?selected-id> name
-		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
+	  dec-occ := <get-dec-from-dec(|"Var", name)> selected-id
 	
 	//Field
 	get-declaration(|analysis, selected-id): Field(name, type) -> dec-occ
@@ -143,27 +143,23 @@ rules //get-declaration
 		
 	get-declaration(|analysis, selected-id): InitField(name, exp) -> dec-occ
 	where
-		<?selected-id> name
-		; ref-occ := <nabl2-mk-occurrence(|"Field")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+	  dec-occ := <get-dec-from-ref(|analysis, "Field", name, name)> selected-id
 		
 	get-declaration(|analysis, selected-id): FieldVar(type-var, name) -> dec-occ
 	where
-		<?selected-id> name
-		; ref-occ := <nabl2-mk-occurrence(|"Field")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+		dec-occ := <get-dec-from-ref(|analysis, "Field", name, name)> selected-id
 		
 
 rules // Utility functions
-  get-dec-from-dec(|namespace, name): select-id -> dec-occ
-  where
+  get-dec-from-dec(|namespace, name): selected-id -> dec-occ
+  where	 		
     <?selected-id> name
 		; dec-occ := <nabl2-mk-occurrence(|namespace)> name 
 		
-	get-dec-from-ref(|analysis, namespace, name, node): select-id -> dec-occ
+	get-dec-from-ref(|analysis, namespace, name, node): selected-id -> dec-occ
 	where
 		<?selected-id> node
-		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
+		; ref-occ := <nabl2-mk-occurrence(|namespace)> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     
 	check-ref-occ(|analysis, namespace, name, target-dec-occ): selected-id -> None()
