@@ -98,48 +98,37 @@ rules //get-declaration
 	//Variable	
   get-declaration(|analysis, selected-id): VarDecNoType(name, exp) -> dec-occ
 	where
-		<?selected-id> name
-		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
+	  dec-occ := <get-dec-from-dec(|"Var", name)> selected-id
 		
   get-declaration(|analysis, selected-id): VarDec(name, type, exp) -> dec-occ
 	where
-		<?selected-id> name
-		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
+		dec-occ := <get-dec-from-dec(|"Var", name)> selected-id
   	
   get-declaration(|analysis, selected-id): node@Var(name) -> dec-occ
 	where
-		<?selected-id> node
-		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+		dec-occ := <get-dec-from-ref(|analysis, "Var", name, node)> selected-id
 	
 	// Type
 	get-declaration(|analysis, selected-id): TypeDec(name, type) -> dec-occ
 	where
-		<?selected-id> name
-		; dec-occ := <nabl2-mk-occurrence(|"Type")> name
+	  dec-occ := <get-dec-from-dec(|"Type", name)> selected-id
 		
 	get-declaration(|analysis, selected-id): node@Tid(name) -> dec-occ
 	where
-		<?selected-id> node
-		; ref-occ := <nabl2-mk-occurrence(|"Type")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+	  dec-occ := <get-dec-from-ref(|analysis, "Type", name, node)> selected-id
 		
 	// Function
 	get-declaration(|analysis, selected-id): ProcDec(name, args, body) -> dec-occ
 	where
-		<?selected-id> name
-		; dec-occ := <nabl2-mk-occurrence(|"Var")> name
+	  dec-occ := <get-dec-from-dec(|"Var", name)> selected-id
   		
 	get-declaration(|analysis, selected-id): FunDec(name, args, type, body) -> dec-occ
 	where
-		<?selected-id> name
-		; dec-occ := <nabl2-mk-occurrence(|"Var")> name 		
+	  dec-occ := <get-dec-from-dec(|"Var", name)> selected-id
 		
 	get-declaration(|analysis, selected-id): node@Call(name, args) -> dec-occ
 	where
-		<?selected-id> name
-		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
-		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+	  dec-occ := <get-dec-from-ref(|analysis, "Type", name, node)> selected-id
 		
 	//Function Argument
 	get-declaration(|analysis, selected-id): FArg(name, type) -> dec-occ
@@ -150,8 +139,7 @@ rules //get-declaration
 	//Field
 	get-declaration(|analysis, selected-id): Field(name, type) -> dec-occ
 	where
-		<?selected-id> name
-		; dec-occ := <nabl2-mk-occurrence(|"Field")> name 
+	  dec-occ := <get-dec-from-dec(|"Field", name)> selected-id
 		
 	get-declaration(|analysis, selected-id): InitField(name, exp) -> dec-occ
 	where
@@ -165,5 +153,41 @@ rules //get-declaration
 		; ref-occ := <nabl2-mk-occurrence(|"Field")> name
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
 		
-	
+
+rules // Utility functions
+  get-dec-from-dec(|namespace, name): select-id -> dec-occ
+  where
+    <?selected-id> name
+		; dec-occ := <nabl2-mk-occurrence(|namespace)> name 
+		
+	get-dec-from-ref(|analysis, namespace, name, node): select-id -> dec-occ
+	where
+		<?selected-id> node
+		; ref-occ := <nabl2-mk-occurrence(|"Var")> name
+		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+    
+	check-ref-occ(|analysis, namespace, name, target-dec-occ): selected-id -> None()
+	where
+		<ppdebug0> "check-ref-occ";
+		<eq> (<strip-annos> selected-id, <strip-annos> name) 
+		; <ppdebug1> "check-ref-occ"
+    ; ref-occ := <nabl2-mk-occurrence(|namespace)> name 
+    ;<ppdebug2> "check-ref-occ"
+		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+		;<ppdebug3> "check-ref-occ"
+    ; <?dec-occ> target-dec-occ
+    ;<ppdebug4> "check-ref-occ"
+    
+  check-dec-occ(|namespace, name, target-dec-occ) : selected-id -> None()
+  where
+    <ppdebug0> "check-def-occ";
+    <ppdebug(|"Selected id: ") > selected-id;
+    <ppdebug(|"Name: ") > name;
+    <eq> (<strip-annos> selected-id, <strip-annos> name)
+    ; <ppdebug1> "check-def-occ"
+    ; dec-occ := <nabl2-mk-occurrence(|namespace)> name
+    ; <ppdebug2> "check-def-occ"
+  	; <?dec-occ> target-dec-occ
+  	; <ppdebug3> "check-def-occ"
+		
 	
