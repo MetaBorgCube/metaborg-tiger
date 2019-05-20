@@ -4,9 +4,8 @@ helloWorld() -> print("Hello World")
 */
 
 let 
-	function helloWorld() = (
+	function helloWorld() = 
 		print("Hello World")
-	)
 in
    	helloWorld()
 end

@@ -5,6 +5,7 @@ imports
 	nabl2/api
 	pp
 	libspoofax/stratego/debug
+	renaming
 
 rules // menu action strategies
   inline-function-action :
@@ -14,4 +15,23 @@ rules // menu action strategies
       <not(nabl2-analysis-has-errors)> analysis
     with
       filename := <guarantee-extension(|"refactored.tig")> path
-      ; result := ast
+      ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
+      ; body := <collect-one(get-function-body(|target-dec-occ))> ast
+      ; result := <topdown(try(replace-call(|selected-id, body))); pp-Tiger-string> ast
+      
+rules //get-function-body
+  get-function-body(|target-dec-occ): FunDec(name, args, type, body) -> body
+	where
+		check-dec-occ(|"Var", name, target-dec-occ)  
+		
+  get-function-body(|target-dec-occ): ProcDec(name, args, body) -> body
+	where
+		check-dec-occ(|"Var", name, target-dec-occ)
+		
+rules //replace-call
+  replace-call(|select-id, body): Call(name, args) -> body
+  where
+  	<?select-id> name
+		
+
+		
