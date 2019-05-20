@@ -1,0 +1,10 @@
+/* 
+test file to inline a function with no arguments
+zero() -> 0
+*/
+
+let 
+	function zero() : int = 0
+in
+   	zero()
+end
