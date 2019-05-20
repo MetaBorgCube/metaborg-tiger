@@ -1,0 +1,17 @@
+module inline-function
+
+imports 
+	signatures/-
+	nabl2/api
+	pp
+	libspoofax/stratego/debug
+
+rules // menu action strategies
+  inline-function-action :
+    (selected-id, _, ast, path, project-path) -> (filename, result)
+    where
+    	analysis := <nabl2-get-ast-analysis> ast;
+      <not(nabl2-analysis-has-errors)> analysis
+    with
+      filename := <guarantee-extension(|"refactored.tig")> path
+      ; result := ast

@@ -7,7 +7,8 @@ imports
   outline
   analysis
   desugar
-  renaming 
+  renaming
+  inline-function
 
 
   nabl2/runtime/analysis/debug

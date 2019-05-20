@@ -9,3 +9,4 @@ menus
   menu: "Refactoring" (openeditor) (realtime)
   
     action: "Rename" = rename-action
+    action: "Inline Function" = inline-function-action
