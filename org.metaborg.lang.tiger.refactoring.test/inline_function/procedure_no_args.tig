@@ -1,0 +1,12 @@
+/* 
+test file to inline a procedure with no arguments
+helloWorld() -> print("Hello World")
+*/
+
+let 
+	function helloWorld() = (
+		print("Hello World")
+	)
+in
+   	helloWorld()
+end
