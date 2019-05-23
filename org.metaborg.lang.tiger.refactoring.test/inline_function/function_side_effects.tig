@@ -1,0 +1,13 @@
+/* 
+test file to inline a procedure (function with no return type) 
+printnl("Hello World") -> print("Hello World"); print("\n")
+*/
+
+let 
+	function square(x : int): int = (
+	 print("Log square");
+		x * x
+	)
+in
+   	square((print("Hello");2))
+end
