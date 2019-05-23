@@ -15,16 +15,22 @@ rules // menu action strategies
       <not(nabl2-analysis-has-errors)> analysis
     with
       filename := <guarantee-extension(|"refactored.tig")> path
-      ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
-      ; body := <collect-one(get-function-body(|target-dec-occ))> ast
+      ; target-dec-occ := <collect-one(get-function-declaration(|analysis, selected-id)) > ast
+      ; (args, body) := <collect-one(get-function(|target-dec-occ))> ast
       ; result := <topdown(try(replace-call(|selected-id, body))); pp-Tiger-string> ast
       
-rules //get-function-body
-  get-function-body(|target-dec-occ): FunDec(name, args, type, body) -> body
+      
+rules //get-function-declaration
+	get-function-declaration(|analysis, selected-id): Call(name, args) -> dec-occ
+	where
+	  dec-occ := <get-dec-from-ref(|analysis, "Var", name, name)> selected-id
+	  
+rules //get-function
+  get-function(|target-dec-occ): FunDec(name, args, type, body) -> (args, body)
 	where
 		check-dec-occ(|"Var", name, target-dec-occ)  
 		
-  get-function-body(|target-dec-occ): ProcDec(name, args, body) -> body
+  get-function(|target-dec-occ): ProcDec(name, args, body) -> (args, body)
 	where
 		check-dec-occ(|"Var", name, target-dec-occ)
 		
