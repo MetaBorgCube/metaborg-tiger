@@ -17,7 +17,7 @@ rules // menu action strategies
     ; <ppdebug(|"MAIN - Selected node: ")> selected-id
     ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
     ; <ppdebug(|"MAIN - Target dec occ: ")> target-dec-occ
-    ; target-name := "text"
+    ; target-name := <read-config-file> selected-id
     ; result := <topdown(try(rename(|analysis, target-dec-occ, target-name))); pp-Tiger-string> ast
     
 rules //rename    
@@ -156,4 +156,6 @@ rules // Utility functions
     ; dec-occ := <nabl2-mk-occurrence(|namespace)> name
   	; <?dec-occ> target-dec-occ
 		
+rules // external rules
+	external read-config-file(|)
 	
