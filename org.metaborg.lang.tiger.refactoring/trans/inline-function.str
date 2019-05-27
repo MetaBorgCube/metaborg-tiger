@@ -35,7 +35,7 @@ rules //get-function
 		check-dec-occ(|"Var", name, target-dec-occ)
 		
 rules //replace-call
-  replace-call(|select-id, body): Call(name, args) -> body
+  replace-call(|select-id, body): Call(name, args) -> Let([], [body])
   where
   	<?select-id> name
 		
