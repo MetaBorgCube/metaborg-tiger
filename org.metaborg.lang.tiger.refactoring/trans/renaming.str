@@ -23,6 +23,7 @@ rules // menu action strategies
     ; <ppdebug(|"MAIN - Old ref count: ")> old_ref_count
     ; <ppdebugx> "==================================================================================="
     ; renamed-ast := <topdown(try(rename(|analysis, target-dec-occ, target-name)))> ast
+    ; <ppdebugx> renamed-ast
     ; <ppdebugx> "==================================================================================="
     ; new-analysis := <nabl2-get-ast-analysis> renamed-ast
     ; new-target-name := <nabl2-copy-ast-index(|selected-id)> target-name
@@ -35,24 +36,27 @@ rules // menu action strategies
 rules //rename    
 
 	//Variable
-  rename(|analysis, target-dec-occ, target-name): VarDecNoType(name, exp) -> VarDecNoType(target-name, exp)
+  rename(|analysis, target-dec-occ, target-name): VarDecNoType(name, exp) -> VarDecNoType(new-name, exp)
 	where
 	<ppdebug0> "VarDecNoType"
 	 ; <ppdebug0> name
 	 ; <ppdebug0> target-dec-occ
-	 ;check-dec-occ(|"Var", name, target-dec-occ)
+	 ; check-dec-occ(|"Var", name, target-dec-occ)
+	 ; new-name := <nabl2-copy-ast-index(|name)> target-name
 
   		
-  rename(|analysis, target-dec-occ, target-name): VarDec(name, type, exp) -> VarDec(target-name, type, exp)
+  rename(|analysis, target-dec-occ, target-name): VarDec(name, type, exp) -> VarDec(new-name, type, exp)
 	where
 		check-dec-occ(|"Var", name, target-dec-occ)
+		; new-name := <nabl2-copy-ast-index(|name)> target-name
   		
-  rename(|analysis, target-dec-occ, target-name): Var(name) -> Var(target-name)
+  rename(|analysis, target-dec-occ, target-name): Var(name) -> Var(new-name)
 	where
 	   <ppdebug0> "Var"
    ; <ppdebug0> name
 	 ; <ppdebug0> target-dec-occ
    ; check-ref-occ(|analysis, "Var", name, target-dec-occ)
+   ; new-name := <nabl2-copy-ast-index(|name)> target-name
 
     
   //Type
@@ -164,23 +168,19 @@ rules // Utility functions
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     
 	check-ref-occ(|analysis, namespace, name, target-dec-occ) =
+		<ppdebug2> name;
 		occ-name := <nabl2-get-occurrence-name> target-dec-occ
+		; <ppdebug2> occ-name
 		; <eq> (<strip-annos> occ-name, <strip-annos> name) 
     ; ref-occ := <nabl2-mk-occurrence(|namespace)> name 
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
+		; <ppdebug2> dec-occ
+		; <ppdebug2> target-dec-occ
     ; <?dec-occ> target-dec-occ
     
   check-dec-occ(|namespace, name, target-dec-occ) =
-    <ppdebug2> name;
-		occ-name := <nabl2-get-occurrence-name> target-dec-occ
-		; <ppdebug2> occ-name
-		; asdf := <strip-annos> occ-name
-		; asdf2 := <strip-annos> name
-		; <ppdebug2> asdf
-		; <ppdebug2> asdf2
-		; <eq> (asdf, asdf2) 
-		;<ppdebug3> "blub"
-		//Problem is here, name does not have a termindex
+		occ-name := <nabl2-get-occurrence-name> target-dec-occ		
+		; <eq> (<strip-annos> occ-name, <strip-annos> name) 
     ; dec-occ := <nabl2-mk-occurrence(|namespace)> name
   	; <?dec-occ> target-dec-occ
 		
