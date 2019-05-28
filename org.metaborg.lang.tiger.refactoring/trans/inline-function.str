@@ -37,13 +37,16 @@ rules //get-function
 		; paramNames := <map(extract-param-name)> params
 		
 rules //replace-call
-  replace-call(|select-id, body, paramNames): Call(name, args) -> Let([], [body])
+  replace-call(|select-id, body, paramNames): Call(name, args) -> Let(vars, [body])
   where
   	<?select-id> name
-  	; <ppdebugna0> paramNames
-		; <ppdebugna0> args		
+  	; vars := <zip(create-var-dec)> (paramNames, args)
+  	; <ppdebugna0> vars
 		
-rules
+rules //extract-param-name
   extract-param-name : FArg(name, tid) -> name
+  
+rules //create-var-dec
+	create-var-dec : (name, exp) -> VarDecNoType(name, exp)
 
 		
