@@ -1,0 +1,14 @@
+/* 
+test file to inline a function 
+plus(1,1) -> 1 + 1
+*/
+
+let 
+  var sum: int := 0
+	function plus(a : int, b:int) : int = (
+		a + b
+	)
+	
+in
+   	sum = plus(1,2)
+end
