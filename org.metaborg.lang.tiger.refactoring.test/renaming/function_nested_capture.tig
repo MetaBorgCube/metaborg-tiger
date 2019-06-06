@@ -1,6 +1,6 @@
 /* 
 test file to rename a parameter inside a nested function to the same name as the parameter of the outside function
-c -> a
+d -> a
 */
 
 let 

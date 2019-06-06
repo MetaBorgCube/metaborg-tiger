@@ -26,7 +26,8 @@ rules // menu action strategies
     ; <ppdebugx> "==================================================================================="
     ; (new-renamed-ast, new-analysis, _, _, _) := <nabl2-analyze-ast(|path)>renamed-ast
     ; new-target-name := <nabl2-copy-ast-index(|selected-id)> target-name
-    ; new-target-dec := <nabl2-mk-occurrence(|"Var", selected-id)> new-target-name
+    ; target-namespace := <nabl2-get-occurrence-ns> target-dec-occ
+    ; new-target-dec := <nabl2-mk-occurrence(|target-namespace, selected-id)> new-target-name
     ; <ppdebug(|"MAIN - New Target dec: ")> new-target-dec
     ; new_ref_count := <occurrences(rename(|new-analysis, new-target-dec, "asdf"))> new-renamed-ast
     ; <ppdebug(|"MAIN - New ref count: ")> new_ref_count

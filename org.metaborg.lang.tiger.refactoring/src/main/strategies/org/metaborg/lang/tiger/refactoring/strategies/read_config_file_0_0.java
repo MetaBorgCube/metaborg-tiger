@@ -12,7 +12,7 @@ public class read_config_file_0_0 extends Strategy {
 	@Override
 	public IStrategoTerm invoke(Context context, IStrategoTerm current) {
 		final ITermFactory factory = context.getFactory();
-		IStrategoTerm after = factory.makeString("foo");
+		IStrategoTerm after = factory.makeString("a");
 		return after;
 	}
 }
