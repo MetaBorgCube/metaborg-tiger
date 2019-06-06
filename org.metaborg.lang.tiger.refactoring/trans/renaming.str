@@ -23,13 +23,12 @@ rules // menu action strategies
     ; <ppdebug(|"MAIN - Old ref count: ")> old_ref_count
     ; <ppdebugx> "==================================================================================="
     ; renamed-ast := <topdown(try(rename(|analysis, target-dec-occ, target-name)))> ast
-    ; <ppdebugx> renamed-ast
     ; <ppdebugx> "==================================================================================="
-    ; new-analysis := <nabl2-get-ast-analysis> renamed-ast
+    ; (new-renamed-ast, new-analysis, _, _, _) := <nabl2-analyze-ast(|path)>renamed-ast
     ; new-target-name := <nabl2-copy-ast-index(|selected-id)> target-name
     ; new-target-dec := <nabl2-mk-occurrence(|"Var", selected-id)> new-target-name
     ; <ppdebug(|"MAIN - New Target dec: ")> new-target-dec
-    ; new_ref_count := <occurrences(rename(|new-analysis, new-target-dec, "asdf"))> renamed-ast
+    ; new_ref_count := <occurrences(rename(|new-analysis, new-target-dec, "asdf"))> new-renamed-ast
     ; <ppdebug(|"MAIN - New ref count: ")> new_ref_count
     ; result := <pp-Tiger-string> renamed-ast
     
@@ -168,14 +167,14 @@ rules // Utility functions
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
     
 	check-ref-occ(|analysis, namespace, name, target-dec-occ) =
-		<ppdebug2> name;
+		<ppdebug(| "Name: ")> name;
 		occ-name := <nabl2-get-occurrence-name> target-dec-occ
-		; <ppdebug2> occ-name
+		; <ppdebug(| "occ-name: ")> occ-name
 		; <eq> (<strip-annos> occ-name, <strip-annos> name) 
     ; ref-occ := <nabl2-mk-occurrence(|namespace)> name 
 		; (dec-occ, _) := <nabl2-get-resolved-name(|analysis)> ref-occ
-		; <ppdebug2> dec-occ
-		; <ppdebug2> target-dec-occ
+		; <ppdebug(| "dec-occ: ")> dec-occ
+		; <ppdebug(| "target-dec-occ: ")> target-dec-occ
     ; <?dec-occ> target-dec-occ
     
   check-dec-occ(|namespace, name, target-dec-occ) =
