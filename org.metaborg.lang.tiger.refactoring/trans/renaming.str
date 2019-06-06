@@ -18,15 +18,16 @@ rules // menu action strategies
     ; target-dec-occ := <collect-one(get-declaration(|analysis, selected-id)) > ast
     ; <ppdebug(|"MAIN - Target dec occ: ")> target-dec-occ
     ; target-name := <read-config-file> selected-id
-    ; old_ref_count := <occurrences(rename(|analysis, target-dec-occ, target-name))> ast
-    ; <ppdebug(|"MAIN - Old ref count: ")> old_ref_count
+    ; old-ref-count := <occurrences(rename(|analysis, target-dec-occ, target-name))> ast
+    ; <ppdebug(|"MAIN - Old ref count: ")> old-ref-count
     ; renamed-ast := <topdown(try(rename(|analysis, target-dec-occ, target-name)))> ast
     ; (new-renamed-ast, new-analysis, _, _, _) := <nabl2-analyze-ast(|path)>renamed-ast
     ; new-target-name := <nabl2-copy-ast-index(|selected-id)> target-name
     ; target-namespace := <nabl2-get-occurrence-ns> target-dec-occ
     ; new-target-dec-occ := <nabl2-mk-occurrence(|target-namespace, selected-id)> new-target-name
-    ; new_ref_count := <occurrences(rename(|new-analysis, new-target-dec-occ, "_invalid"))> new-renamed-ast
-    ; <ppdebug(|"MAIN - New ref count: ")> new_ref_count
+    ; new-ref-count := <occurrences(rename(|new-analysis, new-target-dec-occ, "_invalid"))> new-renamed-ast
+    ; <ppdebug(|"MAIN - New ref count: ")> new-ref-count 
+    ; <?old-ref-count> new-ref-count 
     ; result := <pp-Tiger-string> renamed-ast
     
 rules //rename    
