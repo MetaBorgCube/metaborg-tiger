@@ -8,7 +8,7 @@ imports
 	renaming
 
 rules // menu action strategies
-  inline-function-action :
+  inline-call-action :
     (selected-id, _, ast, path, project-path) -> (filename, result)
     where
     	analysis := <nabl2-get-ast-analysis> ast;
@@ -18,7 +18,22 @@ rules // menu action strategies
       ; target-dec-occ := <collect-one(get-function-declaration(|analysis, selected-id)) > ast
       ; (params, body) := <collect-one(get-function(|target-dec-occ))> ast
       ; result := <topdown(try(replace-call(|selected-id, body, params))); pp-Tiger-string> ast
-      
+
+  inline-function-action :
+    (selected-id, _, ast, path, project-path) -> (filename, result)
+    where
+    	analysis := <nabl2-get-ast-analysis> ast;
+      <not(nabl2-analysis-has-errors)> analysis
+    with
+      filename := <guarantee-extension(|"refactored.tig")> path
+      ; target-dec-occ := <collect-one(get-function-declaration(|analysis, selected-id)) > ast
+      ; (params, body) := <collect-one(get-function(|target-dec-occ))> ast
+      ; inlined-ast := <topdown(try(replace-call(|selected-id, body, params)))> ast   
+      ; <ppdebug0> inlined-ast  
+      ; new-ast := <topdown(try(delete-function(|target-dec-occ)))> inlined-ast    
+      ; <ppdebug0> new-ast
+      ; result := <pp-Tiger-string> new-ast
+       
       
 rules //get-function-declaration
 	get-function-declaration(|analysis, selected-id): Call(name, args) -> dec-occ
@@ -39,10 +54,19 @@ rules //replace-call
   where
   	<?select-id> name
   	; vars := <zip(create-var-dec)> (params, args)
-  	; <ppdebugna0> vars
-		
-rules //extract-param-name
-  extract-param-name : FArg(name, tid) -> name
+  	
+rules //delete-function-dec
+	delete-function(|target-dec-occ): FunDecs(funDecs) -> FunDecs(reducedFunDecs)
+	where
+	  reducedFunDecs := <filter(delete-function-dec(|target-dec-occ))> funDecs
+	  
+  delete-function-dec(|target-dec-occ): fun@FunDec(name, params, type, body) -> fun
+  where
+    not(check-dec-occ(|"Var", name, target-dec-occ))
+    
+  delete-function-dec(|target-dec-occ): proc@ProcDec(name, params, body) -> proc
+  where
+    not(check-dec-occ(|"Var", name, target-dec-occ))
   
 rules //create-var-dec
 	create-var-dec : (FArg(name, tid), exp) -> VarDec(name, tid, exp)
