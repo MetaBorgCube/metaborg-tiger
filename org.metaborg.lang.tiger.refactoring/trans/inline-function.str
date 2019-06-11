@@ -16,8 +16,8 @@ rules // menu action strategies
     with
       filename := <guarantee-extension(|"refactored.tig")> path
       ; target-dec-occ := <collect-one(get-function-declaration(|analysis, selected-id)) > ast
-      ; (paramNames, body) := <collect-one(get-function(|target-dec-occ))> ast
-      ; result := <topdown(try(replace-call(|selected-id, body, paramNames))); pp-Tiger-string> ast
+      ; (params, body) := <collect-one(get-function(|target-dec-occ))> ast
+      ; result := <topdown(try(replace-call(|selected-id, body, params))); pp-Tiger-string> ast
       
       
 rules //get-function-declaration
@@ -26,27 +26,25 @@ rules //get-function-declaration
 	  dec-occ := <get-dec-from-ref(|analysis, "Var", name, name)> selected-id
 	  
 rules //get-function
-  get-function(|target-dec-occ): FunDec(name, params, type, body) -> (paramNames, body)
-	where
-		check-dec-occ(|"Var", name, target-dec-occ)  
-		; paramNames := <map(extract-param-name)> params
-		
-  get-function(|target-dec-occ): ProcDec(name, params, body) -> (paramNames, body)
+  get-function(|target-dec-occ): FunDec(name, params, type, body) -> (params, body)
 	where
 		check-dec-occ(|"Var", name, target-dec-occ)
-		; paramNames := <map(extract-param-name)> params
+		
+  get-function(|target-dec-occ): ProcDec(name, params, body) -> (params, body)
+	where
+		check-dec-occ(|"Var", name, target-dec-occ)
 		
 rules //replace-call
-  replace-call(|select-id, body, paramNames): Call(name, args) -> Let(vars, [body])
+  replace-call(|select-id, body, params): Call(name, args) -> Let(vars, [body])
   where
   	<?select-id> name
-  	; vars := <zip(create-var-dec)> (paramNames, args)
+  	; vars := <zip(create-var-dec)> (params, args)
   	; <ppdebugna0> vars
 		
 rules //extract-param-name
   extract-param-name : FArg(name, tid) -> name
   
 rules //create-var-dec
-	create-var-dec : (name, exp) -> VarDecNoType(name, exp)
+	create-var-dec : (FArg(name, tid), exp) -> VarDec(name, tid, exp)
 
 		
