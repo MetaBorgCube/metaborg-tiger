@@ -1,0 +1,14 @@
+/* 
+test file to inline mutliple procedure calls
+printnl("Hello World") -> print("Hello World"); print("\n")
+*/
+
+let 
+	function printnl(x : string) = (
+		print(x); 
+		print("\n")
+	)
+in
+   	printnl("Hello World");
+   	printnl("Hello World")
+end

@@ -17,7 +17,7 @@ rules // menu action strategies
       filename := <guarantee-extension(|"refactored.tig")> path
       ; target-dec-occ := <collect-one(get-function-declaration(|analysis, selected-id)) > ast
       ; (params, body) := <collect-one(get-function(|target-dec-occ))> ast
-      ; result := <topdown(try(replace-call(|selected-id, body, params))); pp-Tiger-string> ast
+      ; result := <topdown(try(replace-this-call(|selected-id, body, params))); pp-Tiger-string> ast
 
   inline-function-action :
     (selected-id, _, ast, path, project-path) -> (filename, result)
@@ -28,7 +28,7 @@ rules // menu action strategies
       filename := <guarantee-extension(|"refactored.tig")> path
       ; target-dec-occ := <collect-one(get-function-declaration(|analysis, selected-id)) > ast
       ; (params, body) := <collect-one(get-function(|target-dec-occ))> ast
-      ; inlined-ast := <topdown(try(replace-call(|selected-id, body, params)))> ast   
+      ; inlined-ast := <topdown(try(replace-call(|analysis, target-dec-occ, body, params)))> ast   
       ; <ppdebug0> inlined-ast  
       ; new-ast := <topdown(try(delete-function(|target-dec-occ)))> inlined-ast    
       ; <ppdebug0> new-ast
@@ -49,10 +49,16 @@ rules //get-function
 	where
 		check-dec-occ(|"Var", name, target-dec-occ)
 		
-rules //replace-call
-  replace-call(|select-id, body, params): Call(name, args) -> Let(vars, [body])
+rules //replace-this-call
+  replace-this-call(|select-id, body, params): Call(name, args) -> Let(vars, [body])
   where
   	<?select-id> name
+  	; vars := <zip(create-var-dec)> (params, args)
+  	
+rules //replace-call
+  replace-call(|analysis, target-dec-occ, body, params): Call(name, args) -> Let(vars, [body])
+  where
+  	check-ref-occ(|analysis, "Var", name, target-dec-occ)
   	; vars := <zip(create-var-dec)> (params, args)
   	
 rules //delete-function-dec
