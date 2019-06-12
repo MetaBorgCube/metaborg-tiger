@@ -29,10 +29,7 @@ rules // menu action strategies
       ; target-dec-occ := <collect-one(get-function-declaration(|analysis, selected-id)) > ast
       ; (params, body) := <collect-one(get-function(|target-dec-occ))> ast
       ; inlined-ast := <topdown(try(replace-call(|analysis, target-dec-occ, body, params)))> ast   
-      ; <ppdebug0> inlined-ast  
-      ; new-ast := <topdown(try(delete-function(|target-dec-occ)))> inlined-ast    
-      ; <ppdebug0> new-ast
-      ; result := <pp-Tiger-string> new-ast
+      ; result := <topdown(try(delete-function(|target-dec-occ))); pp-Tiger-string> inlined-ast    
        
       
 rules //get-function-declaration
