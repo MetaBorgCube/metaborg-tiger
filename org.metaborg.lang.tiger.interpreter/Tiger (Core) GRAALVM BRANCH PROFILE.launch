@@ -10,11 +10,9 @@
 <mapEntry key="SPOOFAXPATH" value="${workspace_project_locations}"/>
 </mapAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Graal 0.32"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.metaborg.lang.tiger.interpreter.generated.TigerRunner"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="${resource_loc}"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.metaborg.lang.tiger.interpreter"/>
-<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss32m&#10;-Dgraal.TruffleBackgroundCompilation=false&#10;-Dgraal.TruffleInstrumentBranchesPerInlineSite=true&#10;-Dgraal.TruffleInstrumentBranches=true&#10;'-Dgraal.TruffleInstrumentFilter=*.*.*'"/>
 </launchConfiguration>
