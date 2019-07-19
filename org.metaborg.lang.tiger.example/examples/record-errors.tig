@@ -1,9 +1,9 @@
 let 
   type point = {x : int, y : int} 
   type errpoint = {x : int, x : int}
-  var p : point
-  var e : errpoint 
+  var p : point := point{x = 0, y = 0}
+  var e : errpoint := nil
  in
-   p := point{ x = 3, y = 3, z = "a" }  
+   p := point{ x = 3, y = 3, z = "a" };
    p := point{ x = 3 }   
 end  
