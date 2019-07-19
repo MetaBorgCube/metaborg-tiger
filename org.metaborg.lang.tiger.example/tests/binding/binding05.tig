@@ -1,0 +1,5 @@
+let 
+  function f(x : int, x : int) : int = 1
+in 
+   f(1, 2)
+end 

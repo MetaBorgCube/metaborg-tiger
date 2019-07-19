@@ -1,0 +1,10 @@
+let 
+  type t = int
+  var a := 1
+  type t = int
+  type t = string
+  type r = {x : t}
+in
+  r{x = "a"};
+  2
+end
