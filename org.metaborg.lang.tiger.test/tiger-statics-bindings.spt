@@ -48,7 +48,7 @@ test for index variable not in scope outside loop [[
   (for x := 1 to 10 do
     print(chr(x)); 
   x) // not in scope
-]] 1 errors
+]] >= 1 errors
  
 test recursive record types [[ 
   let
@@ -85,7 +85,7 @@ test duplicate field initialization [[
   in 
     r{x = 1, x = 2} 
   end
-]] 3 errors // why error on r?
+]] >= 1 errors // why error on r?
  
  
 test missing field initialization [[ 
