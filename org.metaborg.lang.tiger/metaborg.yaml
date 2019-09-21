@@ -23,6 +23,8 @@ language:
   sdf:
     pretty-print: Tiger
     sdf2table: java
+    check-priorities: true
+    check-overlap: true
     placeholder:
       prefix: "$"
   stratego:

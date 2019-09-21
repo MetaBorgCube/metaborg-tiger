@@ -1,7 +1,6 @@
 module static-semantics
 
 signature
-  sorts Occ = Id
   sorts Id = string
 
 signature
@@ -44,20 +43,18 @@ signature // names
 rules // type binding
 
   declareType : scope * string * TYPE
+  declareTypeRaw : scope * string * TYPE
+  lookupType : scope * string -> TYPE
     
   declareType(s, x, T) :-   
     s -> Type{x@x} with typeOfDecl T,
     typeOfDecl of Type{x@x} in s |-> [(_, (_, T))]. 
     // declaration is distinct
     
-  declareTypeRaw : scope * string * TYPE
-    
   declareTypeRaw(s, x, T) :-   
     s -> Type{x@_} with typeOfDecl T,
     typeOfDecl of Type{x@_} in s |-> [(_, (_, T))]. 
     // declaration is distinct
-
-  lookupType : scope * string -> TYPE
   
   lookupType(s, x) = T :-
     typeOfDecl of Type{x@x} in s |-> [(_, (_, T))|_]. 
@@ -66,20 +63,18 @@ rules // type binding
 rules // variable binding 
 
   declareVar : scope * string * TYPE
+  declareVarRaw : scope * string * TYPE
+  lookupVar : scope * string -> TYPE
     
   declareVar(s, x, T) :-   
     s -> Var{x@x} with typeOfDecl T,
     typeOfDecl of Var{x@x} in s |-> [(_, (_, T))]. 
     // declaration is distinct
 
-  declareVarRaw : scope * string * TYPE
-    
   declareVarRaw(s, x, T) :-   
     s -> Var{x@_} with typeOfDecl T,
     typeOfDecl of Var{x@_} in s |-> [(_, (_, T))]. 
     // declaration is distinct
-
-  lookupVar : scope * string -> TYPE
   
   lookupVar(s, x) = T :-
     typeOfDecl of Var{x@x} in s |-> [(_, (_, T))|_]. 
@@ -88,14 +83,13 @@ rules // variable binding
 rules // field binding 
 
   declareField : scope * TypeId * TYPE
+  lookupField  : scope * string -> TYPE
    
   declareField(s, x, T) :-   
     s -> Field{x@x} with typeOfDecl T,
     typeOfDecl of Field{x@x} in s |-> [(_, (_, T))]. 
     // declaration is distinct
 
-  lookupField  : scope * string -> TYPE
-  
   lookupField(s, x) = T :-
     typeOfDecl of Field{x@x} in s |-> [(_, (_, T))|_]. 
     // permissive lookup to cope with double declaration 
@@ -111,15 +105,21 @@ signature
     ARRAY  : TYPE * scope -> TYPE
     FUN    : list(TYPE) * TYPE -> TYPE
     
-rules
-
-  subtype : TYPE * TYPE
+rules subtype : TYPE * TYPE
   
   subtype(T, T).
   
   subtype(NIL(), RECORD(s)).
   
-  subtypes : list(TYPE) * list(TYPE)
+rules subtypeO : Type * TYPE * TYPE
+  
+  subtypeO(t, T, T).
+
+  subtypeO(t, NIL(), RECORD(s)).  
+
+rules subtypes : list(TYPE) * list(TYPE) 
+
+//  subtypes maps subtype(list(*), list(*))
   
   subtypes([], []).
   
@@ -127,7 +127,7 @@ rules
     subtype(T, S),
     subtypes(Ts, Ss).
     
-  equitype : TYPE * TYPE 
+rules equitype : TYPE * TYPE 
   
   equitype(T, T).
   equitype(NIL(), RECORD(s)).
@@ -139,23 +139,46 @@ rules
 
 rules
 
-  decsOk     : scope * scope * list(Dec)
-  decOk      : scope * scope * Dec
-  fdecsOk      maps fdecOk(*, *, list(*))
-  fdecOk     : scope * scope * FunDec
-  tdecsOk      maps tdecOk(*, *, list(*))
-  tdecOk     : scope * scope * TypeDec
   typeOfExp  : scope * Exp -> TYPE
   typeOfExps   maps typeOfExp(*, list(*)) = list(*)
+
+
   typeOfSeq  : scope * list(Exp) -> TYPE
-  typeOfArgs   maps typeOfArg(*, *, list(*)) = list(*)
-  typeOfArg  : scope * scope * FArg -> TYPE
-  typeOfType : scope * Type -> TYPE
   typeOfLVal : scope * LValue -> TYPE
+
+signature
+  sorts Declarations
+  constructors
+    Let          : list(Dec) * list(Exp) -> Exp
+    Declarations : list(Dec) -> Declarations
+
+rules
+
+  typeOfExp(s_outer, Let(ds, es)) = T :- {s_body}
+    new s_body,
+    decsOk(s_outer, s_body, ds),
+    typeOfSeq(s_body, es) == T.
+
+
+  decsOk     : scope * scope * list(Dec)
+  decOk      : scope * scope * Dec
   
+  decsOk(s_outer, s_body, []) :-
+    s_body -P-> s_outer.
+
+  decsOk(s_outer, s_body, [dec]) :-
+    s_body -P-> s_outer,
+    decOk(s_body, s_outer, dec).
+
+  decsOk(s_outer, s_body, [dec | decs@[_|_]]) :- {s_dec}
+    new s_dec,
+    s_dec -P-> s_outer,
+    decOk(s_dec, s_outer, dec),
+    decsOk(s_dec, s_body, decs).
+    
 signature
   sorts TypeDec
-  sorts TypeId = Occ
+  sorts TypeId = Id
   constructors
     TypeDecs  : list(TypeDec) -> Dec
     TypeDec   : TypeId * Type -> TypeDec
@@ -178,16 +201,18 @@ rules // type declarations
   decOk(s, s_outer, TypeDecs(tdecs)) :- 
     tdecsOk(s, s, tdecs).
 
+  tdecOk  : scope * scope * TypeDec
+  tdecsOk   maps tdecOk(*, *, list(*))
+  
   tdecOk(s, s_outer, TypeDec(x, t)) :- {T} 
     typeOfType(s_outer, t) == T,
     declareType(s, x, T).
     
-//    s -> Type{x@x} with typeOfDecl T,
-//    typeOfDecl of Type{x@x} in s |-> [(_, (_, T))]. // declaration is distinct
-     
    // note: type declarations in a sequence are mutually recursive
 
 rules // types
+
+  typeOfType : scope * Type -> TYPE
 
   typeOfType(s, Tid(x)) = lookupType(s, x).
     
@@ -195,96 +220,47 @@ rules // types
     // permissive query to allow non-distinct type declarations
 
 signature
-  sorts LValue Type
-  constructors
-    ArrayTy      : TypeId -> Type
-    Array        : TypeId * Exp * Exp -> Exp
-    Subscript    : LValue * Exp -> LValue
-
-rules // arrays
-
-  typeOfType(s, ArrayTy(x)) = ARRAY(T, s_arr) :-
-    new s_arr, // unique token to distinghuish the array type
-    typeOfType(s, Tid(x)) == T.
- 
-rules // array creation
-     
-  typeOfExp(s, Array(x, e1, e2)) = ARRAY(T, s_arr) :- {S}
-    typeOfType(s, Tid(x)) == ARRAY(S, s_arr),
-    typeOfExp(s, e1) == INT(),
-    typeOfExp(s, e2) == T,
-    subtype(T, S).
-
-rules // array indexing
-
-  typeOfLVal(s, Subscript(e1, e2)) = T :- {s_arr}
-    typeOfLVal(s, e1) == ARRAY(T, s_arr),
-    typeOfExp(s, e2) == INT().
-
-signature
-  sorts Declarations
-  constructors
-    Let          : list(Dec) * list(Exp) -> Exp
-    Declarations : list(Dec) -> Declarations
-
-rules
-
-  typeOfExp(s_outer, Let(ds, es)) = T :- {s_body}
-    new s_body,
-    decsOk(s_outer, s_body, ds),
-    typeOfSeq(s_body, es) == T.
-
-  decsOk(s_outer, s_body, []) :-
-    s_body -P-> s_outer.
-
-  decsOk(s_outer, s_body, [dec]) :-
-    s_body -P-> s_outer,
-    decOk(s_body, s_outer, dec).
-
-  decsOk(s_outer, s_body, [dec | decs@[_|_]]) :- {s_dec}
-    new s_dec,
-    s_dec -P-> s_outer,
-    decOk(s_dec, s_outer, dec),
-    decsOk(s_dec, s_body, decs).
-
-signature
   sorts Dec FunDec FArg
   constructors
     FunDecs  : list(FunDec) -> Dec
-    ProcDec  : Occ * list(FArg) * Exp -> FunDec
-    FunDec   : Occ * list(FArg) * Type * Exp -> FunDec
-    FArg     : Occ * Type -> FArg
-    Call     : Occ * list(Exp) -> Exp
+    ProcDec  : Id * list(FArg) * Exp -> FunDec
+    FunDec   : Id * list(FArg) * Type * Exp -> FunDec
+    FArg     : Id * Type -> FArg
+    Call     : Id * list(Exp) -> Exp
     
 rules // function declarations
 
   // Parameters: In [function id(... id1: id2 ...) = exp] the
   // scope of the parameter id1 lasts throughout the function
   // body exp
-        
+  
   decOk(s, s_outer, FunDecs(fdecs)) :- 
     fdecsOk(s, s_outer, fdecs).
     
+  fdecsOk      maps fdecOk(*, *, list(*))
+  fdecOk     : scope * scope * FunDec
+   
   fdecOk(s, s_outer, d@ProcDec(f, args, e)) :- {s_fun Ts}
     new s_fun, s_fun -P-> s,
-    typeOfArgs(s_fun, s_outer, args) == Ts,
+    typesOfArgs(s_fun, s_outer, args) == Ts,
     declareVar(s, f, FUN(Ts, UNIT())),
     typeOfExp(s_fun, e) == UNIT().
     
   fdecOk(s, s_outer, d@FunDec(f, args, t, e)) :- {s_fun Ts T S}   
     new s_fun, s_fun -P-> s,
-    typeOfArgs(s_fun, s_outer, args) == Ts,
+    typesOfArgs(s_fun, s_outer, args) == Ts,
     typeOfType(s_outer, t) == T,
     declareVar(s, f, FUN(Ts, T)),
     typeOfExp(s_fun, e) == S,
-    subtype(S, T).
+    subtypeO(t, S, T).
      
+rules 
+  typeOfArg  : scope * scope * FArg -> TYPE
+  typesOfArgs  maps typeOfArg(*, *, list(*)) = list(*)
+    
   typeOfArg(s_fun, s_outer, FArg(x, t)) = T :- 
     typeOfType(s_outer, t) == T,
     declareVar(s_fun, x, T).
-    
-//    s_fun -> Var{x@x} with typeOfDecl T,
-//    typeOfDecl of Var{x@_} in s_fun |-> [_]. // argument is distinct
      
 rules // function calls
 
@@ -293,14 +269,12 @@ rules // function calls
     typeOfExps(s, es) == Ss,
     subtypes(Ss, Ts).
 
-    //typeOfDecl of Var{f@f} in s |-> [(_, (_, FUN(Ts, T)))|_], // permissive
-  
 signature
   sorts Var
   constructors
-    VarDec       : Occ * Type * Exp -> Dec
-    VarDecNoType : Occ * Exp -> Dec
-    Var          : Occ -> Var
+    VarDec       : Id * Type * Exp -> Dec
+    VarDecNoType : Id * Exp -> Dec
+    Var          : Id -> Var
     V2L          : Var -> LValue
     L2E          : LValue -> Exp
     Assign       : LValue * Exp -> Exp
@@ -326,6 +300,33 @@ rules // variable references
 
   typeOfExp(s, L2E(V2L(Var(x)))) = lookupVar(s, x).
  
+signature
+  sorts LValue Type
+  constructors
+    ArrayTy      : TypeId -> Type
+    Array        : TypeId * Exp * Exp -> Exp
+    Subscript    : LValue * Exp -> LValue
+
+rules // arrays
+
+  typeOfType(s, ArrayTy(x)) = ARRAY(T, s_arr) :-
+    new s_arr, // unique token to distinghuish the array type
+    typeOfType(s, Tid(x)) == T.
+ 
+rules // array creation
+     
+  typeOfExp(s, Array(x, e1, e2)) = ARRAY(T, s_arr) :- {S}
+    typeOfType(s, Tid(x)) == ARRAY(S, s_arr),
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == T,
+    subtype(T, S).
+
+rules // array indexing 
+
+  typeOfLVal(s, Subscript(e1, e2)) = T :- {s_arr}
+    typeOfLVal(s, e1) == ARRAY(T, s_arr),
+    typeOfExp(s, e2) == INT().
+    
 rules // statements
 
   typeOfExp(s, Assign(e1, e2)) = UNIT() :- {T S}
@@ -336,8 +337,8 @@ rules // statements
 rules 
 
   typeOfLVal(s, V2L(Var(x))) = T :- 
-    typeOfDecl of Var{x@x} in s |-> [(_, (_, T))].
-    
+    lookupVar(s, x) == T.
+        
   typeOfExp(s, L2E(lval)) = typeOfLVal(s, lval).
 
 signature
@@ -382,7 +383,6 @@ rules // sequence
     new s_for,
     s_for -P-> s,
     declareVar(s_for, x, INT()),
-    // s_for -> Var{x@x} with typeOfDecl INT(),
     s_for -> Loop{"break"@stm} with typeOfDecl UNIT(),
     typeOfExp(s, e1) == INT(),
     typeOfExp(s, e2) == INT(),
@@ -478,11 +478,11 @@ signature
   sorts Field InitField 
   constructors
     RecordTy   : list(Field) -> Type
-    Field      : Occ * TypeId -> Field
+    Field      : Id * TypeId -> Field
     NilExp     : Exp
     Record     : TypeId * list(InitField) -> Exp
-    InitField  : Occ * Exp -> InitField
-    FieldVar   : LValue * Occ -> LValue
+    InitField  : Id * Exp -> InitField
+    FieldVar   : LValue * Id -> LValue
   
 rules // record type
 
@@ -496,9 +496,6 @@ rules // record type
   fieldOk(s_rec, s_outer, Field(x, t)) :- {T}
     typeOfType(s_outer, Tid(t)) == T,
     declareField(s_rec, x, T).
-    
-//    s_rec -> Field{x@x} with typeOfDecl T,
-//    typeOfDecl of Field{x@_} in s_rec |-> [_]. // distinct
 
 rules // literals    
 
@@ -506,7 +503,7 @@ rules // literals
 
 rules // record creation   
 
-  typeOfExp(s, e@Record(t, inits)) = RECORD(s_rec) :- {s_init ds}
+  typeOfExp(s, e@Record(t, inits)) = RECORD(s_rec) :- {s_init ds} 
     typeOfType(s, Tid(t)) == RECORD(s_rec),
     new s_init,  
     initsOk(s, s_rec, s_init, inits),
@@ -527,14 +524,15 @@ rules // record creation
    
   fieldInitialized(t, (_, (Field{x@_}, _)), s) :- 
     typeOfDecl of Field{x@_} in s |-> [_].
-    // t is passed such that error is displayed be on t; noting that init of x is missing
+    // t is passed such that error is displayed be on t; 
+    // noting that init of x is missing
  
 rules // record field access
 
-  typeOfLVal(s, FieldVar(e, x)) = T :- {s_rec}
-    typeOfLVal(s, e) == RECORD(s_rec),
-    lookupField(s_rec, x) == T.
-  
+  typeOfLVal(s, FieldVar(lval, x)) = T :- {s_rec}
+    typeOfLVal(s, lval) == RECORD(s_rec),
+    lookupField(s_rec, x) == T. 
+
 signature
   sorts StrConst = string
   constructors
@@ -550,7 +548,7 @@ rules
   
   init(s) :- 
     declareTypeRaw(s, "int",    INT()),
-    declareTypeRaw(s, "string", STRING()),
+    declareTypeRaw(s, "string", STRING()), 
     
     declareVarRaw(s,  "print",     FUN([STRING()], UNIT())),
     declareVarRaw(s,  "chr",       FUN([INT()], STRING())),
@@ -563,9 +561,5 @@ rules
     declareVarRaw(s,  "getchar",   FUN([], STRING())),
     declareVarRaw(s,  "flush",     FUN([], UNIT())),
     declareVarRaw(s,  "printi",    FUN([INT()], UNIT())).
-    
-//    Var{"timeGo"} <- s,
-//    Var{"timeGo"} : FUN([], UNIT()) !!,
-//    Var{"timeStop"} <- s,
-//    Var{"timeStop"} : FUN([], UNIT()) !!,
+
     

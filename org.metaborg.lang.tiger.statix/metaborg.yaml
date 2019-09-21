@@ -19,7 +19,9 @@ debug:
 language:
   sdf:
     pretty-print: Tiger
-    sdf2table: c
+    sdf2table: java
+    check-priorities: false
+    check-overlap: false
     placeholder:
       prefix: "$"
   stratego:

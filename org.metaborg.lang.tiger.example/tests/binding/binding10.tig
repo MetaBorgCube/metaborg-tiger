@@ -1,0 +1,7 @@
+  let
+    function f() : int = g(1)
+    var x := 1
+    function g(x : int) : int = f()
+  in
+   1
+  end 

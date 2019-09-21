@@ -44,59 +44,19 @@ test duplicate type declarations [[
   end
 ]] 2 errors
 
+test for index variable [[
+  let 
+    var x := "a"
+  in  
+    for x := 1 to 10 do print(chr(x)); 
+    print(x)
+  end
+]] analysis succeeds
+ 
+
 test for index variable not in scope outside loop [[ 
   (for x := 1 to 10 do
     print(chr(x)); 
   x) // not in scope
 ]] 1 errors
  
-test recursive record types [[ 
-  let
-    type list = {hd : int, tl : list}
-    function size(xs : list) : int = 
-      if xs = nil then 0
-      else 1 + size(xs.tl)
-  in 
-    list{hd = 1, tl = list{hd = 0, tl = nil}}
-  end
-]] analysis succeeds
-
-test record field declaration and initialization [[ 
-  let
-    type r = {x : int, y : int, z : string}
-  in 
-    r{y = 3, z = "a", x = 1}
-  end
-]] analysis succeeds
- 
-
-test duplicate field declaration [[ 
-  let
-    type r = {x : int, x : int, y : int, z : int}
-  in 
-    1
-  end
-]] 2 errors
- 
- 
-test duplicate field initialization [[ 
-  let
-    type r = {x : int}
-  in 
-    r{x = 1, x = 2} 
-  end
-]] 3 errors // why error on r?
- 
- 
-test missing field initialization [[ 
-  let
-    type r = {x : int}
-  in 
-    r{} 
-  end
-]] 1 error
- 
- 
- 
-
-
