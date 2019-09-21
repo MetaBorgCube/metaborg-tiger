@@ -8,8 +8,6 @@ import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
-import mb.nabl2.constraints.ast.AstProperties;
-
 @SuppressWarnings("unused")
 @NodeChild(value = "term", type = TermBuild.class)
 public abstract class nabl2_bodyScopeOfAST_1 extends NativeOpBuild {

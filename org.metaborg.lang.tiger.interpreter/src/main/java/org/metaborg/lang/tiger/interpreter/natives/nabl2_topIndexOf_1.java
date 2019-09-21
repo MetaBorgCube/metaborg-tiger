@@ -8,7 +8,7 @@ import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.source.SourceSection;
 
-import mb.nabl2.stratego.TermIndex;
+import mb.nabl2.terms.stratego.TermIndex;
 
 @SuppressWarnings("unused")
 @NodeChild(value = "term", type = TermBuild.class)
