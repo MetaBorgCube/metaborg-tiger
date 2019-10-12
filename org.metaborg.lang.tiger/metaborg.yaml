@@ -24,7 +24,7 @@ language:
     pretty-print: Tiger
     sdf2table: java
     check-priorities: true
-    check-overlap: true
+    # check-overlap: true
     placeholder:
       prefix: "$"
   stratego:
