@@ -30,7 +30,7 @@ test shadowing of variable declarations [[
   in  
     x + x
   end
-]] 2 errors
+]] analysis fails
 
 test duplicate type declarations [[ 
   let 
@@ -42,13 +42,13 @@ test duplicate type declarations [[
   in
     2
   end
-]] 2 errors
+]] analysis fails
 
 test for index variable not in scope outside loop [[ 
   (for x := 1 to 10 do
     print(chr(x)); 
   x) // not in scope
-]] >= 1 errors
+]] analysis fails
  
 test recursive record types [[ 
   let
@@ -76,7 +76,7 @@ test duplicate field declaration [[
   in 
     1
   end
-]] 2 errors
+]] analysis fails
  
  
 test duplicate field initialization [[ 
@@ -85,7 +85,7 @@ test duplicate field initialization [[
   in 
     r{x = 1, x = 2} 
   end
-]] >= 1 errors // why error on r?
+]] analysis fails
  
  
 test missing field initialization [[ 
@@ -94,7 +94,7 @@ test missing field initialization [[
   in 
     r{} 
   end
-]] 1 error
+]] analysis fails
  
  
  

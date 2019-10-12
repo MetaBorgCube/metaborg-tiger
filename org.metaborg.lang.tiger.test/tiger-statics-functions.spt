@@ -81,7 +81,7 @@ test return type mismatch [[
   in
     print(one(1))
   end 
-]] 1 error
+]] analysis fails
 
 test return type mismatch [[
   let
@@ -90,7 +90,7 @@ test return type mismatch [[
   in
     fac(1) 
   end 
-]] 3 errors // why 3?
+]] analysis fails
 
 test shadowing of function definitions [[
   let
@@ -109,7 +109,7 @@ test no duplicate function definitions in same block [[
   in
    1
   end 
-]] 2 errors
+]] analysis fails
 
 test mutually recursive function definitions [[
   let
@@ -128,7 +128,7 @@ test no mutually recursion across function declaration blocks [[
   in
    1
   end 
-]] 3 errors // why 3?
+]] analysis fails
 
 test no duplicate procedure definitions [[
   let 
@@ -137,7 +137,7 @@ test no duplicate procedure definitions [[
   in
     1
   end 
-]] 2 errors
+]] analysis fails
 
 test shadowing of procedure definitions [[
   let
