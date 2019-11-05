@@ -18,12 +18,12 @@
 
   <modules>
     <module>org.metaborg.lang.tiger</module>
+    <module>org.metaborg.lang.tiger.test</module>
     <module>org.metaborg.lang.tiger.eclipse</module>
     <module>org.metaborg.lang.tiger.eclipse.feature</module>
     <module>org.metaborg.lang.tiger.eclipse.site</module>
-    <module>org.metaborg.lang.tiger.test</module>
-    <module>org.metaborg.lang.tiger.interpreter</module>
-    <!-- <module>org.metaborg.lang.tiger.example</module> -->
+    <!--module>org.metaborg.lang.tiger.interpreter</module-->
+    <!--module>org.metaborg.lang.tiger.example</module-->
   </modules>
 
   <repositories>
