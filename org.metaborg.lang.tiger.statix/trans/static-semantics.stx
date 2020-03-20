@@ -484,6 +484,10 @@ rules // operators
   typeOfExp(s, And(e1, e2)) = INT() :-
     typeOfExp(s, e1) == INT(),
     typeOfExp(s, e2) == INT().
+    
+rules // placeholders
+
+  typeOfExp(s, Exp-Plhdr()) = T.
 
 signature
   sorts Field InitField
