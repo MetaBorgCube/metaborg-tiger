@@ -96,7 +96,7 @@ rules // field binding
   declareField : scope * TypeId * TYPE
   lookupField  : scope * string -> TYPE
 
-  declareField(s, x, T) :-
+  declareField(s, O2TI(I2O(x)), T) :-
     s -> Field{x} with typeOfDecl T,
     // declaration is distinct
     typeOfDecl of Field{x} in s |-> [(_, (_, T))].
@@ -189,11 +189,14 @@ rules
 
 signature
   sorts TypeDec
-  sorts TypeId = Id
+  sorts TypeId
+  sorts Occ
   constructors
     TypeDecs  : list(TypeDec) -> Dec
-    TypeDec   : TypeId * Type -> TypeDec
+    TypeDec   : Occ * Type -> TypeDec
     Tid       : TypeId -> Type
+    O2TI      : Occ -> TypeId
+    I2O       : Id -> Occ
 
 rules // type declarations
 
@@ -215,7 +218,7 @@ rules // type declarations
   tdecOk  : scope * scope * TypeDec
   tdecsOk   maps tdecOk(*, *, list(*))
 
-  tdecOk(s, s_outer, TypeDec(x, t)) :- {T}
+  tdecOk(s, s_outer, TypeDec(I2O(x), t)) :- {T}
     typeOfType(s_outer, t) == T,
     declareType(s, x, T).
 
@@ -225,7 +228,7 @@ rules // types
 
   typeOfType : scope * Type -> TYPE
 
-  typeOfType(s, Tid(x)) = lookupType(s, x).
+  typeOfType(s, Tid(O2TI(I2O(x)))) = lookupType(s, x).
 
     // typeOfDecl of Type{x} in s |-> [(_, (_, T))|_].
     // permissive query to allow non-distinct type declarations
@@ -234,10 +237,10 @@ signature
   sorts Dec FunDec FArg
   constructors
     FunDecs  : list(FunDec) -> Dec
-    ProcDec  : Id * list(FArg) * Exp -> FunDec
-    FunDec   : Id * list(FArg) * Type * Exp -> FunDec
-    FArg     : Id * Type -> FArg
-    Call     : Id * list(Exp) -> Exp
+    ProcDec  : Occ * list(FArg) * Exp -> FunDec
+    FunDec   : Occ * list(FArg) * Type * Exp -> FunDec
+    FArg     : Occ * Type -> FArg
+    Call     : Occ * list(Exp) -> Exp
 
 rules // function declarations
 
@@ -251,13 +254,13 @@ rules // function declarations
   fdecsOk      maps fdecOk(*, *, list(*))
   fdecOk     : scope * scope * FunDec
 
-  fdecOk(s, s_outer, d@ProcDec(f, args, e)) :- {s_fun Ts}
+  fdecOk(s, s_outer, d@ProcDec(I2O(f), args, e)) :- {s_fun Ts}
     new s_fun, s_fun -P-> s,
     typesOfArgs(s_fun, s_outer, args) == Ts,
     declareVar(s, f, FUN(Ts, UNIT())),
     typeOfExp(s_fun, e) == UNIT().
 
-  fdecOk(s, s_outer, d@FunDec(f, args, t, e)) :- {s_fun Ts T S}
+  fdecOk(s, s_outer, d@FunDec(I2O(f), args, t, e)) :- {s_fun Ts T S}
     new s_fun, s_fun -P-> s,
     typesOfArgs(s_fun, s_outer, args) == Ts,
     typeOfType(s_outer, t) == T,
@@ -269,13 +272,13 @@ rules
   typeOfArg  : scope * scope * FArg -> TYPE
   typesOfArgs  maps typeOfArg(*, *, list(*)) = list(*)
 
-  typeOfArg(s_fun, s_outer, FArg(x, t)) = T :-
+  typeOfArg(s_fun, s_outer, FArg(I2O(x), t)) = T :-
     typeOfType(s_outer, t) == T,
     declareVar(s_fun, x, T).
 
 rules // function calls
 
-  typeOfExp(s, Call(f, es)) = T :- {Ts Ss}
+  typeOfExp(s, Call(I2O(f), es)) = T :- {Ts Ss}
     lookupVar(s, f) == FUN(Ts, T),
     typeOfExps(s, es) == Ss,
     subtypes(Ss, Ts).
@@ -283,11 +286,11 @@ rules // function calls
 signature
   sorts Var
   constructors
-    VarDec       : Id * Type * Exp -> Dec
-    VarDecNoType : Id * Exp -> Dec
-    Var          : Id -> Var
-    V2L          : Var -> LValue
-    L2E          : LValue -> Exp
+    VarDec       : Occ * Type * Exp -> Dec
+    VarDecNoType : Occ * Exp -> Dec
+    Var          : Occ -> Var
+    V2LV         : Var -> LValue
+    LV2E         : LValue -> Exp
     Assign       : LValue * Exp -> Exp
 
 rules // variable declarations
@@ -296,20 +299,20 @@ rules // variable declarations
   // the scope of the declared variable starts just after its vardec
   // and lasts until the end.
 
-  decOk(s, s_outer, VarDec(x, t, e)) :- {T S}
+  decOk(s, s_outer, VarDec(I2O(x), t, e)) :- {T S}
     typeOfType(s_outer, t) == T,
     typeOfExp(s_outer, e) == S,
     subtype(S, T),
     declareVar(s, x, T).
 
-  decOk(s, s_outer, VarDecNoType(x, e)) :- {T}
+  decOk(s, s_outer, VarDecNoType(I2O(x), e)) :- {T}
     typeOfExp(s_outer, e) == T,
     T != NIL(),
     declareVar(s, x, T).
 
 rules // variable references
 
-  typeOfExp(s, L2E(V2L(Var(x)))) = lookupVar(s, x).
+  typeOfExp(s, LV2E(V2LV(Var(I2O(x))))) = lookupVar(s, x).
 
 signature
   sorts LValue Type
@@ -347,10 +350,10 @@ rules // statements
 
 rules
 
-  typeOfLVal(s, V2L(Var(x))) = T :-
+  typeOfLVal(s, V2LV(Var(I2O(x)))) = T :-
     lookupVar(s, x) == T.
 
-  typeOfExp(s, L2E(lval)) = typeOfLVal(s, lval).
+  typeOfExp(s, LV2E(lval)) = typeOfLVal(s, lval).
 
 signature
   constructors
@@ -390,7 +393,7 @@ rules // sequence
     typeOfExp(s_loop, e1) == INT(),
     typeOfExp(s_loop, e2) == UNIT().
 
-  typeOfExp(s, For(Var(x), e1, e2, e3)) = UNIT() :- {s_for}
+  typeOfExp(s, For(Var(I2O(x)), e1, e2, e3)) = UNIT() :- {s_for}
     new s_for,
     s_for -P-> s,
     declareVar(s_for, x, INT()),
@@ -493,11 +496,11 @@ signature
   sorts Field InitField
   constructors
     RecordTy   : list(Field) -> Type
-    Field      : Id * TypeId -> Field
+    Field      : Occ * TypeId -> Field
     NilExp     : Exp
     Record     : TypeId * list(InitField) -> Exp
-    InitField  : Id * Exp -> InitField
-    FieldVar   : LValue * Id -> LValue
+    InitField  : Occ * Exp -> InitField
+    FieldVar   : LValue * Occ -> LValue
 
 rules // record type
 
@@ -508,9 +511,9 @@ rules // record type
   fieldOk : scope * scope * Field
   fieldsOk maps fieldOk(*, *, list(*))
 
-  fieldOk(s_rec, s_outer, Field(x, t)) :- {T}
-    typeOfType(s_outer, Tid(t)) == T,
-    declareField(s_rec, x, T).
+  fieldOk(s_rec, s_outer, Field(x, O2TI(t))) :- {T}
+    typeOfType(s_outer, Tid(O2TI(t))) == T,
+    declareField(s_rec, O2TI(x), T).
 
 rules // literals
 
@@ -528,23 +531,23 @@ rules // record creation
   initOk : scope * scope * scope * InitField
   initsOk maps initOk(*, *, *, list(*))
 
-  initOk(s, s_rec, s_init, InitField(x, e)) :- {S T}
+  initOk(s, s_rec, s_init, InitField(I2O(x), e)) :- {S T}
     lookupField(s_rec, x) == T,
     typeOfExp(s, e) == S,
-    declareField(s_init, x, S),
+    declareField(s_init, O2TI(I2O(x)), S),
     subtype(S, T).
 
   fieldInitialized : TypeId * (path * (occurrence * TYPE)) * scope
   allFieldsInitialized maps fieldInitialized(*, list(*), *)
 
-  fieldInitialized(t, (_, (Field{x}, _)), s) :-
+  fieldInitialized(O2TI(I2O(t)), (_, (Field{x}, _)), s) :-
     typeOfDecl of Field{x} in s |-> [_].
     // t is passed such that error is displayed be on t;
     // noting that init of x is missing
 
 rules // record field access
 
-  typeOfLVal(s, FieldVar(lval, x)) = T :- {s_rec}
+  typeOfLVal(s, FieldVar(lval, I2O(x))) = T :- {s_rec}
     typeOfLVal(s, lval) == RECORD(s_rec),
     lookupField(s_rec, x) == T.
 

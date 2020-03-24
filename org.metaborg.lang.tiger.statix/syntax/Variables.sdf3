@@ -13,9 +13,9 @@ context-free syntax
 
   Var.Var = Occ 
   
-  LValue.V2L = Var 
+  LValue = Var
   
-  Exp.L2E = LValue   
+  Exp = LValue
 
   Exp.Assign = <<LValue> := <Exp>> 
   
