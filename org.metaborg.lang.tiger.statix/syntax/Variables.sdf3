@@ -2,6 +2,8 @@ module Variables
 
 imports Types
 imports Occurrences
+imports Base
+imports Tiger
 
 sorts Var
 
@@ -9,9 +11,9 @@ context-free syntax
   
   Dec.VarDec = <var <Occ> : <Type> := <Exp>> 
   
-  Dec.VarDecNoType = <var <Occ> := <Exp>> 
+  Dec.VarDecNoType = <var <Occ> := <Exp>>
 
-  Var.Var = Occ 
+  Var.Var = Occ
   
   LValue = Var
   

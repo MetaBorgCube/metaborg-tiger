@@ -356,6 +356,7 @@ rules
   typeOfExp(s, LV2E(lval)) = typeOfLVal(s, lval).
 
 signature
+  sorts Exp
   constructors
     Seq           : list(Exp) -> Exp
     If            : Exp * Exp * Exp -> Exp

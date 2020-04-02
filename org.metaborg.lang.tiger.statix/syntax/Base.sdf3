@@ -1,4 +1,4 @@
 module Base
 
-//sorts Exp Type LValue 
+sorts Dec Exp Type LValue
 

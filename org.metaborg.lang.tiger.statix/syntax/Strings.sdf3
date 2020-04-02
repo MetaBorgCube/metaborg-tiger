@@ -1,5 +1,7 @@
 module Strings
 
+imports Base
+
 sorts StrConst
 
 lexical syntax 

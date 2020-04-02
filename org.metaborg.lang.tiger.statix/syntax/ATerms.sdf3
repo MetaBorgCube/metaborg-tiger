@@ -1,6 +1,6 @@
 module ATerms
 
-sorts Cons Term
+sorts Cons Int String Term
 
 lexical syntax
 

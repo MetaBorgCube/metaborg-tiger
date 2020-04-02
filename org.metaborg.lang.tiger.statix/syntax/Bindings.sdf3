@@ -1,10 +1,8 @@
 module Bindings
 
 imports Control-Flow
-imports Identifiers
-imports Types
 imports Functions
-imports Variables
+imports Base
 
 sorts Declarations
 

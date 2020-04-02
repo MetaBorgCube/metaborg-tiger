@@ -1,6 +1,7 @@
 module Arrays
 
 imports Types
+imports Base
 
 context-free syntax // arrays
 

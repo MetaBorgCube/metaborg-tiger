@@ -13,9 +13,9 @@ imports
 rules // Analysis
 
   // single-file analysis
-  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOK")
+  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOk")
   pre-analyze = explicate-injections(inj-name)
-  post-analyze = remove-injections
+  post-analyze = strip-annos //remove-injections
   
   // multi-file analysis
 //  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "projectOk", "fileOk")

@@ -4,6 +4,7 @@ imports Base
 imports Types
 imports Occurrences
 
+sorts Field InitField
 context-free syntax // records
 
   Type.RecordTy = <

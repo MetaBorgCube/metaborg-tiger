@@ -1,5 +1,6 @@
 module Identifiers
 
+sorts Id
 lexical syntax
 
   Id = [a-zA-Z] [a-zA-Z0-9\_]* 
@@ -7,7 +8,7 @@ lexical syntax
 lexical restrictions
 
   Id -/- [a-zA-Z0-9\_]
-
+  
 lexical syntax
 
   Id = "nil" {reject}

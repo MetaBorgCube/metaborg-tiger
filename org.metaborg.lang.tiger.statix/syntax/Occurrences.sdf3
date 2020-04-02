@@ -5,6 +5,7 @@ imports Identifiers
 //sorts
 //  Occurrence
 
+sorts Occ
 context-free syntax
   
   Occ = Id

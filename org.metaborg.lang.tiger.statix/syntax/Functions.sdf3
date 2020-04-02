@@ -2,7 +2,9 @@ module Functions
 
 imports Types
 imports Occurrences
+imports Base
 
+sorts FunDec FArg
 context-free syntax
 
   Dec.FunDecs = <<{FunDec "\n"}+>> {longest-match}
