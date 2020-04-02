@@ -18,7 +18,7 @@
   <dependencies>
     <dependency>
       <groupId>org.metaborg</groupId>
-      <artifactId>org.metaborg.lang.tiger</artifactId>
+      <artifactId>org.metaborg.lang.tiger.statix</artifactId>
       <version>0.1.0-SNAPSHOT</version>
       <type>spoofax-language</type>
     </dependency>
