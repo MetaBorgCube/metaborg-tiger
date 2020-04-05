@@ -41,3 +41,7 @@ language:
     - stratego-sdf
     - -la
     - strc
+exports:
+  - language: ATerm
+    directory: src-gen/statix
+    
