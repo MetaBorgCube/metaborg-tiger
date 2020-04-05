@@ -4,7 +4,7 @@ signature
   sorts Id = string
 
 signature
-  sorts Module Exp
+  sorts Module
   constructors
     Mod : Exp -> Module
 
