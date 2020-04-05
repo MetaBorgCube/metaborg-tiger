@@ -1,7 +1,5 @@
 module Control-Flow
 
-imports Identifiers
-imports Variables
 imports Base
 
 context-free syntax
@@ -35,6 +33,8 @@ context-free syntax
   > 
   
   Exp.Break = <break> 
+
+  Exp.Assign = <<LValue> := <Exp>> 
 
 context-free priorities
 

@@ -1,7 +1,5 @@
 module Bindings
 
-imports Control-Flow
-imports Functions
 imports Base
 
 sorts Declarations

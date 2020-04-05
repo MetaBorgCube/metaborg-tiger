@@ -1,7 +1,5 @@
 module Types
 
-imports Bindings
-imports Occurrences
 imports Base
 
 sorts TypeDec
@@ -12,7 +10,6 @@ context-free syntax // type declarations
   
   TypeDec.TypeDec = <type <Occ> = <Type>> 
   
-sorts TypeId
 context-free syntax // type expressions
 
   Type.Tid = TypeId 

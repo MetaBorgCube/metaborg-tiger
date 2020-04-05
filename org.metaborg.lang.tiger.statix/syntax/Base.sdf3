@@ -1,4 +1,7 @@
 module Base
 
-sorts Dec Exp Type LValue
+sorts Dec Exp LValue
 
+sorts Type TypeId
+
+sorts Occ Var Id

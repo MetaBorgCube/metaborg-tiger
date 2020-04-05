@@ -1,11 +1,7 @@
 module Variables
 
-imports Types
-imports Occurrences
 imports Base
-imports Tiger
 
-sorts Var
 
 context-free syntax
   
@@ -18,6 +14,4 @@ context-free syntax
   LValue = Var
   
   Exp = LValue
-
-  Exp.Assign = <<LValue> := <Exp>> 
   

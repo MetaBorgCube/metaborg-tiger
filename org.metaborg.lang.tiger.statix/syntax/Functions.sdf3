@@ -1,7 +1,5 @@
 module Functions
 
-imports Types
-imports Occurrences
 imports Base
 
 sorts FunDec FArg

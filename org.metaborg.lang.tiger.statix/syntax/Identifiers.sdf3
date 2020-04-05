@@ -1,6 +1,7 @@
 module Identifiers
 
-sorts Id
+imports Base
+
 lexical syntax
 
   Id = [a-zA-Z] [a-zA-Z0-9\_]* 
