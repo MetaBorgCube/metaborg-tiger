@@ -12,14 +12,7 @@ lexical restrictions
   // Ensure greedy matching for lexicals
   
   IntConst  -/- [0-9]
-  
-sorts RealConst
-lexical syntax
 
-  RealConst.RealConstNoExp = IntConst "." IntConst 
-  RealConst.RealConst = IntConst "." IntConst "e" Sign IntConst 
-  Sign = "+" 
-  Sign = "-" 
 
 context-free syntax
 
