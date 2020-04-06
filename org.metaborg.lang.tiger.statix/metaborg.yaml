@@ -9,6 +9,9 @@ dependencies:
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
   - org.metaborg:statix.runtime:${metaborgVersion}
+runtime:
+  nabl2:
+    debug: analysis files
 pardonedLanguages:
 - EditorService
 - Stratego-Sugar
@@ -43,4 +46,3 @@ language:
 exports:
   - language: ATerm
     directory: src-gen/statix
-    
