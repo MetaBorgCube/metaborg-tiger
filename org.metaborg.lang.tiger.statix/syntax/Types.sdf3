@@ -16,14 +16,14 @@ context-free syntax // type expressions
   Type.Tid = TypeId 
   TypeId  = Occ 
   
-sorts Ty Scope
-context-free syntax // semantic types
-
-  Ty.INT      = <INT> 
-  Ty.STRING   = <STRING> 
-  Ty.NIL      = <NIL> 
-  Ty.UNIT     = <UNIT> 
-  Ty.NAME     = <NAME <Occ>> 
-  Ty.RECORD   = <RECORD <Scope>>
-  Ty.ARRAY    = <ARRAY <Ty> <Scope>> 
-  Ty.FUN      = <FUN ( <{Ty ","}*> ) <Ty>>
+//sorts TYPE Scope
+//context-free syntax // semantic types
+//
+//  TYPE.INT      = <INT> 
+//  TYPE.STRING   = <STRING> 
+//  TYPE.NIL      = <NIL> 
+//  TYPE.UNIT     = <UNIT> 
+//  TYPE.NAME     = <NAME <Occ>> 
+//  TYPE.RECORD   = <RECORD <Scope>>
+//  TYPE.ARRAY    = <ARRAY <TYPE> <Scope>> 
+//  TYPE.FUN      = <FUN ( <{TYPE ","}*> ) <TYPE>>
