@@ -4,9 +4,9 @@ imports signatures/Tiger-sig
 
 rules // single-file entry point
 
-  programOK : Module
+  programOk : Module
 
-  programOK(Mod(e)) :- {s T}
+  programOk(Mod(e)) :- {s T}
     new s, init(s),
     typeOfExp(s, e) == T.
 
