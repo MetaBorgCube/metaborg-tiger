@@ -7,21 +7,21 @@ sorts Type TypeId
 sorts Occ Var Id
 
 // The following lines ensure Sort-Plhdr() signatures are generated in ThisModule-sig.str
-
-context-free syntax
-
-Dec = "$$$$$" {reject}
-Exp = "$$$$$" {reject}
-LValue = "$$$$$" {reject}
-
-
-context-free syntax
-
-Type = "$$$$$" {reject}
-TypeId = "$$$$$" {reject}
-
-context-free syntax
-
-Occ = "$$$$$" {reject}
-Var = "$$$$$" {reject}
-Id = "$$$$$" {reject}
+//
+//context-free syntax
+//
+//Dec = "$$$$$" {reject}
+//Exp = "$$$$$" {reject}
+//LValue = "$$$$$" {reject}
+//
+//
+//context-free syntax
+//
+//Type = "$$$$$" {reject}
+//TypeId = "$$$$$" {reject}
+//
+//context-free syntax
+//
+////Occ = "$$$$$" {reject}
+////Var = "$$$$$" {reject}
+////Id = "$$$$$" {reject}
