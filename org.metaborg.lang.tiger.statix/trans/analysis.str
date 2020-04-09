@@ -41,6 +41,11 @@ rules // Debugging
     with filename := <guarantee-extension(|"aterm")> path
        ; result   := selected
 
+  // Prints the pre-analyzed annotated ATerm of a selection.
+  debug-show-pre-analyzed: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"pre-analyzed.aterm")> path
+       ; result   := <pre-analyze> selected
+
   // Prints the analyzed annotated AST.
   debug-show-analyzed: (_, _, ast, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"analyzed.aterm")> path
