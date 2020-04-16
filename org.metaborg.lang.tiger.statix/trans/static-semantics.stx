@@ -1,6 +1,19 @@
 module static-semantics
 
-imports signatures/Tiger-sig
+imports
+  signatures/Tiger-sig
+  signatures/Base-sig
+  signatures/Whitespace-sig
+  signatures/Types-sig
+  signatures/Identifiers-sig
+  signatures/Bindings-sig
+  signatures/Variables-sig
+  signatures/Functions-sig
+  signatures/Numbers-sig
+  signatures/Strings-sig
+  signatures/Records-sig
+  signatures/Arrays-sig
+  signatures/Control-Flow-sig
 
 rules // single-file entry point
 
