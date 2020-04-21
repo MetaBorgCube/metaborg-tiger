@@ -281,10 +281,6 @@ rules // variable declarations
     T != NIL(),
     declareVar(s, x, T).
 
-rules // variable references
-
-  typeOfExp(s, LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id(x)))))) = lookupVar(s, x).
-
 rules // arrays
 
   typeOfType(s, ArrayTy(x)) = ARRAY(T, s_arr) :-
@@ -318,6 +314,8 @@ rules
     lookupVar(s, x) == T.
 
   typeOfExp(s, LValue2Exp(lval)) = typeOfLVal(s, lval).
+
+  typeOfExp(s, LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id(x)))))) = lookupVar(s, x).
 
 rules // sequence
 
