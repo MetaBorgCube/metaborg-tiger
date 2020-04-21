@@ -44,7 +44,7 @@ signature // names
 
 signature
   relations
-    typeOfDecl : occurrence -> TYPE // :
+    typeOfDecl : occurrence -> TYPE
   namespaces
     Var  : string
     Type : string
@@ -421,10 +421,6 @@ rules // operators
   typeOfExp(s, And(e1, e2)) = INT() :-
     typeOfExp(s, e1) == INT(),
     typeOfExp(s, e2) == INT().
-    
-rules // placeholders
-
-  typeOfExp(s, Exp-Plhdr()) = T.
 
 rules // record type
 
@@ -499,3 +495,30 @@ rules
     declareVarRaw(s,  "flush",     FUN([], UNIT())),
     declareVarRaw(s,  "printi",    FUN([INT()], UNIT())).
 
+
+    
+rules // placeholders
+
+  programOk(Module-Plhdr()).
+  
+  initOk(_, _, _, InitField-Plhdr()).
+    
+  declareField(_, TypeId-Plhdr(), T).
+  
+  typeOfLVal(_, LValue-Plhdr()) = T.
+  
+  decOk(_, _, Dec-Plhdr()).
+  
+  tdecOk(_, _, TypeDec-Plhdr()).
+  
+  typeOfType(_, Type-Plhdr()) = T.
+  
+  fdecOk(_, _, FunDec-Plhdr()).
+  
+  typeOfArg(_, _, FArg-Plhdr()) = T.
+  
+  fieldInitialized(TypeId-Plhdr(), _, _).
+  
+  fieldOk(_, _, Field-Plhdr()).
+  
+  typeOfExp(_, Exp-Plhdr()) = T.
