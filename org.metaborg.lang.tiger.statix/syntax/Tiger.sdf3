@@ -1,5 +1,6 @@
 module Tiger
 
+imports Base
 imports Whitespace
 imports Types
 imports Identifiers
@@ -14,6 +15,7 @@ imports Control-Flow
 
 context-free start-symbols Module
  
+sorts Module
 context-free syntax
 
   Module.Mod = Exp

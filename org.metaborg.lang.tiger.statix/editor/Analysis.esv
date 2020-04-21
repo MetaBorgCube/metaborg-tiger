@@ -18,4 +18,5 @@ menus
   
   menu: "Analysis" (openeditor)
 
+    action: "Show pre-analyzed AST" = debug-show-pre-analyzed (source)
     action: "Show analyzed AST" = debug-show-analyzed

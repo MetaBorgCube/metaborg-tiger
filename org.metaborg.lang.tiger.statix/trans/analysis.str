@@ -9,13 +9,15 @@ imports
 
   pp/-
   pp
+  
+  injections/-
 
 rules // Analysis
 
   // single-file analysis
-  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOK")
-  pre-analyze = explicate-injections(inj-name)
-  post-analyze = remove-injections
+  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOk")
+  pre-analyze = explicate-injections-Tiger
+  post-analyze = strip-annos; implicate-injections-Tiger
   
   // multi-file analysis
 //  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "projectOk", "fileOk")
@@ -38,6 +40,11 @@ rules // Debugging
   debug-show-aterm: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"aterm")> path
        ; result   := selected
+
+  // Prints the pre-analyzed annotated ATerm of a selection.
+  debug-show-pre-analyzed: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"pre-analyzed.aterm")> path
+       ; result   := <pre-analyze> selected
 
   // Prints the analyzed annotated AST.
   debug-show-analyzed: (_, _, ast, path, project-path) -> (filename, result)

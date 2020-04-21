@@ -16,6 +16,7 @@ let
                in c
               end 
           end
+       end
     end  
     var r := fact(10)
  in r

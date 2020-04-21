@@ -1,16 +1,19 @@
 module Numbers
 
+imports Base
+
+sorts IntConst
 lexical syntax
 
   IntConst = [0-9]+ 
   
-lexical syntax
+lexical restrictions
 
-  RealConst.RealConstNoExp = IntConst "." IntConst 
-  RealConst.RealConst = IntConst "." IntConst "e" Sign IntConst 
-  Sign = "+" 
-  Sign = "-" 
+  // Ensure greedy matching for lexicals
   
+  IntConst  -/- [0-9]
+
+
 context-free syntax
 
   Exp.Int     = IntConst  

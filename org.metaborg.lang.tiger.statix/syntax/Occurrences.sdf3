@@ -1,13 +1,8 @@
 module Occurrences
 
-imports Identifiers
-
-//sorts
-//  Occurrence
+imports Base
 
 context-free syntax
   
   Occ = Id
-//  Occ = Occurrence
-
   
