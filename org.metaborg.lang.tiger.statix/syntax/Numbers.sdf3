@@ -6,31 +6,31 @@ lexical sorts IntConst
 lexical syntax
 
   IntConst = [0-9]+
-  
+
 lexical restrictions
 
   // Ensure greedy matching for lexicals
-  
+
   IntConst  -/- [0-9]
 
 
 context-free syntax
 
-  Exp.Int     = IntConst  
+  Exp.Int     = IntConst
 
-  Exp.Uminus  = [- [Exp]] 
+  Exp.Uminus  = [- [Exp]]
   Exp.Times   = [[Exp] * [Exp]]   {left}
   Exp.Divide  = [[Exp] / [Exp]]   {left}
   Exp.Plus    = [[Exp] + [Exp]]   {left}
   Exp.Minus   = [[Exp] - [Exp]]   {left}
-  
+
   Exp.Eq      = [[Exp] = [Exp]]   {non-assoc}
   Exp.Neq     = [[Exp] <> [Exp]]  {non-assoc}
   Exp.Gt      = [[Exp] > [Exp]]   {non-assoc}
   Exp.Lt      = [[Exp] < [Exp]]   {non-assoc}
   Exp.Geq     = [[Exp] >= [Exp]]  {non-assoc}
   Exp.Leq     = [[Exp] <= [Exp]]  {non-assoc}
-  
+
   Exp.And     = [[Exp] & [Exp]]   {left}
   Exp.Or      = [[Exp] | [Exp]]   {left}
 
@@ -42,25 +42,25 @@ context-free priorities
   // precedence. The operators *, / have the next highest
   // (tightest binding) precedence, followed by +, -, then
   // by =, <>, >, <, >=, <=, then by &, then by |.
-  
+
   // Associativity of operators: The operators *, /, +, -
   // are all left associative. The comparison operators do
   // not associate, so a = b = c is not a legal expression,
   // a = (b = c) is legal.
 
-  {Exp.Uminus} 
+  {Exp.Uminus}
   > {left :
     Exp.Times
-    Exp.Divide} 
+    Exp.Divide}
   > {left :
     Exp.Plus
-    Exp.Minus} 
+    Exp.Minus}
   > {non-assoc :
     Exp.Eq
     Exp.Neq
     Exp.Gt
     Exp.Lt
     Exp.Geq
-    Exp.Leq} 
-  > Exp.And 
-  > Exp.Or 
+    Exp.Leq}
+  > Exp.And
+  > Exp.Or

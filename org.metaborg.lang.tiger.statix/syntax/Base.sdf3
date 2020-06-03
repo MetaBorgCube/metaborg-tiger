@@ -2,7 +2,7 @@ module Base
 
 sorts Dec Exp LValue
 
-sorts Type TypeId
+sorts Type
 
 sorts Var
 

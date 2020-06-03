@@ -9,7 +9,7 @@ imports
 
   pp/-
   pp
-  
+
   injections/-
 
 rules // Analysis
@@ -18,7 +18,7 @@ rules // Analysis
   editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOk")
   pre-analyze = explicate-injections-Tiger-Module
   post-analyze = implicate-injections-Tiger-Module
-  
+
   // multi-file analysis
 //  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "projectOk", "fileOk")
 

@@ -15,7 +15,7 @@ references
   hover _ : editor-hover
 
 menus
-  
+
   menu: "Analysis" (openeditor)
 
     action: "Show pre-analyzed AST" = debug-show-pre-analyzed (source)
