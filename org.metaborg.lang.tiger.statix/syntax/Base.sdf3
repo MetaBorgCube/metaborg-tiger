@@ -4,7 +4,9 @@ sorts Dec Exp LValue
 
 sorts Type TypeId
 
-sorts Occ Var Id
+sorts Var
+
+lexical sorts TypeId Occ Id
 
 // The following lines ensure Sort-Plhdr() signatures are generated in ThisModule-sig.str
 //

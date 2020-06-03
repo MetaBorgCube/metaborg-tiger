@@ -16,8 +16,8 @@ rules // Analysis
 
   // single-file analysis
   editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOk")
-  pre-analyze = explicate-injections-Tiger
-  post-analyze = strip-annos; implicate-injections-Tiger
+  pre-analyze = explicate-injections-Tiger-Module
+  post-analyze = implicate-injections-Tiger-Module
   
   // multi-file analysis
 //  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "projectOk", "fileOk")
@@ -45,6 +45,11 @@ rules // Debugging
   debug-show-pre-analyzed: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"pre-analyzed.aterm")> path
        ; result   := <pre-analyze> selected
+
+  // Prints the pre-analyzed post-analyze ATerm without analysis.
+  debug-show-pre-post-without-analysis: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"prepost.aterm")> path
+       ; result   := <pre-analyze; post-analyze> selected
 
   // Prints the analyzed annotated AST.
   debug-show-analyzed: (_, _, ast, path, project-path) -> (filename, result)

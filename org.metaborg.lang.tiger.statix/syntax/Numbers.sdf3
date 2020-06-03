@@ -2,10 +2,10 @@ module Numbers
 
 imports Base
 
-sorts IntConst
+lexical sorts IntConst
 lexical syntax
 
-  IntConst = [0-9]+ 
+  IntConst = [0-9]+
   
 lexical restrictions
 

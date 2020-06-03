@@ -2,7 +2,7 @@ module Strings
 
 imports Base
 
-sorts StrConst
+lexical sorts StrConst
 
 lexical syntax 
 
