@@ -6,7 +6,9 @@ sorts Type
 
 sorts Var
 
-lexical sorts TypeId Occ Id
+sorts Occ
+
+lexical sorts TypeId Id
 
 // The following lines ensure Sort-Plhdr() signatures are generated in ThisModule-sig.str
 //
