@@ -2,7 +2,6 @@
 *.aterm
 .cache/
 src-gen/
-target/
 store.core.ds
 
 
@@ -10,6 +9,27 @@ store.core.ds
 *.des.tig
 *.pp.tig
 /org.metaborg.lang.tiger.interpreter/src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated
+
+
+# Gradle
+.gradle
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
 
 
 # Eclipse
