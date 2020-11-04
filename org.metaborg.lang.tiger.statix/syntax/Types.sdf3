@@ -1,6 +1,5 @@
 module Types
 
-imports Occurrences
 imports Base
 
 sorts TypeDec
