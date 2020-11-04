@@ -1,6 +1,41 @@
+# Spoofax
 *.aterm
+.cache/
+src-gen/
+target/
+store.core.ds
+
+
+# Tiger
 *.des.tig
 *.pp.tig
-org.metaborg.lang.tiger.interpreter/src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated
-store.core.ds
+/org.metaborg.lang.tiger.interpreter/src/main/java/org/metaborg/org/metaborg/lang/tiger/interpreter/generated
+
+
+# Eclipse
+*.tmp
+*.bak
+*.swp
+*.launch
+*~.nib
+local.properties
+.metadata
+.loadpath
+.recommenders
 .factorypath
+.project
+.classpath
+bin/
+tmp/
+.settings/
+.recommenders/
+.apt_generated/
+.apt_generated_test/
+
+
+# Intellij
+*.iml
+*.ipr
+*.iws
+out/
+.idea/
