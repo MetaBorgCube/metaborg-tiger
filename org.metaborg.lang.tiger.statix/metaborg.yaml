@@ -23,7 +23,7 @@ language:
   sdf:
     pretty-print: Tiger
     sdf2table: java
-    jsglr-version: v2
+    #jsglr-version: v2
     check-priorities: false
     check-overlap: false
     placeholder:
