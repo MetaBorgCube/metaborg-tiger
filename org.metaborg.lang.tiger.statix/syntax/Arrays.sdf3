@@ -2,10 +2,11 @@ module Arrays
 
 imports Base
 
-context-free syntax // arrays
-
-  Type.ArrayTy = <array of <ID>>
+// Arrays
+context-free syntax
 
   Exp.Array = <<ID>[<Exp>] of <Exp>>
+
+  Type.ArrayTy = <array of <ID>>
 
   LValue.Subscript = <<LValue>[<Exp>]>

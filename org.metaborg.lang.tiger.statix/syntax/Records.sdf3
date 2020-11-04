@@ -3,7 +3,9 @@ module Records
 imports Base
 
 sorts Field InitField
-context-free syntax // records
+
+// Records
+context-free syntax
 
   Type.RecordTy = <
     {

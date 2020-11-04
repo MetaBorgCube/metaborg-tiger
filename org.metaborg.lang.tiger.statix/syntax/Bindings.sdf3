@@ -7,16 +7,16 @@ sorts Declarations
 context-free syntax
 
   Exp.Let = <
-    let 
-      <{Dec "\n"}*> 
-     in 
-      <{Exp ";\n"}*> 
+    let
+      <{Dec "\n"}*>
+     in
+      <{Exp ";\n"}*>
     end
-  >  
-  
+  >
+
   Declarations.Declarations = <
     declarations <{Dec "\n"}*>
-  > 
+  >
 
 
-  
+

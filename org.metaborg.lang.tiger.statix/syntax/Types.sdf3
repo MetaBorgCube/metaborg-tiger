@@ -4,24 +4,15 @@ imports Base
 
 sorts TypeDec
 
-context-free syntax // type declarations
+// Type declarations
+context-free syntax
 
   Dec.TypeDecs = <<{TypeDec "\n"}+>> {longest-match}
 
   TypeDec.TypeDec = <type <ID> = <Type>>
 
-context-free syntax // type expressions
+// Type expressions
+context-free syntax
 
   Type.Tid = ID
 
-//sorts TYPE Scope
-//context-free syntax // semantic types
-//
-//  TYPE.INT      = <INT>
-//  TYPE.STRING   = <STRING>
-//  TYPE.NIL      = <NIL>
-//  TYPE.UNIT     = <UNIT>
-//  TYPE.NAME     = <NAME <ID>>
-//  TYPE.RECORD   = <RECORD <Scope>>
-//  TYPE.ARRAY    = <ARRAY <TYPE> <Scope>>
-//  TYPE.FUN      = <FUN ( <{TYPE ","}*> ) <TYPE>>

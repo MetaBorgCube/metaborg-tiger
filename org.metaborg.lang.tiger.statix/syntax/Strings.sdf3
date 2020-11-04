@@ -7,15 +7,22 @@ lexical sorts StrConst
 lexical syntax
 
   StrConst = "\"" StrChar* "\""
-  StrChar = ~[\\\"\n]
+  StrChar = ~[\\\"\r\n]
+  StrChar = [\\] [a]
+  StrChar = [\\] [b]
+  StrChar = [\\] [f]
   StrChar = [\\] [n]
+  StrChar = [\\] [r]
   StrChar = [\\] [t]
+  StrChar = [\\] [v]
   StrChar = [\\] [\^] [A-Z]
   StrChar = [\\] [0-9] [0-9] [0-9]
-  StrChar = [\\] [\"]
+  StrChar = [\\] [x] [0-9a-fA-F] [0-9a-fA-F]
   StrChar = [\\] [\\]
-  StrChar = [\\] [\ \t\n]+ [\\]
+  StrChar = [\\] [\"]
 
-context-free syntax // records
+  StrChar = [\\] [\ \t\r\n]+ [\\]
+
+context-free syntax
 
   Exp.String = StrConst

@@ -8,13 +8,13 @@ imports Bindings
 imports Variables
 imports Functions
 imports Numbers
-imports Strings	
+imports Strings
 imports Records
 imports Arrays
 imports Control-Flow
 
 context-free start-symbols Module
- 
+
 sorts Module
 context-free syntax
 
@@ -22,14 +22,19 @@ context-free syntax
 
 context-free priorities
 
-  Exp.Or 
-  > Exp.Array
-  > Exp.Assign ,
-  
-  {Exp.Uminus
-   LValue.FieldVar
-   LValue.Subscript} 
-  > {left :
+  {
+    Exp.Or
+  } > {
+    Exp.Array
+  } > {
+    Exp.Assign
+  },
+
+  {
+    Exp.Uminus
+    LValue.FieldVar
+    LValue.Subscript
+  } > {left:
     Exp.Times
-    Exp.Divide} 
-    
+    Exp.Divide
+  }
