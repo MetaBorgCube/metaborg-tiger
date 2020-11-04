@@ -4,8 +4,8 @@ imports Base
 
 context-free syntax // arrays
 
-  Type.ArrayTy = <array of <TypeId>> 
-  
-  Exp.Array = <<TypeId>[<Exp>] of <Exp>> 
-  
-  LValue.Subscript = <<LValue>[<Exp>]> 
+  Type.ArrayTy = <array of <ID>>
+
+  Exp.Array = <<ID>[<Exp>] of <Exp>>
+
+  LValue.Subscript = <<LValue>[<Exp>]>

@@ -2,7 +2,3 @@ module Occurrences
 
 imports Base
 
-context-free syntax
-  
-  Occ = Id
-  

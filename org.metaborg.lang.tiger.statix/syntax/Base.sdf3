@@ -6,26 +6,4 @@ sorts Type
 
 sorts Var
 
-sorts Occ
-
-lexical sorts TypeId Id
-
-// The following lines ensure Sort-Plhdr() signatures are generated in ThisModule-sig.str
-//
-//context-free syntax
-//
-//Dec = "$$$$$" {reject}
-//Exp = "$$$$$" {reject}
-//LValue = "$$$$$" {reject}
-//
-//
-//context-free syntax
-//
-//Type = "$$$$$" {reject}
-//TypeId = "$$$$$" {reject}
-//
-//context-free syntax
-//
-////Occ = "$$$$$" {reject}
-////Var = "$$$$$" {reject}
-////Id = "$$$$$" {reject}
+lexical sorts ID

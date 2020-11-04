@@ -100,10 +100,10 @@ rules // variable binding
 
 rules // field binding
 
-  declareField : scope * TypeId * TYPE
+  declareField : scope * ID * TYPE
   lookupField  : scope * string -> TYPE
 
-  declareField(s, Occ2TypeId(Id2Occ(Id-LEX2Id(x))), T) :-
+  declareField(s, x, T) :-
     s -> Field{x} with typeOfDecl T,
     // declaration is distinct
     typeOfDecl of Field{x} in s |-> [(_, (_, T))].
@@ -208,7 +208,7 @@ rules // type declarations
   tdecOk  : scope * scope * TypeDec
   tdecsOk   maps tdecOk(*, *, list(*))
 
-  tdecOk(s, s_outer, TypeDec(Id2Occ(Id-LEX2Id(x)), t)) :- {T}
+  tdecOk(s, s_outer, TypeDec(x, t)) :- {T}
     typeOfType(s_outer, t) == T,
     declareType(s, x, T).
 
@@ -218,7 +218,7 @@ rules // types
 
   typeOfType : scope * Type -> TYPE
 
-  typeOfType(s, Tid(Occ2TypeId(Id2Occ(Id-LEX2Id(x))))) = lookupType(s, x).
+  typeOfType(s, Tid(x)) = lookupType(s, x).
 
     // typeOfDecl of Type{x} in s |-> [(_, (_, T))|_].
     // permissive query to allow non-distinct type declarations
@@ -235,13 +235,13 @@ rules // function declarations
   fdecsOk      maps fdecOk(*, *, list(*))
   fdecOk     : scope * scope * FunDec
 
-  fdecOk(s, s_outer, d@ProcDec(Id2Occ(Id-LEX2Id(f)), args, e)) :- {s_fun Ts}
+  fdecOk(s, s_outer, d@ProcDec(f, args, e)) :- {s_fun Ts}
     new s_fun, s_fun -P-> s,
     typesOfArgs(s_fun, s_outer, args) == Ts,
     declareVar(s, f, FUN(Ts, UNIT())),
     typeOfExp(s_fun, e) == UNIT().
 
-  fdecOk(s, s_outer, d@FunDec(Id2Occ(Id-LEX2Id(f)), args, t, e)) :- {s_fun Ts T S}
+  fdecOk(s, s_outer, d@FunDec(f, args, t, e)) :- {s_fun Ts T S}
     new s_fun, s_fun -P-> s,
     typesOfArgs(s_fun, s_outer, args) == Ts,
     typeOfType(s_outer, t) == T,
@@ -253,13 +253,13 @@ rules
   typeOfArg  : scope * scope * FArg -> TYPE
   typesOfArgs  maps typeOfArg(*, *, list(*)) = list(*)
 
-  typeOfArg(s_fun, s_outer, FArg(Id2Occ(Id-LEX2Id(x)), t)) = T :-
+  typeOfArg(s_fun, s_outer, FArg(x, t)) = T :-
     typeOfType(s_outer, t) == T,
     declareVar(s_fun, x, T).
 
 rules // function calls
 
-  typeOfExp(s, Call(Id2Occ(Id-LEX2Id(f)), es)) = T :- {Ts Ss}
+  typeOfExp(s, Call(f, es)) = T :- {Ts Ss}
     lookupVar(s, f) == FUN(Ts, T),
     typeOfExps(s, es) == Ss,
     subtypes(Ss, Ts).
@@ -270,13 +270,13 @@ rules // variable declarations
   // the scope of the declared variable starts just after its vardec
   // and lasts until the end.
 
-  decOk(s, s_outer, VarDec(Id2Occ(Id-LEX2Id(x)), t, e)) :- {T S}
+  decOk(s, s_outer, VarDec(x, t, e)) :- {T S}
     typeOfType(s_outer, t) == T,
     typeOfExp(s_outer, e) == S,
     subtype(S, T),
     declareVar(s, x, T).
 
-  decOk(s, s_outer, VarDecNoType(Id2Occ(Id-LEX2Id(x)), e)) :- {T}
+  decOk(s, s_outer, VarDecNoType(x, e)) :- {T}
     typeOfExp(s_outer, e) == T,
     T != NIL(),
     declareVar(s, x, T).
@@ -310,12 +310,12 @@ rules // statements
 
 rules
 
-  typeOfLVal(s, Var2LValue(Var(Id2Occ(Id-LEX2Id(x))))) = T :-
+  typeOfLVal(s, Var2LValue(Var(x))) = T :-
     lookupVar(s, x) == T.
 
   typeOfExp(s, LValue2Exp(lval)) = typeOfLVal(s, lval).
 
-  typeOfExp(s, LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id(x)))))) = lookupVar(s, x).
+  typeOfExp(s, LValue2Exp(Var2LValue(Var(x)))) = lookupVar(s, x).
 
 rules // sequence
 
@@ -346,7 +346,7 @@ rules // sequence
     typeOfExp(s_loop, e1) == INT(),
     typeOfExp(s_loop, e2) == UNIT().
 
-  typeOfExp(s, For(Var(Id2Occ(Id-LEX2Id(x))), e1, e2, e3)) = UNIT() :- {s_for}
+  typeOfExp(s, For(Var(x), e1, e2, e3)) = UNIT() :- {s_for}
     new s_for,
     s_for -P-> s,
     declareVar(s_for, x, INT()),
@@ -429,9 +429,9 @@ rules // record type
   fieldOk : scope * scope * Field
   fieldsOk maps fieldOk(*, *, list(*))
 
-  fieldOk(s_rec, s_outer, Field(x, Occ2TypeId(t))) :- {T}
-    typeOfType(s_outer, Tid(Occ2TypeId(t))) == T,
-    declareField(s_rec, Occ2TypeId(x), T).
+  fieldOk(s_rec, s_outer, Field(x, t)) :- {T}
+    typeOfType(s_outer, Tid(t)) == T,
+    declareField(s_rec, x, T).
 
 rules // literals
 
@@ -449,23 +449,23 @@ rules // record creation
   initOk : scope * scope * scope * InitField
   initsOk maps initOk(*, *, *, list(*))
 
-  initOk(s, s_rec, s_init, InitField(Id2Occ(Id-LEX2Id(x)), e)) :- {S T}
+  initOk(s, s_rec, s_init, InitField(x, e)) :- {S T}
     lookupField(s_rec, x) == T,
     typeOfExp(s, e) == S,
-    declareField(s_init, Occ2TypeId(Id2Occ(Id-LEX2Id(x))), S),
+    declareField(s_init, x, S),
     subtype(S, T).
 
-  fieldInitialized : TypeId * (path * (occurrence * TYPE)) * scope
+  fieldInitialized : ID * (path * (occurrence * TYPE)) * scope
   allFieldsInitialized maps fieldInitialized(*, list(*), *)
 
-  fieldInitialized(Occ2TypeId(Id2Occ(t)), (_, (Field{x}, _)), s) :-
+  fieldInitialized(t, (_, (Field{x}, _)), s) :-
     typeOfDecl of Field{x} in s |-> [_].
     // t is passed such that error is displayed be on t;
     // noting that init of x is missing
 
 rules // record field access
 
-  typeOfLVal(s, FieldVar(lval, Id2Occ(Id-LEX2Id(x)))) = T :- {s_rec}
+  typeOfLVal(s, FieldVar(lval, x)) = T :- {s_rec}
     typeOfLVal(s, lval) == RECORD(s_rec),
     lookupField(s_rec, x) == T.
 
@@ -494,29 +494,29 @@ rules
     declareVarRaw(s,  "printi",    FUN([INT()], UNIT())).
 
 
-    
+
 rules // placeholders
 
   programOk(Module-Plhdr()).
-  
+
   initOk(_, _, _, InitField-Plhdr()).
-    
-  declareField(_, TypeId-Plhdr(), T).
-  
+
+  //declareField(_, TypeId-Plhdr(), T).
+
   typeOfLVal(_, LValue-Plhdr()) = T.
-  
+
   decOk(_, _, Dec-Plhdr()).
-  
+
   tdecOk(_, _, TypeDec-Plhdr()).
-  
+
   typeOfType(_, Type-Plhdr()) = T.
-  
+
   fdecOk(_, _, FunDec-Plhdr()).
-  
+
   typeOfArg(_, _, FArg-Plhdr()) = T.
-  
-  fieldInitialized(TypeId-Plhdr(), _, _).
-  
+
+  //fieldInitialized(TypeId-Plhdr(), _, _).
+
   fieldOk(_, _, Field-Plhdr()).
-  
+
   typeOfExp(_, Exp-Plhdr()) = T.
