@@ -1,0 +1,5 @@
+let
+  function fact() : int =
+    let in 2 end
+ in 3
+end

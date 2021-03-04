@@ -1,0 +1,7 @@
+let
+    var x : int := 1
+    $DecList
+    var x : int := 1
+    var y : int := x
+    $DecList
+in 1 end

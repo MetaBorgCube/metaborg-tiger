@@ -1,0 +1,5 @@
+let
+  function fact() : $Type =
+    let in 2 end
+ in 3
+end

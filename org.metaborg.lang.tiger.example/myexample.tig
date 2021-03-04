@@ -1,0 +1,15 @@
+let
+    type mytype = {
+        name : string,
+        age : int
+    }
+    function add(x: int, y: int): int = $Exp
+    var x : int := 1
+    $DecList
+    var x : int := 1
+    var y : int := x
+    $DecList
+in
+	let var z : int := 1 in $Exp end
+	//$Exp
+end
