@@ -20,9 +20,21 @@ rules // Debugging
     (node, _, _, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"upgraded.aterm")> path
-    ; result   := <explicate-injections-Tiger; upgrade-placeholders-Tiger> node
+    ; result   := <upgrade-placeholders-Tiger> node
 
   debug-downgrade-placeholders:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"downgraded.aterm")> path
+    ; result   := <upgrade-placeholders-Tiger; downgrade-placeholders-Tiger> node
+
+  debug-upgrade-placeholders-explicated:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"upgraded.aterm")> path
+    ; result   := <explicate-injections-Tiger; upgrade-placeholders-Tiger> node
+
+  debug-downgrade-placeholders-explicated:
     (node, _, _, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"downgraded.aterm")> path

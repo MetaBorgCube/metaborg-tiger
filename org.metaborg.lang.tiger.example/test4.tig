@@ -1,5 +1,5 @@
 let
-  function fact() : int =
-    $Exp
-  in 3
+  function fact() : int = $Exp
+  var v : int := 2
+  in $LValue := 3
 end

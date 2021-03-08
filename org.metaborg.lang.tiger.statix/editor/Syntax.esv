@@ -20,8 +20,12 @@ menus
 
     action: "Format"          = editor-format (source)
     action: "Show parsed AST" = debug-show-aterm (source)
+
+  menu: "Placeholders" (openeditor)
     action: "Show upgraded AST" = debug-upgrade-placeholders (source)
     action: "Show up- and downgraded AST" = debug-downgrade-placeholders (source)
+    action: "Show upgraded AST (explicated)" = debug-upgrade-placeholders-explicated (source)
+    action: "Show up- and downgraded AST (explicated)" = debug-downgrade-placeholders-explicated (source)
 
 
 views
