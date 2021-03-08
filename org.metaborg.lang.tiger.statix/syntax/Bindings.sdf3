@@ -2,13 +2,21 @@ module Bindings
 
 imports Base
 
-sorts Declarations
+sorts Declarations DecList
 
 context-free syntax
 
+//  Exp.Let = <
+//    let
+//      <{Dec "\n"}*>
+//     in
+//      <{Exp ";\n"}*>
+//    end
+//  >
+
   Exp.Let = <
     let
-      <{Dec "\n"}*>
+      <DecList>
      in
       <{Exp ";\n"}*>
     end
@@ -17,6 +25,25 @@ context-free syntax
   Declarations.Declarations = <
     declarations <{Dec "\n"}*>
   >
+
+  DecList.Conc = <
+   <DecList>
+   <DecList>
+   > {left}
+  DecList.Sing = Dec
+
+
+
+//  Dec.Decs-Plhdr = "$Decs"
+//  Exp.ExpsNL-Plhdr = "$Exps"
+
+//variables
+//
+//  Dec* = "d*"
+//
+//lexical restrictions
+//  "$Decs" -/- [a-zA-Z]
+//  "$Exps" -/- [a-zA-Z]
 
 
 
