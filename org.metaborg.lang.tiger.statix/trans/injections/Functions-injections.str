@@ -1,0 +1,381 @@
+module injections/Functions-injections
+
+imports
+  signatures/Functions-sig
+  pp/Functions-pp
+  libspoofax/term/origin
+
+
+imports
+  injections/Base-injections
+
+
+signature
+  constructors
+    FunDec-Plhdr : FunDec
+    FArg-Plhdr   : FArg
+
+
+rules
+
+  is-Tiger-Dec-or-inj =
+    ?FunDecs(_)
+
+  is-Tiger-FunDec-or-inj =
+    ?ProcDec(_, _, _)
+
+  is-Tiger-FunDec-or-inj =
+    ?FunDec(_, _, _, _)
+
+  is-Tiger-FArg-or-inj =
+    ?FArg(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Call(_, _)
+
+
+rules
+
+  is-Tiger-inj-cons =
+    is-Tiger-FunDec-inj-cons
+
+  is-Tiger-FunDec-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-FArg-inj-cons
+
+  is-Tiger-FArg-inj-cons =
+    fail
+
+
+rules
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-FunDec
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-FArg
+
+  explicate-injections-Tiger-Dec =
+    origin-track-forced(
+      \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
+        with funDecs' := <map(explicate-injections-Tiger-FunDec)> funDecs \
+    )
+
+  explicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
+        with id_' := <explicate-injections-Tiger-ID> id_
+             ; fArgs' := <map(explicate-injections-Tiger-FArg)> fArgs
+             ; exp' := <explicate-injections-Tiger-Exp> exp \
+    )
+
+  explicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
+        with id_' := <explicate-injections-Tiger-ID> id_
+             ; fArgs' := <map(explicate-injections-Tiger-FArg)> fArgs
+             ; type' := <explicate-injections-Tiger-Type> type
+             ; exp' := <explicate-injections-Tiger-Exp> exp \
+    )
+
+  explicate-injections-Tiger-FArg =
+    origin-track-forced(
+      \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
+        with id_' := <explicate-injections-Tiger-ID> id_
+             ; type' := <explicate-injections-Tiger-Type> type \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
+        with id_' := <explicate-injections-Tiger-ID> id_
+             ; exps' := <map(explicate-injections-Tiger-Exp)> exps \
+    )
+
+  explicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ FunDec-Plhdr(){anno*} -> FunDec-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-FArg =
+    origin-track-forced(
+      \ FArg-Plhdr(){anno*} -> FArg-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-FunDec)> alts \
+    )
+
+  explicate-injections-Tiger-FArg =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-FArg)> alts \
+    )
+
+
+rules
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-FunDec
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-FArg
+
+  implicate-injections-Tiger-Dec =
+    origin-track-forced(
+      \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
+        with funDecs' := <map(implicate-injections-Tiger-FunDec)> funDecs \
+    )
+
+  implicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
+        with id_' := <implicate-injections-Tiger-ID> id_
+             ; fArgs' := <map(implicate-injections-Tiger-FArg)> fArgs
+             ; exp' := <implicate-injections-Tiger-Exp> exp \
+    )
+
+  implicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
+        with id_' := <implicate-injections-Tiger-ID> id_
+             ; fArgs' := <map(implicate-injections-Tiger-FArg)> fArgs
+             ; type' := <implicate-injections-Tiger-Type> type
+             ; exp' := <implicate-injections-Tiger-Exp> exp \
+    )
+
+  implicate-injections-Tiger-FArg =
+    origin-track-forced(
+      \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
+        with id_' := <implicate-injections-Tiger-ID> id_
+             ; type' := <implicate-injections-Tiger-Type> type \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
+        with id_' := <implicate-injections-Tiger-ID> id_
+             ; exps' := <map(implicate-injections-Tiger-Exp)> exps \
+    )
+
+  implicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ FunDec-Plhdr(){anno*} -> FunDec-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-FArg =
+    origin-track-forced(
+      \ FArg-Plhdr(){anno*} -> FArg-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-FunDec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-FunDec)> alts \
+    )
+
+  implicate-injections-Tiger-FArg =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-FArg)> alts \
+    )
+
+
+rules
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-FunDec
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-FArg
+
+  upgrade-placeholders-Tiger-Dec =
+    origin-track-forced(
+      \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
+        with funDecs' := <map(upgrade-placeholders-Tiger-FunDec)> funDecs \
+    )
+
+  upgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <map(upgrade-placeholders-Tiger-FArg)> fArgs
+             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  upgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <map(upgrade-placeholders-Tiger-FArg)> fArgs
+             ; type' := <upgrade-placeholders-Tiger-Type> type
+             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  upgrade-placeholders-Tiger-FArg =
+    origin-track-forced(
+      \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; type' := <upgrade-placeholders-Tiger-Type> type \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; exps' := <map(upgrade-placeholders-Tiger-Exp)> exps \
+    )
+
+  upgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ FunDec-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "FunDec" \
+    )
+
+  upgrade-placeholders-Tiger-FArg =
+    origin-track-forced(
+      \ FArg-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "FArg" \
+    )
+
+  upgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(upgrade-placeholders-Tiger-FunDec)> alts \
+    )
+
+  upgrade-placeholders-Tiger-FArg =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(upgrade-placeholders-Tiger-FArg)> alts \
+    )
+
+
+rules
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-FunDec
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-FArg
+
+  downgrade-placeholders-Tiger-Dec =
+    origin-track-forced(
+      \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
+        with funDecs' := <map(downgrade-placeholders-Tiger-FunDec)> funDecs \
+    )
+
+  downgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <map(downgrade-placeholders-Tiger-FArg)> fArgs
+             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  downgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <map(downgrade-placeholders-Tiger-FArg)> fArgs
+             ; type' := <downgrade-placeholders-Tiger-Type> type
+             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  downgrade-placeholders-Tiger-FArg =
+    origin-track-forced(
+      \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; type' := <downgrade-placeholders-Tiger-Type> type \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; exps' := <map(downgrade-placeholders-Tiger-Exp)> exps \
+    )
+
+  downgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ p{anno*} -> FunDec-Plhdr(){anno*}
+        where <is-placeholder> p \
+    )
+
+  downgrade-placeholders-Tiger-FArg =
+    origin-track-forced(
+      \ p{anno*} -> FArg-Plhdr(){anno*}
+        where <is-placeholder> p \
+    )
+
+  downgrade-placeholders-Tiger-FunDec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(downgrade-placeholders-Tiger-FunDec)> alts \
+    )
+
+  downgrade-placeholders-Tiger-FArg =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(downgrade-placeholders-Tiger-FArg)> alts \
+    )
+
+
+rules
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot implicate multi-element list to option.")> \
+    )
+
+
+rules
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
+    )

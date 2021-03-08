@@ -1,0 +1,452 @@
+module injections/Base-injections
+
+imports
+  signatures/Base-sig
+  pp/Base-pp
+  libspoofax/term/origin
+
+
+signature
+  constructors
+    Dec-Plhdr    : Dec
+    Exp-Plhdr    : Exp
+    LValue-Plhdr : LValue
+    Type-Plhdr   : Type
+    Var-Plhdr    : Var
+    ID-Plhdr     : ID
+
+
+rules
+
+  is-Tiger-ID-or-inj =
+    is-string
+
+  is-Tiger-ID-or-inj =
+    ?ID-Plhdr()
+
+
+rules
+
+  is-Tiger-inj-cons =
+    is-Tiger-Dec-inj-cons
+
+  is-Tiger-Dec-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-Exp-inj-cons
+
+  is-Tiger-Exp-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-LValue-inj-cons
+
+  is-Tiger-LValue-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-Type-inj-cons
+
+  is-Tiger-Type-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-Var-inj-cons
+
+  is-Tiger-Var-inj-cons =
+    fail
+
+
+rules
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Dec
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Exp
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-LValue
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Type
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Var
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-ID
+
+  explicate-injections-Tiger-ID =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-ID-or-inj> t \
+    )
+
+  explicate-injections-Tiger-Dec =
+    origin-track-forced(
+      \ Dec-Plhdr(){anno*} -> Dec-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Exp-Plhdr(){anno*} -> Exp-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-LValue =
+    origin-track-forced(
+      \ LValue-Plhdr(){anno*} -> LValue-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Type =
+    origin-track-forced(
+      \ Type-Plhdr(){anno*} -> Type-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Var =
+    origin-track-forced(
+      \ Var-Plhdr(){anno*} -> Var-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Dec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Dec)> alts \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Exp)> alts \
+    )
+
+  explicate-injections-Tiger-LValue =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-LValue)> alts \
+    )
+
+  explicate-injections-Tiger-Type =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Type)> alts \
+    )
+
+  explicate-injections-Tiger-Var =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Var)> alts \
+    )
+
+
+rules
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Dec
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Exp
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-LValue
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Type
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Var
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-ID
+
+  implicate-injections-Tiger-ID =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-ID-or-inj> t \
+    )
+
+  implicate-injections-Tiger-Dec =
+    origin-track-forced(
+      \ Dec-Plhdr(){anno*} -> Dec-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Exp-Plhdr(){anno*} -> Exp-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-LValue =
+    origin-track-forced(
+      \ LValue-Plhdr(){anno*} -> LValue-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Type =
+    origin-track-forced(
+      \ Type-Plhdr(){anno*} -> Type-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Var =
+    origin-track-forced(
+      \ Var-Plhdr(){anno*} -> Var-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Dec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Dec)> alts \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Exp)> alts \
+    )
+
+  implicate-injections-Tiger-LValue =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-LValue)> alts \
+    )
+
+  implicate-injections-Tiger-Type =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Type)> alts \
+    )
+
+  implicate-injections-Tiger-Var =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Var)> alts \
+    )
+
+
+rules
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Dec
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Exp
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-LValue
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Type
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Var
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-ID
+
+  upgrade-placeholders-Tiger-ID =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-ID-or-inj> t \
+    )
+
+  upgrade-placeholders-Tiger-Dec =
+    origin-track-forced(
+      \ Dec-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Dec" \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Exp-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Exp" \
+    )
+
+  upgrade-placeholders-Tiger-LValue =
+    origin-track-forced(
+      \ LValue-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "LValue" \
+    )
+
+  upgrade-placeholders-Tiger-Type =
+    origin-track-forced(
+      \ Type-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Type" \
+    )
+
+  upgrade-placeholders-Tiger-Var =
+    origin-track-forced(
+      \ Var-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Var" \
+    )
+
+  upgrade-placeholders-Tiger-Dec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(upgrade-placeholders-Tiger-Dec)> alts \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(upgrade-placeholders-Tiger-Exp)> alts \
+    )
+
+  upgrade-placeholders-Tiger-LValue =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(upgrade-placeholders-Tiger-LValue)> alts \
+    )
+
+  upgrade-placeholders-Tiger-Type =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(upgrade-placeholders-Tiger-Type)> alts \
+    )
+
+  upgrade-placeholders-Tiger-Var =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(upgrade-placeholders-Tiger-Var)> alts \
+    )
+
+
+rules
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Dec
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Exp
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-LValue
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Type
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Var
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-ID
+
+  downgrade-placeholders-Tiger-ID =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-ID-or-inj> t \
+    )
+
+  downgrade-placeholders-Tiger-Dec =
+    origin-track-forced(
+      \ p{anno*} -> Dec-Plhdr(){anno*}
+        where <is-placeholder> p \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ p{anno*} -> Exp-Plhdr(){anno*}
+        where <is-placeholder> p \
+    )
+
+  downgrade-placeholders-Tiger-LValue =
+    origin-track-forced(
+      \ p{anno*} -> LValue-Plhdr(){anno*}
+        where <is-placeholder> p \
+    )
+
+  downgrade-placeholders-Tiger-Type =
+    origin-track-forced(
+      \ p{anno*} -> Type-Plhdr(){anno*}
+        where <is-placeholder> p \
+    )
+
+  downgrade-placeholders-Tiger-Var =
+    origin-track-forced(
+      \ p{anno*} -> Var-Plhdr(){anno*}
+        where <is-placeholder> p \
+    )
+
+  downgrade-placeholders-Tiger-Dec =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(downgrade-placeholders-Tiger-Dec)> alts \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(downgrade-placeholders-Tiger-Exp)> alts \
+    )
+
+  downgrade-placeholders-Tiger-LValue =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(downgrade-placeholders-Tiger-LValue)> alts \
+    )
+
+  downgrade-placeholders-Tiger-Type =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(downgrade-placeholders-Tiger-Type)> alts \
+    )
+
+  downgrade-placeholders-Tiger-Var =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(downgrade-placeholders-Tiger-Var)> alts \
+    )
+
+
+rules
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot implicate multi-element list to option.")> \
+    )
+
+
+rules
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
+    )
