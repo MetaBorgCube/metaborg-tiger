@@ -21,6 +21,7 @@ menus
     action: "Format"          = editor-format (source)
     action: "Show parsed AST" = debug-show-aterm (source)
     action: "Show upgraded AST" = debug-upgrade-placeholders (source)
+    action: "Show up- and downgraded AST" = debug-downgrade-placeholders (source)
 
 
 views
