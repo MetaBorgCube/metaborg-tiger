@@ -71,7 +71,13 @@ rules
   upgrade-placeholders-Tiger-StrConst =
     origin-track-forced(
       \ t -> t
-        where <is-Tiger-StrConst-or-inj> t \
+        where <is-string> t \
+    )
+
+  upgrade-placeholders-Tiger-StrConst =
+    origin-track-forced(
+      \ StrConst-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "StrConst" \
     )
 
   upgrade-placeholders-Tiger-Exp =
@@ -89,7 +95,13 @@ rules
   downgrade-placeholders-Tiger-StrConst =
     origin-track-forced(
       \ t -> t
-        where <is-Tiger-StrConst-or-inj> t \
+        where <is-string> t \
+    )
+
+  downgrade-placeholders-Tiger-StrConst =
+    origin-track-forced(
+      \ p{anno*} -> StrConst-Plhdr(){anno*}
+        where <is-placeholder> p \
     )
 
   downgrade-placeholders-Tiger-Exp =

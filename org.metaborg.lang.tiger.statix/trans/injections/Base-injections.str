@@ -245,7 +245,13 @@ rules
   upgrade-placeholders-Tiger-ID =
     origin-track-forced(
       \ t -> t
-        where <is-Tiger-ID-or-inj> t \
+        where <is-string> t \
+    )
+
+  upgrade-placeholders-Tiger-ID =
+    origin-track-forced(
+      \ ID-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "ID" \
     )
 
   upgrade-placeholders-Tiger-Dec =
@@ -332,7 +338,13 @@ rules
   downgrade-placeholders-Tiger-ID =
     origin-track-forced(
       \ t -> t
-        where <is-Tiger-ID-or-inj> t \
+        where <is-string> t \
+    )
+
+  downgrade-placeholders-Tiger-ID =
+    origin-track-forced(
+      \ p{anno*} -> ID-Plhdr(){anno*}
+        where <is-placeholder> p \
     )
 
   downgrade-placeholders-Tiger-Dec =
