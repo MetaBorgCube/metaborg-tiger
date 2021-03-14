@@ -196,14 +196,14 @@ rules
   upgrade-placeholders-Tiger-Dec =
     origin-track-forced(
       \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
-        with funDecs' := <map(upgrade-placeholders-Tiger-FunDec)> funDecs \
+        with funDecs' := <upgrade-list(upgrade-placeholders-Tiger-FunDec)> funDecs \
     )
 
   upgrade-placeholders-Tiger-FunDec =
     origin-track-forced(
       \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
         with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; fArgs' := <map(upgrade-placeholders-Tiger-FArg)> fArgs
+             ; fArgs' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> fArgs
              ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
     )
 
@@ -211,7 +211,7 @@ rules
     origin-track-forced(
       \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
         with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; fArgs' := <map(upgrade-placeholders-Tiger-FArg)> fArgs
+             ; fArgs' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> fArgs
              ; type' := <upgrade-placeholders-Tiger-Type> type
              ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
     )
@@ -227,7 +227,7 @@ rules
     origin-track-forced(
       \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
         with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; exps' := <map(upgrade-placeholders-Tiger-Exp)> exps \
+             ; exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
     )
 
   upgrade-placeholders-Tiger-FunDec =
@@ -245,13 +245,13 @@ rules
   upgrade-placeholders-Tiger-FunDec =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-FunDec)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-FunDec)> alts \
     )
 
   upgrade-placeholders-Tiger-FArg =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-FArg)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> alts \
     )
 
 
@@ -266,14 +266,14 @@ rules
   downgrade-placeholders-Tiger-Dec =
     origin-track-forced(
       \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
-        with funDecs' := <map(downgrade-placeholders-Tiger-FunDec)> funDecs \
+        with funDecs' := <downgrade-list(downgrade-placeholders-Tiger-FunDec)> funDecs \
     )
 
   downgrade-placeholders-Tiger-FunDec =
     origin-track-forced(
       \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
         with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; fArgs' := <map(downgrade-placeholders-Tiger-FArg)> fArgs
+             ; fArgs' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> fArgs
              ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
     )
 
@@ -281,7 +281,7 @@ rules
     origin-track-forced(
       \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
         with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; fArgs' := <map(downgrade-placeholders-Tiger-FArg)> fArgs
+             ; fArgs' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> fArgs
              ; type' := <downgrade-placeholders-Tiger-Type> type
              ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
     )
@@ -297,7 +297,7 @@ rules
     origin-track-forced(
       \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
         with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; exps' := <map(downgrade-placeholders-Tiger-Exp)> exps \
+             ; exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
     )
 
   downgrade-placeholders-Tiger-FunDec =
@@ -315,13 +315,13 @@ rules
   downgrade-placeholders-Tiger-FunDec =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-FunDec)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-FunDec)> alts \
     )
 
   downgrade-placeholders-Tiger-FArg =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-FArg)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> alts \
     )
 
 
@@ -365,6 +365,20 @@ rules
       \ Some(t){anno*} -> [<s> t]{anno*} \
     )
 
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
   downgrade-option(s) =
     origin-track-forced(
       \ []{anno*} -> None(){anno*} \
@@ -378,4 +392,18 @@ rules
   downgrade-option(s) =
     origin-track-forced(
       \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
     )

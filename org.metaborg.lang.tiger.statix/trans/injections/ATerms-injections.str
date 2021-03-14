@@ -269,19 +269,19 @@ rules
     origin-track-forced(
       \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
         with cons' := <upgrade-placeholders-Tiger-Cons> cons
-             ; terms' := <map(upgrade-placeholders-Tiger-Term)> terms \
+             ; terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
     )
 
   upgrade-placeholders-Tiger-Term =
     origin-track-forced(
       \ List(terms){anno*} -> List(terms'){anno*}
-        with terms' := <map(upgrade-placeholders-Tiger-Term)> terms \
+        with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
     )
 
   upgrade-placeholders-Tiger-Term =
     origin-track-forced(
       \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
-        with terms' := <map(upgrade-placeholders-Tiger-Term)> terms \
+        with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
     )
 
   upgrade-placeholders-Tiger-Cons =
@@ -311,25 +311,25 @@ rules
   upgrade-placeholders-Tiger-Cons =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-Cons)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Cons)> alts \
     )
 
   upgrade-placeholders-Tiger-Int =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-Int)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Int)> alts \
     )
 
   upgrade-placeholders-Tiger-String =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-String)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-String)> alts \
     )
 
   upgrade-placeholders-Tiger-Term =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-Term)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Term)> alts \
     )
 
 
@@ -363,19 +363,19 @@ rules
     origin-track-forced(
       \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
         with cons' := <downgrade-placeholders-Tiger-Cons> cons
-             ; terms' := <map(downgrade-placeholders-Tiger-Term)> terms \
+             ; terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
     )
 
   downgrade-placeholders-Tiger-Term =
     origin-track-forced(
       \ List(terms){anno*} -> List(terms'){anno*}
-        with terms' := <map(downgrade-placeholders-Tiger-Term)> terms \
+        with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
     )
 
   downgrade-placeholders-Tiger-Term =
     origin-track-forced(
       \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
-        with terms' := <map(downgrade-placeholders-Tiger-Term)> terms \
+        with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
     )
 
   downgrade-placeholders-Tiger-Cons =
@@ -405,25 +405,25 @@ rules
   downgrade-placeholders-Tiger-Cons =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-Cons)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Cons)> alts \
     )
 
   downgrade-placeholders-Tiger-Int =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-Int)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Int)> alts \
     )
 
   downgrade-placeholders-Tiger-String =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-String)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-String)> alts \
     )
 
   downgrade-placeholders-Tiger-Term =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-Term)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Term)> alts \
     )
 
 
@@ -467,6 +467,20 @@ rules
       \ Some(t){anno*} -> [<s> t]{anno*} \
     )
 
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
   downgrade-option(s) =
     origin-track-forced(
       \ []{anno*} -> None(){anno*} \
@@ -480,4 +494,18 @@ rules
   downgrade-option(s) =
     origin-track-forced(
       \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
     )

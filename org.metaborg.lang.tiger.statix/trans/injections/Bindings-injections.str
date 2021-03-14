@@ -101,14 +101,14 @@ rules
   upgrade-placeholders-Tiger-Exp =
     origin-track-forced(
       \ Let(decs, exps){anno*} -> Let(decs', exps'){anno*}
-        with decs' := <map(upgrade-placeholders-Tiger-Dec)> decs
-             ; exps' := <map(upgrade-placeholders-Tiger-Exp)> exps \
+        with decs' := <upgrade-list(upgrade-placeholders-Tiger-Dec)> decs
+             ; exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
     )
 
   upgrade-placeholders-Tiger-Declarations =
     origin-track-forced(
       \ Declarations(decs){anno*} -> Declarations(decs'){anno*}
-        with decs' := <map(upgrade-placeholders-Tiger-Dec)> decs \
+        with decs' := <upgrade-list(upgrade-placeholders-Tiger-Dec)> decs \
     )
 
   upgrade-placeholders-Tiger-Declarations =
@@ -120,7 +120,7 @@ rules
   upgrade-placeholders-Tiger-Declarations =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-Declarations)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Declarations)> alts \
     )
 
 
@@ -132,14 +132,14 @@ rules
   downgrade-placeholders-Tiger-Exp =
     origin-track-forced(
       \ Let(decs, exps){anno*} -> Let(decs', exps'){anno*}
-        with decs' := <map(downgrade-placeholders-Tiger-Dec)> decs
-             ; exps' := <map(downgrade-placeholders-Tiger-Exp)> exps \
+        with decs' := <downgrade-list(downgrade-placeholders-Tiger-Dec)> decs
+             ; exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
     )
 
   downgrade-placeholders-Tiger-Declarations =
     origin-track-forced(
       \ Declarations(decs){anno*} -> Declarations(decs'){anno*}
-        with decs' := <map(downgrade-placeholders-Tiger-Dec)> decs \
+        with decs' := <downgrade-list(downgrade-placeholders-Tiger-Dec)> decs \
     )
 
   downgrade-placeholders-Tiger-Declarations =
@@ -151,7 +151,7 @@ rules
   downgrade-placeholders-Tiger-Declarations =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-Declarations)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Declarations)> alts \
     )
 
 
@@ -195,6 +195,20 @@ rules
       \ Some(t){anno*} -> [<s> t]{anno*} \
     )
 
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
   downgrade-option(s) =
     origin-track-forced(
       \ []{anno*} -> None(){anno*} \
@@ -208,4 +222,18 @@ rules
   downgrade-option(s) =
     origin-track-forced(
       \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
     )

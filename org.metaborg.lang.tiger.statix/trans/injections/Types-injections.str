@@ -116,7 +116,7 @@ rules
   upgrade-placeholders-Tiger-Dec =
     origin-track-forced(
       \ TypeDecs(typeDecs){anno*} -> TypeDecs(typeDecs'){anno*}
-        with typeDecs' := <map(upgrade-placeholders-Tiger-TypeDec)> typeDecs \
+        with typeDecs' := <upgrade-list(upgrade-placeholders-Tiger-TypeDec)> typeDecs \
     )
 
   upgrade-placeholders-Tiger-TypeDec =
@@ -141,7 +141,7 @@ rules
   upgrade-placeholders-Tiger-TypeDec =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-TypeDec)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-TypeDec)> alts \
     )
 
 
@@ -153,7 +153,7 @@ rules
   downgrade-placeholders-Tiger-Dec =
     origin-track-forced(
       \ TypeDecs(typeDecs){anno*} -> TypeDecs(typeDecs'){anno*}
-        with typeDecs' := <map(downgrade-placeholders-Tiger-TypeDec)> typeDecs \
+        with typeDecs' := <downgrade-list(downgrade-placeholders-Tiger-TypeDec)> typeDecs \
     )
 
   downgrade-placeholders-Tiger-TypeDec =
@@ -178,7 +178,7 @@ rules
   downgrade-placeholders-Tiger-TypeDec =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-TypeDec)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-TypeDec)> alts \
     )
 
 
@@ -222,6 +222,20 @@ rules
       \ Some(t){anno*} -> [<s> t]{anno*} \
     )
 
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
   downgrade-option(s) =
     origin-track-forced(
       \ []{anno*} -> None(){anno*} \
@@ -235,4 +249,18 @@ rules
   downgrade-option(s) =
     origin-track-forced(
       \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
     )

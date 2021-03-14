@@ -203,7 +203,7 @@ rules
   upgrade-placeholders-Tiger-Type =
     origin-track-forced(
       \ RecordTy(fields){anno*} -> RecordTy(fields'){anno*}
-        with fields' := <map(upgrade-placeholders-Tiger-Field)> fields \
+        with fields' := <upgrade-list(upgrade-placeholders-Tiger-Field)> fields \
     )
 
   upgrade-placeholders-Tiger-Field =
@@ -222,7 +222,7 @@ rules
     origin-track-forced(
       \ Record(id_, initFields){anno*} -> Record(id_', initFields'){anno*}
         with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; initFields' := <map(upgrade-placeholders-Tiger-InitField)> initFields \
+             ; initFields' := <upgrade-list(upgrade-placeholders-Tiger-InitField)> initFields \
     )
 
   upgrade-placeholders-Tiger-InitField =
@@ -254,13 +254,13 @@ rules
   upgrade-placeholders-Tiger-Field =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-Field)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Field)> alts \
     )
 
   upgrade-placeholders-Tiger-InitField =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(upgrade-placeholders-Tiger-InitField)> alts \
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-InitField)> alts \
     )
 
 
@@ -275,7 +275,7 @@ rules
   downgrade-placeholders-Tiger-Type =
     origin-track-forced(
       \ RecordTy(fields){anno*} -> RecordTy(fields'){anno*}
-        with fields' := <map(downgrade-placeholders-Tiger-Field)> fields \
+        with fields' := <downgrade-list(downgrade-placeholders-Tiger-Field)> fields \
     )
 
   downgrade-placeholders-Tiger-Field =
@@ -294,7 +294,7 @@ rules
     origin-track-forced(
       \ Record(id_, initFields){anno*} -> Record(id_', initFields'){anno*}
         with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; initFields' := <map(downgrade-placeholders-Tiger-InitField)> initFields \
+             ; initFields' := <downgrade-list(downgrade-placeholders-Tiger-InitField)> initFields \
     )
 
   downgrade-placeholders-Tiger-InitField =
@@ -326,13 +326,13 @@ rules
   downgrade-placeholders-Tiger-Field =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-Field)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Field)> alts \
     )
 
   downgrade-placeholders-Tiger-InitField =
     origin-track-forced(
       \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <map(downgrade-placeholders-Tiger-InitField)> alts \
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-InitField)> alts \
     )
 
 
@@ -376,6 +376,20 @@ rules
       \ Some(t){anno*} -> [<s> t]{anno*} \
     )
 
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
   downgrade-option(s) =
     origin-track-forced(
       \ []{anno*} -> None(){anno*} \
@@ -389,4 +403,18 @@ rules
   downgrade-option(s) =
     origin-track-forced(
       \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
     )
