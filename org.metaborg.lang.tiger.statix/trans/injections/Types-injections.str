@@ -111,85 +111,75 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-TypeDec
+    upgrade-placeholders-Tiger-TypeDec
 
   upgrade-placeholders-Tiger-Dec =
-    debug(!"upgrade-placeholders-Tiger-Dec: ")
-    ; origin-track-forced(
-        \ TypeDecs(typeDecs){anno*} -> TypeDecs(typeDecs'){anno*}
-          with typeDecs' := <upgrade-list(upgrade-placeholders-Tiger-TypeDec)> typeDecs \
-      )
+    origin-track-forced(
+      \ TypeDecs(typeDecs){anno*} -> TypeDecs(typeDecs'){anno*}
+        with typeDecs' := <upgrade-list(upgrade-placeholders-Tiger-TypeDec)> typeDecs \
+    )
 
   upgrade-placeholders-Tiger-TypeDec =
-    debug(!"upgrade-placeholders-Tiger-TypeDec: ")
-    ; origin-track-forced(
-        \ TypeDec(id_, type){anno*} -> TypeDec(id_', type'){anno*}
-          with id_' := <upgrade-placeholders-Tiger-ID> id_
-               ; type' := <upgrade-placeholders-Tiger-Type> type \
-      )
+    origin-track-forced(
+      \ TypeDec(id_, type){anno*} -> TypeDec(id_', type'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; type' := <upgrade-placeholders-Tiger-Type> type \
+    )
 
   upgrade-placeholders-Tiger-Type =
-    debug(!"upgrade-placeholders-Tiger-Type: ")
-    ; origin-track-forced(
-        \ Tid(id_){anno*} -> Tid(id_'){anno*}
-          with id_' := <upgrade-placeholders-Tiger-ID> id_ \
-      )
+    origin-track-forced(
+      \ Tid(id_){anno*} -> Tid(id_'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_ \
+    )
 
   upgrade-placeholders-Tiger-TypeDec =
-    debug(!"upgrade-placeholders-Tiger-TypeDec: ")
-    ; origin-track-forced(
-        \ TypeDec-Plhdr(){anno*} -> p{anno*}
-          with p := <make-placeholder> "TypeDec" \
-      )
+    origin-track-forced(
+      \ TypeDec-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "TypeDec" \
+    )
 
   upgrade-placeholders-Tiger-TypeDec =
-    debug(!"upgrade-placeholders-Tiger-TypeDec: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <upgrade-list(upgrade-placeholders-Tiger-TypeDec)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-TypeDec)> alts \
+    )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-TypeDec
+    downgrade-placeholders-Tiger-TypeDec
 
   downgrade-placeholders-Tiger-Dec =
-    debug(!"downgrade-placeholders-Tiger-Dec: ")
-    ; origin-track-forced(
-        \ TypeDecs(typeDecs){anno*} -> TypeDecs(typeDecs'){anno*}
-          with typeDecs' := <downgrade-list(downgrade-placeholders-Tiger-TypeDec)> typeDecs \
-      )
+    origin-track-forced(
+      \ TypeDecs(typeDecs){anno*} -> TypeDecs(typeDecs'){anno*}
+        with typeDecs' := <downgrade-list(downgrade-placeholders-Tiger-TypeDec)> typeDecs \
+    )
 
   downgrade-placeholders-Tiger-TypeDec =
-    debug(!"downgrade-placeholders-Tiger-TypeDec: ")
-    ; origin-track-forced(
-        \ TypeDec(id_, type){anno*} -> TypeDec(id_', type'){anno*}
-          with id_' := <downgrade-placeholders-Tiger-ID> id_
-               ; type' := <downgrade-placeholders-Tiger-Type> type \
-      )
+    origin-track-forced(
+      \ TypeDec(id_, type){anno*} -> TypeDec(id_', type'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; type' := <downgrade-placeholders-Tiger-Type> type \
+    )
 
   downgrade-placeholders-Tiger-Type =
-    debug(!"downgrade-placeholders-Tiger-Type: ")
-    ; origin-track-forced(
-        \ Tid(id_){anno*} -> Tid(id_'){anno*}
-          with id_' := <downgrade-placeholders-Tiger-ID> id_ \
-      )
+    origin-track-forced(
+      \ Tid(id_){anno*} -> Tid(id_'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_ \
+    )
 
   downgrade-placeholders-Tiger-TypeDec =
-    debug(!"downgrade-placeholders-Tiger-TypeDec: ")
-    ; origin-track-forced(
-        \ p{anno*} -> TypeDec-Plhdr(){anno*}
-          where <(is-placeholder + ?TypeDec-Plhdr())> p \
-      )
+    origin-track-forced(
+      \ p{anno*} -> TypeDec-Plhdr(){anno*}
+        where <(is-placeholder + ?TypeDec-Plhdr())> p \
+    )
 
   downgrade-placeholders-Tiger-TypeDec =
-    debug(!"downgrade-placeholders-Tiger-TypeDec: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <downgrade-list(downgrade-placeholders-Tiger-TypeDec)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-TypeDec)> alts \
+    )
 
 
 rules

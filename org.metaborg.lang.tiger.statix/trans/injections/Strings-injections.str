@@ -66,55 +66,49 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-StrConst
+    upgrade-placeholders-Tiger-StrConst
 
   upgrade-placeholders-Tiger-StrConst =
-    debug(!"upgrade-placeholders-Tiger-StrConst: ")
-    ; origin-track-forced(
-        \ t -> t
-          where <is-string> t \
-      )
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
 
   upgrade-placeholders-Tiger-StrConst =
-    debug(!"upgrade-placeholders-Tiger-StrConst: ")
-    ; origin-track-forced(
-        \ StrConst-Plhdr(){anno*} -> p{anno*}
-          with p := <make-placeholder> "StrConst" \
-      )
+    origin-track-forced(
+      \ StrConst-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "StrConst" \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ String(strConst){anno*} -> String(strConst'){anno*}
-          with strConst' := <upgrade-placeholders-Tiger-StrConst> strConst \
-      )
+    origin-track-forced(
+      \ String(strConst){anno*} -> String(strConst'){anno*}
+        with strConst' := <upgrade-placeholders-Tiger-StrConst> strConst \
+    )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-StrConst
+    downgrade-placeholders-Tiger-StrConst
 
   downgrade-placeholders-Tiger-StrConst =
-    debug(!"downgrade-placeholders-Tiger-StrConst: ")
-    ; origin-track-forced(
-        \ t -> t
-          where <is-string> t \
-      )
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
 
   downgrade-placeholders-Tiger-StrConst =
-    debug(!"downgrade-placeholders-Tiger-StrConst: ")
-    ; origin-track-forced(
-        \ p{anno*} -> StrConst-Plhdr(){anno*}
-          where <(is-placeholder + ?StrConst-Plhdr())> p \
-      )
+    origin-track-forced(
+      \ p{anno*} -> StrConst-Plhdr(){anno*}
+        where <(is-placeholder + ?StrConst-Plhdr())> p \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ String(strConst){anno*} -> String(strConst'){anno*}
-          with strConst' := <downgrade-placeholders-Tiger-StrConst> strConst \
-      )
+    origin-track-forced(
+      \ String(strConst){anno*} -> String(strConst'){anno*}
+        with strConst' := <downgrade-placeholders-Tiger-StrConst> strConst \
+    )
 
 
 rules

@@ -285,261 +285,229 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-IntConst
+    upgrade-placeholders-Tiger-IntConst
 
   upgrade-placeholders-Tiger-IntConst =
-    debug(!"upgrade-placeholders-Tiger-IntConst: ")
-    ; origin-track-forced(
-        \ t -> t
-          where <is-string> t \
-      )
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
 
   upgrade-placeholders-Tiger-IntConst =
-    debug(!"upgrade-placeholders-Tiger-IntConst: ")
-    ; origin-track-forced(
-        \ IntConst-Plhdr(){anno*} -> p{anno*}
-          with p := <make-placeholder> "IntConst" \
-      )
+    origin-track-forced(
+      \ IntConst-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "IntConst" \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Int(intConst){anno*} -> Int(intConst'){anno*}
-          with intConst' := <upgrade-placeholders-Tiger-IntConst> intConst \
-      )
+    origin-track-forced(
+      \ Int(intConst){anno*} -> Int(intConst'){anno*}
+        with intConst' := <upgrade-placeholders-Tiger-IntConst> intConst \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
-          with exp' := <upgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
+        with exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
-          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-IntConst
+    downgrade-placeholders-Tiger-IntConst
 
   downgrade-placeholders-Tiger-IntConst =
-    debug(!"downgrade-placeholders-Tiger-IntConst: ")
-    ; origin-track-forced(
-        \ t -> t
-          where <is-string> t \
-      )
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
 
   downgrade-placeholders-Tiger-IntConst =
-    debug(!"downgrade-placeholders-Tiger-IntConst: ")
-    ; origin-track-forced(
-        \ p{anno*} -> IntConst-Plhdr(){anno*}
-          where <(is-placeholder + ?IntConst-Plhdr())> p \
-      )
+    origin-track-forced(
+      \ p{anno*} -> IntConst-Plhdr(){anno*}
+        where <(is-placeholder + ?IntConst-Plhdr())> p \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Int(intConst){anno*} -> Int(intConst'){anno*}
-          with intConst' := <downgrade-placeholders-Tiger-IntConst> intConst \
-      )
+    origin-track-forced(
+      \ Int(intConst){anno*} -> Int(intConst'){anno*}
+        with intConst' := <downgrade-placeholders-Tiger-IntConst> intConst \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
-          with exp' := <downgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
+        with exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
-          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-      )
+    origin-track-forced(
+      \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
 
 
 rules

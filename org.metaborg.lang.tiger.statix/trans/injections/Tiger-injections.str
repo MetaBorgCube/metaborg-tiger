@@ -123,55 +123,49 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-Module
+    upgrade-placeholders-Tiger-Module
 
   upgrade-placeholders-Tiger-Module =
-    debug(!"upgrade-placeholders-Tiger-Module: ")
-    ; origin-track-forced(
-        \ Mod(exp){anno*} -> Mod(exp'){anno*}
-          with exp' := <upgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ Mod(exp){anno*} -> Mod(exp'){anno*}
+        with exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
 
   upgrade-placeholders-Tiger-Module =
-    debug(!"upgrade-placeholders-Tiger-Module: ")
-    ; origin-track-forced(
-        \ Module-Plhdr(){anno*} -> p{anno*}
-          with p := <make-placeholder> "Module" \
-      )
+    origin-track-forced(
+      \ Module-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Module" \
+    )
 
   upgrade-placeholders-Tiger-Module =
-    debug(!"upgrade-placeholders-Tiger-Module: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <upgrade-list(upgrade-placeholders-Tiger-Module)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Module)> alts \
+    )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-Module
+    downgrade-placeholders-Tiger-Module
 
   downgrade-placeholders-Tiger-Module =
-    debug(!"downgrade-placeholders-Tiger-Module: ")
-    ; origin-track-forced(
-        \ Mod(exp){anno*} -> Mod(exp'){anno*}
-          with exp' := <downgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ Mod(exp){anno*} -> Mod(exp'){anno*}
+        with exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
 
   downgrade-placeholders-Tiger-Module =
-    debug(!"downgrade-placeholders-Tiger-Module: ")
-    ; origin-track-forced(
-        \ p{anno*} -> Module-Plhdr(){anno*}
-          where <(is-placeholder + ?Module-Plhdr())> p \
-      )
+    origin-track-forced(
+      \ p{anno*} -> Module-Plhdr(){anno*}
+        where <(is-placeholder + ?Module-Plhdr())> p \
+    )
 
   downgrade-placeholders-Tiger-Module =
-    debug(!"downgrade-placeholders-Tiger-Module: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <downgrade-list(downgrade-placeholders-Tiger-Module)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Module)> alts \
+    )
 
 
 rules

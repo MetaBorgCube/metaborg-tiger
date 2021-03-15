@@ -188,159 +188,141 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-FunDec
+    upgrade-placeholders-Tiger-FunDec
 
   upgrade-placeholders-Tiger =
-    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-FArg
+    upgrade-placeholders-Tiger-FArg
 
   upgrade-placeholders-Tiger-Dec =
-    debug(!"upgrade-placeholders-Tiger-Dec: ")
-    ; origin-track-forced(
-        \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
-          with funDecs' := <upgrade-list(upgrade-placeholders-Tiger-FunDec)> funDecs \
-      )
+    origin-track-forced(
+      \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
+        with funDecs' := <upgrade-list(upgrade-placeholders-Tiger-FunDec)> funDecs \
+    )
 
   upgrade-placeholders-Tiger-FunDec =
-    debug(!"upgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
-          with id_' := <upgrade-placeholders-Tiger-ID> id_
-               ; fArgs' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> fArgs
-               ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> fArgs
+             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
 
   upgrade-placeholders-Tiger-FunDec =
-    debug(!"upgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
-          with id_' := <upgrade-placeholders-Tiger-ID> id_
-               ; fArgs' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> fArgs
-               ; type' := <upgrade-placeholders-Tiger-Type> type
-               ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> fArgs
+             ; type' := <upgrade-placeholders-Tiger-Type> type
+             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
 
   upgrade-placeholders-Tiger-FArg =
-    debug(!"upgrade-placeholders-Tiger-FArg: ")
-    ; origin-track-forced(
-        \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
-          with id_' := <upgrade-placeholders-Tiger-ID> id_
-               ; type' := <upgrade-placeholders-Tiger-Type> type \
-      )
+    origin-track-forced(
+      \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; type' := <upgrade-placeholders-Tiger-Type> type \
+    )
 
   upgrade-placeholders-Tiger-Exp =
-    debug(!"upgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
-          with id_' := <upgrade-placeholders-Tiger-ID> id_
-               ; exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
-      )
+    origin-track-forced(
+      \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
+        with id_' := <upgrade-placeholders-Tiger-ID> id_
+             ; exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
+    )
 
   upgrade-placeholders-Tiger-FunDec =
-    debug(!"upgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ FunDec-Plhdr(){anno*} -> p{anno*}
-          with p := <make-placeholder> "FunDec" \
-      )
+    origin-track-forced(
+      \ FunDec-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "FunDec" \
+    )
 
   upgrade-placeholders-Tiger-FArg =
-    debug(!"upgrade-placeholders-Tiger-FArg: ")
-    ; origin-track-forced(
-        \ FArg-Plhdr(){anno*} -> p{anno*}
-          with p := <make-placeholder> "FArg" \
-      )
+    origin-track-forced(
+      \ FArg-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "FArg" \
+    )
 
   upgrade-placeholders-Tiger-FunDec =
-    debug(!"upgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <upgrade-list(upgrade-placeholders-Tiger-FunDec)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-FunDec)> alts \
+    )
 
   upgrade-placeholders-Tiger-FArg =
-    debug(!"upgrade-placeholders-Tiger-FArg: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-FArg)> alts \
+    )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-FunDec
+    downgrade-placeholders-Tiger-FunDec
 
   downgrade-placeholders-Tiger =
-    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-FArg
+    downgrade-placeholders-Tiger-FArg
 
   downgrade-placeholders-Tiger-Dec =
-    debug(!"downgrade-placeholders-Tiger-Dec: ")
-    ; origin-track-forced(
-        \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
-          with funDecs' := <downgrade-list(downgrade-placeholders-Tiger-FunDec)> funDecs \
-      )
+    origin-track-forced(
+      \ FunDecs(funDecs){anno*} -> FunDecs(funDecs'){anno*}
+        with funDecs' := <downgrade-list(downgrade-placeholders-Tiger-FunDec)> funDecs \
+    )
 
   downgrade-placeholders-Tiger-FunDec =
-    debug(!"downgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
-          with id_' := <downgrade-placeholders-Tiger-ID> id_
-               ; fArgs' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> fArgs
-               ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ ProcDec(id_, fArgs, exp){anno*} -> ProcDec(id_', fArgs', exp'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> fArgs
+             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
 
   downgrade-placeholders-Tiger-FunDec =
-    debug(!"downgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
-          with id_' := <downgrade-placeholders-Tiger-ID> id_
-               ; fArgs' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> fArgs
-               ; type' := <downgrade-placeholders-Tiger-Type> type
-               ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
-      )
+    origin-track-forced(
+      \ FunDec(id_, fArgs, type, exp){anno*} -> FunDec(id_', fArgs', type', exp'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; fArgs' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> fArgs
+             ; type' := <downgrade-placeholders-Tiger-Type> type
+             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
 
   downgrade-placeholders-Tiger-FArg =
-    debug(!"downgrade-placeholders-Tiger-FArg: ")
-    ; origin-track-forced(
-        \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
-          with id_' := <downgrade-placeholders-Tiger-ID> id_
-               ; type' := <downgrade-placeholders-Tiger-Type> type \
-      )
+    origin-track-forced(
+      \ FArg(id_, type){anno*} -> FArg(id_', type'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; type' := <downgrade-placeholders-Tiger-Type> type \
+    )
 
   downgrade-placeholders-Tiger-Exp =
-    debug(!"downgrade-placeholders-Tiger-Exp: ")
-    ; origin-track-forced(
-        \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
-          with id_' := <downgrade-placeholders-Tiger-ID> id_
-               ; exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
-      )
+    origin-track-forced(
+      \ Call(id_, exps){anno*} -> Call(id_', exps'){anno*}
+        with id_' := <downgrade-placeholders-Tiger-ID> id_
+             ; exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
+    )
 
   downgrade-placeholders-Tiger-FunDec =
-    debug(!"downgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ p{anno*} -> FunDec-Plhdr(){anno*}
-          where <(is-placeholder + ?FunDec-Plhdr())> p \
-      )
+    origin-track-forced(
+      \ p{anno*} -> FunDec-Plhdr(){anno*}
+        where <(is-placeholder + ?FunDec-Plhdr())> p \
+    )
 
   downgrade-placeholders-Tiger-FArg =
-    debug(!"downgrade-placeholders-Tiger-FArg: ")
-    ; origin-track-forced(
-        \ p{anno*} -> FArg-Plhdr(){anno*}
-          where <(is-placeholder + ?FArg-Plhdr())> p \
-      )
+    origin-track-forced(
+      \ p{anno*} -> FArg-Plhdr(){anno*}
+        where <(is-placeholder + ?FArg-Plhdr())> p \
+    )
 
   downgrade-placeholders-Tiger-FunDec =
-    debug(!"downgrade-placeholders-Tiger-FunDec: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <downgrade-list(downgrade-placeholders-Tiger-FunDec)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-FunDec)> alts \
+    )
 
   downgrade-placeholders-Tiger-FArg =
-    debug(!"downgrade-placeholders-Tiger-FArg: ")
-    ; origin-track-forced(
-        \ amb(alts){anno*} -> amb(alts'){anno*}
-          with alts' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> alts \
-      )
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-FArg)> alts \
+    )
 
 
 rules
