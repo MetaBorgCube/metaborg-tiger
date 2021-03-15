@@ -303,13 +303,13 @@ rules
   downgrade-placeholders-Tiger-FunDec =
     origin-track-forced(
       \ p{anno*} -> FunDec-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?FunDec-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-FArg =
     origin-track-forced(
       \ p{anno*} -> FArg-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?FArg-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-FunDec =

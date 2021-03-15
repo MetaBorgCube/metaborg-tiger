@@ -145,7 +145,7 @@ rules
   downgrade-placeholders-Tiger-Declarations =
     origin-track-forced(
       \ p{anno*} -> Declarations-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Declarations-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Declarations =

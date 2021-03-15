@@ -158,7 +158,7 @@ rules
   downgrade-placeholders-Tiger-Module =
     origin-track-forced(
       \ p{anno*} -> Module-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Module-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Module =

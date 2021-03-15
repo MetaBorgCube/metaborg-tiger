@@ -381,25 +381,25 @@ rules
   downgrade-placeholders-Tiger-Cons =
     origin-track-forced(
       \ p{anno*} -> Cons-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Cons-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Int =
     origin-track-forced(
       \ p{anno*} -> Int-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Int-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-String =
     origin-track-forced(
       \ p{anno*} -> String-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?String-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Term =
     origin-track-forced(
       \ p{anno*} -> Term-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Term-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Cons =

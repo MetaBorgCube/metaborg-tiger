@@ -314,13 +314,13 @@ rules
   downgrade-placeholders-Tiger-Field =
     origin-track-forced(
       \ p{anno*} -> Field-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Field-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-InitField =
     origin-track-forced(
       \ p{anno*} -> InitField-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?InitField-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Field =

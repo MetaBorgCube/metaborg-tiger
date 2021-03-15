@@ -344,37 +344,37 @@ rules
   downgrade-placeholders-Tiger-ID =
     origin-track-forced(
       \ p{anno*} -> ID-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?ID-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Dec =
     origin-track-forced(
       \ p{anno*} -> Dec-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Dec-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Exp =
     origin-track-forced(
       \ p{anno*} -> Exp-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Exp-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-LValue =
     origin-track-forced(
       \ p{anno*} -> LValue-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?LValue-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Type =
     origin-track-forced(
       \ p{anno*} -> Type-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Type-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Var =
     origin-track-forced(
       \ p{anno*} -> Var-Plhdr(){anno*}
-        where <is-placeholder> p \
+        where <(is-placeholder + ?Var-Plhdr())> p \
     )
 
   downgrade-placeholders-Tiger-Dec =
