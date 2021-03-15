@@ -141,105 +141,119 @@ rules
 rules
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Seq(exps){anno*} -> Seq(exps'){anno*}
-        with exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Seq(exps){anno*} -> Seq(exps'){anno*}
+          with exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
-        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2
-             ; exp3' := <upgrade-placeholders-Tiger-Exp> exp3 \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
+          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2
+               ; exp3' := <upgrade-placeholders-Tiger-Exp> exp3 \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
-        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
+          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
-        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
+          with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
-        with var' := <upgrade-placeholders-Tiger-Var> var
-             ; exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2
-             ; exp3' := <upgrade-placeholders-Tiger-Exp> exp3 \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
+          with var' := <upgrade-placeholders-Tiger-Var> var
+               ; exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2
+               ; exp3' := <upgrade-placeholders-Tiger-Exp> exp3 \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Break(){anno*} -> Break(){anno*} \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Break(){anno*} -> Break(){anno*} \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
-        with lValue' := <upgrade-placeholders-Tiger-LValue> lValue
-             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
+          with lValue' := <upgrade-placeholders-Tiger-LValue> lValue
+               ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+      )
 
 
 rules
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Seq(exps){anno*} -> Seq(exps'){anno*}
-        with exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Seq(exps){anno*} -> Seq(exps'){anno*}
+          with exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
-        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2
-             ; exp3' := <downgrade-placeholders-Tiger-Exp> exp3 \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
+          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2
+               ; exp3' := <downgrade-placeholders-Tiger-Exp> exp3 \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
-        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
+          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
-        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
+          with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
-        with var' := <downgrade-placeholders-Tiger-Var> var
-             ; exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2
-             ; exp3' := <downgrade-placeholders-Tiger-Exp> exp3 \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
+          with var' := <downgrade-placeholders-Tiger-Var> var
+               ; exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2
+               ; exp3' := <downgrade-placeholders-Tiger-Exp> exp3 \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Break(){anno*} -> Break(){anno*} \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Break(){anno*} -> Break(){anno*} \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
-        with lValue' := <downgrade-placeholders-Tiger-LValue> lValue
-             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
+          with lValue' := <downgrade-placeholders-Tiger-LValue> lValue
+               ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+      )
 
 
 rules

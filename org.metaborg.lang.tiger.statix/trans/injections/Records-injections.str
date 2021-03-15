@@ -195,145 +195,165 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    upgrade-placeholders-Tiger-Field
+    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-Field
 
   upgrade-placeholders-Tiger =
-    upgrade-placeholders-Tiger-InitField
+    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-InitField
 
   upgrade-placeholders-Tiger-Type =
-    origin-track-forced(
-      \ RecordTy(fields){anno*} -> RecordTy(fields'){anno*}
-        with fields' := <upgrade-list(upgrade-placeholders-Tiger-Field)> fields \
-    )
+    debug(!"upgrade-placeholders-Tiger-Type: ")
+    ; origin-track-forced(
+        \ RecordTy(fields){anno*} -> RecordTy(fields'){anno*}
+          with fields' := <upgrade-list(upgrade-placeholders-Tiger-Field)> fields \
+      )
 
   upgrade-placeholders-Tiger-Field =
-    origin-track-forced(
-      \ Field(id_1, id_2){anno*} -> Field(id_1', id_2'){anno*}
-        with id_1' := <upgrade-placeholders-Tiger-ID> id_1
-             ; id_2' := <upgrade-placeholders-Tiger-ID> id_2 \
-    )
+    debug(!"upgrade-placeholders-Tiger-Field: ")
+    ; origin-track-forced(
+        \ Field(id_1, id_2){anno*} -> Field(id_1', id_2'){anno*}
+          with id_1' := <upgrade-placeholders-Tiger-ID> id_1
+               ; id_2' := <upgrade-placeholders-Tiger-ID> id_2 \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ NilExp(){anno*} -> NilExp(){anno*} \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ NilExp(){anno*} -> NilExp(){anno*} \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Record(id_, initFields){anno*} -> Record(id_', initFields'){anno*}
-        with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; initFields' := <upgrade-list(upgrade-placeholders-Tiger-InitField)> initFields \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Record(id_, initFields){anno*} -> Record(id_', initFields'){anno*}
+          with id_' := <upgrade-placeholders-Tiger-ID> id_
+               ; initFields' := <upgrade-list(upgrade-placeholders-Tiger-InitField)> initFields \
+      )
 
   upgrade-placeholders-Tiger-InitField =
-    origin-track-forced(
-      \ InitField(id_, exp){anno*} -> InitField(id_', exp'){anno*}
-        with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"upgrade-placeholders-Tiger-InitField: ")
+    ; origin-track-forced(
+        \ InitField(id_, exp){anno*} -> InitField(id_', exp'){anno*}
+          with id_' := <upgrade-placeholders-Tiger-ID> id_
+               ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+      )
 
   upgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ FieldVar(lValue, id_){anno*} -> FieldVar(lValue', id_'){anno*}
-        with lValue' := <upgrade-placeholders-Tiger-LValue> lValue
-             ; id_' := <upgrade-placeholders-Tiger-ID> id_ \
-    )
+    debug(!"upgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ FieldVar(lValue, id_){anno*} -> FieldVar(lValue', id_'){anno*}
+          with lValue' := <upgrade-placeholders-Tiger-LValue> lValue
+               ; id_' := <upgrade-placeholders-Tiger-ID> id_ \
+      )
 
   upgrade-placeholders-Tiger-Field =
-    origin-track-forced(
-      \ Field-Plhdr(){anno*} -> p{anno*}
-        with p := <make-placeholder> "Field" \
-    )
+    debug(!"upgrade-placeholders-Tiger-Field: ")
+    ; origin-track-forced(
+        \ Field-Plhdr(){anno*} -> p{anno*}
+          with p := <make-placeholder> "Field" \
+      )
 
   upgrade-placeholders-Tiger-InitField =
-    origin-track-forced(
-      \ InitField-Plhdr(){anno*} -> p{anno*}
-        with p := <make-placeholder> "InitField" \
-    )
+    debug(!"upgrade-placeholders-Tiger-InitField: ")
+    ; origin-track-forced(
+        \ InitField-Plhdr(){anno*} -> p{anno*}
+          with p := <make-placeholder> "InitField" \
+      )
 
   upgrade-placeholders-Tiger-Field =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Field)> alts \
-    )
+    debug(!"upgrade-placeholders-Tiger-Field: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <upgrade-list(upgrade-placeholders-Tiger-Field)> alts \
+      )
 
   upgrade-placeholders-Tiger-InitField =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <upgrade-list(upgrade-placeholders-Tiger-InitField)> alts \
-    )
+    debug(!"upgrade-placeholders-Tiger-InitField: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <upgrade-list(upgrade-placeholders-Tiger-InitField)> alts \
+      )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    downgrade-placeholders-Tiger-Field
+    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-Field
 
   downgrade-placeholders-Tiger =
-    downgrade-placeholders-Tiger-InitField
+    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-InitField
 
   downgrade-placeholders-Tiger-Type =
-    origin-track-forced(
-      \ RecordTy(fields){anno*} -> RecordTy(fields'){anno*}
-        with fields' := <downgrade-list(downgrade-placeholders-Tiger-Field)> fields \
-    )
+    debug(!"downgrade-placeholders-Tiger-Type: ")
+    ; origin-track-forced(
+        \ RecordTy(fields){anno*} -> RecordTy(fields'){anno*}
+          with fields' := <downgrade-list(downgrade-placeholders-Tiger-Field)> fields \
+      )
 
   downgrade-placeholders-Tiger-Field =
-    origin-track-forced(
-      \ Field(id_1, id_2){anno*} -> Field(id_1', id_2'){anno*}
-        with id_1' := <downgrade-placeholders-Tiger-ID> id_1
-             ; id_2' := <downgrade-placeholders-Tiger-ID> id_2 \
-    )
+    debug(!"downgrade-placeholders-Tiger-Field: ")
+    ; origin-track-forced(
+        \ Field(id_1, id_2){anno*} -> Field(id_1', id_2'){anno*}
+          with id_1' := <downgrade-placeholders-Tiger-ID> id_1
+               ; id_2' := <downgrade-placeholders-Tiger-ID> id_2 \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ NilExp(){anno*} -> NilExp(){anno*} \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ NilExp(){anno*} -> NilExp(){anno*} \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Record(id_, initFields){anno*} -> Record(id_', initFields'){anno*}
-        with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; initFields' := <downgrade-list(downgrade-placeholders-Tiger-InitField)> initFields \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Record(id_, initFields){anno*} -> Record(id_', initFields'){anno*}
+          with id_' := <downgrade-placeholders-Tiger-ID> id_
+               ; initFields' := <downgrade-list(downgrade-placeholders-Tiger-InitField)> initFields \
+      )
 
   downgrade-placeholders-Tiger-InitField =
-    origin-track-forced(
-      \ InitField(id_, exp){anno*} -> InitField(id_', exp'){anno*}
-        with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"downgrade-placeholders-Tiger-InitField: ")
+    ; origin-track-forced(
+        \ InitField(id_, exp){anno*} -> InitField(id_', exp'){anno*}
+          with id_' := <downgrade-placeholders-Tiger-ID> id_
+               ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+      )
 
   downgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ FieldVar(lValue, id_){anno*} -> FieldVar(lValue', id_'){anno*}
-        with lValue' := <downgrade-placeholders-Tiger-LValue> lValue
-             ; id_' := <downgrade-placeholders-Tiger-ID> id_ \
-    )
+    debug(!"downgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ FieldVar(lValue, id_){anno*} -> FieldVar(lValue', id_'){anno*}
+          with lValue' := <downgrade-placeholders-Tiger-LValue> lValue
+               ; id_' := <downgrade-placeholders-Tiger-ID> id_ \
+      )
 
   downgrade-placeholders-Tiger-Field =
-    origin-track-forced(
-      \ p{anno*} -> Field-Plhdr(){anno*}
-        where <(is-placeholder + ?Field-Plhdr())> p \
-    )
+    debug(!"downgrade-placeholders-Tiger-Field: ")
+    ; origin-track-forced(
+        \ p{anno*} -> Field-Plhdr(){anno*}
+          where <(is-placeholder + ?Field-Plhdr())> p \
+      )
 
   downgrade-placeholders-Tiger-InitField =
-    origin-track-forced(
-      \ p{anno*} -> InitField-Plhdr(){anno*}
-        where <(is-placeholder + ?InitField-Plhdr())> p \
-    )
+    debug(!"downgrade-placeholders-Tiger-InitField: ")
+    ; origin-track-forced(
+        \ p{anno*} -> InitField-Plhdr(){anno*}
+          where <(is-placeholder + ?InitField-Plhdr())> p \
+      )
 
   downgrade-placeholders-Tiger-Field =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Field)> alts \
-    )
+    debug(!"downgrade-placeholders-Tiger-Field: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <downgrade-list(downgrade-placeholders-Tiger-Field)> alts \
+      )
 
   downgrade-placeholders-Tiger-InitField =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <downgrade-list(downgrade-placeholders-Tiger-InitField)> alts \
-    )
+    debug(!"downgrade-placeholders-Tiger-InitField: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <downgrade-list(downgrade-placeholders-Tiger-InitField)> alts \
+      )
 
 
 rules

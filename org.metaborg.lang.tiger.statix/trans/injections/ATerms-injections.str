@@ -242,189 +242,215 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    upgrade-placeholders-Tiger-Cons
+    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-Cons
 
   upgrade-placeholders-Tiger =
-    upgrade-placeholders-Tiger-Int
+    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-Int
 
   upgrade-placeholders-Tiger =
-    upgrade-placeholders-Tiger-String
+    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-String
 
   upgrade-placeholders-Tiger =
-    upgrade-placeholders-Tiger-Term
+    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-Term
 
   upgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ Str(string){anno*} -> Str(string'){anno*}
-        with string' := <upgrade-placeholders-Tiger-String> string \
-    )
+    debug(!"upgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ Str(string){anno*} -> Str(string'){anno*}
+          with string' := <upgrade-placeholders-Tiger-String> string \
+      )
 
   upgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ Int(int){anno*} -> Int(int'){anno*}
-        with int' := <upgrade-placeholders-Tiger-Int> int \
-    )
+    debug(!"upgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ Int(int){anno*} -> Int(int'){anno*}
+          with int' := <upgrade-placeholders-Tiger-Int> int \
+      )
 
   upgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
-        with cons' := <upgrade-placeholders-Tiger-Cons> cons
-             ; terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
-    )
+    debug(!"upgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
+          with cons' := <upgrade-placeholders-Tiger-Cons> cons
+               ; terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
+      )
 
   upgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ List(terms){anno*} -> List(terms'){anno*}
-        with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
-    )
+    debug(!"upgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ List(terms){anno*} -> List(terms'){anno*}
+          with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
+      )
 
   upgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
-        with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
-    )
+    debug(!"upgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
+          with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
+      )
 
   upgrade-placeholders-Tiger-Cons =
-    origin-track-forced(
-      \ Cons-Plhdr(){anno*} -> p{anno*}
-        with p := <make-placeholder> "Cons" \
-    )
+    debug(!"upgrade-placeholders-Tiger-Cons: ")
+    ; origin-track-forced(
+        \ Cons-Plhdr(){anno*} -> p{anno*}
+          with p := <make-placeholder> "Cons" \
+      )
 
   upgrade-placeholders-Tiger-Int =
-    origin-track-forced(
-      \ Int-Plhdr(){anno*} -> p{anno*}
-        with p := <make-placeholder> "Int" \
-    )
+    debug(!"upgrade-placeholders-Tiger-Int: ")
+    ; origin-track-forced(
+        \ Int-Plhdr(){anno*} -> p{anno*}
+          with p := <make-placeholder> "Int" \
+      )
 
   upgrade-placeholders-Tiger-String =
-    origin-track-forced(
-      \ String-Plhdr(){anno*} -> p{anno*}
-        with p := <make-placeholder> "String" \
-    )
+    debug(!"upgrade-placeholders-Tiger-String: ")
+    ; origin-track-forced(
+        \ String-Plhdr(){anno*} -> p{anno*}
+          with p := <make-placeholder> "String" \
+      )
 
   upgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ Term-Plhdr(){anno*} -> p{anno*}
-        with p := <make-placeholder> "Term" \
-    )
+    debug(!"upgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ Term-Plhdr(){anno*} -> p{anno*}
+          with p := <make-placeholder> "Term" \
+      )
 
   upgrade-placeholders-Tiger-Cons =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Cons)> alts \
-    )
+    debug(!"upgrade-placeholders-Tiger-Cons: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <upgrade-list(upgrade-placeholders-Tiger-Cons)> alts \
+      )
 
   upgrade-placeholders-Tiger-Int =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Int)> alts \
-    )
+    debug(!"upgrade-placeholders-Tiger-Int: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <upgrade-list(upgrade-placeholders-Tiger-Int)> alts \
+      )
 
   upgrade-placeholders-Tiger-String =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <upgrade-list(upgrade-placeholders-Tiger-String)> alts \
-    )
+    debug(!"upgrade-placeholders-Tiger-String: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <upgrade-list(upgrade-placeholders-Tiger-String)> alts \
+      )
 
   upgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Term)> alts \
-    )
+    debug(!"upgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <upgrade-list(upgrade-placeholders-Tiger-Term)> alts \
+      )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    downgrade-placeholders-Tiger-Cons
+    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-Cons
 
   downgrade-placeholders-Tiger =
-    downgrade-placeholders-Tiger-Int
+    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-Int
 
   downgrade-placeholders-Tiger =
-    downgrade-placeholders-Tiger-String
+    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-String
 
   downgrade-placeholders-Tiger =
-    downgrade-placeholders-Tiger-Term
+    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-Term
 
   downgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ Str(string){anno*} -> Str(string'){anno*}
-        with string' := <downgrade-placeholders-Tiger-String> string \
-    )
+    debug(!"downgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ Str(string){anno*} -> Str(string'){anno*}
+          with string' := <downgrade-placeholders-Tiger-String> string \
+      )
 
   downgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ Int(int){anno*} -> Int(int'){anno*}
-        with int' := <downgrade-placeholders-Tiger-Int> int \
-    )
+    debug(!"downgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ Int(int){anno*} -> Int(int'){anno*}
+          with int' := <downgrade-placeholders-Tiger-Int> int \
+      )
 
   downgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
-        with cons' := <downgrade-placeholders-Tiger-Cons> cons
-             ; terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
-    )
+    debug(!"downgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
+          with cons' := <downgrade-placeholders-Tiger-Cons> cons
+               ; terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
+      )
 
   downgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ List(terms){anno*} -> List(terms'){anno*}
-        with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
-    )
+    debug(!"downgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ List(terms){anno*} -> List(terms'){anno*}
+          with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
+      )
 
   downgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
-        with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
-    )
+    debug(!"downgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
+          with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
+      )
 
   downgrade-placeholders-Tiger-Cons =
-    origin-track-forced(
-      \ p{anno*} -> Cons-Plhdr(){anno*}
-        where <(is-placeholder + ?Cons-Plhdr())> p \
-    )
+    debug(!"downgrade-placeholders-Tiger-Cons: ")
+    ; origin-track-forced(
+        \ p{anno*} -> Cons-Plhdr(){anno*}
+          where <(is-placeholder + ?Cons-Plhdr())> p \
+      )
 
   downgrade-placeholders-Tiger-Int =
-    origin-track-forced(
-      \ p{anno*} -> Int-Plhdr(){anno*}
-        where <(is-placeholder + ?Int-Plhdr())> p \
-    )
+    debug(!"downgrade-placeholders-Tiger-Int: ")
+    ; origin-track-forced(
+        \ p{anno*} -> Int-Plhdr(){anno*}
+          where <(is-placeholder + ?Int-Plhdr())> p \
+      )
 
   downgrade-placeholders-Tiger-String =
-    origin-track-forced(
-      \ p{anno*} -> String-Plhdr(){anno*}
-        where <(is-placeholder + ?String-Plhdr())> p \
-    )
+    debug(!"downgrade-placeholders-Tiger-String: ")
+    ; origin-track-forced(
+        \ p{anno*} -> String-Plhdr(){anno*}
+          where <(is-placeholder + ?String-Plhdr())> p \
+      )
 
   downgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ p{anno*} -> Term-Plhdr(){anno*}
-        where <(is-placeholder + ?Term-Plhdr())> p \
-    )
+    debug(!"downgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ p{anno*} -> Term-Plhdr(){anno*}
+          where <(is-placeholder + ?Term-Plhdr())> p \
+      )
 
   downgrade-placeholders-Tiger-Cons =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Cons)> alts \
-    )
+    debug(!"downgrade-placeholders-Tiger-Cons: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <downgrade-list(downgrade-placeholders-Tiger-Cons)> alts \
+      )
 
   downgrade-placeholders-Tiger-Int =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Int)> alts \
-    )
+    debug(!"downgrade-placeholders-Tiger-Int: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <downgrade-list(downgrade-placeholders-Tiger-Int)> alts \
+      )
 
   downgrade-placeholders-Tiger-String =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <downgrade-list(downgrade-placeholders-Tiger-String)> alts \
-    )
+    debug(!"downgrade-placeholders-Tiger-String: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <downgrade-list(downgrade-placeholders-Tiger-String)> alts \
+      )
 
   downgrade-placeholders-Tiger-Term =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Term)> alts \
-    )
+    debug(!"downgrade-placeholders-Tiger-Term: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <downgrade-list(downgrade-placeholders-Tiger-Term)> alts \
+      )
 
 
 rules

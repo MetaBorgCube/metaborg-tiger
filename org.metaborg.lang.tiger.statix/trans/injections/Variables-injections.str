@@ -116,93 +116,107 @@ rules
 rules
 
   upgrade-placeholders-Tiger-Dec =
-    origin-track-forced(
-      \ VarDec(id_, type, exp){anno*} -> VarDec(id_', type', exp'){anno*}
-        with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; type' := <upgrade-placeholders-Tiger-Type> type
-             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"upgrade-placeholders-Tiger-Dec: ")
+    ; origin-track-forced(
+        \ VarDec(id_, type, exp){anno*} -> VarDec(id_', type', exp'){anno*}
+          with id_' := <upgrade-placeholders-Tiger-ID> id_
+               ; type' := <upgrade-placeholders-Tiger-Type> type
+               ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+      )
 
   upgrade-placeholders-Tiger-Dec =
-    origin-track-forced(
-      \ VarDecNoType(id_, exp){anno*} -> VarDecNoType(id_', exp'){anno*}
-        with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"upgrade-placeholders-Tiger-Dec: ")
+    ; origin-track-forced(
+        \ VarDecNoType(id_, exp){anno*} -> VarDecNoType(id_', exp'){anno*}
+          with id_' := <upgrade-placeholders-Tiger-ID> id_
+               ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+      )
 
   upgrade-placeholders-Tiger-Var =
-    origin-track-forced(
-      \ Var(id_){anno*} -> Var(id_'){anno*}
-        with id_' := <upgrade-placeholders-Tiger-ID> id_ \
-    )
+    debug(!"upgrade-placeholders-Tiger-Var: ")
+    ; origin-track-forced(
+        \ Var(id_){anno*} -> Var(id_'){anno*}
+          with id_' := <upgrade-placeholders-Tiger-ID> id_ \
+      )
 
   upgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ var -> <upgrade-placeholders-Tiger-Var> var
-        where <is-Tiger-Var-or-inj> var \
-    )
+    debug(!"upgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ var -> <upgrade-placeholders-Tiger-Var> var
+          where <is-Tiger-Var-or-inj> var \
+      )
 
   upgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ Var2LValue(var){anno*} -> Var2LValue(<upgrade-placeholders-Tiger-Var> var){anno*} \
-    )
+    debug(!"upgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ Var2LValue(var){anno*} -> Var2LValue(<upgrade-placeholders-Tiger-Var> var){anno*} \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ lValue -> <upgrade-placeholders-Tiger-LValue> lValue
-        where <is-Tiger-LValue-or-inj> lValue \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ lValue -> <upgrade-placeholders-Tiger-LValue> lValue
+          where <is-Tiger-LValue-or-inj> lValue \
+      )
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ LValue2Exp(lValue){anno*} -> LValue2Exp(<upgrade-placeholders-Tiger-LValue> lValue){anno*} \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ LValue2Exp(lValue){anno*} -> LValue2Exp(<upgrade-placeholders-Tiger-LValue> lValue){anno*} \
+      )
 
 
 rules
 
   downgrade-placeholders-Tiger-Dec =
-    origin-track-forced(
-      \ VarDec(id_, type, exp){anno*} -> VarDec(id_', type', exp'){anno*}
-        with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; type' := <downgrade-placeholders-Tiger-Type> type
-             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"downgrade-placeholders-Tiger-Dec: ")
+    ; origin-track-forced(
+        \ VarDec(id_, type, exp){anno*} -> VarDec(id_', type', exp'){anno*}
+          with id_' := <downgrade-placeholders-Tiger-ID> id_
+               ; type' := <downgrade-placeholders-Tiger-Type> type
+               ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+      )
 
   downgrade-placeholders-Tiger-Dec =
-    origin-track-forced(
-      \ VarDecNoType(id_, exp){anno*} -> VarDecNoType(id_', exp'){anno*}
-        with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"downgrade-placeholders-Tiger-Dec: ")
+    ; origin-track-forced(
+        \ VarDecNoType(id_, exp){anno*} -> VarDecNoType(id_', exp'){anno*}
+          with id_' := <downgrade-placeholders-Tiger-ID> id_
+               ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+      )
 
   downgrade-placeholders-Tiger-Var =
-    origin-track-forced(
-      \ Var(id_){anno*} -> Var(id_'){anno*}
-        with id_' := <downgrade-placeholders-Tiger-ID> id_ \
-    )
+    debug(!"downgrade-placeholders-Tiger-Var: ")
+    ; origin-track-forced(
+        \ Var(id_){anno*} -> Var(id_'){anno*}
+          with id_' := <downgrade-placeholders-Tiger-ID> id_ \
+      )
 
   downgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ var -> <downgrade-placeholders-Tiger-Var> var
-        where <is-Tiger-Var-or-inj> var \
-    )
+    debug(!"downgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ var -> <downgrade-placeholders-Tiger-Var> var
+          where <is-Tiger-Var-or-inj> var \
+      )
 
   downgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ Var2LValue(var){anno*} -> Var2LValue(<downgrade-placeholders-Tiger-Var> var){anno*} \
-    )
+    debug(!"downgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ Var2LValue(var){anno*} -> Var2LValue(<downgrade-placeholders-Tiger-Var> var){anno*} \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ lValue -> <downgrade-placeholders-Tiger-LValue> lValue
-        where <is-Tiger-LValue-or-inj> lValue \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ lValue -> <downgrade-placeholders-Tiger-LValue> lValue
+          where <is-Tiger-LValue-or-inj> lValue \
+      )
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ LValue2Exp(lValue){anno*} -> LValue2Exp(<downgrade-placeholders-Tiger-LValue> lValue){anno*} \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ LValue2Exp(lValue){anno*} -> LValue2Exp(<downgrade-placeholders-Tiger-LValue> lValue){anno*} \
+      )
 
 
 rules

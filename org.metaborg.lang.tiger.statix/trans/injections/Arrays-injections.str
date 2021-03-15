@@ -73,49 +73,55 @@ rules
 rules
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Array(id_, exp1, exp2){anno*} -> Array(id_', exp1', exp2'){anno*}
-        with id_' := <upgrade-placeholders-Tiger-ID> id_
-             ; exp1' := <upgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Array(id_, exp1, exp2){anno*} -> Array(id_', exp1', exp2'){anno*}
+          with id_' := <upgrade-placeholders-Tiger-ID> id_
+               ; exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+      )
 
   upgrade-placeholders-Tiger-Type =
-    origin-track-forced(
-      \ ArrayTy(id_){anno*} -> ArrayTy(id_'){anno*}
-        with id_' := <upgrade-placeholders-Tiger-ID> id_ \
-    )
+    debug(!"upgrade-placeholders-Tiger-Type: ")
+    ; origin-track-forced(
+        \ ArrayTy(id_){anno*} -> ArrayTy(id_'){anno*}
+          with id_' := <upgrade-placeholders-Tiger-ID> id_ \
+      )
 
   upgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ Subscript(lValue, exp){anno*} -> Subscript(lValue', exp'){anno*}
-        with lValue' := <upgrade-placeholders-Tiger-LValue> lValue
-             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"upgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ Subscript(lValue, exp){anno*} -> Subscript(lValue', exp'){anno*}
+          with lValue' := <upgrade-placeholders-Tiger-LValue> lValue
+               ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+      )
 
 
 rules
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Array(id_, exp1, exp2){anno*} -> Array(id_', exp1', exp2'){anno*}
-        with id_' := <downgrade-placeholders-Tiger-ID> id_
-             ; exp1' := <downgrade-placeholders-Tiger-Exp> exp1
-             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Array(id_, exp1, exp2){anno*} -> Array(id_', exp1', exp2'){anno*}
+          with id_' := <downgrade-placeholders-Tiger-ID> id_
+               ; exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+               ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+      )
 
   downgrade-placeholders-Tiger-Type =
-    origin-track-forced(
-      \ ArrayTy(id_){anno*} -> ArrayTy(id_'){anno*}
-        with id_' := <downgrade-placeholders-Tiger-ID> id_ \
-    )
+    debug(!"downgrade-placeholders-Tiger-Type: ")
+    ; origin-track-forced(
+        \ ArrayTy(id_){anno*} -> ArrayTy(id_'){anno*}
+          with id_' := <downgrade-placeholders-Tiger-ID> id_ \
+      )
 
   downgrade-placeholders-Tiger-LValue =
-    origin-track-forced(
-      \ Subscript(lValue, exp){anno*} -> Subscript(lValue', exp'){anno*}
-        with lValue' := <downgrade-placeholders-Tiger-LValue> lValue
-             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
-    )
+    debug(!"downgrade-placeholders-Tiger-LValue: ")
+    ; origin-track-forced(
+        \ Subscript(lValue, exp){anno*} -> Subscript(lValue', exp'){anno*}
+          with lValue' := <downgrade-placeholders-Tiger-LValue> lValue
+               ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+      )
 
 
 rules

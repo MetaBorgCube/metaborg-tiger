@@ -96,63 +96,71 @@ rules
 rules
 
   upgrade-placeholders-Tiger =
-    upgrade-placeholders-Tiger-Declarations
+    debug(!"upgrade-placeholders-Tiger: ") ; upgrade-placeholders-Tiger-Declarations
 
   upgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Let(decs, exps){anno*} -> Let(decs', exps'){anno*}
-        with decs' := <upgrade-list(upgrade-placeholders-Tiger-Dec)> decs
-             ; exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
-    )
+    debug(!"upgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Let(decs, exps){anno*} -> Let(decs', exps'){anno*}
+          with decs' := <upgrade-list(upgrade-placeholders-Tiger-Dec)> decs
+               ; exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
+      )
 
   upgrade-placeholders-Tiger-Declarations =
-    origin-track-forced(
-      \ Declarations(decs){anno*} -> Declarations(decs'){anno*}
-        with decs' := <upgrade-list(upgrade-placeholders-Tiger-Dec)> decs \
-    )
+    debug(!"upgrade-placeholders-Tiger-Declarations: ")
+    ; origin-track-forced(
+        \ Declarations(decs){anno*} -> Declarations(decs'){anno*}
+          with decs' := <upgrade-list(upgrade-placeholders-Tiger-Dec)> decs \
+      )
 
   upgrade-placeholders-Tiger-Declarations =
-    origin-track-forced(
-      \ Declarations-Plhdr(){anno*} -> p{anno*}
-        with p := <make-placeholder> "Declarations" \
-    )
+    debug(!"upgrade-placeholders-Tiger-Declarations: ")
+    ; origin-track-forced(
+        \ Declarations-Plhdr(){anno*} -> p{anno*}
+          with p := <make-placeholder> "Declarations" \
+      )
 
   upgrade-placeholders-Tiger-Declarations =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Declarations)> alts \
-    )
+    debug(!"upgrade-placeholders-Tiger-Declarations: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <upgrade-list(upgrade-placeholders-Tiger-Declarations)> alts \
+      )
 
 
 rules
 
   downgrade-placeholders-Tiger =
-    downgrade-placeholders-Tiger-Declarations
+    debug(!"downgrade-placeholders-Tiger: ") ; downgrade-placeholders-Tiger-Declarations
 
   downgrade-placeholders-Tiger-Exp =
-    origin-track-forced(
-      \ Let(decs, exps){anno*} -> Let(decs', exps'){anno*}
-        with decs' := <downgrade-list(downgrade-placeholders-Tiger-Dec)> decs
-             ; exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
-    )
+    debug(!"downgrade-placeholders-Tiger-Exp: ")
+    ; origin-track-forced(
+        \ Let(decs, exps){anno*} -> Let(decs', exps'){anno*}
+          with decs' := <downgrade-list(downgrade-placeholders-Tiger-Dec)> decs
+               ; exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
+      )
 
   downgrade-placeholders-Tiger-Declarations =
-    origin-track-forced(
-      \ Declarations(decs){anno*} -> Declarations(decs'){anno*}
-        with decs' := <downgrade-list(downgrade-placeholders-Tiger-Dec)> decs \
-    )
+    debug(!"downgrade-placeholders-Tiger-Declarations: ")
+    ; origin-track-forced(
+        \ Declarations(decs){anno*} -> Declarations(decs'){anno*}
+          with decs' := <downgrade-list(downgrade-placeholders-Tiger-Dec)> decs \
+      )
 
   downgrade-placeholders-Tiger-Declarations =
-    origin-track-forced(
-      \ p{anno*} -> Declarations-Plhdr(){anno*}
-        where <(is-placeholder + ?Declarations-Plhdr())> p \
-    )
+    debug(!"downgrade-placeholders-Tiger-Declarations: ")
+    ; origin-track-forced(
+        \ p{anno*} -> Declarations-Plhdr(){anno*}
+          where <(is-placeholder + ?Declarations-Plhdr())> p \
+      )
 
   downgrade-placeholders-Tiger-Declarations =
-    origin-track-forced(
-      \ amb(alts){anno*} -> amb(alts'){anno*}
-        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Declarations)> alts \
-    )
+    debug(!"downgrade-placeholders-Tiger-Declarations: ")
+    ; origin-track-forced(
+        \ amb(alts){anno*} -> amb(alts'){anno*}
+          with alts' := <downgrade-list(downgrade-placeholders-Tiger-Declarations)> alts \
+      )
 
 
 rules
