@@ -1,0 +1,5 @@
+let
+  var x : int := 2
+  type mytype = { name: string, age : int }
+  in mytype { $InitField }
+end
