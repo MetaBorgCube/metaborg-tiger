@@ -261,24 +261,12 @@ rules
 
   downgrade-option(s) =
     origin-track-forced(
-      \ []{anno*} -> None(){anno*} \
+      \ None(){anno*} -> None(){anno*} \
     )
 
   downgrade-option(s) =
     origin-track-forced(
-      \ [t]{anno*} -> Some(<s> t){anno*} \
-    )
-
-  downgrade-option(s) =
-    origin-track-forced(
-      \ [_, _|_] -> <fatal-err(|"Cannot downgrade multi-element list to option.")> \
-    )
-
-  downgrade-list(s) =
-    origin-track-forced(
-      \ l -> l'
-        where <is-list> l
-        with l' := <map(s)> l \
+      \ Some(t){anno*} -> Some(<s> t){anno*} \
     )
 
   downgrade-list(s) =
@@ -286,4 +274,16 @@ rules
       \ p -> p'
         where <is-placeholder> p
         with p' := [] \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ []{anno*} -> []{anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ [e|es]{anno*} -> [e'|es']{anno*}
+        with e' := <s> e
+             ; es' := <downgrade-list(s)> es \
     )
