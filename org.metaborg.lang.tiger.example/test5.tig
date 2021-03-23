@@ -1,5 +1,13 @@
 let
   var x : int := 2
   type mytype = { name: string, age : int }
-  in mytype { $InitField }
+  
+  var a2: mytype := mytype { $InitField, $InitField }
+  
+  //var a3: mytype := mytype { name = $Exp, $InitField }
+  //var a4: mytype := mytype { age = $Exp, $InitField }
+  
+  //var a5: mytype := mytype { name = $Exp, age = $Exp }
+  var a6: mytype := mytype { age = $Exp, name = $Exp }
+  in 5
 end

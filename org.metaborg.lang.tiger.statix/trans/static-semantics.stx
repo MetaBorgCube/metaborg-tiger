@@ -442,21 +442,27 @@ rules // record creation
   typeOfExp(s, e@Record(t, inits)) = RECORD(s_rec) :- {s_init ds}
     typeOfType(s, Tid(t)) == RECORD(s_rec),
     new s_init,
-    initsOk(s, s_rec, s_init, inits),
-    typeOfDecl of Field{_} in s_rec |-> ds,
-    fieldsSameLength(ds, inits),
-    allFieldsInitialized(t, ds, s_init).
+    initsOk2(s, s_init, inits, ds),
+    //initsOk(s, s_rec, s_init, inits),
+    typeOfDecl of Field{_} in s_rec |-> ds.
+    //fieldsSameLength(ds, inits),
+    //allFieldsInitialized(t, ds, s_init).
     
 
   fieldsSameLength : list((path * (occurrence * TYPE))) * list(InitField)
   fieldsSameLength([],[]).
   fieldsSameLength([_|xs], [_|ys]) :- fieldsSameLength(xs, ys).
 
+  initsOk2 maps initOk2(*, *, list(*), list(*))
+  initOk2 : scope * scope * InitField * (path * (occurrence * TYPE))
+  initOk2(s, s_init, InitField(x, e), (_, (Field{x}, T))) :- {S}
+    typeOfExp(s, e) == S,
+    declareField(s_init, x, S),
+    subtype(S, T).
 
 
-  initOk : scope * scope * scope * InitField
   initsOk maps initOk(*, *, *, list(*))
-
+  initOk : scope * scope * scope * InitField
   initOk(s, s_rec, s_init, InitField(x, e)) :- {S T}
     lookupField(s_rec, x) == T,
     typeOfExp(s, e) == S,
@@ -508,6 +514,7 @@ rules // placeholders
   programOk(Module-Plhdr()).
 
   initOk(_, _, _, InitField-Plhdr()).
+  initOk2(_, _, InitField-Plhdr(), _).
 
   //declareField(_, TypeId-Plhdr(), T).
 
