@@ -444,7 +444,15 @@ rules // record creation
     new s_init,
     initsOk(s, s_rec, s_init, inits),
     typeOfDecl of Field{_} in s_rec |-> ds,
+    fieldsSameLength(ds, inits),
     allFieldsInitialized(t, ds, s_init).
+    
+
+  fieldsSameLength : list((path * (occurrence * TYPE))) * list(InitField)
+  fieldsSameLength([],[]).
+  fieldsSameLength([_|xs], [_|ys]) :- fieldsSameLength(xs, ys).
+
+
 
   initOk : scope * scope * scope * InitField
   initsOk maps initOk(*, *, *, list(*))
