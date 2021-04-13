@@ -2,18 +2,6 @@ module static-semantics
 
 imports
   signatures/Tiger-sig
-  signatures/Base-sig
-  signatures/Whitespace-sig
-  signatures/Types-sig
-  signatures/Identifiers-sig
-  signatures/Bindings-sig
-  signatures/Variables-sig
-  signatures/Functions-sig
-  signatures/Numbers-sig
-  signatures/Strings-sig
-  signatures/Records-sig
-  signatures/Arrays-sig
-  signatures/Control-Flow-sig
 
 rules // single-file entry point
 
@@ -446,7 +434,7 @@ rules // record creation
     typeOfDecl of Field{_} in s_rec |-> ds,
     fieldsSameLength(ds, inits),
     allFieldsInitialized(t, ds, s_init).
-    
+
 
   fieldsSameLength : list((path * (occurrence * TYPE))) * list(InitField)
   fieldsSameLength([],[]).
