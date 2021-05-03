@@ -1,0 +1,13 @@
+module renaming
+
+imports
+ nabl2/runtime
+ analysis
+ pp
+
+rules
+  rename-menu-action = nabl2-rename-action(construct-textual-change, editor-analyze, fail|)
+	
+  rename-test(|selected-term, new-name) = nabl2-rename(editor-analyze, fail|selected-term, new-name);get-ast  
+
+  get-ast: [(_, _, ast) | _] -> ast
