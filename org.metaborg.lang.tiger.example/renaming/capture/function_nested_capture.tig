@@ -1,0 +1,18 @@
+/* 
+test file to rename a parameter inside a nested function to the same name as the parameter of the outside function
+d -> a
+*/
+
+let 
+	function plus(a : int, b:int) : int = (
+		a + b;
+	  let
+			function plus(d:int) : int = 
+				a + d
+		in 
+		 plus(1)
+		end
+	)
+in
+   	plus(1,1)
+end
