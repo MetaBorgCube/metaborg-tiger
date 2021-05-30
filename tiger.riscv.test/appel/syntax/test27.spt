@@ -1,0 +1,14 @@
+module test27
+
+language tiger
+
+test test27 [[
+/* locals hide globals */
+let
+	var a := 0
+
+	function g(a:int):int = a 
+in
+ g(2)
+end
+]] parse succeeds

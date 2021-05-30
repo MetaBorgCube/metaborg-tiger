@@ -1,0 +1,9 @@
+module test11
+
+language tiger
+
+test test11 [[
+/* error hi expr is not int, and index variable erroneously assigned to.  */
+for i:=10 to " " do 
+	i := i - 1
+]] parse succeeds

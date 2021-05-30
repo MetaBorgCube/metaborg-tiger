@@ -1,0 +1,57 @@
+module test05
+
+language tiger
+
+test test05 | duplicate field declarations [[
+let  
+  type errpoint = {x : int, x : int}
+in
+   3  
+end  
+]] analysis fails
+
+test test05 | record initialization and access [[
+let 
+  type point = {x : int, y : int} 
+  var p : point := point{x = 0, y = 0}
+ in
+   p.x + p.y
+end  
+]] analysis succeeds
+
+test test05 | undeclared fields in initialization [[
+let 
+  type point = {x : int, y : int} 
+ in
+   p := point{ x = 3, y = 3, z = "a" }
+end  
+]] analysis fails
+
+test test05 | access to undeclared field [[
+let 
+  type point = {x : int, y : int} 
+ in
+   p := point{ x = 3, y = 3};
+   p.z
+end  
+]] analysis fails
+
+test test05 | too few fields in initialization [[
+let 
+  type point = {x : int, y : int} 
+ in
+   p := point{ x = 3 }   
+end  
+]] analysis fails
+
+test test05 [[
+let 
+  type point = {x : int, y : int} 
+  type errpoint = {x : int, x : int}
+  var p : point := point{x = 0, y = 0}
+  var e : errpoint := nil
+ in
+   p := point{ x = 3, y = 3, z = "a" };
+   p := point{ x = 3 }   
+end  
+]] analysis fails

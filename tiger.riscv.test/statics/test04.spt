@@ -1,0 +1,37 @@
+module test04
+
+language tiger
+
+test test04 [[
+let 
+  var x : int := 0 + z     // z not in scope
+  var y : int := x + 1
+  var z : int := x + y + 1
+ in 
+   x + y + z
+end
+]] analysis fails
+
+test test04 [[
+let 
+  var z := 0
+in let 
+  var x : int := 0 + z   // z in outer scope
+  var y : int := x + 1
+  var z : int := x + y + 1
+ in 
+   x + y + z
+end end
+]] analysis succeeds
+
+test test04 [[
+let 
+  var z := 0
+in let 
+  var x : int := 0 + z   // z in outer scope
+  var y : int := x + 1
+  var a : int := x + y + 1
+ in 
+   x + y + z
+end end
+]] analysis succeeds

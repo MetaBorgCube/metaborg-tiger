@@ -1,0 +1,6 @@
+module operators-test02
+
+language tiger
+
+test operators-test02 [[
+45 + 98]] analysis succeeds

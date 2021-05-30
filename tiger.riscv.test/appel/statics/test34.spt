@@ -1,0 +1,20 @@
+module test34
+
+language tiger
+
+test test34 | error : formals and actuals have different types[[
+/* error : formals and actuals have different types */
+let
+	function g (a:int , b:string):int = a
+in
+	g("one", "two")
+end
+]] analysis fails
+
+test test34 | formals and actuals have same types [[
+let
+  function g (a:int , b:string):int = a
+in
+  g(1, "two")
+end
+]] analysis succeeds

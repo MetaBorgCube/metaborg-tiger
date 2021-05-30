@@ -1,0 +1,34 @@
+module test21
+
+language tiger
+
+test test21 [[
+/* error : procedure returns value  and procedure is used in arexpr */
+let
+
+/* calculate n! */
+function nfactor(n: int) =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+]] analysis fails
+
+test test21 [[
+let
+
+/* calculate n! */
+function nfactor(n: int): int =
+    if  n = 0 
+      then 1
+      else n * nfactor(n-1)
+
+in
+  nfactor(10)
+end
+
+]] analysis succeeds 

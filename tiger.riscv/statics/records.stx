@@ -1,0 +1,99 @@
+module statics/records
+
+imports signatures/Records-sig
+imports statics/base
+
+signature
+  constructors
+    RECORD : scope -> TYPE
+
+rules // record type
+
+  typeOfType(s, RecordTy(fields)) = RECORD(s_rec) :-
+    new s_rec,
+    fieldsOk(s_rec, s, fields).
+
+  fieldOk : scope * scope * Field
+  fieldsOk maps fieldOk(*, *, list(*))
+
+  fieldOk(s_rec, s_outer, Field(x, t)) :- {T}
+    typeOfType(s_outer, Tid(t)) == T,
+    declareField(s_rec, x, T).
+
+rules // literals
+
+  typeOfExp(s, NilExp()) = NIL().
+
+rules // record creation
+
+  typeOfExp(s, e@Record(t, inits)) = RECORD(s_rec) :- {s_init ps}
+    typeOfType(s, Tid(t)) == RECORD(s_rec),
+    new s_init,
+    initsOk(s, s_rec, s_init, inits),
+    resolveAllFields(s_rec) == ps,
+    allFieldsInitialized(t, ps, s_init).
+
+  initOk : scope * scope * scope * InitField
+  initsOk maps initOk(*, *, *, list(*))
+
+  initOk(s, s_rec, s_init, InitField(x, e)) :- {S T}
+    typeOfField(s_rec, x) == T,
+    typeOfExp(s, e) == S,
+    declareField(s_init, x, S),
+    subtype(S, T). 
+
+  fieldInitialized : TypeId * (path * (Id * scope)) * scope
+  allFieldsInitialized maps fieldInitialized(*, list(*), *)
+
+  fieldInitialized(t, (_, (x, _)), s) :- 
+    resolveField(s, x) == [_]
+      | error $[field [x] not initialized]@t.
+    // t is passed such that error is displayed be on t;
+    // noting that init of x is missing
+
+rules // record field access
+
+  typeOfLVal(s, FieldVar(lval, x)) = T :- {s_rec}
+    typeOfLVal(s, lval) == RECORD(s_rec),
+    typeOfField(s_rec, x) == T.
+  
+rules // subtyping
+
+  subtype(NIL(), RECORD(s)).
+  subtypeO(t, NIL(), RECORD(s)).
+  
+  equitype(NIL(), RECORD(s)).
+  equitype(RECORD(s), NIL()).
+
+  lub(NIL(), T) = T.
+ 
+signature
+  relations
+    field : Id -> scope
+    
+rules // field binding
+
+  declareField : scope * Id * TYPE
+  typeOfField  : scope * Id -> TYPE
+  resolveField : scope * Id -> list((path * (Id * scope)))
+  resolveAllFields : scope -> list((path * (Id * scope)))
+
+  declareField(s, x, T) :-
+    !field[x, withType(T)] in s,
+    resolveField(s, x) == [_]
+      | error $[duplication definition of field [x]].
+
+  typeOfField(s, x) = T :- {x' s_T} 
+    resolveField(s, x) == [(_, (x', s_T)) | _] 
+      | error $[field [x] not declared],
+    T == typeOf(s_T),
+    @x.type := T,
+    @x.ref := x'.
+    
+  resolveField(s, x) = ps :-
+    query field filter e and {x' :- x' == x} in s |-> ps.
+    
+  resolveAllFields(s) = ps :-
+    query field filter e in s |-> ps.
+    
+    

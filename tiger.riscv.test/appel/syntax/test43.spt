@@ -1,0 +1,13 @@
+module test43
+
+language tiger
+
+test test43 [[
+/* initialize with unit and causing type mismatch in addition */
+
+let 
+	var a := ()
+in
+	a + 3
+end
+]] parse succeeds

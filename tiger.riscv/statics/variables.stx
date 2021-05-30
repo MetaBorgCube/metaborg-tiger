@@ -1,0 +1,63 @@
+module statics/variables
+
+imports signatures/Variables-sig
+imports signatures/Identifiers-sig
+imports statics/base
+
+rules // variable declarations
+
+  // Local variables: In the expression [let ... vardec ... in exp end],
+  // the scope of the declared variable starts just after its vardec
+  // and lasts until the end.
+
+  decOk(s, s_outer, VarDec(x, t, e)) :- {T S}
+    typeOfType(s_outer, t) == T,
+    typeOfExp(s_outer, e) == S,
+    subtype(S, T),
+    declareVar(s, x, T).
+
+  decOk(s, s_outer, VarDecNoType(x, e)) :- {T}
+    typeOfExp(s_outer, e) == T,
+    T != NIL(),
+    declareVar(s, x, T).
+
+rules // variable references
+
+  typeOfExp(s, LValue2Exp(Var2LValue(Var(x)))) = typeOfVar(s, x).
+
+signature
+  relations 
+    var : Id -> scope
+    
+rules // variable binding
+
+  declareVar    : scope * Id * TYPE
+  declareVarRaw : scope * Id * TYPE
+  typeOfVar     : scope * Id -> TYPE
+  resolveVar    : scope * Id -> list((path * (Id * scope)))
+
+  declareVar(s, x, T) :-
+    !var[x, withType(T)] in s,
+    resolveVar(s, x) == [_] 
+      | error $[duplicate declaration of variable [x]]@x,
+    @x.type := T,
+    @x.decl := x.
+
+  declareVarRaw(s, x, T) :-
+    !var[x, withType(T)] in s,
+    resolveVar(s, x) == [_] 
+      | error $[duplicate declaration of [x]]@x.
+
+  typeOfVar(s, x) = T :- {x' s_T} 
+    resolveVar(s, x) == [(_, (x', s_T)) | _] 
+      | error $[variable [x] not defined],
+    T == typeOf(s_T),
+    @x.ref := x',
+    @x.type := T.
+    
+  resolveVar(s, x) = ps :-
+    query var
+      filter P* and {x' :- x' == x}
+      min $ < P
+       in s |-> ps.
+    

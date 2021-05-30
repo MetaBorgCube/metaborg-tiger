@@ -1,0 +1,21 @@
+module test33
+
+language tiger
+
+test test33 | error : unknown type [[
+/* error : unknown type */
+let
+	var a:= rectype {}
+in
+	0
+end
+]] analysis fails
+
+test test33 | known type [[
+let
+  type rectype = {}
+  var a:= rectype {}
+in
+  0
+end
+]] analysis succeeds

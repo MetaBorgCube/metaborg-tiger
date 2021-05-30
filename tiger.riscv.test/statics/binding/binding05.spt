@@ -1,0 +1,10 @@
+module binding05
+
+language tiger
+
+test binding05 [[
+let 
+  function f(x : int, x : int) : int = 1
+in 
+   f(1, 2)
+end ]] analysis fails

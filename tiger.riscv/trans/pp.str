@@ -1,0 +1,49 @@
+module pp
+
+imports
+
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/editor/refactoring/-
+  pp/tiger-parenthesize 
+  pp/tiger-pp 
+
+rules
+
+  editor-format:
+    (node, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-debug> node
+
+rules
+  
+  pp-tiger-string =
+    parenthesize-tiger
+    ; prettyprint-tiger-start-symbols
+    ; !V([], <id>)
+    ; box2text-string(|120)
+      
+  pp-partial-tiger-string =
+    parenthesize-tiger
+    ; prettyprint-tiger
+    ; !V([], <id>)
+    ; box2text-string(|120)
+    
+  pp-partial-tiger-string(|sort) =
+    parenthesize-tiger
+    ; prettyprint-tiger(|sort)
+    ; !V([], <id>)
+    ; box2text-string(|120)  
+      
+  pp-debug :
+    ast -> result
+    with
+       result := <pp-tiger-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-tiger-string); debug(!"cannot pp ")))> ast
+    ;  result := ""
+
+rules
+  
+  construct-textual-change = construct-textual-change(pp-partial-tiger-string, parenthesize, override-reconstruction, resugar)

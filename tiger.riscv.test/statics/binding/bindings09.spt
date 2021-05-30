@@ -1,0 +1,11 @@
+module bindings09
+
+language tiger
+
+test bindings09 [[
+  let
+    type x = {x : int}
+    var x : x := x{x = 1}
+  in 
+    x.x + 1
+  end]] analysis succeeds

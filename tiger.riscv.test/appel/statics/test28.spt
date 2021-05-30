@@ -1,0 +1,27 @@
+module test28
+
+language tiger
+
+test test28 | error : different record types [[
+/* error : different record types */
+
+let
+	type rectype1 = {name:string , id:int}
+	type rectype2 = {name:string , id:int}
+
+	var rec1: rectype1 := rectype2 {name="Name", id=0}
+in
+	rec1
+end
+]] analysis fails
+
+test test28 | same record types [[
+let
+  type rectype1 = {name:string , id:int}
+  type rectype2 = {name:string , id:int}
+
+  var rec1: rectype2 := rectype2 {name="Name", id=0}
+in
+  rec1
+end
+]] analysis succeeds

@@ -1,0 +1,19 @@
+module test01 
+
+language tiger
+
+test variable declaration and use [[
+let
+   var x : int := 0
+in
+  x
+end
+]] parse succeeds
+
+test variable declaration and use [[
+let
+	 var x : int := 0
+in 
+	x
+end
+]] analysis succeeds 

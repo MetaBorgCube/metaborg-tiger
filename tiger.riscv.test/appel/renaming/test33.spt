@@ -1,0 +1,12 @@
+module test33
+
+language tiger
+
+test test33 [[
+/* error : unknown type */
+let
+	var a:= rectype {}
+in
+	0
+end
+]] parse succeeds

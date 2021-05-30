@@ -1,0 +1,37 @@
+module test06
+
+language tiger
+
+test test06 [[ 
+/* define valid mutually recursive procedures */
+let
+
+function do_nothing1(a: int, b: string)=
+	   if a < 25 then
+		do_nothing2(a+1)
+
+function do_nothing2(d: int) =
+		do_nothing1(d, "str")
+
+in
+	do_nothing1(0, "str2")
+end
+]] analysis succeeds
+
+test test06 [[ 
+/* define valid mutually recursive procedures */
+let
+
+function do_nothing1(a: int, b: string)=
+     if a < 25 then
+    do_nothing2(a+1)
+
+function do_nothing2(d: int) =
+    do_nothing1(d, "str")
+
+var x := 0
+
+in
+  do_nothing1(x, "str2")
+end
+]] analysis succeeds

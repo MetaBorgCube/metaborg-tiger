@@ -1,0 +1,45 @@
+module statics/arrays
+
+imports signatures/Arrays-sig
+imports statics/base
+imports statics/types
+imports statics/variables
+
+signature
+  constructors
+    ARRAY : TYPE * scope -> TYPE
+
+rules // arrays
+
+  typeOfType(s, ArrayTy(Id2TypeId(x))) = ARRAY(T, s_arr) :-
+    new s_arr, // unique token to distinghuish the array type
+    typeOfTypeId(s, x) == T.
+
+rules // array creation
+
+  typeOfExp(s, Array(t@Id2TypeId(x), e1, e2)) = ARRAY(T, s_arr) :- {S}
+    typeOfTypeId(s, x) == ARRAY(S, s_arr),
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == T,
+    subtype(T, S) | error $[should be subtype]@e2.
+
+rules // array indexing
+
+  typeOfLVal(s, Subscript(e1, e2)) = T :- {s_arr}
+    typeOfLVal(s, e1) == ARRAY(T, s_arr),
+    typeOfExp(s, e2) == INT().
+
+rules // statements
+
+  typeOfExp(s, Assign(e1, e2)) = UNIT() :- {T S}
+    typeOfLVal(s, e1) == T,
+    typeOfExp(s, e2) == S,
+    subtype(S, T).
+
+rules
+
+  typeOfLVal(s, Var2LValue(Var(x))) = T :-
+    typeOfVar(s, x) == T.
+
+  typeOfExp(s, LValue2Exp(lval)) = typeOfLVal(s, lval).
+  

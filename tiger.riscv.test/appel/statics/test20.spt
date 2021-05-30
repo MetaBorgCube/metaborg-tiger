@@ -1,0 +1,17 @@
+module test20
+
+language tiger
+
+test test20 [[
+/* error: undeclared variable i */
+
+while 10 > 5 do (i+1;())
+]] analysis fails
+
+test test20 [[
+let 
+  var i : int := 0
+in
+  while 10 > 5 do (i+1;())
+end
+]] analysis succeeds

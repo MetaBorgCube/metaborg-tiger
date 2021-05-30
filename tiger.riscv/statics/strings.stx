@@ -1,0 +1,9 @@
+module statics/strings
+
+imports signatures/Strings-sig
+imports signatures/Types-sig
+imports statics/base
+
+rules 
+
+  typeOfExp(s, String(_)) = STRING().

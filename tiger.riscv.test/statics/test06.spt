@@ -1,0 +1,17 @@
+module test06
+
+language tiger
+
+test test06 | redeclarations [[
+let 
+  function f(v : int) =
+    let var v := 6
+     in printi(v);
+        let  var v := 7 in printi(v) end;
+        printi(v);
+        let var v := 8 in printi(v) end;
+        printi(v)
+    end
+ in f(4)
+end
+]] analysis succeeds

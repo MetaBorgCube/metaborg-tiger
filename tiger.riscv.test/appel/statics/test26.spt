@@ -1,0 +1,13 @@
+module test26
+
+language tiger
+
+test test26 | error : integer required [[
+/* error : integer required */
+
+3 + "var"
+]] analysis fails
+
+test test 26 | integer addition [[
+3 + 4
+]] analysis succeeds

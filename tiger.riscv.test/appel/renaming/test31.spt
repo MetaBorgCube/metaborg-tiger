@@ -1,0 +1,12 @@
+module test31
+
+language tiger
+
+test test31 [[
+/* error : type constraint and init value differ */
+let 
+	var a:int := " "
+in
+	a
+end
+]] parse succeeds

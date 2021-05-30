@@ -1,0 +1,157 @@
+scope graph
+  #-s_body_6-2 {
+    relations {
+    }
+    edges {
+      statics/base!P : #-s_let_7-1
+    }
+  }
+  #-s_let_7-1 {
+    relations {
+      statics/types!type : ("c", #-s_185-54)
+                           ("d", #-s_161-51)
+                           ("b", #-s_137-48)
+                           ("a", #-s_112-45)
+    }
+    edges {
+      statics/base!P : #-s_2-42
+    }
+  }
+  #-s_30-11 {
+    relations {
+      statics/base!typeOf : FUN([], STRING())
+    }
+    edges {
+    }
+  }
+  #-s_51-20 {
+    relations {
+      statics/base!typeOf : FUN([STRING(), STRING()], STRING())
+    }
+    edges {
+    }
+  }
+  #-s_100-41 {
+    relations {
+      statics/base!typeOf : INT()
+    }
+    edges {
+    }
+  }
+  #-s_2-42 {
+    relations {
+      statics/types!type : ("string", #-s_93-38)
+                           ("int", #-s_100-41)
+      statics/variables!var : ("size", #-s_65-26)
+                              ("substring", #-s_58-23)
+                              ("printi", #-s_16-5)
+                              ("concat", #-s_51-20)
+                              ("exit", #-s_37-14)
+                              ("chr", #-s_79-32)
+                              ("not", #-s_44-17)
+                              ("ord", #-s_72-29)
+                              ("flush", #-s_23-8)
+                              ("getchar", #-s_30-11)
+                              ("print", #-s_86-35)
+    }
+    edges {
+    }
+  }
+  #-s_72-29 {
+    relations {
+      statics/base!typeOf : FUN([STRING()], INT())
+    }
+    edges {
+    }
+  }
+  #-s_65-26 {
+    relations {
+      statics/base!typeOf : FUN([STRING()], INT())
+    }
+    edges {
+    }
+  }
+  #-s_137-48 {
+    relations {
+      statics/base!typeOf : ?-typeOf16-122
+    }
+    edges {
+    }
+  }
+  #-s_44-17 {
+    relations {
+      statics/base!typeOf : FUN([INT()], INT())
+    }
+    edges {
+    }
+  }
+  #-s_86-35 {
+    relations {
+      statics/base!typeOf : FUN([STRING()], UNIT())
+    }
+    edges {
+    }
+  }
+  #-s_185-54 {
+    relations {
+      statics/base!typeOf : ?-typeOf16-122
+    }
+    edges {
+    }
+  }
+  #-s_37-14 {
+    relations {
+      statics/base!typeOf : FUN([INT()], UNIT())
+    }
+    edges {
+    }
+  }
+  #-s_93-38 {
+    relations {
+      statics/base!typeOf : STRING()
+    }
+    edges {
+    }
+  }
+  #-s_79-32 {
+    relations {
+      statics/base!typeOf : FUN([INT()], STRING())
+    }
+    edges {
+    }
+  }
+  #-s_161-51 {
+    relations {
+      statics/base!typeOf : ?-typeOf16-122
+    }
+    edges {
+    }
+  }
+  #-s_58-23 {
+    relations {
+      statics/base!typeOf : FUN([STRING(), INT(), INT()], STRING())
+    }
+    edges {
+    }
+  }
+  #-s_112-45 {
+    relations {
+      statics/base!typeOf : ?-typeOf16-122
+    }
+    edges {
+    }
+  }
+  #-s_16-5 {
+    relations {
+      statics/base!typeOf : FUN([INT()], UNIT())
+    }
+    edges {
+    }
+  }
+  #-s_23-8 {
+    relations {
+      statics/base!typeOf : FUN([], UNIT())
+    }
+    edges {
+    }
+  }

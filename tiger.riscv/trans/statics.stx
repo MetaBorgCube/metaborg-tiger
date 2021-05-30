@@ -1,0 +1,60 @@
+module statics
+
+// see README.md for details on how to switch to multi-file analysis
+
+imports statics/base 
+
+imports statics/arrays
+imports statics/bindings
+imports statics/control-flow
+imports statics/functions
+imports statics/identifiers
+imports statics/numbers
+imports statics/records
+imports statics/strings
+imports statics/types
+imports statics/variables
+
+signature
+  sorts Module 
+  constructors
+    Mod : Exp -> Module
+
+rules // single-file entry point
+
+  programOk : Module
+
+  programOk(Mod(e)) :- {s T} 
+    new s, init(s),
+    typeOfExp(s, e) == T.
+
+rules // multi-file entry point
+
+//  projectOk : scope
+//  projectOk(s).
+//  fileOk : scope * Start
+//  fileOk(s, Empty()).
+    
+rules
+
+  init : scope
+
+  init(s) :-
+    declareTypeRaw(s, "int",    INT()),
+    declareTypeRaw(s, "string", STRING()),
+
+    declareVarRaw(s,  "print",     FUN([STRING()], UNIT())),
+    declareVarRaw(s,  "chr",       FUN([INT()], STRING())),
+    declareVarRaw(s,  "ord",       FUN([STRING()], INT())),
+    declareVarRaw(s,  "size",      FUN([STRING()], INT())),
+    declareVarRaw(s,  "substring", FUN([STRING(), INT(), INT()], STRING())),
+    declareVarRaw(s,  "concat",    FUN([STRING(), STRING()], STRING())),
+    declareVarRaw(s,  "not",       FUN([INT()], INT())),
+    declareVarRaw(s,  "exit",      FUN([INT()], UNIT())),
+    declareVarRaw(s,  "getchar",   FUN([], STRING())),
+    declareVarRaw(s,  "flush",     FUN([], UNIT())),
+    declareVarRaw(s,  "printi",    FUN([INT()], UNIT())),
+    declareVarRaw(s,  "timeGo",    FUN([], UNIT())),
+    declareVarRaw(s,  "timeStop",  FUN([], UNIT())).
+
+    

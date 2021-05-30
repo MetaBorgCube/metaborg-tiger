@@ -1,0 +1,17 @@
+module test13
+
+language tiger
+
+test test13 [[
+/* error: comparison of incompatible types */
+
+3 > "df"
+]] analysis fails
+
+test test13b [[
+3 > 2
+]] analysis succeeds
+
+test test13c: comparing strings [[ 
+"3" = "2"
+]] analysis succeeds

@@ -1,0 +1,35 @@
+module test12
+
+language tiger
+
+test test12 [[
+/* valid for and let */
+
+let
+  var a:= 0
+in 
+  for i:=0 to 100 do (a:=a+1;())
+end
+]] analysis succeeds 
+
+test test12b [[
+/* valid for and let */
+
+let
+	var a:= 0
+in 
+	for i:=0 to 100 do (a:=a+i;());
+	a := a + 1
+end
+]] analysis succeeds 
+
+test test12c [[
+/* valid for and let */
+
+let
+  var a:= 0
+in 
+  for i:=0 to 100 do (a:=a+i;());
+  a := a + i
+end
+]] analysis fails 

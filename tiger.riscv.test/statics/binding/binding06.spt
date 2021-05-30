@@ -1,0 +1,8 @@
+module binding06
+
+language tiger
+
+test binding06 [[
+(for x := 1 to 10 do
+  print(chr(x));
+x) // not in scope]] analysis fails

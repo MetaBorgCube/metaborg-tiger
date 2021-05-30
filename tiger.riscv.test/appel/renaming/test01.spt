@@ -1,0 +1,31 @@
+module test01
+
+language tiger
+
+test test01 [[
+/* an array type and an array variable */ 
+let
+  type  arrtype = array of int
+  var [[arr1]]:arrtype := arrtype [10] of 0
+in
+  [[arr1]][2]
+end
+]] resolve #2 to #1
+
+test test01 [[
+/* an array type and an array variable */ 
+let
+	type  arrtype = array of int
+	var arr1:arrtype := arrtype [10] of 0
+in
+	[[arr1]][2]
+end
+]] run rename(|#1, "foo") to [[
+/* an array type and an array variable */ 
+let
+  type  arrtype = array of int
+  var foo:arrtype := arrtype [10] of 0
+in
+  foo[2]
+end
+]]

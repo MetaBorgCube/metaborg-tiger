@@ -1,0 +1,11 @@
+module bindings11
+
+language tiger
+
+test bindings11 [[
+  let
+    type point = {x : int, y: int}
+    var p := point{x = 1, y = 10}
+  in 
+    p.y
+  end ]] analysis succeeds

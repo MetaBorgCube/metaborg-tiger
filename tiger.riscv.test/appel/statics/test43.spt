@@ -1,0 +1,21 @@
+module test43
+
+language tiger
+
+test test43 | error: type mismatch [[
+/* initialize with unit and causing type mismatch in addition */
+
+let 
+	var a := ()
+in
+	a + 3
+end
+]] analysis fails
+
+test test43 [[
+let 
+  var a := ()
+in
+  a 
+end
+]] analysis succeeds

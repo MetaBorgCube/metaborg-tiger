@@ -1,0 +1,46 @@
+module statics/functions
+
+imports signatures/Functions-sig
+imports statics/base
+imports statics/variables
+
+rules // function declarations
+
+  // Parameters: In [function id(... id1: id2 ...) = exp] the
+  // scope of the parameter id1 lasts throughout the function
+  // body exp
+
+  newDecScope(ProcDec(_,_,_),  ProcDec(_,_,_))  = 0.
+  newDecScope(FunDec(_,_,_,_), ProcDec(_,_,_))  = 0.
+  newDecScope(ProcDec(_,_,_),  FunDec(_,_,_,_)) = 0.
+  newDecScope(FunDec(_,_,_,_), FunDec(_,_,_,_)) = 0.
+
+  decOk(s, s_outer, d@ProcDec(f, args, e)) :- {s_fun Ts}
+    new s_fun, s_fun -P-> s,
+    typesOfArgs(s_fun, s_outer, args) == Ts,
+    declareVar(s, f, FUN(Ts, UNIT())),
+    typeOfExp(s_fun, e) == UNIT().
+
+  decOk(s, s_outer, d@FunDec(f, args, t, e)) :- {s_fun Ts T S}
+    new s_fun, s_fun -P-> s,
+    typesOfArgs(s_fun, s_outer, args) == Ts,
+    typeOfType(s_outer, t) == T,
+    declareVar(s, f, FUN(Ts, T)),
+    typeOfExp(s_fun, e) == S,
+    subtypeO(t, S, T).
+
+rules
+  typeOfArg  : scope * scope * FArg -> TYPE
+  typesOfArgs  maps typeOfArg(*, *, list(*)) = list(*)
+
+  typeOfArg(s_fun, s_outer, FArg(x, t)) = T :-
+    typeOfType(s_outer, t) == T,
+    declareVar(s_fun, x, T).
+
+rules // function calls
+
+  typeOfExp(s, Call(f, es)) = T :- {Ts Ss}
+    typeOfVar(s, f) == FUN(Ts, T),
+    typeOfExps(s, es) == Ss,
+    subtypes(Ss, Ts).
+    

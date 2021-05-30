@@ -1,0 +1,20 @@
+module test40
+
+language tiger
+
+test test40 | error : procedure returns value [[
+/* error : procedure returns value */
+let
+	function g(a:int) = a
+in 
+	g(2)
+end
+]] analysis fails
+
+test test40 | procedure returns unit [[
+let
+  function g(a:int) = (1; ())
+in 
+  g(2)
+end
+]] analysis succeeds

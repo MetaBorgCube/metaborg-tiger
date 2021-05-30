@@ -1,0 +1,25 @@
+module test38
+
+language tiger
+
+test test38 | duplicate type definition [[
+/* This is illegal, since there are two types with the same name
+    in the same (consecutive) batch of mutually recursive types. 
+    See also test47  */
+let
+	type a = int
+	type a = string
+in
+	0
+end
+]] analysis fails
+
+test test38 | shadowing type definition [[
+let
+  type a = int
+  var x := 0
+  type a = string
+in
+  0
+end
+]] analysis succeeds

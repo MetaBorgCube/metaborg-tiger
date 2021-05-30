@@ -1,0 +1,17 @@
+module test44
+
+language tiger
+
+test test44 [[
+/* valid nil initialization and assignment */
+let 
+
+	type rectype = {name:string, id:int}
+	var b:rectype := nil
+
+in
+
+	b := nil
+
+end
+]] parse succeeds

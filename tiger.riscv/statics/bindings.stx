@@ -1,0 +1,37 @@
+module statics/bindings
+
+imports signatures/Bindings-sig
+imports statics/base
+
+rules
+
+  decsOk : scope * scope * scope * list(Dec)
+  
+  typeOfExp(s_outer, Let(ds, es)) = T :- {s_body s_let}
+    new s_body,
+    new s_let, s_let -P-> s_outer,
+    decsOk(s_outer, s_let, s_body, ds),
+    typeOfSeq(s_body, es) == T.
+
+  decsOk(s_outer, s_let, s_body, []) :-
+    s_body -P-> s_let.
+
+  decsOk(s_outer, s_let, s_body, [dec]) :-
+    s_body -P-> s_let,
+    decOk(s_let, s_outer, dec).
+
+  decsOk(s_outer, s_let, s_body, [dec1 | decs@[dec2 |_]]) :-
+    decsOkAux(s_outer, s_let, s_body, [dec1 | decs], newDecScope(dec1, dec2)).
+    
+  decsOkAux : scope * scope * scope * list(Dec) * int
+  
+  decsOkAux(s_outer, s_let1, s_body, [dec | decs], 1) :- {s_let2}
+    new s_let2,
+    s_let2 -P-> s_let1, 
+    decOk(s_let1, s_outer, dec), 
+    decsOk(s_let1, s_let2, s_body, decs).
+  
+  decsOkAux(s_outer, s_let, s_body, [dec | decs], 0) :- 
+    decOk(s_let, s_outer, dec),
+    decsOk(s_outer, s_let, s_body, decs).
+

@@ -1,0 +1,12 @@
+module binding10
+
+language tiger
+
+test binding10 [[
+  let
+    function f() : int = g(1)
+    var x := 1
+    function g(x : int) : int = f()
+  in
+   1
+  end ]] analysis fails

@@ -1,0 +1,65 @@
+module statics/base
+
+imports signatures/Base-sig
+
+rules
+
+  typeOfType : scope * Type -> TYPE
+
+  typeOfExp  : scope * Exp -> TYPE
+  typeOfExps   maps typeOfExp(*, list(*)) = list(*)
+
+  typeOfSeq  : scope * list(Exp) -> TYPE
+  typeOfLVal : scope * LValue -> TYPE
+  
+  decOk      : scope * scope * Dec
+    
+  newDecScope : Dec * Dec -> int
+  
+  newDecScope(d1, d2) = 1.
+  
+rules 
+
+  subtype  : TYPE * TYPE
+  subtypeO : Type * TYPE * TYPE
+
+  subtype(T, T).
+  subtypeO(t, T, T).
+
+rules subtypes : list(TYPE) * list(TYPE)
+
+//  subtypes maps subtype(list(*), list(*))
+
+  subtypes([], []).
+
+  subtypes([T | Ts], [S | Ss]) :-
+    subtype(T, S),
+    subtypes(Ts, Ss).
+    
+rules 
+
+  equitype : TYPE * TYPE
+  equitype(T, T).
+  
+  lub : TYPE * TYPE -> TYPE
+  lub(S, T) = S.
+        
+rules // placeholders
+
+  typeOfExp(s, Exp-Plhdr()) = T.
+  
+signature
+  name-resolution
+    labels P   
+  relations
+    typeOf : -> TYPE   
+rules
+  typeOf : scope -> TYPE
+  withType : TYPE -> scope
+  
+  typeOf(s) = T :-
+    query typeOf filter e and {x' :- x' == _} min $ < P and true in s |-> [(_, T)].
+     
+  withType(T) = s :-
+    new s, !typeOf[T] in s.
+    

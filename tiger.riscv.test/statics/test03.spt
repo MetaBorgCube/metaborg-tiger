@@ -1,0 +1,22 @@
+module test03
+
+language tiger
+
+test type declaration and use & built in type int [[
+let
+   type t = int
+   var x : t := 0
+in
+  x
+end
+]] parse succeeds
+
+test type declaration and use & built in type int [[
+let
+   type t = t 
+   var x : t := 0
+in
+  x
+end
+]] analysis succeeds
+

@@ -1,0 +1,8 @@
+let 
+  var z := 0
+  var x : int := 0 + z     
+  var y : int := x + 1
+  var z : int := x + y + 1
+ in 
+   x + y + z
+end

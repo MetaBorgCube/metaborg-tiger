@@ -1,0 +1,11 @@
+---
+id: org.metaborg.lang.tiger.riscv:tiger.riscv.example:0.1.0-SNAPSHOT
+name: tiger
+dependencies:
+  compile:
+  - org.metaborg.lang.tiger.riscv:tiger.riscv:0.1.0-SNAPSHOT
+runtime:
+  nabl2:
+    debug: analysis files
+build:
+  useBuildSystemSpec: true

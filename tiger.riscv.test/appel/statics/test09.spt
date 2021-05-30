@@ -1,0 +1,9 @@
+module test09
+
+language tiger
+
+test test09 [[
+/* error : types of then - else differ */
+
+if (5>4) then 13 else  " "
+]] analysis fails

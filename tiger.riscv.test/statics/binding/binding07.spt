@@ -1,0 +1,10 @@
+module binding07
+
+language tiger
+
+test binding07 [[
+  let
+    type r = {x : int}
+  in 
+    r{x = 1, x = 2} // error: duplicate initialization
+  end]] analysis fails

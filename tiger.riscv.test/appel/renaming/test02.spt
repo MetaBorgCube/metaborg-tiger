@@ -1,0 +1,60 @@
+module test02
+
+language tiger
+
+test test02 [[
+/* arr1 is valid since expression 0 is int = myint */
+let
+	type myint = int
+	type  arrtype = array of myint
+
+	var arr1:arrtype := arrtype [10] of 0
+in
+	arr1
+end
+]] parse succeeds
+
+test test02 [[
+/* arr1 is valid since expression 0 is int = myint */
+let
+  type myint = int
+  type  arrtype = array of myint
+
+  var arr1:arrtype := [[arrtype]] [10] of 0
+in
+  arr1
+end
+]] run rename(|#1, "foo") to [[
+/* arr1 is valid since expression 0 is int = myint */
+let
+  type myint = int
+  type  foo = array of myint
+
+  var arr1:foo := foo [10] of 0
+in
+  arr1
+end
+]]
+
+test test02 [[
+/* arr1 is valid since expression 0 is int = myint */
+let
+  type myint = int
+  type  [[arrtype]] = array of myint
+
+  var arr1:arrtype := arrtype [10] of 0
+in
+  arr1
+end
+]] run rename(|#1, "foo") to [[
+/* arr1 is valid since expression 0 is int = myint */
+let
+  type myint = int
+  type  foo = array of myint
+
+  var arr1:foo := foo [10] of 0
+in
+  arr1
+end
+]]
+ 

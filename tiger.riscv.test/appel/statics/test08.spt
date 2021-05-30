@@ -1,0 +1,8 @@
+module test08
+
+language tiger
+
+test test08 [[
+/* correct if */
+if (10 > 20) then 30 else 40	
+]] analysis succeeds

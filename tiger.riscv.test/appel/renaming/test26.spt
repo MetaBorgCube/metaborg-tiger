@@ -1,0 +1,9 @@
+module test26
+
+language tiger
+
+test test26 [[
+/* error : integer required */
+
+3 + "var"
+]] parse succeeds

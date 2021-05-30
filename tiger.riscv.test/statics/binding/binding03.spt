@@ -1,0 +1,20 @@
+module binding03
+
+language tiger
+
+test binding03 [[
+let
+  function h() = ()
+  
+  var x := 1
+  
+  function f() : int = ( 1 )
+  function f(x : int) : int = ( 1 )
+   
+  function g() = ()
+  function g() = ()
+  
+  function h() = ()
+in
+  f(); h() 
+end ]] analysis fails

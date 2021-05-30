@@ -1,0 +1,14 @@
+module stat-test01
+
+language tiger
+
+test stat-test01 [[
+let
+  var sum := 0 
+  var n := 5
+ in 
+   for x := 1 to n do
+     sum := sum + x;   
+   sum
+end
+]] analysis succeeds

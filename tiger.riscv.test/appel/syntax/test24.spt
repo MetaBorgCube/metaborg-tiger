@@ -1,0 +1,13 @@
+module test24
+
+language tiger
+
+test test24 [[
+/* error : variable not array */
+let 
+	var d:=0
+in
+	d[3]
+end
+
+]] parse succeeds

@@ -1,0 +1,9 @@
+module test15
+
+language tiger
+
+test test15 [[
+/* error : if-then returns non unit */
+
+if 20 then 3
+]] analysis fails

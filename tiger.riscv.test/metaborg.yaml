@@ -1,0 +1,9 @@
+---
+id: org.metaborg.lang.tiger.riscv:tiger.riscv.test:0.1.0-SNAPSHOT
+name: tiger
+dependencies:
+  compile:
+  - org.metaborg.lang.tiger.riscv:tiger.riscv:0.1.0-SNAPSHOT
+  - org.metaborg:org.metaborg.meta.lang.spt:${metaborgVersion}
+build:
+  useBuildSystemSpec: true

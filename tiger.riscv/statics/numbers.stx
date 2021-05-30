@@ -1,0 +1,68 @@
+module statics/numbers
+
+imports signatures/Numbers-sig
+imports statics/base
+imports statics/types
+
+rules // literals
+
+  typeOfExp(s, Int(i)) = INT().
+
+rules // operators
+
+  typeOfExp(s, Uminus(e)) = INT() :-
+    typeOfExp(s, e) == INT().
+
+  typeOfExp(s, Divide(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, Times(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, Minus(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, Plus(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, Eq(e1, e2)) = INT() :- {T S}
+    typeOfExp(s, e1) == T,
+    typeOfExp(s, e2) == S,
+    equitype(T, S).
+    // TODO: does Eq work for all types?
+
+  typeOfExp(s, Neq(e1, e2)) = INT() :- {T S}
+    typeOfExp(s, e1) == T,
+    typeOfExp(s, e2) == S,
+    equitype(T, S).
+    // TODO: does Neq work for all types?
+
+  typeOfExp(s, Gt(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+    // TODO: does Gt work for more types?
+
+  typeOfExp(s, Lt(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, Geq(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, Leq(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, Or(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+
+  typeOfExp(s, And(e1, e2)) = INT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT().
+    

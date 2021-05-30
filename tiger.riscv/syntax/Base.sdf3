@@ -1,0 +1,3 @@
+module Base
+
+sorts Exp Type Dec LValue TYPE

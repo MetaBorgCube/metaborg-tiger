@@ -1,0 +1,69 @@
+module statics/types
+
+imports signatures/Types-sig
+imports statics/base
+
+rules // type declarations
+
+  // Types: In the expression [let ... typedecs ... in exps end] the
+  // scope of a type identifier starts at the beginning of the
+  // consecutive sequence of type declarations defining it and lasts
+  // until the end. The includes the headers and bodies of any functions
+  // with the scope.
+
+  // Name spaces: There are two different name spaces: one for types,
+  // and one for functions and variables. A type [a] can be "in scope"
+  // at the same time as a variable [a] or a function [a], but
+  // variables and functions of the same name cannot both be in
+  // scope simultaneously (one will hide the other).
+
+  newDecScope(TypeDec(_, _), TypeDec(_, _)) = 0.
+
+  decOk(s, s_outer, TypeDec(x, t)) :- {T}
+    typeOfType(s, t) == T,
+    declareType(s, x, T).
+
+   // note: type declarations in a sequence are mutually recursive
+
+rules // types
+
+  typeOfType(s, Tid(Id2TypeId(x))) = typeOfTypeId(s, x).
+  
+  
+signature
+  relations
+    type : Id -> scope 
+    
+rules // type binding
+
+  declareType    : scope * Id * TYPE
+  declareTypeRaw : scope * Id * TYPE
+  typeOfTypeId   : scope * Id -> TYPE
+  resolveTypeId  : scope * Id -> list((path * (Id * scope)))
+
+  declareType(s, x, T) :-
+    !type[x, withType(T)] in s,
+    resolveTypeId(s, x) == [_] 
+      | error $[duplicate definition of type [x]],
+    @x.type := T,
+    @x.decl := x.
+
+  declareTypeRaw(s, x, T) :-
+    !type[x, withType(T)] in s,
+    resolveTypeId(s, x) == [_] 
+      | error $[duplicate definition of type [x]].
+
+  typeOfTypeId(s, x) = T :- {x' s_T}
+    resolveTypeId(s, x) == [(_, (x', s_T)) | _] 
+      | error $[type [x] not defined],
+    T == typeOf(s_T),
+    @x.ref := x',
+    @x.type := T.
+    
+  resolveTypeId(s, x) = ps :-
+    query type 
+      filter P* and {x' :- x' == x}
+      min $ < P
+      in s |-> ps.
+    
+  

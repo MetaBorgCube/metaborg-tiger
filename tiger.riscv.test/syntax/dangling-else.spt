@@ -1,0 +1,22 @@
+module dangling-else
+
+language tiger 
+
+test dangling if [[
+  if a then b else c 
+]] parse to [[ 
+  if a then b else c 
+]]
+
+test dangling if [[
+  if 1 then if 3 then 4 else 5
+]] parse to Mod(
+  IfThen(
+    Int("1")
+  , If(Int("3"), Int("4"), Int("5"))
+  )
+)
+  
+
+  
+

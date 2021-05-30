@@ -1,0 +1,61 @@
+module statics/control-flow
+
+imports signatures/Control-Flow-sig
+imports statics/base
+imports statics/variables
+
+rules // sequence
+
+  typeOfSeq(s, []) = UNIT().
+
+  typeOfSeq(s, [e]) = T :-
+    typeOfExp(s, e) == T.
+
+  typeOfSeq(s, [e | es@[_|_]]) = T :- {S}
+    typeOfExp(s, e) == S,
+    typeOfSeq(s, es) == T.
+
+  typeOfExp(s, Seq(es)) = typeOfSeq(s, es).
+
+  typeOfExp(s, If(e1, e2, e3)) = lub(T, S) :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == T,
+    typeOfExp(s, e3) == S,
+    equitype(S, T).
+
+  typeOfExp(s, IfThen(e1, e2)) = UNIT() :-
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == UNIT().
+
+  typeOfExp(s, While(e1, e2)) = UNIT() :- {s_loop}
+    new s_loop, s_loop -P-> s,
+    declareBreak(s_loop),
+    typeOfExp(s_loop, e1) == INT(),
+    typeOfExp(s_loop, e2) == UNIT().
+
+  typeOfExp(s, For(Var(x), e1, e2, e3)) = UNIT() :- {s_for}
+    new s_for,
+    s_for -P-> s,
+    declareVar(s_for, x, INT()),
+    declareBreak(s_for),
+    typeOfExp(s, e1) == INT(),
+    typeOfExp(s, e2) == INT(),
+    typeOfExp(s_for, e3) == UNIT().
+
+  typeOfExp(s, Break()) = UNIT() :-
+    resolveBreak(s).
+    
+signature
+  relations
+    break : 
+  
+rules
+
+  declareBreak : scope 
+  resolveBreak : scope 
+  
+  declareBreak(s) :-
+    !break[] in s.
+    
+  resolveBreak(s) :- {d}
+    query break filter e in s |-> [(_, d)].

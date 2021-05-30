@@ -1,0 +1,6 @@
+module operator-test01
+
+language tiger
+
+test operator-test01 [[
+54]] analysis succeeds
