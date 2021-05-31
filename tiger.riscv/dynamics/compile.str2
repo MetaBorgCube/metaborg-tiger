@@ -1,0 +1,20 @@
+module dynamics/compile
+
+imports signatures/Variables-sig
+imports signatures/Bindings-sig 
+imports signatures/tiger-sig
+
+imports dynamics/uniquify
+
+  
+rules
+
+  remove-complex :: Exp -> Exp
+  
+  explicate-control :: Exp -> Exp
+  
+  select-instructions :: Exp -> Instr
+  
+  assign-homes :: Instr -> Instr 
+  
+  patch-instructions :: Instr -> Instr 

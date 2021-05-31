@@ -1,0 +1,63 @@
+module dynamics/uniquify
+
+imports signatures/Variables-sig 
+imports signatures/Bindings-sig 
+imports signatures/tiger-sig
+imports pp
+
+rules 
+  
+  uniquify-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"aterm")> path
+    with result   := <uniquify-mod>node
+  
+  uniquify-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"u.tig")> path
+    with result   := <uniquify-mod; pp-debug>node
+  
+rules
+
+  rename :: string -> string
+  rename :
+    x1 -> x2
+    with <newname> x1 => x2
+    with rules( Rename : x1 -> x2 )
+          
+rules 
+
+  uniquify-mod :: Module -> Module
+  uniquify-exp :: Exp -> Exp
+  uniquify-dec :: Dec -> Dec
+  uniquify-gen :: TP
+  
+//  uniquify-gen = alltd(
+  
+  uniquify-mod :
+    Mod(e) -> Mod(<uniquify-exp>e)
+
+  uniquify-dec :
+    VarDec(x1, t, e1) -> VarDec(x2, t, e2)
+    with <uniquify-exp> e1 => e2
+    with <rename> x1 => x2
+    
+  uniquify-dec : // TODO: consider desugaring VarDecNoType
+    VarDecNoType(x1, e1) -> VarDecNoType(x2, e2)
+    with <uniquify-exp> e1 => e2
+    with <rename> x1 => x2
+      
+  uniquify-exp : 
+    Let(dec1*, e1*) -> Let(dec2*, e2*)
+    with <map(uniquify-dec)> dec1* => dec2*
+    with <map(uniquify-exp)> e1* => e2*
+                 
+  uniquify-exp :
+    Var(x1) -> Var(x2)
+    with <Rename> x1 => x2
+                 
+  uniquify-exp :
+    Var(x1) -> Var(x2)
+    with <Rename> x1 => x2
+    
+    

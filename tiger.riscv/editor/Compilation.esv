@@ -1,0 +1,8 @@
+module Compilation
+
+menus
+
+  menu: "Compilation"
+
+  action: "Uniquify" = uniquify-pp
+  action: "Uniquify (AST)" = uniquify-aterm

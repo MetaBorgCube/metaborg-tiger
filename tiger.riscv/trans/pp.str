@@ -8,7 +8,7 @@ imports
   pp/tiger-parenthesize 
   pp/tiger-pp 
 
-rules
+rules 
 
   editor-format:
     (node, _, ast, path, project-path) -> (filename, result)
