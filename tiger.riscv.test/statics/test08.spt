@@ -3,21 +3,21 @@ module test08
 language tiger
 
 test array of record [[
-let 
-  type rec = {}
-  type arr = array of rec
-  var x : arr := arr[5] of nil
-in x
-end
+  let 
+    type rec = {}
+    type arr = array of rec
+    var x : arr := arr[5] of nil
+  in x
+  end
 ]] analysis succeeds
 
 test array of record [[
-let 
-  type rec = {}
-  type arr = array of rec
-  var default : rec := nil
-  var x : arr := arr[5] of default
-in x
+  let 
+    type rec = {}
+    type arr = array of rec
+    var default : rec := nil
+    var x : arr := arr[5] of default
+  in x
 end
 ]] analysis succeeds
 
