@@ -6,6 +6,7 @@ imports signatures/tiger-sig
 
 imports dynamics/uniquify
 imports dynamics/remove-complex-operands
+imports dynamics/explicate-control
 
   
 rules

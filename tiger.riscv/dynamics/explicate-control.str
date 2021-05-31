@@ -1,0 +1,45 @@
+module dynamics/explicate-control
+
+imports signatures/Variables-sig 
+imports signatures/Bindings-sig 
+imports signatures/tiger-sig
+imports pp
+imports statix/api
+
+rules 
+  
+  explicate-control-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"ec.aterm")> path
+    with result   := <explicate-control-mod; strip-annos>node
+  
+  explicate-control-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"ec.tig")> path
+    with result   := <explicate-control-mod; pp-debug>node
+    
+rules 
+
+  explicate-control-mod =
+    Mod(explicate-control-exp)
+
+  explicate-control-dec :
+    VarDecNoType(x, e) -> [dec*, VarDecNoType(x, e2)]
+    with <explicate-control-exp> e => Let(dec*, [e2])
+    
+  explicate-control-dec :
+    VarDec(x, t, e) -> [dec*, VarDec(x, t, e2)]
+    with <explicate-control-exp> e => Let(dec*, [e2])
+   
+  explicate-control-let :
+    Let(dec1*, [e1]) -> Let([dec2*, dec3*], [e2])
+    with <mapconcat(explicate-control-dec)> dec1* => dec2*
+    with <explicate-control-exp> e1 => Let(dec3*, [e2])
+    
+  explicate-other :
+    e -> Let([], [e])
+    
+  explicate-control-exp = 
+    debug(!"explicate-control-exp: ")
+    ; try(explicate-control-let <+ explicate-other)    
+    ; debug(!"  => ")
