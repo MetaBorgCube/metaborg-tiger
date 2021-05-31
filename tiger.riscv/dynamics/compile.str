@@ -7,16 +7,24 @@ imports signatures/tiger-sig
 imports dynamics/uniquify
 imports dynamics/remove-complex-operands
 imports dynamics/explicate-control
+imports dynamics/select-instructions
 
+rules 
   
+  compile-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"comp.aterm")> path
+    with result   := <compile; strip-annos>node
+  
+  compile-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"rv32im")> path
+    with result   := <compile; pp-RV32IM-string>node
+
 rules
-
-  remove-complex :: Exp -> Exp
-  
-  explicate-control :: Exp -> Exp
-  
-  select-instructions :: Exp -> Instr
-  
-  assign-homes :: Instr -> Instr 
-  
-  patch-instructions :: Instr -> Instr 
+    
+  compile = 
+    uniquify 
+    ; remove-complex-operands
+    ; explicate-control
+    ; select-instructions

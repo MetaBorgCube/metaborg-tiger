@@ -2,6 +2,7 @@ module dynamics/remove-complex-operands
 
 imports signatures/Variables-sig 
 imports signatures/Bindings-sig 
+imports signatures/Numbers-sig 
 imports signatures/tiger-sig
 imports pp
 imports statix/api
@@ -32,12 +33,34 @@ rules
     where <not(is-atom)> e
     where <newname> "tmp" => x
     
-  is-atom = ?Int(_) <+ ?Var(_) <+ Let(id, [is-atom])
+  is-atom = 
+    ?Int(_) <+ ?Real(_) <+ ?Var(_) 
+    <+ Let(id, [is-atom])
   
+//  rco-exp :
+//    Plus(e1, e2) -> <try(rm-mt-let)>Let([dec1*, dec2*], [Plus(e3, e4)])
+//    with <rco-atom> e1 => (dec1*, e3)
+//    with <rco-atom> e2 => (dec2*, e4)
+
   rco-exp :
-    Plus(e1, e2) -> <try(rm-mt-let)>Let([dec1*, dec2*], [Plus(e3, e4)])
-    with <rco-atom> e1 => (dec1*, e3)
-    with <rco-atom> e2 => (dec2*, e4)
-    
+    op#(es1) -> <try(rm-mt-let)>Let(<concat>dec*, [op#(es2)])
+    where <is-operator> op
+    with <map(rco-atom); unzip> es1 => (dec*, es2)
+        
   rm-mt-let :
     Let([], [e]) -> e
+    
+  is-operator = 
+    ?"Uminus"
+    <+ ?"Times" 
+    <+ ?"Divide" 
+    <+ ?"Plus"
+    <+ ?"Minus"
+    <+ ?"Eq"
+    <+ ?"Neq"
+    <+ ?"Gt"
+    <+ ?"Lt"
+    <+ ?"Geq"
+    <+ ?"Leq"
+    <+ ?"And"
+    <+ ?"Or" 

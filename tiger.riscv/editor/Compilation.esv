@@ -2,7 +2,20 @@ module Compilation
 
 menus
 
-  menu: "Compilation"
+  menu: "Compilation" (openeditor)
 
-  action: "Uniquify" = uniquify-pp
+  action: "Compile"       = compile-pp
+  action: "Compile (AST)" = compile-aterm 
+
+  action: "Uniquify"       = uniquify-pp
   action: "Uniquify (AST)" = uniquify-aterm 
+
+  action: "Remove Complex Operands"       = rco-pp
+  action: "Remove Complex Operands (AST)" = rco-aterm 
+
+  action: "Explicate Control"       = explicate-control-pp
+  action: "Explicate Control (AST)" = explicate-control-aterm 
+
+  action: "Select Instructions"       = select-instructions-pp
+  action: "Select Instructions (AST)" = select-instructions-aterm 
+  

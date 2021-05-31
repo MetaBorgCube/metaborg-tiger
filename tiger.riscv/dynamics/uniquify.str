@@ -40,6 +40,8 @@ rules
 //  uniquify-exp :: Exp -> Exp
 //  uniquify-dec :: Dec -> Dec
 //  uniquify-gen :: TP 
+
+  uniquify = uniquify-mod
   
   uniquify-mod : 
     Mod(e) -> Mod(<uniquify-gen>e)

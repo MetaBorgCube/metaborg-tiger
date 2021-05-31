@@ -12,6 +12,7 @@ dependencies:
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
   - org.metaborg:statix.runtime:${metaborgVersion}
+  - org.metaborg:RV32IM:0.1.0-SNAPSHOT
 pardonedLanguages:
 - EditorService
 - Stratego-Sugar

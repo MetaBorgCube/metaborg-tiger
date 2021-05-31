@@ -20,8 +20,15 @@ rules
     
 rules 
 
+  explicate-control = explicate-control-mod
+
   explicate-control-mod =
     Mod(explicate-control-exp)
+    
+  explicate-control-exp = 
+    debug(!"explicate-control-exp: ")
+    ; try(explicate-control-let <+ explicate-other)    
+    ; debug(!"  => ")
 
   explicate-control-dec :
     VarDecNoType(x, e) -> [dec*, VarDecNoType(x, e2)]
@@ -39,7 +46,3 @@ rules
   explicate-other :
     e -> Let([], [e])
     
-  explicate-control-exp = 
-    debug(!"explicate-control-exp: ")
-    ; try(explicate-control-let <+ explicate-other)    
-    ; debug(!"  => ")

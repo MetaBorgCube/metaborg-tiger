@@ -1,0 +1,71 @@
+module dynamics/select-instructions
+
+imports signatures/Variables-sig 
+imports signatures/Bindings-sig 
+imports signatures/Numbers-sig 
+imports signatures/tiger-sig
+imports pp
+imports statix/api
+
+imports 
+  rv32im
+  signatures/RV32IM-sig
+  
+rules  
+  
+  select-instructions-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"is.aterm")> path
+    with result   := <select-instructions; strip-annos>node
+  
+  select-instructions-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"is.rv32im")> path
+    with result   := <select-instructions; pp-RV32IM-string>node
+    
+rules 
+
+  select-instructions = select-instructions-mod
+  
+  select-instructions-mod : 
+    Mod(e) -> Program(<concat>[    
+      [PSData()],
+      [PSText(),
+       PSGlobl("main")],
+      instrs
+    ])  
+    with <select-instrs-exp(|"a0")> e => instrs
+    
+  select-instrs-exp(|x) :
+    Let(dec*, [e]) -> <concat>[
+      instrs1,
+      instrs2
+    ]
+    with <mapconcat(select-instrs-dec)> dec* => instrs1
+    with <select-instrs-exp(|x)> e => instrs2
+    
+  select-instrs-dec :
+    VarDecNoType(x, e) -> <concat>[
+      instrs
+    ]
+    with <select-instrs-exp(|x)> e => instrs
+    
+rules  // operators
+    
+  select-instrs-exp(|x) :
+    Int(i) -> [Li(x, i)]
+    
+  select-instrs-exp(|x) :
+    Var(y) -> [Mv(x, y)]
+        
+  select-instrs-exp(|x) :
+    Times(Var(y), Var(z)) -> [Mul(x, y, z)]
+    
+  select-instrs-exp(|x) :
+    Plus(Var(y), Var(z)) -> [Addi(x, y, z)]
+  select-instrs-exp(|x) :
+    Plus(Int(i), Var(z)) -> [Addi(x, z, i)]
+  select-instrs-exp(|x) :
+    Plus(Var(z), Int(i)) -> [Addi(x, z, i)]
+    
+    

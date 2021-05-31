@@ -15,6 +15,7 @@ lexical syntax
   
 context-free syntax
   Exp.Int     = IntConst  
+  Exp.Real    = RealConst
 
   Exp.Uminus  = [- [Exp]] 
   Exp.Times   = [[Exp] * [Exp]]   {left}
