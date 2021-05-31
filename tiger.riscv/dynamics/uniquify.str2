@@ -30,13 +30,14 @@ rules
   uniquify-mod :: Module -> Module
   uniquify-exp :: Exp -> Exp
   uniquify-dec :: Dec -> Dec
-  uniquify-gen :: TP
-  
-//  uniquify-gen = alltd(
+  uniquify-gen :: TP 
   
   uniquify-mod :
-    Mod(e) -> Mod(<uniquify-exp>e)
-
+    Mod(e) -> Mod(<uniquify-gen>e)
+    
+  uniquify-gen = 
+    topdown(try(uniquify-dec <+ uniquify-exp))
+  
   uniquify-dec :
     VarDec(x1, t, e1) -> VarDec(x2, t, e2)
     with <uniquify-exp> e1 => e2
@@ -47,17 +48,17 @@ rules
     with <uniquify-exp> e1 => e2
     with <rename> x1 => x2
       
-  uniquify-exp : 
-    Let(dec1*, e1*) -> Let(dec2*, e2*)
-    with <map(uniquify-dec)> dec1* => dec2*
-    with <map(uniquify-exp)> e1* => e2*
+//  uniquify-exp : 
+//    Let(dec1*, e1*) -> Let(dec2*, e2*)
+//    with <map(uniquify-dec)> dec1* => dec2*
+//    with <map(uniquify-exp)> e1* => e2*
                  
   uniquify-exp :
     Var(x1) -> Var(x2)
     with <Rename> x1 => x2
                  
-  uniquify-exp :
-    Var(x1) -> Var(x2)
-    with <Rename> x1 => x2
+//  uniquify-exp :
+//    Var(x1) -> Var(x2)
+//    with <Rename> x1 => x2
     
     

@@ -5,7 +5,7 @@ imports
   libstratego-gpp
   libspoofax/sdf/pp
   libspoofax/editor/refactoring/-
-  pp/tiger-parenthesize 
+  pp/tiger-parenthesize
   pp/tiger-pp 
 
 rules 
@@ -37,7 +37,7 @@ rules
     ; !V([], <id>)
     ; box2text-string(|120)  
       
-  pp-debug :
+  pp-debug : 
     ast -> result
     with
        result := <pp-tiger-string> ast
