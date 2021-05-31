@@ -1,0 +1,32 @@
+module renaming/capture
+
+language Tiger
+
+test rename variable with capture [[
+let
+  var [[bar]] := 10
+in
+  let
+    var foo := 100
+  in
+    bar + foo
+  end
+end
+]] run rename-test(|#1, "foo") fails
+
+
+test rename argument with capture [[
+let
+  function plus(a : int, b:int) : int = (
+    a + b;
+    let
+      function plus([[d]]:int) : int =
+        a + d
+    in
+     plus(1)
+    end
+  )
+in
+     plus(1,1)
+end
+]] run rename-test(|#1, "a") fails

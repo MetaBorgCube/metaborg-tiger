@@ -1,0 +1,80 @@
+module renaming/functions
+
+language Tiger
+
+
+test rename function from declaration [[
+let
+  function [[plus]](a : int, b:int) : int = (
+    a + b
+  )
+in
+     plus(1,1)
+end
+]] run rename-test(|#1, "add") to [[
+let
+  function add(a : int, b:int) : int = (
+    a + b
+  )
+in
+     add(1,1)
+end
+]]
+
+test rename function from reference [[
+let
+  function plus(a : int, b:int) : int = (
+    a + b
+  )
+in
+     [[plus]](1,1)
+end
+]] run rename-test(|#1, "add") to [[
+let
+  function add(a : int, b:int) : int = (
+    a + b
+  )
+in
+     add(1,1)
+end
+]]
+
+test rename procedure [[
+let
+  function [[printnl]](x : string) = (
+    print(x);
+    print("\n")
+  )
+in
+     printnl("Hello World")
+end
+]] run rename-test(|#1, "printNewLine") to [[
+let
+  function printNewLine(x : string) = (
+    print(x);
+    print("\n")
+  )
+in
+     printNewLine("Hello World")
+end
+]]
+
+test rename argument [[
+let
+  function printnl([[x]] : string) = (
+    print(x);
+    print("\n")
+  )
+in
+     printnl("Hello World")
+end
+]] run rename-test(|#1, "text") to [[
+let
+  function printnl(text : string) = (
+    print(text);
+    print("\n")
+  )
+in
+     printnl("Hello World")
+end
+]]
