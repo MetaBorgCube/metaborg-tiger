@@ -10,7 +10,7 @@ rules
   
   uniquify-aterm:
     (node, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"aterm")> path
+    with filename := <guarantee-extension(|"u.aterm")> path
     with result   := <uniquify-mod>node
   
   uniquify-pp:
