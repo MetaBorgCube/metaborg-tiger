@@ -1,0 +1,14 @@
+/* 
+test file to rename a variable inside a let binding to the same name as the varialbe of the outside let binding
+foo -> bar
+*/
+
+let 
+	var bar := 10
+	in
+	  let
+		  var foo := 100
+	  in 
+		  bar + foo
+		end
+end
