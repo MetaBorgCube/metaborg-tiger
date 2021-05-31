@@ -5,6 +5,7 @@ imports signatures/Bindings-sig
 imports signatures/tiger-sig
 
 imports dynamics/uniquify
+imports dynamics/remove-complex-operands
 
   
 rules
