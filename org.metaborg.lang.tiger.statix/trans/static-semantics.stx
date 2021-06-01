@@ -353,7 +353,8 @@ rules // sequence
 
 rules // literals
 
-  typeOfExp(s, Int(i)) = INT().
+  typeOfExp(s, Int(i)) = INT() :-
+    @i.lit := i.
 
 rules // operators
 
@@ -472,7 +473,8 @@ rules // record field access
 
 rules // literals
 
-  typeOfExp(s, String(_)) = STRING().
+  typeOfExp(s, String(v)) = STRING() :-
+    @v.lit := v.
 
 rules
 
