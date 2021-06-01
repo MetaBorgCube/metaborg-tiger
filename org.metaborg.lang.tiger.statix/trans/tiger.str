@@ -6,7 +6,6 @@ imports
   pp
   outline
   analysis
-  renaming
   injections/Tiger-injections
 
 rules // Debugging
