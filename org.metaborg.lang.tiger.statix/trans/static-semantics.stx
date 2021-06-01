@@ -48,17 +48,17 @@ rules // type binding
 
   declareType(s, x, T) :-
     s -> Type{x} with typeOfDecl T,
-    @x.decl := x,
     // declaration is distinct
-    typeOfDecl of Type{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Type{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
   declareVar : scope * string * TYPE
 
   declareVar(s, x, T) :-
     s -> Var{x} with typeOfDecl T,
-    @x.decl := x,
     // declaration is distinct
-    typeOfDecl of Var{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Var{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
 
 
@@ -67,8 +67,8 @@ rules // type binding
 
   declareTypeRaw(s, x, T) :-
     s -> Type{x} with typeOfDecl T,
-    @x.decl := x,
-    typeOfDecl of Type{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Type{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
     // declaration is distinct
 
   lookupType(s, x) = T :- {x'} @x.ref := x',
@@ -82,9 +82,9 @@ rules // variable binding
 
   declareVarRaw(s, x, T) :-
     s -> Var{x} with typeOfDecl T,
-    @x.decl := x,
     // declaration is distinct
-    typeOfDecl of Var{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Var{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
   lookupVar(s, x) = T :- {x'} @x.ref := x',
     typeOfDecl of Var{x} in s |-> [(_, (Var{x'}, T))|_].
@@ -97,9 +97,9 @@ rules // field binding
 
   declareField(s, x, T) :-
     s -> Field{x} with typeOfDecl T,
-    @x.decl := x,
     // declaration is distinct
-    typeOfDecl of Field{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Field{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
   lookupField(s, x) = T :- {x'} @x.ref := x',
     typeOfDecl of Field{x} in s |-> [(_, (Field{x'}, T))|_].
