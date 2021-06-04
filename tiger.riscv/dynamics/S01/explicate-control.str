@@ -1,0 +1,20 @@
+module dynamics/S01/explicate-control
+
+imports pp
+
+rules 
+  
+  explicate-control-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"ec.aterm")> path
+    with result   := <explicate-control; strip-annos>node
+  
+  explicate-control-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"ec.tig")> path
+    with result   := <explicate-control; pp-debug>node
+    
+rules 
+
+  explicate-control = fail
+    

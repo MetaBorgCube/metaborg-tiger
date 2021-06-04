@@ -1,0 +1,31 @@
+module dynamics/S02/patch-instructions
+
+imports dynamics/S01/patch-instructions
+imports dynamics/S02/assign-homes
+
+rules 
+
+  patch-instructions = 
+    alltd(Mem(id, int-to-string))
+    ; Program(mapconcat(patch-instruction <+ ![<id>]))
+  
+  patch-instruction :
+    Li(Mem(r1, off1), i) -> [
+      Li("t0", i),
+      Sw("t0", off1, r1)
+    ]
+  
+  patch-instruction :
+    Addi(Mem(r1, off1), Mem(r2, off2), i) -> [
+      Lw("t0", off2, r2),
+      Addi("t0", "t0", i),
+      Sw("t0", off1, r1)
+    ]
+    
+  patch-instruction :
+    Mul(Mem(r1, off1), Mem(r2, off2), Mem(r3, off3)) -> [
+      Lw("t0", off2, r2),
+      Lw("t1", off3, r3),
+      Addi("t0", "t0", "t1"),
+      Sw("t0", off1, r1)
+    ]

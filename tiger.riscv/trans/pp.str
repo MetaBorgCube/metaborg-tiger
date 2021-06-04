@@ -20,7 +20,7 @@ rules
 rules
   
   pp-tiger-string =
-    parenthesize-tiger
+    parenthesize-tiger 
     ; prettyprint-tiger-start-symbols
     ; !V([], <id>)
     ; box2text-string(|120)

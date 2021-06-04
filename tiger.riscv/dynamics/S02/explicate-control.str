@@ -1,23 +1,12 @@
-module dynamics/explicate-control
+module dynamics/S02/explicate-control
+
+imports dynamics/S01/explicate-control
 
 imports signatures/Variables-sig 
 imports signatures/Bindings-sig 
 imports signatures/tiger-sig
-imports pp
 imports statix/api
 
-rules 
-  
-  explicate-control-aterm:
-    (node, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"ec.aterm")> path
-    with result   := <explicate-control-mod; strip-annos>node
-  
-  explicate-control-pp:
-    (node, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"ec.tig")> path
-    with result   := <explicate-control-mod; pp-debug>node
-    
 rules 
 
   explicate-control = explicate-control-mod

@@ -1,0 +1,20 @@
+module dynamics/S01/explicate-types
+
+imports pp
+
+rules 
+  
+  explicate-types-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"et.aterm")> path
+    with result   := <explicate-types>node
+  
+  explicate-types-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"et.tig")> path
+    with result   := <explicate-types; pp-debug>node
+  
+rules 
+
+  explicate-types = fail
+    

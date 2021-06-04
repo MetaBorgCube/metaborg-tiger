@@ -1,0 +1,23 @@
+module dynamics/S01/uniquify
+
+imports pp
+
+rules 
+  
+  uniquify-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"u.aterm")> path
+    with result   := <uniquify-mod>node
+  
+  uniquify-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"u.tig")> path
+    with result   := <uniquify-mod; pp-debug>node
+  
+rules
+  
+  uniquify-mod = fail
+  
+                
+    
+    

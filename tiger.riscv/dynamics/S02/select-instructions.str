@@ -1,0 +1,66 @@
+module dynamics/S02/select-instructions
+
+imports dynamics/S01/select-instructions
+
+imports signatures/Variables-sig 
+imports signatures/Bindings-sig 
+imports signatures/Numbers-sig 
+imports signatures/tiger-sig
+
+imports rv32im
+imports signatures/RV32IM-sig
+    
+rules 
+
+  select-instructions = select-instructions-mod
+  
+  select-instructions-mod : 
+    Mod(e) -> Program(<concat>[    
+      [PSData()],
+      [PSText(),
+       PSGlobl("main"),
+       Local(res, Tid("int"))],
+      instrs
+    ])  
+    with <newname> "res" => res
+    with <select-instrs-exp(|res)> e => instrs
+    
+  select-instrs-exp(|x) :
+    Let(dec*, [e]) -> <concat>[
+      instrs0,
+      instrs1,
+      instrs2
+    ]
+    with <map(vardecl)> dec* => instrs0
+    with <mapconcat(select-instrs-dec)> dec* => instrs1
+    with <select-instrs-exp(|x)> e => instrs2
+    
+  select-instrs-dec :
+    VarDec(x, t, e) -> <concat>[
+      instrs
+    ]
+    with <select-instrs-exp(|x)> e => instrs
+    
+rules // variable declarations
+
+  vardecl : VarDec(x, t, e) -> Local(x, t)
+     
+rules  // operators
+    
+  select-instrs-exp(|x) :
+    Int(i) -> [Li(Var(x), i)]
+    
+  select-instrs-exp(|x) :
+    Var(y) -> [Mv(Var(x), Var(y))]
+        
+  select-instrs-exp(|x) :
+    Times(Var(y), Var(z)) -> [Mul(Var(x), Var(y), Var(z))]
+    
+  select-instrs-exp(|x) :
+    Plus(Var(y), Var(z)) -> [Addi(Var(x), Var(y), Var(z))]
+  select-instrs-exp(|x) :
+    Plus(Int(i), Var(z)) -> [Addi(Var(x), Var(z), i)]
+  select-instrs-exp(|x) :
+    Plus(Var(z), Int(i)) -> [Addi(Var(x), Var(z), i)]
+    
+    

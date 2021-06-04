@@ -4,7 +4,7 @@ imports completion/completion
 imports pp
 imports outline
 imports analysis
-imports dynamics/compile  
+imports dynamics/S02/compile  
 
 rules // Debugging
   

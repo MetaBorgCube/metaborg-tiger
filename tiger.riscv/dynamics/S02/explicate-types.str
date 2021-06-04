@@ -1,0 +1,25 @@
+module dynamics/S02/explicate-types
+
+imports dynamics/S01/explicate-types
+
+imports signatures/Variables-sig 
+imports signatures/Bindings-sig 
+imports signatures/Types-sig 
+imports signatures/tiger-sig
+
+imports statix/api
+
+rules 
+
+  explicate-types = 
+    topdown(try(explicate-types-dec))
+   
+  explicate-types-dec : 
+    VarDecNoType(x, e) -> VarDec(x, t, e)
+    with <stx-get-ast-analysis> x => analysis
+    with <stx-get-ast-type(|analysis)> x => T
+    with <syntactic-type> T => t
+    
+  syntactic-type :
+    INT() -> Tid("int")
+    

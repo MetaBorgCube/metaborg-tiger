@@ -7,6 +7,9 @@ menus
   action: "Compile"       = compile-pp
   action: "Compile (AST)" = compile-aterm 
 
+  action: "Explicate Types"       = explicate-types-pp
+  action: "Explicate Types (AST)" = explicate-types-aterm 
+
   action: "Uniquify"       = uniquify-pp
   action: "Uniquify (AST)" = uniquify-aterm 
 
@@ -17,5 +20,11 @@ menus
   action: "Explicate Control (AST)" = explicate-control-aterm 
 
   action: "Select Instructions"       = select-instructions-pp
-  action: "Select Instructions (AST)" = select-instructions-aterm 
+  action: "Select Instructions (AST)" = select-instructions-aterm
+
+  action: "Assign Homes"       = assign-homes-pp
+  action: "Assign Homes (AST)" = assign-homes-aterm 
+
+  action: "Patch Instructions"       = patch-instructions-pp
+  action: "Patch Instructions (AST)" = patch-instructions-aterm 
   

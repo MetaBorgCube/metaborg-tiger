@@ -1,0 +1,37 @@
+module dynamics/S02/compile
+
+imports signatures/Variables-sig
+imports signatures/Bindings-sig 
+imports signatures/tiger-sig
+
+imports dynamics/S02/explicate-types
+imports dynamics/S02/uniquify
+imports dynamics/S02/remove-complex-operands
+imports dynamics/S02/explicate-control
+imports dynamics/S02/select-instructions
+imports dynamics/S02/assign-homes
+imports dynamics/S02/patch-instructions
+
+rules 
+  
+  compile-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"comp.aterm")> path
+    with result   := <compile; strip-annos>node
+  
+  compile-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"rv32im")> path
+    with result   := <compile; variables-to-registers; pp-RV32IM-string>node
+
+rules
+    
+  compile = 
+    explicate-types
+    ; uniquify 
+    ; remove-complex-operands
+    ; explicate-control
+    ; select-instructions
+    ; assign-homes
+    ; patch-instructions
+     

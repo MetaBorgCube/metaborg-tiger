@@ -1,0 +1,59 @@
+module dynamics/S02/assign-homes
+
+imports dynamics/S01/assign-homes
+imports dynamics/S01/select-instructions
+
+imports signatures/Variables-sig 
+
+imports rv32im
+imports signatures/RV32IM-sig
+  
+signature
+  constructors
+    Mem : ID * Int -> ID
+    
+rules
+
+  prettyprint-RV32IM-ID =
+    mem-to-string; ![S(<is-string>)]
+
+  mem-to-string :
+    Mem(reg, off) -> <concat-strings>[<int-to-string>off, "(", reg, ")"]
+    
+  mems-to-string = alltd(mem-to-string)
+  
+rules
+
+  assign-homes = 
+    alltd(assign-home)
+    
+  assign-home :
+    Local(x, t) -> I(Nop(), $[[x] : [<pp-type>t] at [offset]])
+    with stack-inc(| -4) => offset
+    with var-offset-set(|x, offset)
+    with <var-offset-get>x; debug(!" offset =>")
+    
+  assign-home :
+    Var(x) -> Mem("fp", offset)
+    with <var-offset-get> x => offset
+  
+rules 
+
+  var-offset-set(|x, n) = 
+    rules(VarOffset : x -> n)
+    
+  var-offset-get : 
+    x -> n
+    with <VarOffset> x => n
+    
+rules
+
+  stack-set(|n) = 
+    rules(Stack : () -> n); !n
+      
+  stack-get = 
+    <Stack>() <+ !0
+    
+  stack-inc(|n) = 
+    stack-set(|<add>(<stack-get>, n))
+    

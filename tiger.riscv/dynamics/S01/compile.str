@@ -1,13 +1,15 @@
-module dynamics/compile
+module dynamics/S01/compile
 
 imports signatures/Variables-sig
 imports signatures/Bindings-sig 
 imports signatures/tiger-sig
 
-imports dynamics/uniquify
-imports dynamics/remove-complex-operands
-imports dynamics/explicate-control
-imports dynamics/select-instructions
+imports dynamics/S01/explicate-types
+imports dynamics/S01/uniquify
+imports dynamics/S01/remove-complex-operands
+imports dynamics/S01/explicate-control
+imports dynamics/S01/select-instructions
+imports dynamics/S01/assign-homes
 
 rules 
   
@@ -19,12 +21,15 @@ rules
   compile-pp:
     (node, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"rv32im")> path
-    with result   := <compile; pp-RV32IM-string>node
+    with result   := <compile; variables-to-registers; pp-RV32IM-string>node
 
 rules
     
   compile = 
-    uniquify 
+    explicate-types
+    ; uniquify 
     ; remove-complex-operands
     ; explicate-control
     ; select-instructions
+    ; assign-homes
+     

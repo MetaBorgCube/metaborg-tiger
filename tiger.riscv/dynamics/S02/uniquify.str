@@ -1,23 +1,12 @@
-module dynamics/uniquify
+module dynamics/S02/uniquify
+
+imports dynamics/S01/uniquify
 
 imports signatures/Variables-sig 
 imports signatures/Bindings-sig 
 imports signatures/tiger-sig
-imports pp
 imports statix/api
 
-rules 
-  
-  uniquify-aterm:
-    (node, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"u.aterm")> path
-    with result   := <uniquify-mod>node
-  
-  uniquify-pp:
-    (node, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"u.tig")> path
-    with result   := <uniquify-mod; pp-debug>node
-  
 rules
 
 //  rename :: string -> string 

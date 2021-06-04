@@ -1,0 +1,43 @@
+module dynamics/S01/select-instructions
+
+imports signatures/Variables-sig 
+imports pp
+
+imports rv32im
+imports signatures/RV32IM-sig
+  
+rules  
+  
+  select-instructions-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"is.aterm")> path
+    with result   := <select-instructions; strip-annos>node
+  
+  select-instructions-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"is.rv32im")> path
+    with result   := <select-instructions; elim-locals; variables-to-registers; pp-RV32IM-string>node
+    
+signature 
+  constructors
+    Local : Var * Type -> Instruction
+    
+rules 
+
+  variables-to-registers = 
+    alltd(?Var(<id>))
+    
+  elim-locals = 
+    alltd(elim-local)
+    
+  elim-local :
+    Local(x, t) -> I(Nop(), <concat-strings>[x, ": ", <pp-type>t])
+    
+  pp-type = 
+    pp-partial-tiger-string(|"Type")
+    <+ !"cannot pp type"
+    
+    
+rules 
+
+  select-instructions = fail

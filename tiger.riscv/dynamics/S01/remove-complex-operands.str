@@ -1,0 +1,19 @@
+module dynamics/S01/remove-complex-operands
+
+imports pp
+
+rules 
+  
+  rco-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"rco.aterm")> path
+    with result   := <remove-complex-operands>node
+  
+  rco-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"rco.tig")> path
+    with result   := <remove-complex-operands; pp-debug>node
+    
+rules
+
+  remove-complex-operands = fail

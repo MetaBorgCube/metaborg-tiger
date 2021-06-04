@@ -1,35 +1,24 @@
-module dynamics/remove-complex-operands
+module dynamics/S02/remove-complex-operands
+
+imports dynamics/S01/remove-complex-operands
 
 imports signatures/Variables-sig 
 imports signatures/Bindings-sig 
-imports signatures/Numbers-sig 
+imports signatures/Numbers-sig  
+imports signatures/Types-sig 
 imports signatures/tiger-sig
-imports pp
-imports statix/api
 
-rules 
-  
-  rco-aterm:
-    (node, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"rco.aterm")> path
-    with result   := <remove-complex-operands>node
-  
-  rco-pp:
-    (node, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"rco.tig")> path
-    with result   := <remove-complex-operands; pp-debug>node
-    
 rules
 
   remove-complex-operands = 
     bottomup(try(rco-exp))
   
-  rco-atom : 
+  rco-atom :   
     e -> ([], e)
     where <is-atom> e
   
   rco-atom :
-    e -> ([VarDecNoType(x, e)], Var(x))
+    e -> ([VarDec(x, Tid("int"), e)], Var(x))
     where <not(is-atom)> e
     where <newname> "tmp" => x
     

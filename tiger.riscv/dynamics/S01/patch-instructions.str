@@ -1,0 +1,29 @@
+module dynamics/S01/patch-instructions
+
+imports dynamics/S01/select-instructions
+imports dynamics/S01/assign-homes
+
+imports signatures/Variables-sig 
+imports pp
+
+imports rv32im
+imports signatures/RV32IM-sig
+  
+rules  
+  
+  patch-instructions-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"is.aterm")> path
+    with result   := <strip-annos; select-instructions; assign-homes; patch-instructions; strip-annos>node
+  
+  patch-instructions-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"is.rv32im")> path
+    with result   := <strip-annos; select-instructions; assign-homes; patch-instructions; pp-RV32IM-string>node
+    
+rules
+
+  patch-instructions = fail
+  
+//  assign-homes-dec :
+//    VarDecNoType(x, e) 
