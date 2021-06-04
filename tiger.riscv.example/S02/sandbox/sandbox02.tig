@@ -1,8 +1,2 @@
-let 
-  var x := 32
-in 
-  let var x := 10 
-   in x end
-  + x
-end 
+1 + 2
 

@@ -1,0 +1,9 @@
+let
+  var x0 : int := 32
+  var y0 : int := 21
+  var tmp0 : int := x0 * y0
+  var x3 : int := 10 + tmp0
+  var tmp1 : int := x3 + 43
+ in
+  tmp1 * x0
+end

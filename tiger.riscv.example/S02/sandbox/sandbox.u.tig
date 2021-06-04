@@ -1,0 +1,10 @@
+let
+  var x16 := 32
+  var y8 := 21
+ in
+  let
+    var x17 := 10 + x16 * y8
+   in
+    x17 + 43
+  end * x16
+end

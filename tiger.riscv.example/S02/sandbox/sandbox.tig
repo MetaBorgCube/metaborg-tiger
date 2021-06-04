@@ -1,8 +1,9 @@
 let 
   var x := 32
+  var y := 21
 in 
-  let var x := 10 
-   in x end
-  + x
+  let var x := 10 + x * y
+   in x + 43 end
+  * x
 end 
-
+ 

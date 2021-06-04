@@ -1,0 +1,12 @@
+
+.data
+
+.text
+
+.globl main
+  li     x25, 32
+  li     y10, 21
+  mul    tmp0, x25, y10
+  addi   x26, tmp0, 10
+  addi   tmp1, x26, 43
+  mul    a0, tmp1, x25

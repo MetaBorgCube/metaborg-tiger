@@ -1,0 +1,9 @@
+let
+  var x16 := 32
+  var y8 := 21
+  var tmp5 := x16 * y8
+  var x17 := 10 + tmp5
+  var tmp6 := x17 + 43
+ in
+  tmp6 * x16
+end

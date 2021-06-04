@@ -1,0 +1,9 @@
+let
+  var x := 32
+ in
+  let
+    var x := 10 + x
+   in
+    x + 43
+  end + x
+end

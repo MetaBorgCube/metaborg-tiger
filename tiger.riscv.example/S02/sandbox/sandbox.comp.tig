@@ -1,0 +1,9 @@
+let
+  var x4 := 32
+  var y6 := 21
+  var tmp1 := x4 * y6
+  var x5 := 10 + tmp1
+  var tmp3 := x5 + 43
+ in
+  tmp3 * x4
+end
