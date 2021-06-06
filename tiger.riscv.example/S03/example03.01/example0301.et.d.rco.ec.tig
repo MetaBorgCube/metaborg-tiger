@@ -1,0 +1,10 @@
+let
+  var v : int := 1
+  var w : int := 42
+  var x : int := v + 7
+  var y : int := x
+  var z : int := x + w
+  var tmp3 : int := - y
+ in
+  z + tmp3
+end

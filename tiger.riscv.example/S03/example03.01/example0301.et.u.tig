@@ -1,0 +1,11 @@
+let
+  var v0 : int := 1
+  var w0 : int := 42
+  var x4 : int := v0 + 7
+  var y3 : int := x4
+  var z1 : int := x4 + w0
+ in
+  z1 + (
+         - y3
+       )
+end

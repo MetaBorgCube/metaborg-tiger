@@ -1,0 +1,10 @@
+let
+  var x6 : int := 32
+  var y6 : int := 21
+ in
+  let
+    var x8 : int := 10 + x6 * y6
+   in
+    x8 + 43
+  end * x6
+end

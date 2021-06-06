@@ -1,0 +1,9 @@
+let 
+  var v := 1
+  var w := 42
+  var x := v + 7
+  var y := x
+  var z := x + w
+in 
+  z + (- y)
+end

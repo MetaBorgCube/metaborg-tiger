@@ -5,11 +5,11 @@
 
 .globl main
   nop # res12 : int at -4
-  nop # x0 : int at -8
-  nop # y0 : int at -12
-  nop # tmp0 : int at -16
-  nop # x3 : int at -20
-  nop # tmp1 : int at -24
+  nop # x4 : int at -8
+  nop # y3 : int at -12
+  nop # tmp2 : int at -16
+  nop # x5 : int at -20
+  nop # tmp3 : int at -24
   li     t0, 32
   sw     t0, -8(fp)
   li     t0, 21

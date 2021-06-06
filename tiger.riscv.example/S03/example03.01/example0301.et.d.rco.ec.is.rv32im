@@ -1,0 +1,20 @@
+
+.data
+
+.text
+
+.globl main
+  nop # res7: int
+  nop # v: int
+  nop # w: int
+  nop # x: int
+  nop # y: int
+  nop # z: int
+  nop # tmp3: int
+  li     v, 1
+  li     w, 42
+  addi   x, v, 7
+  mv     y, x
+  add    z, x, w
+  neg    tmp3, y
+  add    res7, z, tmp3
