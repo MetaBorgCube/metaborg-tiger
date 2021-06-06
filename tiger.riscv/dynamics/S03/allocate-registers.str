@@ -1,0 +1,78 @@
+module dynamics/S03/allocate-registers
+
+imports rv32im
+imports signatures/RV32IM-sig
+
+imports dynamics/S03/build-interference-graph
+imports dynamics/S01/select-instructions
+imports dynamics/S02/assign-homes
+
+rules
+
+  allocate-registers = 
+    where(color-graph)
+    ; color-variables
+
+  color-graph =
+    build-interference-graph
+    //; debug(!"priority queue: ")
+    ; pq-color
+   
+rules
+
+  pq-color = 
+    map(color-vertex)
+
+  color-vertex : 
+    (x, _, xs) -> (x, color)
+    with debug(!"color-vertex: ")
+    with <filter(Color)> xs => colors
+       ; debug(!"  colors: ")
+    with <find-color(|0)> colors => color
+       ; debug(!"  new color: ")
+    with rules( Color : x -> color )
+    
+  find-color(|n) :
+    [] -> n
+  find-color(|n) :
+    [c | cs] -> n
+    where <gt> (c, n)
+  find-color(|n) :
+    [n | cs] -> c'
+    where <find-color(|<inc>n)> cs => c'
+  find-color(|n) :
+    [c | cs] -> c'
+    where <find-color(|<inc>c)> cs => c'
+    
+signature
+  constructors
+    Mem : ID * Int -> ID
+    Reg : Int -> ID
+    
+rules
+
+  color-variables =
+    alltd(color-variable)
+    
+  color-variable :
+    Local(x, t) -> I(Nop(), $[[x]: [<pp-type>t] => [color]])
+    where <Color> Var(x) => color
+    with <color-to-location> color => loc
+    
+  color-variable :
+    v@Var(x) -> loc
+    where <Color>v => i
+    with <color-to-location> i => loc
+    
+  color-to-location :
+    i -> $[t[i]]
+    where <geq>(i, 0); <lt>(i, 6)
+    
+  color-to-location : 
+    i -> Mem("fp", off)
+    where <gt>(i, 6) 
+    with <var-offset-get 
+          <+ (var-offset-set(|i, <stack-inc(| -4)>)
+              ; <var-offset-get>i)> i => off
+              
+              

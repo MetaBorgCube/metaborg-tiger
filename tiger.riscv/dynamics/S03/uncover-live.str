@@ -1,0 +1,43 @@
+module dynamics/S03/uncover-live
+
+imports rv32im
+imports signatures/RV32IM-sig
+
+signature
+  constructors
+    Live : List(Var) -> Anno
+
+rules 
+
+  // liveness analysis for straight-line code; no jumps
+
+  uncover-live = 
+    Program(uncover-live-instrs; Snd)
+    
+  uncover-live-instrs :
+    [instr] -> (before, [instr'])
+    with <live-before(|[])> instr => (before, instr')
+    
+  uncover-live-instrs :
+    [instr | instrs] -> (before, [instr' | instrs'])
+    with <uncover-live-instrs> instrs => (after, instrs')
+    with <live-before(|after)> instr => (before, instr')
+  
+  live-before(|after) :
+    instr -> (before, instr{Live(after)})
+    with <read-write> instr => (r, w)
+    with <union>(<diff>(after, w), r) => before
+ 
+rules 
+  
+  read-write :
+    op#([x | xs]) -> (<vars>xs, <vars>[x])
+    where <is-operator> op
+    
+  read-write :
+    _ -> ([], [])
+    
+  vars = filter(?Var(_))
+    
+  is-operator =
+    ?"Li" <+ ?"Add" <+ ?"Addi" <+ ?"Mv" <+ ?"Neg" <+ ?"Mul"

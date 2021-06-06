@@ -1,0 +1,95 @@
+module dynamics/S03/build-interference-graph
+
+imports dynamics/S03/uncover-live
+
+imports rv32im
+imports signatures/RV32IM-sig
+
+rules 
+
+  build-interference-graph = 
+    build-interference-graph1
+
+rules // construct list of edges
+
+  build-interference-graph0 = 
+    // debug(!"build-interference-graph: ");  
+    ?Program(<mapconcat(make-edges0)>)
+    ; make-priority-queue
+    
+  make-edges0 :
+    instr{Live(l)} -> edges
+    with <read-write> instr => (_, w)
+    with <filter(where(<not(member)>(<id>, w)))> l => l'
+    with <cart(debug(!"cart: "); make-edge0); concat> (w, l') => edges
+    
+    // note: problem with this approach is that variables with no 
+    // interference do not get into the graph
+
+  make-edge0 :
+    (x, y) -> [(x, y), (y, x)]
+    
+rules // construct priority queue directly
+   
+  build-interference-graph1 = 
+    debug(!"build-interference-graph: ");  
+    ?Program(<foldr(pq-empty, make-edges1)>)
+    
+  make-edges1 :
+    (instr{Live(l)}, q1) -> q3
+    with debug(!"make-edges: ")
+    with <read-write> instr => (_, w)
+    with <filter(where(<not(member)>(<id>, w)))> l => l'
+    with <foldr(!q1, \(x, q) -> <pq-insert-lst(|x, l')>q\)> w => q2
+    with <foldr(!q2, \(x, q) -> <pq-insert-lst(|x, w)>q\)> l' => q3
+
+rules // priority queue
+
+  make-priority-queue =
+    foldr(pq-empty, \((x, y), q) -> <pq-insert(|x, y)> q\)
+    
+  pq-empty = 
+    ![]
+    
+  pq-insert-lst(|x, ys) :
+    q -> q'
+    with <length> ys => n
+    with <pq-insert(|x, n, ys)> q => q'
+
+  pq-insert(|x, y) :
+    [] -> [(x, 1, [y])]    
+  pq-insert(|x, y) :
+    [(x, n, xs) | tl] -> [(x, <inc>n, [y | xs]) | tl]   
+  pq-insert(|x, y) :
+    [hd | tl] -> q
+    with <pq-insert(|x, y)> tl => q'
+    with <pq-sort(|hd)> q' => q
+
+
+  pq-insert(|x, n, ys) :
+    [] -> [(x, n, ys)]    
+  pq-insert(|x, n, ys) :
+    [(x, m, xs) | tl] -> [(x, k, zs) | tl]
+    with <conc>(xs, ys) => zs
+    with <add> (n, m) => k
+    with <length>zs => o
+    with if <not(eq)> (k, o) then error() end   
+    with log-assert(<eq> (k, o) 
+                   | $[pq-insert: [k] and [m] should be same])
+  pq-insert(|x, n, ys) :
+    [hd | tl] -> q
+    with <pq-insert(|x, n, ys)> tl => q'
+    with <pq-sort(|hd)> q' => q
+    
+  
+  pq-sort(|(x, n, xs)) :
+    [(y, m, ys) | q] -> [(y, m, ys) | q']
+    where <gt>(m, n) 
+    with <pq-sort(|(x, n, xs))> q => q'
+  pq-sort(|hd) :
+    q -> [hd | q]
+    
+rules
+
+  log-assert(s | m) = 
+    if not(s) then fatal-err(|m) end

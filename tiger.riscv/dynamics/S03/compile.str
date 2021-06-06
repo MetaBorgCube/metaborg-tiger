@@ -1,0 +1,84 @@
+module dynamics/S03/compile
+
+imports signatures/Variables-sig
+imports signatures/Bindings-sig 
+imports signatures/tiger-sig
+
+imports dynamics/S02/explicate-types
+imports dynamics/S02/desugar
+imports dynamics/S02/uniquify
+imports dynamics/S02/remove-complex-operands
+imports dynamics/S02/explicate-control
+imports dynamics/S02/select-instructions
+imports dynamics/S02/assign-homes
+imports dynamics/S02/patch-instructions
+
+imports dynamics/S03/uncover-live
+imports dynamics/S03/build-interference-graph
+imports dynamics/S03/allocate-registers
+
+rules
+  
+  compile =  
+    compile-to-instrs
+    ; uncover-live
+    ; build-interference-graph
+    ; allocate-registers
+    ; patch-instructions
+        
+  compile-to-instrs = 
+    explicate-types
+    ; desugar
+    ; uniquify 
+    ; remove-complex-operands
+    ; explicate-control
+    ; select-instructions
+
+rules 
+  
+  compile-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"comp.aterm")> path
+    with result   := <compile; strip-annos>node
+  
+  compile-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"rv32im")> path
+    with result   := <compile; variables-to-registers; pp-RV32IM-string>node
+  
+rules 
+  
+  uncover-live-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"live.aterm")> path
+    with result   := <compile-to-instrs; strip-annos; uncover-live>node
+  
+  uncover-live-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"live.rv32im")> path
+    with result   := <compile-to-instrs; strip-annos; uncover-live; pp-RV32IM-string>node
+    
+rules 
+  
+  build-interference-graph-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"ig.aterm")> path
+    with result   := <compile-to-instrs; strip-annos; uncover-live; build-interference-graph>node
+  
+  build-interference-graph-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"ig.rv32im")> path
+    with result   := <compile-to-instrs; strip-annos; uncover-live; build-interference-graph; pp-RV32IM-string>node
+    
+rules 
+  
+  allocate-registers-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"reg.aterm")> path
+    with result   := <compile-to-instrs; strip-annos; uncover-live; allocate-registers>node
+  
+  allocate-registers-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"reg.rv32im")> path
+    with result   := <compile-to-instrs; strip-annos; uncover-live; allocate-registers; pp-RV32IM-string>node
+    
