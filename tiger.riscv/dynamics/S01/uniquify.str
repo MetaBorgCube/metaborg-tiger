@@ -7,16 +7,16 @@ rules
   uniquify-aterm:
     (node, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"u.aterm")> path
-    with result   := <uniquify-mod>node
+    with result   := <uniquify>node
   
   uniquify-pp:
     (node, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"u.tig")> path
-    with result   := <uniquify-mod; pp-debug>node
+    with result   := <uniquify; pp-debug>node
   
 rules
   
-  uniquify-mod = fail
+  uniquify = fail
   
                 
     

@@ -27,7 +27,7 @@ rules
     
   compile = 
     explicate-types
-    ; uniquify 
+    ; uniquify   
     ; remove-complex-operands
     ; explicate-control
     ; select-instructions
