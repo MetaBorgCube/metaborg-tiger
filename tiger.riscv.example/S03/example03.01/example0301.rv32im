@@ -1,0 +1,20 @@
+
+.data
+
+.text
+
+.globl main
+  nop # res8: int => 0
+  nop # v2: int => 0
+  nop # w6: int => 1
+  nop # x8: int => 2
+  nop # y10: int => 0
+  nop # z7: int => 1
+  nop # tmp0: int => 0
+  li     t0, 1
+  li     t1, 42
+  addi   t2, t0, 7
+  mv     t0, t2
+  add    t1, t2, t1
+  neg    t0, t0
+  add    t0, t1, t0
