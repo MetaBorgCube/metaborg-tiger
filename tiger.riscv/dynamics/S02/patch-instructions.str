@@ -26,6 +26,6 @@ rules
     Mul(Mem(r1, off1), Mem(r2, off2), Mem(r3, off3)) -> [
       Lw("t0", off2, r2),
       Lw("t1", off3, r3),
-      Addi("t0", "t0", "t1"),
+      Mul("t0", "t0", "t1"),
       Sw("t0", off1, r1)
     ]
