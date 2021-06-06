@@ -22,9 +22,7 @@ rules
   compile =  
     compile-to-instrs
     ; uncover-live
-    ; build-interference-graph
     ; allocate-registers
-    ; patch-instructions
         
   compile-to-instrs = 
     explicate-types
