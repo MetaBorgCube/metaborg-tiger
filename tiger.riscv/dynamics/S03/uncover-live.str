@@ -38,6 +38,8 @@ rules
     _ -> ([], [])
     
   vars = filter(?Var(_))
+  
+  // todo: consider direct registers
     
   is-operator =
     ?"Li" <+ ?"Add" <+ ?"Addi" <+ ?"Mv" <+ ?"Neg" <+ ?"Mul"
