@@ -1,0 +1,20 @@
+module dynamics/S01/desugar
+
+imports pp
+
+rules 
+  
+  desugar-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"d.aterm")> path
+    with result   := <desugar>node
+  
+  desugar-pp:
+    (node, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"d.tig")> path
+    with result   := <desugar; pp-debug>node
+  
+rules 
+
+  desugar = fail
+    

@@ -1,0 +1,19 @@
+module dynamics/S02/desugar
+
+imports dynamics/S01/desugar
+
+imports signatures/Variables-sig 
+imports signatures/Bindings-sig 
+imports signatures/Types-sig 
+imports signatures/tiger-sig
+
+
+rules 
+
+  desugar = 
+    innermost(desugar-exp)
+    
+  desugar-exp :
+    Seq([e]) -> e
+    
+  
