@@ -52,15 +52,18 @@ rules  // operators
     
   select-instrs-exp(|x) :
     Var(y) -> [Mv(Var(x), Var(y))]
-        
-  select-instrs-exp(|x) :
-    Times(Var(y), Var(z)) -> [Mul(Var(x), Var(y), Var(z))]
     
   select-instrs-exp(|x) :
-    Plus(Var(y), Var(z)) -> [Addi(Var(x), Var(y), Var(z))]
+    Plus(Var(y), Var(z)) -> [Add(Var(x), Var(y), Var(z))]
   select-instrs-exp(|x) :
     Plus(Int(i), Var(z)) -> [Addi(Var(x), Var(z), i)]
   select-instrs-exp(|x) :
     Plus(Var(z), Int(i)) -> [Addi(Var(x), Var(z), i)]
+        
+  select-instrs-exp(|x) :
+    Uminus(Var(y)) -> [Neg(Var(x), Var(y))]
+        
+  select-instrs-exp(|x) :
+    Times(Var(y), Var(z)) -> [Mul(Var(x), Var(y), Var(z))]
     
     
