@@ -9,7 +9,10 @@ menus
 
   action: "Explicate Types"       = explicate-types-pp
   action: "Explicate Types (AST)" = explicate-types-aterm 
-
+  
+  action: "Desugar"       = desugar-pp
+  action: "Desugar (AST)" = desugar-aterm 
+  
   action: "Uniquify"       = uniquify-pp
   action: "Uniquify (AST)" = uniquify-aterm 
 
@@ -25,6 +28,15 @@ menus
   action: "Assign Homes"       = assign-homes-pp
   action: "Assign Homes (AST)" = assign-homes-aterm 
 
+  action: "Uncover Live"       = uncover-live-pp
+  action: "Uncover Live (AST)" = uncover-live-aterm 
+
+  action: "Build Interference Graph"       = build-interference-graph-pp
+  action: "Build Interference Graph (AST)" = build-interference-graph-aterm 
+
+  action: "Allocate Registers"       = allocate-registers-pp
+  action: "Allocate Registers (AST)" = allocate-registers-aterm 
+  
   action: "Patch Instructions"       = patch-instructions-pp
   action: "Patch Instructions (AST)" = patch-instructions-aterm 
   
