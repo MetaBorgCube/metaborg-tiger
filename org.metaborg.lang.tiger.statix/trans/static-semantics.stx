@@ -72,7 +72,7 @@ rules // type binding
     // declaration is distinct
 
   lookupType(s, x) = T :- {x'} @x.ref := x',
-    typeOfDecl of Type{x} in s |-> [(_, (Type{x'}, T))|_].
+    typeOfDecl of Type{x} in s |-> [(_, (Type{x'}, T))].
     // permissive lookup to cope with double declaration
 
 rules // variable binding
@@ -87,7 +87,7 @@ rules // variable binding
     @x.decl := x.
 
   lookupVar(s, x) = T :- {x'} @x.ref := x',
-    typeOfDecl of Var{x} in s |-> [(_, (Var{x'}, T))|_].
+    typeOfDecl of Var{x} in s |-> [(_, (Var{x'}, T))].
     // permissive lookup to cope with double declaration
 
 rules // field binding
@@ -102,7 +102,7 @@ rules // field binding
     @x.decl := x.
 
   lookupField(s, x) = T :- {x'} @x.ref := x',
-    typeOfDecl of Field{x} in s |-> [(_, (Field{x'}, T))|_].
+    typeOfDecl of Field{x} in s |-> [(_, (Field{x'}, T))].
     // permissive lookup to cope with double declaration
 
 signature
