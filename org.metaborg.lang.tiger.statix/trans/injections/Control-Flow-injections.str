@@ -1,0 +1,326 @@
+module injections/Control-Flow-injections
+
+imports
+  signatures/Control-Flow-sig
+  pp/Control-Flow-pp
+  libspoofax/term/origin
+
+
+imports
+  injections/Base-injections
+
+
+rules
+
+  is-Tiger-Exp-or-inj =
+    ?Seq(_)
+
+  is-Tiger-Exp-or-inj =
+    ?If(_, _, _)
+
+  is-Tiger-Exp-or-inj =
+    ?IfThen(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?While(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?For(_, _, _, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Break()
+
+  is-Tiger-Exp-or-inj =
+    ?Assign(_, _)
+
+
+rules
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Seq(exps){anno*} -> Seq(exps'){anno*}
+        with exps' := <map(explicate-injections-Tiger-Exp)> exps \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2
+             ; exp3' := <explicate-injections-Tiger-Exp> exp3 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
+        with var' := <explicate-injections-Tiger-Var> var
+             ; exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2
+             ; exp3' := <explicate-injections-Tiger-Exp> exp3 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Break(){anno*} -> Break(){anno*} \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
+        with lValue' := <explicate-injections-Tiger-LValue> lValue
+             ; exp' := <explicate-injections-Tiger-Exp> exp \
+    )
+
+
+rules
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Seq(exps){anno*} -> Seq(exps'){anno*}
+        with exps' := <map(implicate-injections-Tiger-Exp)> exps \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2
+             ; exp3' := <implicate-injections-Tiger-Exp> exp3 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
+        with var' := <implicate-injections-Tiger-Var> var
+             ; exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2
+             ; exp3' := <implicate-injections-Tiger-Exp> exp3 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Break(){anno*} -> Break(){anno*} \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
+        with lValue' := <implicate-injections-Tiger-LValue> lValue
+             ; exp' := <implicate-injections-Tiger-Exp> exp \
+    )
+
+
+rules
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Seq(exps){anno*} -> Seq(exps'){anno*}
+        with exps' := <upgrade-list(upgrade-placeholders-Tiger-Exp)> exps \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2
+             ; exp3' := <upgrade-placeholders-Tiger-Exp> exp3 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
+        with var' := <upgrade-placeholders-Tiger-Var> var
+             ; exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2
+             ; exp3' := <upgrade-placeholders-Tiger-Exp> exp3 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Break(){anno*} -> Break(){anno*} \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
+        with lValue' := <upgrade-placeholders-Tiger-LValue> lValue
+             ; exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
+
+
+rules
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Seq(exps){anno*} -> Seq(exps'){anno*}
+        with exps' := <downgrade-list(downgrade-placeholders-Tiger-Exp)> exps \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ If(exp1, exp2, exp3){anno*} -> If(exp1', exp2', exp3'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2
+             ; exp3' := <downgrade-placeholders-Tiger-Exp> exp3 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ IfThen(exp1, exp2){anno*} -> IfThen(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ While(exp1, exp2){anno*} -> While(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ For(var, exp1, exp2, exp3){anno*} -> For(var', exp1', exp2', exp3'){anno*}
+        with var' := <downgrade-placeholders-Tiger-Var> var
+             ; exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2
+             ; exp3' := <downgrade-placeholders-Tiger-Exp> exp3 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Break(){anno*} -> Break(){anno*} \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Assign(lValue, exp){anno*} -> Assign(lValue', exp'){anno*}
+        with lValue' := <downgrade-placeholders-Tiger-LValue> lValue
+             ; exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
+
+
+rules
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot implicate multi-element list to option.")> \
+    )
+
+
+rules
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> None(){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> Some(<s> t){anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ []{anno*} -> []{anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ [e|es]{anno*} -> [e'|es']{anno*}
+        with e' := <s> e
+             ; es' := <downgrade-list(s)> es \
+    )

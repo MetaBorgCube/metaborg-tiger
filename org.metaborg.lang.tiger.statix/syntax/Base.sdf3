@@ -1,4 +1,9 @@
 module Base
 
-//sorts Exp Type LValue 
+sorts Dec Exp LValue
 
+sorts Type
+
+sorts Var
+
+lexical sorts ID

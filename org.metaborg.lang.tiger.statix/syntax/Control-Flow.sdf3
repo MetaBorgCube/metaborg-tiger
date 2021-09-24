@@ -1,45 +1,48 @@
 module Control-Flow
 
-imports Identifiers
-imports Variables
+imports Base
 
 context-free syntax
-  
+
   Exp.Seq = <
-    ( 
-      <{Exp ";\n"}*> 
+    (
+      <{Exp ";\n"}*>
     )
-  > 
-  
+  >
+
   Exp.If = <
-    if <Exp> then 
-      <Exp> 
-    else 
+    if <Exp> then
       <Exp>
-  > 
-  
+    else
+      <Exp>
+  >
+
   Exp.IfThen = <
-    if <Exp> then 
+    if <Exp> then
       <Exp>
-  > 
-  
+  >
+
   Exp.While = <
-    while <Exp> do 
+    while <Exp> do
       <Exp>
-  > 
-  
+  >
+
   Exp.For = <
-    for <Var> := <Exp> to <Exp> do 
+    for <Var> := <Exp> to <Exp> do
       <Exp>
-  > 
-  
-  Exp.Break = <break> 
+  >
+
+  Exp.Break = <break>
+
+  Exp.Assign = <<LValue> := <Exp>>
 
 context-free priorities
 
-  Exp.Assign 
-  > {right :
+  {
+    Exp.Assign
+  } > { right:
     Exp.If
     Exp.IfThen
     Exp.While
-    Exp.For}
+    Exp.For
+  }

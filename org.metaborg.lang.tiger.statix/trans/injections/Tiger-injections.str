@@ -1,0 +1,252 @@
+module injections/Tiger-injections
+
+imports
+  signatures/Tiger-sig
+  pp/Tiger-pp
+  libspoofax/term/origin
+
+
+imports
+  injections/Base-injections
+
+
+imports
+  injections/Whitespace-injections
+
+
+imports
+  injections/Types-injections
+
+
+imports
+  injections/Identifiers-injections
+
+
+imports
+  injections/Bindings-injections
+
+
+imports
+  injections/Variables-injections
+
+
+imports
+  injections/Functions-injections
+
+
+imports
+  injections/Numbers-injections
+
+
+imports
+  injections/Strings-injections
+
+
+imports
+  injections/Records-injections
+
+
+imports
+  injections/Arrays-injections
+
+
+imports
+  injections/Control-Flow-injections
+
+
+signature
+  constructors
+    Module-Plhdr : Module
+
+
+rules
+
+  is-Tiger-Module-or-inj =
+    ?Mod(_)
+
+
+rules
+
+  is-Tiger-inj-cons =
+    is-Tiger-Module-inj-cons
+
+  is-Tiger-Module-inj-cons =
+    fail
+
+
+rules
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Module
+
+  explicate-injections-Tiger-Module =
+    origin-track-forced(
+      \ Mod(exp){anno*} -> Mod(exp'){anno*}
+        with exp' := <explicate-injections-Tiger-Exp> exp \
+    )
+
+  explicate-injections-Tiger-Module =
+    origin-track-forced(
+      \ Module-Plhdr(){anno*} -> Module-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Module =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Module)> alts \
+    )
+
+
+rules
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Module
+
+  implicate-injections-Tiger-Module =
+    origin-track-forced(
+      \ Mod(exp){anno*} -> Mod(exp'){anno*}
+        with exp' := <implicate-injections-Tiger-Exp> exp \
+    )
+
+  implicate-injections-Tiger-Module =
+    origin-track-forced(
+      \ Module-Plhdr(){anno*} -> Module-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Module =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Module)> alts \
+    )
+
+
+rules
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Module
+
+  upgrade-placeholders-Tiger-Module =
+    origin-track-forced(
+      \ Mod(exp){anno*} -> Mod(exp'){anno*}
+        with exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  upgrade-placeholders-Tiger-Module =
+    origin-track-forced(
+      \ Module-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Module" \
+    )
+
+  upgrade-placeholders-Tiger-Module =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Module)> alts \
+    )
+
+
+rules
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Module
+
+  downgrade-placeholders-Tiger-Module =
+    origin-track-forced(
+      \ Mod(exp){anno*} -> Mod(exp'){anno*}
+        with exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  downgrade-placeholders-Tiger-Module =
+    origin-track-forced(
+      \ p{anno*} -> Module-Plhdr(){anno*}
+        where <(is-placeholder + ?Module-Plhdr())> p \
+    )
+
+  downgrade-placeholders-Tiger-Module =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Module)> alts \
+    )
+
+
+rules
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot implicate multi-element list to option.")> \
+    )
+
+
+rules
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> None(){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> Some(<s> t){anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ []{anno*} -> []{anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ [e|es]{anno*} -> [e'|es']{anno*}
+        with e' := <s> e
+             ; es' := <downgrade-list(s)> es \
+    )

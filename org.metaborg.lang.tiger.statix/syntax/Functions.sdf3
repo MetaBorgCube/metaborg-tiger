@@ -1,22 +1,22 @@
 module Functions
 
-imports Types
-imports Occurrences
+imports Base
 
+sorts FunDec FArg
 context-free syntax
 
   Dec.FunDecs = <<{FunDec "\n"}+>> {longest-match}
-  
+
   FunDec.ProcDec = <
-    function <Occ>(<{FArg ", "}*>) = 
-      <Exp>
-  >
-  
-  FunDec.FunDec = <
-    function <Occ>(<{FArg ", "}*>) : <Type> = 
+    function <ID>(<{FArg ", "}*>) =
       <Exp>
   >
 
-  FArg.FArg = <<Occ> : <Type>>
-  
-  Exp.Call = <<Occ>(<{Exp ", "}*>)>   
+  FunDec.FunDec = <
+    function <ID>(<{FArg ", "}*>) : <Type> =
+      <Exp>
+  >
+
+  FArg.FArg = <<ID> : <Type>>
+
+  Exp.Call = <<ID>(<{Exp ", "}*>)>

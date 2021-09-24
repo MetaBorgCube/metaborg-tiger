@@ -1,0 +1,195 @@
+module injections/Strings-injections
+
+imports
+  signatures/Strings-sig
+  pp/Strings-pp
+  libspoofax/term/origin
+
+
+imports
+  injections/Base-injections
+
+
+signature
+  constructors
+    StrConst-Plhdr : StrConst
+
+
+rules
+
+  is-Tiger-StrConst-or-inj =
+    is-string
+
+  is-Tiger-StrConst-or-inj =
+    ?StrConst-Plhdr()
+
+  is-Tiger-Exp-or-inj =
+    ?String(_)
+
+
+rules
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-StrConst
+
+  explicate-injections-Tiger-StrConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-StrConst-or-inj> t \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ String(strConst){anno*} -> String(strConst'){anno*}
+        with strConst' := <explicate-injections-Tiger-StrConst> strConst \
+    )
+
+
+rules
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-StrConst
+
+  implicate-injections-Tiger-StrConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-StrConst-or-inj> t \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ String(strConst){anno*} -> String(strConst'){anno*}
+        with strConst' := <implicate-injections-Tiger-StrConst> strConst \
+    )
+
+
+rules
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-StrConst
+
+  upgrade-placeholders-Tiger-StrConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
+
+  upgrade-placeholders-Tiger-StrConst =
+    origin-track-forced(
+      \ StrConst-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "StrConst" \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ String(strConst){anno*} -> String(strConst'){anno*}
+        with strConst' := <upgrade-placeholders-Tiger-StrConst> strConst \
+    )
+
+
+rules
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-StrConst
+
+  downgrade-placeholders-Tiger-StrConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
+
+  downgrade-placeholders-Tiger-StrConst =
+    origin-track-forced(
+      \ p{anno*} -> StrConst-Plhdr(){anno*}
+        where <(is-placeholder + ?StrConst-Plhdr())> p \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ String(strConst){anno*} -> String(strConst'){anno*}
+        with strConst' := <downgrade-placeholders-Tiger-StrConst> strConst \
+    )
+
+
+rules
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot implicate multi-element list to option.")> \
+    )
+
+
+rules
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> None(){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> Some(<s> t){anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ []{anno*} -> []{anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ [e|es]{anno*} -> [e'|es']{anno*}
+        with e' := <s> e
+             ; es' := <downgrade-list(s)> es \
+    )

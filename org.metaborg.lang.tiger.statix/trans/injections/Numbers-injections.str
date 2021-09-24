@@ -1,0 +1,594 @@
+module injections/Numbers-injections
+
+imports
+  signatures/Numbers-sig
+  pp/Numbers-pp
+  libspoofax/term/origin
+
+
+imports
+  injections/Base-injections
+
+
+signature
+  constructors
+    IntConst-Plhdr : IntConst
+
+
+rules
+
+  is-Tiger-IntConst-or-inj =
+    is-string
+
+  is-Tiger-IntConst-or-inj =
+    ?IntConst-Plhdr()
+
+  is-Tiger-Exp-or-inj =
+    ?Int(_)
+
+  is-Tiger-Exp-or-inj =
+    ?Uminus(_)
+
+  is-Tiger-Exp-or-inj =
+    ?Times(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Divide(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Plus(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Minus(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Eq(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Neq(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Gt(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Lt(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Geq(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Leq(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?And(_, _)
+
+  is-Tiger-Exp-or-inj =
+    ?Or(_, _)
+
+
+rules
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-IntConst
+
+  explicate-injections-Tiger-IntConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-IntConst-or-inj> t \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Int(intConst){anno*} -> Int(intConst'){anno*}
+        with intConst' := <explicate-injections-Tiger-IntConst> intConst \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
+        with exp' := <explicate-injections-Tiger-Exp> exp \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+  explicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
+        with exp1' := <explicate-injections-Tiger-Exp> exp1
+             ; exp2' := <explicate-injections-Tiger-Exp> exp2 \
+    )
+
+
+rules
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-IntConst
+
+  implicate-injections-Tiger-IntConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-Tiger-IntConst-or-inj> t \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Int(intConst){anno*} -> Int(intConst'){anno*}
+        with intConst' := <implicate-injections-Tiger-IntConst> intConst \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
+        with exp' := <implicate-injections-Tiger-Exp> exp \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+  implicate-injections-Tiger-Exp =
+    origin-track-forced(
+      \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
+        with exp1' := <implicate-injections-Tiger-Exp> exp1
+             ; exp2' := <implicate-injections-Tiger-Exp> exp2 \
+    )
+
+
+rules
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-IntConst
+
+  upgrade-placeholders-Tiger-IntConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
+
+  upgrade-placeholders-Tiger-IntConst =
+    origin-track-forced(
+      \ IntConst-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "IntConst" \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Int(intConst){anno*} -> Int(intConst'){anno*}
+        with intConst' := <upgrade-placeholders-Tiger-IntConst> intConst \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
+        with exp' := <upgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  upgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
+        with exp1' := <upgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <upgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+
+rules
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-IntConst
+
+  downgrade-placeholders-Tiger-IntConst =
+    origin-track-forced(
+      \ t -> t
+        where <is-string> t \
+    )
+
+  downgrade-placeholders-Tiger-IntConst =
+    origin-track-forced(
+      \ p{anno*} -> IntConst-Plhdr(){anno*}
+        where <(is-placeholder + ?IntConst-Plhdr())> p \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Int(intConst){anno*} -> Int(intConst'){anno*}
+        with intConst' := <downgrade-placeholders-Tiger-IntConst> intConst \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Uminus(exp){anno*} -> Uminus(exp'){anno*}
+        with exp' := <downgrade-placeholders-Tiger-Exp> exp \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Times(exp1, exp2){anno*} -> Times(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Divide(exp1, exp2){anno*} -> Divide(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Plus(exp1, exp2){anno*} -> Plus(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Minus(exp1, exp2){anno*} -> Minus(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Eq(exp1, exp2){anno*} -> Eq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Neq(exp1, exp2){anno*} -> Neq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Gt(exp1, exp2){anno*} -> Gt(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Lt(exp1, exp2){anno*} -> Lt(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Geq(exp1, exp2){anno*} -> Geq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Leq(exp1, exp2){anno*} -> Leq(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ And(exp1, exp2){anno*} -> And(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+  downgrade-placeholders-Tiger-Exp =
+    origin-track-forced(
+      \ Or(exp1, exp2){anno*} -> Or(exp1', exp2'){anno*}
+        with exp1' := <downgrade-placeholders-Tiger-Exp> exp1
+             ; exp2' := <downgrade-placeholders-Tiger-Exp> exp2 \
+    )
+
+
+rules
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot implicate multi-element list to option.")> \
+    )
+
+
+rules
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> None(){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> Some(<s> t){anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ []{anno*} -> []{anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ [e|es]{anno*} -> [e'|es']{anno*}
+        with e' := <s> e
+             ; es' := <downgrade-list(s)> es \
+    )

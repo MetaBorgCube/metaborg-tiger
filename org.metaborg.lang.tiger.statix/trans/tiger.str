@@ -1,16 +1,48 @@
 module tiger
 
 imports
-  
+
   completion/completion
   pp
   outline
   analysis
+  injections/Tiger-injections
 
 rules // Debugging
-  
+
   debug-show-aterm:
     (node, _, _, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"aterm")> path
     ; result   := node
+
+  debug-upgrade-placeholders:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"upgraded.aterm")> path
+    ; result   := <upgrade-placeholders-Tiger> node
+
+  debug-downgrade-placeholders:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"downgraded.aterm")> path
+    ; result   := <upgrade-placeholders-Tiger; downgrade-placeholders-Tiger> node
+
+  debug-upgrade-placeholders-explicated:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"upgraded.aterm")> path
+    ; result   := <explicate-injections-Tiger; upgrade-placeholders-Tiger> node
+
+  debug-downgrade-placeholders-explicated:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"downgraded.aterm")> path
+    ; result   := <explicate-injections-Tiger; upgrade-placeholders-Tiger; downgrade-placeholders-Tiger; implicate-injections-Tiger> node
+
+  generate-explicated:
+    input@(selected, position, ast, path, project-path) -> (filename, result)
+    with
+        <debug> input
+      ; filename := <add-extension> (path, "aterm")
+      ; result   := <strip-annos; explicate-injections-Tiger> ast

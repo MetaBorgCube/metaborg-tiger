@@ -1,23 +1,24 @@
 module Records
 
 imports Base
-imports Types
-imports Occurrences
 
-context-free syntax // records
+sorts Field InitField
+
+// Records
+context-free syntax
 
   Type.RecordTy = <
-    { 
-       <{Field ", \n"}*> 
+    {
+       <{Field ", \n"}*>
     }
-  > 
-  
-  Field.Field = <<Occ> : <TypeId>> 
-   
-  Exp.NilExp = <nil> 
-  
-  Exp.Record = <<TypeId>{ <{InitField ", "}*> }> 
-  
-  InitField.InitField = <<Occ> = <Exp>> 
-  
-  LValue.FieldVar = <<LValue>.<Occ>> 
+  >
+
+  Field.Field = <<ID> : <ID>>
+
+  Exp.NilExp = <nil>
+
+  Exp.Record = <<ID>{ <{InitField ", "}*> }>
+
+  InitField.InitField = <<ID> = <Exp>>
+
+  LValue.FieldVar = <<LValue>.<ID>>

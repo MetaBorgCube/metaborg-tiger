@@ -1,0 +1,511 @@
+module injections/ATerms-injections
+
+imports
+  signatures/ATerms-sig
+  pp/ATerms-pp
+  libspoofax/term/origin
+
+
+signature
+  constructors
+    Cons-Plhdr   : Cons
+    Int-Plhdr    : Int
+    String-Plhdr : String
+    Term-Plhdr   : Term
+
+
+rules
+
+  is-Tiger-Term-or-inj =
+    ?Str(_)
+
+  is-Tiger-Term-or-inj =
+    ?Int(_)
+
+  is-Tiger-Term-or-inj =
+    ?App(_, _)
+
+  is-Tiger-Term-or-inj =
+    ?List(_)
+
+  is-Tiger-Term-or-inj =
+    ?Tuple(_)
+
+
+rules
+
+  is-Tiger-inj-cons =
+    is-Tiger-Cons-inj-cons
+
+  is-Tiger-Cons-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-Int-inj-cons
+
+  is-Tiger-Int-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-String-inj-cons
+
+  is-Tiger-String-inj-cons =
+    fail
+
+  is-Tiger-inj-cons =
+    is-Tiger-Term-inj-cons
+
+  is-Tiger-Term-inj-cons =
+    fail
+
+
+rules
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Cons
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Int
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-String
+
+  explicate-injections-Tiger =
+    explicate-injections-Tiger-Term
+
+  explicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Str(string){anno*} -> Str(string'){anno*}
+        with string' := <explicate-injections-Tiger-String> string \
+    )
+
+  explicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Int(int){anno*} -> Int(int'){anno*}
+        with int' := <explicate-injections-Tiger-Int> int \
+    )
+
+  explicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
+        with cons' := <explicate-injections-Tiger-Cons> cons
+             ; terms' := <map(explicate-injections-Tiger-Term)> terms \
+    )
+
+  explicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ List(terms){anno*} -> List(terms'){anno*}
+        with terms' := <map(explicate-injections-Tiger-Term)> terms \
+    )
+
+  explicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
+        with terms' := <map(explicate-injections-Tiger-Term)> terms \
+    )
+
+  explicate-injections-Tiger-Cons =
+    origin-track-forced(
+      \ Cons-Plhdr(){anno*} -> Cons-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Int =
+    origin-track-forced(
+      \ Int-Plhdr(){anno*} -> Int-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-String =
+    origin-track-forced(
+      \ String-Plhdr(){anno*} -> String-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Term-Plhdr(){anno*} -> Term-Plhdr(){anno*} \
+    )
+
+  explicate-injections-Tiger-Cons =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Cons)> alts \
+    )
+
+  explicate-injections-Tiger-Int =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Int)> alts \
+    )
+
+  explicate-injections-Tiger-String =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-String)> alts \
+    )
+
+  explicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(explicate-injections-Tiger-Term)> alts \
+    )
+
+
+rules
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Cons
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Int
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-String
+
+  implicate-injections-Tiger =
+    implicate-injections-Tiger-Term
+
+  implicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Str(string){anno*} -> Str(string'){anno*}
+        with string' := <implicate-injections-Tiger-String> string \
+    )
+
+  implicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Int(int){anno*} -> Int(int'){anno*}
+        with int' := <implicate-injections-Tiger-Int> int \
+    )
+
+  implicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
+        with cons' := <implicate-injections-Tiger-Cons> cons
+             ; terms' := <map(implicate-injections-Tiger-Term)> terms \
+    )
+
+  implicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ List(terms){anno*} -> List(terms'){anno*}
+        with terms' := <map(implicate-injections-Tiger-Term)> terms \
+    )
+
+  implicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
+        with terms' := <map(implicate-injections-Tiger-Term)> terms \
+    )
+
+  implicate-injections-Tiger-Cons =
+    origin-track-forced(
+      \ Cons-Plhdr(){anno*} -> Cons-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Int =
+    origin-track-forced(
+      \ Int-Plhdr(){anno*} -> Int-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-String =
+    origin-track-forced(
+      \ String-Plhdr(){anno*} -> String-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ Term-Plhdr(){anno*} -> Term-Plhdr(){anno*} \
+    )
+
+  implicate-injections-Tiger-Cons =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Cons)> alts \
+    )
+
+  implicate-injections-Tiger-Int =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Int)> alts \
+    )
+
+  implicate-injections-Tiger-String =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-String)> alts \
+    )
+
+  implicate-injections-Tiger-Term =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <map(implicate-injections-Tiger-Term)> alts \
+    )
+
+
+rules
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Cons
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Int
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-String
+
+  upgrade-placeholders-Tiger =
+    upgrade-placeholders-Tiger-Term
+
+  upgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ Str(string){anno*} -> Str(string'){anno*}
+        with string' := <upgrade-placeholders-Tiger-String> string \
+    )
+
+  upgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ Int(int){anno*} -> Int(int'){anno*}
+        with int' := <upgrade-placeholders-Tiger-Int> int \
+    )
+
+  upgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
+        with cons' := <upgrade-placeholders-Tiger-Cons> cons
+             ; terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
+    )
+
+  upgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ List(terms){anno*} -> List(terms'){anno*}
+        with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
+    )
+
+  upgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
+        with terms' := <upgrade-list(upgrade-placeholders-Tiger-Term)> terms \
+    )
+
+  upgrade-placeholders-Tiger-Cons =
+    origin-track-forced(
+      \ Cons-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Cons" \
+    )
+
+  upgrade-placeholders-Tiger-Int =
+    origin-track-forced(
+      \ Int-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Int" \
+    )
+
+  upgrade-placeholders-Tiger-String =
+    origin-track-forced(
+      \ String-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "String" \
+    )
+
+  upgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ Term-Plhdr(){anno*} -> p{anno*}
+        with p := <make-placeholder> "Term" \
+    )
+
+  upgrade-placeholders-Tiger-Cons =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Cons)> alts \
+    )
+
+  upgrade-placeholders-Tiger-Int =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Int)> alts \
+    )
+
+  upgrade-placeholders-Tiger-String =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-String)> alts \
+    )
+
+  upgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <upgrade-list(upgrade-placeholders-Tiger-Term)> alts \
+    )
+
+
+rules
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Cons
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Int
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-String
+
+  downgrade-placeholders-Tiger =
+    downgrade-placeholders-Tiger-Term
+
+  downgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ Str(string){anno*} -> Str(string'){anno*}
+        with string' := <downgrade-placeholders-Tiger-String> string \
+    )
+
+  downgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ Int(int){anno*} -> Int(int'){anno*}
+        with int' := <downgrade-placeholders-Tiger-Int> int \
+    )
+
+  downgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ App(cons, terms){anno*} -> App(cons', terms'){anno*}
+        with cons' := <downgrade-placeholders-Tiger-Cons> cons
+             ; terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
+    )
+
+  downgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ List(terms){anno*} -> List(terms'){anno*}
+        with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
+    )
+
+  downgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ Tuple(terms){anno*} -> Tuple(terms'){anno*}
+        with terms' := <downgrade-list(downgrade-placeholders-Tiger-Term)> terms \
+    )
+
+  downgrade-placeholders-Tiger-Cons =
+    origin-track-forced(
+      \ p{anno*} -> Cons-Plhdr(){anno*}
+        where <(is-placeholder + ?Cons-Plhdr())> p \
+    )
+
+  downgrade-placeholders-Tiger-Int =
+    origin-track-forced(
+      \ p{anno*} -> Int-Plhdr(){anno*}
+        where <(is-placeholder + ?Int-Plhdr())> p \
+    )
+
+  downgrade-placeholders-Tiger-String =
+    origin-track-forced(
+      \ p{anno*} -> String-Plhdr(){anno*}
+        where <(is-placeholder + ?String-Plhdr())> p \
+    )
+
+  downgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ p{anno*} -> Term-Plhdr(){anno*}
+        where <(is-placeholder + ?Term-Plhdr())> p \
+    )
+
+  downgrade-placeholders-Tiger-Cons =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Cons)> alts \
+    )
+
+  downgrade-placeholders-Tiger-Int =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Int)> alts \
+    )
+
+  downgrade-placeholders-Tiger-String =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-String)> alts \
+    )
+
+  downgrade-placeholders-Tiger-Term =
+    origin-track-forced(
+      \ amb(alts){anno*} -> amb(alts'){anno*}
+        with alts' := <downgrade-list(downgrade-placeholders-Tiger-Term)> alts \
+    )
+
+
+rules
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  explicate-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ []{anno*} -> None(){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [t]{anno*} -> Some(<s> t){anno*} \
+    )
+
+  implicate-option(s) =
+    origin-track-forced(
+      \ [_, _|_] -> <fatal-err(|"Cannot implicate multi-element list to option.")> \
+    )
+
+
+rules
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> []{anno*} \
+    )
+
+  upgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> [<s> t]{anno*} \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <is-list> l
+        with l' := <map(s)> l \
+    )
+
+  upgrade-list(s) =
+    origin-track-forced(
+      \ l -> l'
+        where <fail> l
+        with l' := <make-placeholder> "list" \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ None(){anno*} -> None(){anno*} \
+    )
+
+  downgrade-option(s) =
+    origin-track-forced(
+      \ Some(t){anno*} -> Some(<s> t){anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ p -> p'
+        where <is-placeholder> p
+        with p' := [] \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ []{anno*} -> []{anno*} \
+    )
+
+  downgrade-list(s) =
+    origin-track-forced(
+      \ [e|es]{anno*} -> [e'|es']{anno*}
+        with e' := <s> e
+             ; es' := <downgrade-list(s)> es \
+    )

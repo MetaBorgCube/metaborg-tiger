@@ -3,6 +3,7 @@ module analysis
 imports
 
   libspoofax/sdf/pp
+  libspoofax/term/origin
 
   statixruntime
   statix/api
@@ -10,21 +11,17 @@ imports
   pp/-
   pp
 
+  injections/-
+
 rules // Analysis
 
   // single-file analysis
-  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOK")
-  pre-analyze = explicate-injections(inj-name)
-  post-analyze = remove-injections
-  
+  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOk")
+  pre-analyze = origin-track-forced(explicate-injections-Tiger)
+  post-analyze = origin-track-forced(implicate-injections-Tiger)
+
   // multi-file analysis
 //  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "projectOk", "fileOk")
-
-  inj-name: (sort, into-sort) -> $[[sort']2[into-sort']]
-    with sort' := <camel-abbr> sort
-    with into-sort' := <camel-abbr> into-sort
-
-  camel-abbr = explode-string; filter(is-upper); implode-string
 
 rules // Editor Services
 
@@ -38,6 +35,16 @@ rules // Debugging
   debug-show-aterm: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"aterm")> path
        ; result   := selected
+
+  // Prints the pre-analyzed annotated ATerm of a selection.
+  debug-show-pre-analyzed: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"pre-analyzed.aterm")> path
+       ; result   := <pre-analyze> selected
+
+  // Prints the pre-analyzed post-analyze ATerm without analysis.
+  debug-show-pre-post-without-analysis: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"prepost.aterm")> path
+       ; result   := <pre-analyze; post-analyze> selected
 
   // Prints the analyzed annotated AST.
   debug-show-analyzed: (_, _, ast, path, project-path) -> (filename, result)

@@ -1,18 +1,13 @@
 module static-semantics
 
-signature
-  sorts Id = string
-
-signature
-  sorts Module Exp
-  constructors
-    Mod : Exp -> Module
+imports
+  signatures/Tiger-sig
 
 rules // single-file entry point
 
-  programOK : Module
+  programOk : Module
 
-  programOK(Mod(e)) :- {s T}
+  programOk(Mod(e)) :- {s T}
     new s, init(s),
     typeOfExp(s, e) == T.
 
@@ -37,7 +32,7 @@ signature // names
 
 signature
   relations
-    typeOfDecl : occurrence -> TYPE // :
+    typeOfDecl : occurrence -> TYPE
   namespaces
     Var  : string
     Type : string
@@ -54,14 +49,16 @@ rules // type binding
   declareType(s, x, T) :-
     s -> Type{x} with typeOfDecl T,
     // declaration is distinct
-    typeOfDecl of Type{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Type{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
   declareVar : scope * string * TYPE
 
   declareVar(s, x, T) :-
     s -> Var{x} with typeOfDecl T,
     // declaration is distinct
-    typeOfDecl of Var{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Var{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
 
 
@@ -70,11 +67,12 @@ rules // type binding
 
   declareTypeRaw(s, x, T) :-
     s -> Type{x} with typeOfDecl T,
-    typeOfDecl of Type{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Type{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
     // declaration is distinct
 
   lookupType(s, x) = T :- {x'} @x.ref := x',
-    typeOfDecl of Type{x} in s |-> [(_, (Type{x'}, T))|_].
+    typeOfDecl of Type{x} in s |-> [(_, (Type{x'}, T))].
     // permissive lookup to cope with double declaration
 
 rules // variable binding
@@ -85,24 +83,26 @@ rules // variable binding
   declareVarRaw(s, x, T) :-
     s -> Var{x} with typeOfDecl T,
     // declaration is distinct
-    typeOfDecl of Var{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Var{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
   lookupVar(s, x) = T :- {x'} @x.ref := x',
-    typeOfDecl of Var{x} in s |-> [(_, (Var{x'}, T))|_].
+    typeOfDecl of Var{x} in s |-> [(_, (Var{x'}, T))].
     // permissive lookup to cope with double declaration
 
 rules // field binding
 
-  declareField : scope * TypeId * TYPE
+  declareField : scope * ID * TYPE
   lookupField  : scope * string -> TYPE
 
-  declareField(s, O2TI(I2O(x)), T) :-
+  declareField(s, x, T) :-
     s -> Field{x} with typeOfDecl T,
     // declaration is distinct
-    typeOfDecl of Field{x} in s |-> [(_, (_, T))].
+    typeOfDecl of Field{x} in s |-> [(_, (_, T))],
+    @x.decl := x.
 
   lookupField(s, x) = T :- {x'} @x.ref := x',
-    typeOfDecl of Field{x} in s |-> [(_, (Field{x'}, T))|_].
+    typeOfDecl of Field{x} in s |-> [(_, (Field{x'}, T))].
     // permissive lookup to cope with double declaration
 
 signature
@@ -157,12 +157,6 @@ rules
   typeOfSeq  : scope * list(Exp) -> TYPE
   typeOfLVal : scope * LValue -> TYPE
 
-signature
-  sorts Declarations
-  constructors
-    Let          : list(Dec) * list(Exp) -> Exp
-    Declarations : list(Dec) -> Declarations
-
 rules
 
   typeOfExp(s_outer, Let(ds, es)) = T :- {s_body}
@@ -187,17 +181,6 @@ rules
     decOk(s_dec, s_outer, dec),
     decsOk(s_dec, s_body, decs).
 
-signature
-  sorts TypeDec
-  sorts TypeId
-  sorts Occ
-  constructors
-    TypeDecs  : list(TypeDec) -> Dec
-    TypeDec   : Occ * Type -> TypeDec
-    Tid       : TypeId -> Type
-    O2TI      : Occ -> TypeId
-    I2O       : Id -> Occ
-
 rules // type declarations
 
   // Types: In the expression [let ... typedecs ... in exps end] the
@@ -218,7 +201,7 @@ rules // type declarations
   tdecOk  : scope * scope * TypeDec
   tdecsOk   maps tdecOk(*, *, list(*))
 
-  tdecOk(s, s_outer, TypeDec(I2O(x), t)) :- {T}
+  tdecOk(s, s_outer, TypeDec(x, t)) :- {T}
     typeOfType(s_outer, t) == T,
     declareType(s, x, T).
 
@@ -228,19 +211,10 @@ rules // types
 
   typeOfType : scope * Type -> TYPE
 
-  typeOfType(s, Tid(O2TI(I2O(x)))) = lookupType(s, x).
+  typeOfType(s, Tid(x)) = lookupType(s, x).
 
     // typeOfDecl of Type{x} in s |-> [(_, (_, T))|_].
     // permissive query to allow non-distinct type declarations
-
-signature
-  sorts Dec FunDec FArg
-  constructors
-    FunDecs  : list(FunDec) -> Dec
-    ProcDec  : Occ * list(FArg) * Exp -> FunDec
-    FunDec   : Occ * list(FArg) * Type * Exp -> FunDec
-    FArg     : Occ * Type -> FArg
-    Call     : Occ * list(Exp) -> Exp
 
 rules // function declarations
 
@@ -254,13 +228,13 @@ rules // function declarations
   fdecsOk      maps fdecOk(*, *, list(*))
   fdecOk     : scope * scope * FunDec
 
-  fdecOk(s, s_outer, d@ProcDec(I2O(f), args, e)) :- {s_fun Ts}
+  fdecOk(s, s_outer, d@ProcDec(f, args, e)) :- {s_fun Ts}
     new s_fun, s_fun -P-> s,
     typesOfArgs(s_fun, s_outer, args) == Ts,
     declareVar(s, f, FUN(Ts, UNIT())),
     typeOfExp(s_fun, e) == UNIT().
 
-  fdecOk(s, s_outer, d@FunDec(I2O(f), args, t, e)) :- {s_fun Ts T S}
+  fdecOk(s, s_outer, d@FunDec(f, args, t, e)) :- {s_fun Ts T S}
     new s_fun, s_fun -P-> s,
     typesOfArgs(s_fun, s_outer, args) == Ts,
     typeOfType(s_outer, t) == T,
@@ -272,26 +246,16 @@ rules
   typeOfArg  : scope * scope * FArg -> TYPE
   typesOfArgs  maps typeOfArg(*, *, list(*)) = list(*)
 
-  typeOfArg(s_fun, s_outer, FArg(I2O(x), t)) = T :-
+  typeOfArg(s_fun, s_outer, FArg(x, t)) = T :-
     typeOfType(s_outer, t) == T,
     declareVar(s_fun, x, T).
 
 rules // function calls
 
-  typeOfExp(s, Call(I2O(f), es)) = T :- {Ts Ss}
+  typeOfExp(s, Call(f, es)) = T :- {Ts Ss}
     lookupVar(s, f) == FUN(Ts, T),
     typeOfExps(s, es) == Ss,
     subtypes(Ss, Ts).
-
-signature
-  sorts Var
-  constructors
-    VarDec       : Occ * Type * Exp -> Dec
-    VarDecNoType : Occ * Exp -> Dec
-    Var          : Occ -> Var
-    V2LV         : Var -> LValue
-    LV2E         : LValue -> Exp
-    Assign       : LValue * Exp -> Exp
 
 rules // variable declarations
 
@@ -299,27 +263,16 @@ rules // variable declarations
   // the scope of the declared variable starts just after its vardec
   // and lasts until the end.
 
-  decOk(s, s_outer, VarDec(I2O(x), t, e)) :- {T S}
+  decOk(s, s_outer, VarDec(x, t, e)) :- {T S}
     typeOfType(s_outer, t) == T,
     typeOfExp(s_outer, e) == S,
     subtype(S, T),
     declareVar(s, x, T).
 
-  decOk(s, s_outer, VarDecNoType(I2O(x), e)) :- {T}
+  decOk(s, s_outer, VarDecNoType(x, e)) :- {T}
     typeOfExp(s_outer, e) == T,
     T != NIL(),
     declareVar(s, x, T).
-
-rules // variable references
-
-  typeOfExp(s, LV2E(V2LV(Var(I2O(x))))) = lookupVar(s, x).
-
-signature
-  sorts LValue Type
-  constructors
-    ArrayTy      : TypeId -> Type
-    Array        : TypeId * Exp * Exp -> Exp
-    Subscript    : LValue * Exp -> LValue
 
 rules // arrays
 
@@ -350,19 +303,12 @@ rules // statements
 
 rules
 
-  typeOfLVal(s, V2LV(Var(I2O(x)))) = T :-
+  typeOfLVal(s, Var2LValue(Var(x))) = T :-
     lookupVar(s, x) == T.
 
-  typeOfExp(s, LV2E(lval)) = typeOfLVal(s, lval).
+  typeOfExp(s, LValue2Exp(lval)) = typeOfLVal(s, lval).
 
-signature
-  constructors
-    Seq           : list(Exp) -> Exp
-    If            : Exp * Exp * Exp -> Exp
-    IfThen        : Exp * Exp -> Exp
-    While         : Exp * Exp -> Exp
-    For           : Var * Exp * Exp * Exp -> Exp
-    Break         : Exp
+  typeOfExp(s, LValue2Exp(Var2LValue(Var(x)))) = lookupVar(s, x).
 
 rules // sequence
 
@@ -393,7 +339,7 @@ rules // sequence
     typeOfExp(s_loop, e1) == INT(),
     typeOfExp(s_loop, e2) == UNIT().
 
-  typeOfExp(s, For(Var(I2O(x)), e1, e2, e3)) = UNIT() :- {s_for}
+  typeOfExp(s, For(Var(x), e1, e2, e3)) = UNIT() :- {s_for}
     new s_for,
     s_for -P-> s,
     declareVar(s_for, x, INT()),
@@ -405,30 +351,10 @@ rules // sequence
   typeOfExp(s, Break()) = UNIT() :-
     typeOfDecl of Loop{"break"} in s |-> [(_, (_, UNIT()))].
 
-signature
-   sorts IntConst = string
-   sorts RealConst = string
-   sorts Sign = string
-  constructors
-    Int            : IntConst -> Exp
-    Uminus         : Exp -> Exp
-    Times          : Exp * Exp -> Exp
-    Divide         : Exp * Exp -> Exp
-    Plus           : Exp * Exp -> Exp
-    Minus          : Exp * Exp -> Exp
-    Eq             : Exp * Exp -> Exp
-    Neq            : Exp * Exp -> Exp
-    Gt             : Exp * Exp -> Exp
-    Lt             : Exp * Exp -> Exp
-    Geq            : Exp * Exp -> Exp
-    Leq            : Exp * Exp -> Exp
-    And            : Exp * Exp -> Exp
-    Or             : Exp * Exp -> Exp
-    Exp-Plhdr      : Exp
-
 rules // literals
 
-  typeOfExp(s, Int(i)) = INT().
+  typeOfExp(s, Int(i)) = INT() :-
+    @i.lit := i.
 
 rules // operators
 
@@ -487,20 +413,6 @@ rules // operators
   typeOfExp(s, And(e1, e2)) = INT() :-
     typeOfExp(s, e1) == INT(),
     typeOfExp(s, e2) == INT().
-    
-rules // placeholders
-
-  typeOfExp(s, Exp-Plhdr()) = T.
-
-signature
-  sorts Field InitField
-  constructors
-    RecordTy   : list(Field) -> Type
-    Field      : Occ * TypeId -> Field
-    NilExp     : Exp
-    Record     : TypeId * list(InitField) -> Exp
-    InitField  : Occ * Exp -> InitField
-    FieldVar   : LValue * Occ -> LValue
 
 rules // record type
 
@@ -511,9 +423,9 @@ rules // record type
   fieldOk : scope * scope * Field
   fieldsOk maps fieldOk(*, *, list(*))
 
-  fieldOk(s_rec, s_outer, Field(x, O2TI(t))) :- {T}
-    typeOfType(s_outer, Tid(O2TI(t))) == T,
-    declareField(s_rec, O2TI(x), T).
+  fieldOk(s_rec, s_outer, Field(x, t)) :- {T}
+    typeOfType(s_outer, Tid(t)) == T,
+    declareField(s_rec, x, T).
 
 rules // literals
 
@@ -526,39 +438,43 @@ rules // record creation
     new s_init,
     initsOk(s, s_rec, s_init, inits),
     typeOfDecl of Field{_} in s_rec |-> ds,
+    fieldsSameLength(ds, inits),
     allFieldsInitialized(t, ds, s_init).
+
+
+  fieldsSameLength : list((path * (occurrence * TYPE))) * list(InitField)
+  fieldsSameLength([],[]).
+  fieldsSameLength([_|xs], [_|ys]) :- fieldsSameLength(xs, ys).
+
+
 
   initOk : scope * scope * scope * InitField
   initsOk maps initOk(*, *, *, list(*))
 
-  initOk(s, s_rec, s_init, InitField(I2O(x), e)) :- {S T}
+  initOk(s, s_rec, s_init, InitField(x, e)) :- {S T}
     lookupField(s_rec, x) == T,
     typeOfExp(s, e) == S,
-    declareField(s_init, O2TI(I2O(x)), S),
+    declareField(s_init, x, S),
     subtype(S, T).
 
-  fieldInitialized : TypeId * (path * (occurrence * TYPE)) * scope
+  fieldInitialized : ID * (path * (occurrence * TYPE)) * scope
   allFieldsInitialized maps fieldInitialized(*, list(*), *)
 
-  fieldInitialized(O2TI(I2O(t)), (_, (Field{x}, _)), s) :-
+  fieldInitialized(t, (_, (Field{x}, _)), s) :-
     typeOfDecl of Field{x} in s |-> [_].
     // t is passed such that error is displayed be on t;
     // noting that init of x is missing
 
 rules // record field access
 
-  typeOfLVal(s, FieldVar(lval, I2O(x))) = T :- {s_rec}
+  typeOfLVal(s, FieldVar(lval, x)) = T :- {s_rec}
     typeOfLVal(s, lval) == RECORD(s_rec),
     lookupField(s_rec, x) == T.
 
-signature
-  sorts StrConst = string
-  constructors
-    String : StrConst -> Exp
-
 rules // literals
 
-  typeOfExp(s, String(_)) = STRING().
+  typeOfExp(s, String(v)) = STRING() :-
+    @v.lit := v.
 
 rules
 
@@ -580,3 +496,30 @@ rules
     declareVarRaw(s,  "flush",     FUN([], UNIT())),
     declareVarRaw(s,  "printi",    FUN([INT()], UNIT())).
 
+
+
+rules // placeholders
+
+  programOk(Module-Plhdr()).
+
+  initOk(_, _, _, InitField-Plhdr()).
+
+  //declareField(_, TypeId-Plhdr(), T).
+
+  typeOfLVal(_, LValue-Plhdr()) = T.
+
+  decOk(_, _, Dec-Plhdr()).
+
+  tdecOk(_, _, TypeDec-Plhdr()).
+
+  typeOfType(_, Type-Plhdr()) = T.
+
+  fdecOk(_, _, FunDec-Plhdr()).
+
+  typeOfArg(_, _, FArg-Plhdr()) = T.
+
+  //fieldInitialized(TypeId-Plhdr(), _, _).
+
+  fieldOk(_, _, Field-Plhdr()).
+
+  typeOfExp(_, Exp-Plhdr()) = T.
