@@ -1,3 +1,4 @@
+// WARNING: This file trips up the JSGLR1 parser
 //https://github.com/smarr/are-we-fast-yet/blob/master/benchmarks/Java/src/Towers.java
 for i := 0 to 30 do (
   let 
@@ -61,12 +62,12 @@ for i := 0 to 30 do (
         
         
     type TowersDisk2 = { size: int, next: TowersDisk, size2: int, next2: TowersDisk }
-    
+   
     type arrayOfTowersDisk2 = array of TowersDisk
-    
+   
     var piles2 : arrayOfTowersDisk := arrayOfTowersDisk[3] of nil
     var movesDone2 : int := 0
-    
+   
     function pushDisk2(disk : TowersDisk, pile : int, disk2 : TowersDisk, pile2 : int) =
       let
         var top : TowersDisk := piles[pile]
@@ -78,7 +79,7 @@ for i := 0 to 30 do (
         disk.next := top;
         piles[pile] := disk
       end
-    
+   
     function popDiskFrom2(pile : int, pile2 : int): TowersDisk =
       let
         var top : TowersDisk := piles[pile]
@@ -91,17 +92,17 @@ for i := 0 to 30 do (
         top.next := nil;
         top
       end
-    
+   
     function moveTopDisk2(fromPile : int, toPile : int, fromPile2 : int, toPile2 : int) = (
       pushDisk(popDiskFrom(fromPile), toPile);
       movesDone := movesDone + 1
     )
-    
+   
     function buildTowerAt2(pile : int, disks : int, pile2 : int, disks2 : int) =
       // might be wrong here. the iteration in the reference implementation is in reverse
       for i := 0 to disks do
         pushDisk(TowersDisk{size = i, next = nil}, pile)
-    
+   
     function moveDisks2(disks : int, fromPile : int, toPile : int, disks2 : int, fromPile2 : int, toPile2 : int) =
       if disks = 1 then
         moveTopDisk(fromPile, toPile)
@@ -117,15 +118,15 @@ for i := 0 to 30 do (
           moveTopDisk(fromPile, toPile);
           moveDisks(disks - 1, otherPile, toPile)
         end
-        
-        
+       
+       
     type TowersDisk3 = { size: int, next: TowersDisk, size2: int, next2: TowersDisk, size3: int, next3: TowersDisk }
-    
+   
     type arrayOfTowersDisk3 = array of TowersDisk
-    
+   
     var piles3 : arrayOfTowersDisk := arrayOfTowersDisk[3] of nil
     var movesDone3 : int := 0
-    
+   
     function pushDisk3(disk : TowersDisk, pile : int, disk2 : TowersDisk, pile2 : int, disk3 : TowersDisk, pile3 : int) =
       let
         var top : TowersDisk := piles[pile]
@@ -137,7 +138,7 @@ for i := 0 to 30 do (
         disk.next := top;
         piles[pile] := disk
       end
-    
+   
     function popDiskFrom3(pile : int, pile2 : int, pile3 : int): TowersDisk =
       let
         var top : TowersDisk := piles[pile]
@@ -150,17 +151,17 @@ for i := 0 to 30 do (
         top.next := nil;
         top
       end
-    
+   
     function moveTopDisk3(fromPile : int, toPile : int, fromPile2 : int, toPile2 : int, fromPile3 : int, toPile3 : int) = (
       pushDisk(popDiskFrom(fromPile), toPile);
       movesDone := movesDone + 1
     )
-    
+   
     function buildTowerAt3(pile : int, disks : int, pile2 : int, disks2 : int, pile3 : int, disks3 : int) =
       // might be wrong here. the iteration in the reference implementation is in reverse
       for i := 0 to disks do
         pushDisk(TowersDisk{size = i, next = nil}, pile)
-    
+   
     function moveDisks3(disks : int, fromPile : int, toPile : int, disks2 : int, fromPile2 : int, toPile2 : int, disks3 : int, fromPile3 : int, toPile3 : int) =
       if disks = 1 then
         moveTopDisk(fromPile, toPile)
@@ -178,122 +179,122 @@ for i := 0 to 30 do (
         end
         
         
-    type TowersDisk4 = { size: int, next: TowersDisk, size2: int, next2: TowersDisk, size3: int, next3: TowersDisk, size4: int, next4: TowersDisk }
+     type TowersDisk4 = { size: int, next: TowersDisk, size2: int, next2: TowersDisk, size3: int, next3: TowersDisk, size4: int, next4: TowersDisk }
     
-    type arrayOfTowersDisk4 = array of TowersDisk
+     type arrayOfTowersDisk4 = array of TowersDisk
     
-    var piles4 : arrayOfTowersDisk := arrayOfTowersDisk[3] of nil
-    var movesDone4 : int := 0
+     var piles4 : arrayOfTowersDisk := arrayOfTowersDisk[3] of nil
+     var movesDone4 : int := 0
     
-    function pushDisk4(disk : TowersDisk, pile : int, disk2 : TowersDisk, pile2 : int, disk3 : TowersDisk, pile3 : int, disk4 : TowersDisk, pile4 : int) =
-      let
-        var top : TowersDisk := piles[pile]
-        var top2 : TowersDisk := piles[pile]
-        var top3 : TowersDisk := piles[pile]
-        var top4 : TowersDisk := piles[pile]
-        var top5 : TowersDisk := piles[pile]
-      in
-        disk.next := top;
-        piles[pile] := disk
-      end
+     function pushDisk4(disk : TowersDisk, pile : int, disk2 : TowersDisk, pile2 : int, disk3 : TowersDisk, pile3 : int, disk4 : TowersDisk, pile4 : int) =
+       let
+         var top : TowersDisk := piles[pile]
+         var top2 : TowersDisk := piles[pile]
+         var top3 : TowersDisk := piles[pile]
+         var top4 : TowersDisk := piles[pile]
+         var top5 : TowersDisk := piles[pile]
+       in
+         disk.next := top;
+         piles[pile] := disk
+       end
     
-    function popDiskFrom4(pile : int, pile2 : int, pile3 : int, pile4 : int): TowersDisk =
-      let
-        var top : TowersDisk := piles[pile]
-        var top2 : TowersDisk := piles[pile]
-        var top3 : TowersDisk := piles[pile]
-        var top4 : TowersDisk := piles[pile]
-        var top5 : TowersDisk := piles[pile]
-      in
-        piles[pile] := top.next;
-        top.next := nil;
-        top
-      end
+     function popDiskFrom4(pile : int, pile2 : int, pile3 : int, pile4 : int): TowersDisk =
+       let
+         var top : TowersDisk := piles[pile]
+         var top2 : TowersDisk := piles[pile]
+         var top3 : TowersDisk := piles[pile]
+         var top4 : TowersDisk := piles[pile]
+         var top5 : TowersDisk := piles[pile]
+       in
+         piles[pile] := top.next;
+         top.next := nil;
+         top
+       end
     
-    function moveTopDisk4(fromPile : int, toPile : int, fromPile2 : int, toPile2 : int, fromPile3 : int, toPile3 : int, fromPile4 : int, toPile4 : int) = (
-      pushDisk(popDiskFrom(fromPile), toPile);
-      movesDone := movesDone + 1
-    )
+     function moveTopDisk4(fromPile : int, toPile : int, fromPile2 : int, toPile2 : int, fromPile3 : int, toPile3 : int, fromPile4 : int, toPile4 : int) = (
+       pushDisk(popDiskFrom(fromPile), toPile);
+       movesDone := movesDone + 1
+     )
     
-    function buildTowerAt4(pile : int, disks : int, pile2 : int, disks2 : int, pile3 : int, disks3 : int, pile4 : int, disks4 : int) =
-      // might be wrong here. the iteration in the reference implementation is in reverse
-      for i := 0 to disks do
-        pushDisk(TowersDisk{size = i, next = nil}, pile)
+     function buildTowerAt4(pile : int, disks : int, pile2 : int, disks2 : int, pile3 : int, disks3 : int, pile4 : int, disks4 : int) =
+       // might be wrong here. the iteration in the reference implementation is in reverse
+       for i := 0 to disks do
+         pushDisk(TowersDisk{size = i, next = nil}, pile)
     
-    function moveDisks4(disks : int, fromPile : int, toPile : int, disks2 : int, fromPile2 : int, toPile2 : int, disks3 : int, fromPile3 : int, toPile3 : int, disks4 : int, fromPile4 : int, toPile4 : int) =
-      if disks = 1 then
-        moveTopDisk(fromPile, toPile)
-      else
-        let
-          var otherPile : int := (3 - fromPile) - toPile
-          var otherPile2 : int := (3 - fromPile) - toPile
-          var otherPile3 : int := (3 - fromPile) - toPile
-          var otherPile4 : int := (3 - fromPile) - toPile
-          var otherPile5 : int := (3 - fromPile) - toPile
-        in
-          moveDisks(disks - 1, fromPile, otherPile);
-          moveTopDisk(fromPile, toPile);
-          moveDisks(disks - 1, otherPile, toPile)
-        end
+     function moveDisks4(disks : int, fromPile : int, toPile : int, disks2 : int, fromPile2 : int, toPile2 : int, disks3 : int, fromPile3 : int, toPile3 : int, disks4 : int, fromPile4 : int, toPile4 : int) =
+       if disks = 1 then
+         moveTopDisk(fromPile, toPile)
+       else
+         let
+           var otherPile : int := (3 - fromPile) - toPile
+           var otherPile2 : int := (3 - fromPile) - toPile
+           var otherPile3 : int := (3 - fromPile) - toPile
+           var otherPile4 : int := (3 - fromPile) - toPile
+           var otherPile5 : int := (3 - fromPile) - toPile
+         in
+           moveDisks(disks - 1, fromPile, otherPile);
+           moveTopDisk(fromPile, toPile);
+           moveDisks(disks - 1, otherPile, toPile)
+         end
         
         
-    type TowersDisk5 = { size: int, next: TowersDisk, size2: int, next2: TowersDisk, size3: int, next3: TowersDisk, size4: int, next4: TowersDisk, size5: int, next5: TowersDisk }
+     type TowersDisk5 = { size: int, next: TowersDisk, size2: int, next2: TowersDisk, size3: int, next3: TowersDisk, size4: int, next4: TowersDisk, size5: int, next5: TowersDisk }
     
-    type arrayOfTowersDisk5 = array of TowersDisk
+     type arrayOfTowersDisk5 = array of TowersDisk
     
-    var piles5 : arrayOfTowersDisk := arrayOfTowersDisk[3] of nil
-    var movesDone5 : int := 0
+     var piles5 : arrayOfTowersDisk := arrayOfTowersDisk[3] of nil
+     var movesDone5 : int := 0
     
-    function pushDisk5(disk : TowersDisk, pile : int, disk2 : TowersDisk, pile2 : int, disk3 : TowersDisk, pile3 : int, disk4 : TowersDisk, pile4 : int, disk5 : TowersDisk, pile5 : int) =
-      let
-        var top : TowersDisk := piles[pile]
-        var top2 : TowersDisk := piles[pile]
-        var top3 : TowersDisk := piles[pile]
-        var top4 : TowersDisk := piles[pile]
-        var top5 : TowersDisk := piles[pile]
-      in
-        disk.next := top;
-        piles[pile] := disk
-      end
+     function pushDisk5(disk : TowersDisk, pile : int, disk2 : TowersDisk, pile2 : int, disk3 : TowersDisk, pile3 : int, disk4 : TowersDisk, pile4 : int, disk5 : TowersDisk, pile5 : int) =
+       let
+         var top : TowersDisk := piles[pile]
+         var top2 : TowersDisk := piles[pile]
+         var top3 : TowersDisk := piles[pile]
+         var top4 : TowersDisk := piles[pile]
+         var top5 : TowersDisk := piles[pile]
+       in
+         disk.next := top;
+         piles[pile] := disk
+       end
     
-    function popDiskFrom5(pile : int, pile2 : int, pile3 : int, pile4 : int, pile5 : int): TowersDisk =
-      let
-        var top : TowersDisk := piles[pile]
-        var top2 : TowersDisk := piles[pile]
-        var top3 : TowersDisk := piles[pile]
-        var top4 : TowersDisk := piles[pile]
-        var top5 : TowersDisk := piles[pile]
-      in
-        piles[pile] := top.next;
-        top.next := nil;
-        top
-      end
+     function popDiskFrom5(pile : int, pile2 : int, pile3 : int, pile4 : int, pile5 : int): TowersDisk =
+       let
+         var top : TowersDisk := piles[pile]
+         var top2 : TowersDisk := piles[pile]
+         var top3 : TowersDisk := piles[pile]
+         var top4 : TowersDisk := piles[pile]
+         var top5 : TowersDisk := piles[pile]
+       in
+         piles[pile] := top.next;
+         top.next := nil;
+         top
+       end
     
-    function moveTopDisk5(fromPile : int, toPile : int, fromPile2 : int, toPile2 : int, fromPile3 : int, toPile3 : int, fromPile4 : int, toPile4 : int, fromPile5 : int, toPile5 : int) = (
-      pushDisk(popDiskFrom(fromPile), toPile);
-      movesDone := movesDone + 1
-    )
+     function moveTopDisk5(fromPile : int, toPile : int, fromPile2 : int, toPile2 : int, fromPile3 : int, toPile3 : int, fromPile4 : int, toPile4 : int, fromPile5 : int, toPile5 : int) = (
+       pushDisk(popDiskFrom(fromPile), toPile);
+       movesDone := movesDone + 1
+     )
     
-    function buildTowerAt5(pile : int, disks : int, pile2 : int, disks2 : int, pile3 : int, disks3 : int, pile4 : int, disks4 : int, pile5 : int, disks5 : int) =
-      // might be wrong here. the iteration in the reference implementation is in reverse
-      for i := 0 to disks do
-        pushDisk(TowersDisk{size = i, next = nil}, pile)
+     function buildTowerAt5(pile : int, disks : int, pile2 : int, disks2 : int, pile3 : int, disks3 : int, pile4 : int, disks4 : int, pile5 : int, disks5 : int) =
+       // might be wrong here. the iteration in the reference implementation is in reverse
+       for i := 0 to disks do
+         pushDisk(TowersDisk{size = i, next = nil}, pile)
     
-    function moveDisks5(disks : int, fromPile : int, toPile : int, disks2 : int, fromPile2 : int, toPile2 : int, disks3 : int, fromPile3 : int, toPile3 : int, disks4 : int, fromPile4 : int, toPile4 : int, disks5 : int, fromPile5 : int, toPile5 : int) =
-      if disks = 1 then
-        moveTopDisk(fromPile, toPile)
-      else
-        let
-          var otherPile : int := (3 - fromPile) - toPile
-          var otherPile2 : int := (3 - fromPile) - toPile
-          var otherPile3 : int := (3 - fromPile) - toPile
-          var otherPile4 : int := (3 - fromPile) - toPile
-          var otherPile5 : int := (3 - fromPile) - toPile
-        in
-          moveDisks(disks - 1, fromPile, otherPile);
-          moveTopDisk(fromPile, toPile);
-          moveDisks(disks - 1, otherPile, toPile)
-        end
+     function moveDisks5(disks : int, fromPile : int, toPile : int, disks2 : int, fromPile2 : int, toPile2 : int, disks3 : int, fromPile3 : int, toPile3 : int, disks4 : int, fromPile4 : int, toPile4 : int, disks5 : int, fromPile5 : int, toPile5 : int) =
+       if disks = 1 then
+         moveTopDisk(fromPile, toPile)
+       else
+         let
+           var otherPile : int := (3 - fromPile) - toPile
+           var otherPile2 : int := (3 - fromPile) - toPile
+           var otherPile3 : int := (3 - fromPile) - toPile
+           var otherPile4 : int := (3 - fromPile) - toPile
+           var otherPile5 : int := (3 - fromPile) - toPile
+         in
+           moveDisks(disks - 1, fromPile, otherPile);
+           moveTopDisk(fromPile, toPile);
+           moveDisks(disks - 1, otherPile, toPile)
+         end
   in
     buildTowerAt(0, 13);
     movesDone := 0;
