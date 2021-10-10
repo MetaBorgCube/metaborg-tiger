@@ -1,0 +1,171 @@
+/* A program to solve the 8-queens problem */
+
+let
+  var N := 8
+
+  type intArray = array of int
+
+  var row := intArray [N] of 0
+  var col := intArray [N] of 0
+  var diag1 := intArray [N+N-1] of 0
+  var diag2 := intArray [N+N-1] of 0
+
+  function printboard() = (
+    for i := 0 to N-1 do (
+      for j := 0 to N-1 do
+        print(if col[i] = j then " O" else " .");
+        print("\n")
+    );
+    print("\n")
+  )
+
+  function try(c : int) = (
+    if c = N then
+      printboard()
+    else
+      for r := 0 to N-1 do
+        if row[r] = 0 & diag1[r+c] = 0 & diag2[r+7-c] = 0 then (
+          row[r] := 1; diag1[r+c] := 1; diag2[r+7-c] := 1;
+          col[c] := r;
+          try(c+1);
+          row[r] := 0;
+          diag1[r+c] := 0;
+          diag2[r+7-c] := 0
+        )
+  )
+  
+  var N2 := 8
+
+  type intArray2 = array of int
+
+  var row2 := intArray [N] of 0
+  var col2 := intArray [N] of 0
+  var diag12 := intArray [N+N-1] of 0
+  var diag22 := intArray [N+N-1] of 0
+
+  function printboard2() = (
+    for i := 0 to N-1 do (
+      for j := 0 to N-1 do
+        print(if col[i] = j then " O" else " .");
+        print("\n")
+    );
+    print("\n")
+  )
+
+  function try2(c : int, c2 : int) = (
+    if c = N then
+      printboard()
+    else
+      for r := 0 to N-1 do
+        if row[r] = 0 & diag1[r+c] = 0 & diag2[r+7-c] = 0 then (
+          row[r] := 1; diag1[r+c] := 1; diag2[r+7-c] := 1;
+          col[c] := r;
+          try(c+1);
+          row[r] := 0;
+          diag1[r+c] := 0;
+          diag2[r+7-c] := 0
+        )
+  )
+  
+  var N3 := 8
+
+  type intArray3 = array of int
+
+  var row3 := intArray [N] of 0
+  var col3 := intArray [N] of 0
+  var diag13 := intArray [N+N-1] of 0
+  var diag23 := intArray [N+N-1] of 0
+
+  function printboard3() = (
+    for i := 0 to N-1 do (
+      for j := 0 to N-1 do
+        print(if col[i] = j then " O" else " .");
+        print("\n")
+    );
+    print("\n")
+  )
+
+  function try3(c : int, c2 : int, c3 : int) = (
+    if c = N then
+      printboard()
+    else
+      for r := 0 to N-1 do
+        if row[r] = 0 & diag1[r+c] = 0 & diag2[r+7-c] = 0 then (
+          row[r] := 1; diag1[r+c] := 1; diag2[r+7-c] := 1;
+          col[c] := r;
+          try(c+1);
+          row[r] := 0;
+          diag1[r+c] := 0;
+          diag2[r+7-c] := 0
+        )
+  )
+  
+  var N4 := 8
+
+  type intArray4 = array of int
+
+  var row4 := intArray [N] of 0
+  var col4 := intArray [N] of 0
+  var diag14 := intArray [N+N-1] of 0
+  var diag24 := intArray [N+N-1] of 0
+
+  function printboard4() = (
+    for i := 0 to N-1 do (
+      for j := 0 to N-1 do
+        print(if col[i] = j then " O" else " .");
+        print("\n")
+    );
+    print("\n")
+  )
+
+  function try4(c : int, c2 : int, c3 : int, c4 : int) = (
+    if c = N then
+      printboard()
+    else
+      for r := 0 to N-1 do
+        if row[r] = 0 & diag1[r+c] = 0 & diag2[r+7-c] = 0 then (
+          row[r] := 1; diag1[r+c] := 1; diag2[r+7-c] := 1;
+          col[c] := r;
+          try(c+1);
+          row[r] := 0;
+          diag1[r+c] := 0;
+          diag2[r+7-c] := 0
+        )
+  )
+  
+  var N5 := 8
+
+  type intArray5 = array of int
+
+  var row5 := intArray [N] of 0
+  var col5 := intArray [N] of 0
+  var diag15 := intArray [N+N-1] of 0
+  var diag25 := intArray [N+N-1] of 0
+
+  function printboard5() = (
+    for i := 0 to N-1 do (
+      for j := 0 to N-1 do
+        print(if col[i] = j then " O" else " .");
+        print("\n")
+    );
+    print("\n")
+  )
+
+  function try5(c : int, c2 : int, c3 : int, c4 : int, c5 : int) = (
+    if c = N then
+      printboard()
+    else
+      for r := 0 to N-1 do
+        if row[r] = 0 & diag1[r+c] = 0 & diag2[r+7-c] = 0 then (
+          row[r] := 1; diag1[r+c] := 1; diag2[r+7-c] := 1;
+          col[c] := r;
+          try(c+1);
+          row[r] := 0;
+          diag1[r+c] := 0;
+          diag2[r+7-c] := 0
+        )
+  )
+in
+  try(0)
+end
+

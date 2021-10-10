@@ -1,0 +1,9 @@
+let
+  var x := 3
+  var x2 := 3
+  var x3 := 3
+  var x4 := 3
+  var x5 := 3
+in
+  x
+end

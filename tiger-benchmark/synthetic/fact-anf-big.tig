@@ -1,0 +1,155 @@
+let
+  function fact(n : int) : int =
+    let
+      var c := n < 1
+      var c2 := n < 1
+      var c3 := n < 1
+      var c4 := n < 1
+      var c5 := n < 1
+     in if c then
+          1
+        else
+          let
+            var a : int := n - 1
+            var b : int := fact(a)
+            var c : int := n * b
+            var a2 : int := n - 1
+            var b2 : int := fact(a)
+            var c2 : int := n * b
+            var a3 : int := n - 1
+            var b3 : int := fact(a)
+            var c3 : int := n * b
+            var a4 : int := n - 1
+            var b4 : int := fact(a)
+            var c4 : int := n * b
+            var a5 : int := n - 1
+            var b5 : int := fact(a)
+            var c5 : int := n * b
+           in c
+          end
+    end
+  var r := fact(10)
+  function fact2(n : int, n2 : int) : int =
+    let
+      var c := n < 1
+      var c2 := n < 1
+      var c3 := n < 1
+      var c4 := n < 1
+      var c5 := n < 1
+     in if c then
+          1
+        else
+          let
+            var a : int := n - 1
+            var b : int := fact(a)
+            var c : int := n * b
+            var a2 : int := n - 1
+            var b2 : int := fact(a)
+            var c2 : int := n * b
+            var a3 : int := n - 1
+            var b3 : int := fact(a)
+            var c3 : int := n * b
+            var a4 : int := n - 1
+            var b4 : int := fact(a)
+            var c4 : int := n * b
+            var a5 : int := n - 1
+            var b5 : int := fact(a)
+            var c5 : int := n * b
+           in c
+          end
+    end
+  var r2 := fact(10)
+  function fact3(n : int, n2 : int, n3 : int) : int =
+    let
+      var c := n < 1
+      var c2 := n < 1
+      var c3 := n < 1
+      var c4 := n < 1
+      var c5 := n < 1
+     in if c then
+          1
+        else
+          let
+            var a : int := n - 1
+            var b : int := fact(a)
+            var c : int := n * b
+            var a2 : int := n - 1
+            var b2 : int := fact(a)
+            var c2 : int := n * b
+            var a3 : int := n - 1
+            var b3 : int := fact(a)
+            var c3 : int := n * b
+            var a4 : int := n - 1
+            var b4 : int := fact(a)
+            var c4 : int := n * b
+            var a5 : int := n - 1
+            var b5 : int := fact(a)
+            var c5 : int := n * b
+           in c
+          end
+    end
+  var r3 := fact(10)
+  function fact4(n : int, n2 : int, n3 : int, n4 : int) : int =
+    let
+      var c := n < 1
+      var c2 := n < 1
+      var c3 := n < 1
+      var c4 := n < 1
+      var c5 := n < 1
+     in if c then
+          1
+        else
+          let
+            var a : int := n - 1
+            var b : int := fact(a)
+            var c : int := n * b
+            var a2 : int := n - 1
+            var b2 : int := fact(a)
+            var c2 : int := n * b
+            var a3 : int := n - 1
+            var b3 : int := fact(a)
+            var c3 : int := n * b
+            var a4 : int := n - 1
+            var b4 : int := fact(a)
+            var c4 : int := n * b
+            var a5 : int := n - 1
+            var b5 : int := fact(a)
+            var c5 : int := n * b
+           in c
+          end
+    end
+  var r4 := fact(10)
+  function fact5(n : int, n2 : int, n3 : int, n4 : int, n5 : int) : int =
+    let
+      var c := n < 1
+      var c2 := n < 1
+      var c3 := n < 1
+      var c4 := n < 1
+      var c5 := n < 1
+     in if c then
+          1
+        else
+          let
+            var a : int := n - 1
+            var b : int := fact(a)
+            var c : int := n * b
+            var a2 : int := n - 1
+            var b2 : int := fact(a)
+            var c2 : int := n * b
+            var a3 : int := n - 1
+            var b3 : int := fact(a)
+            var c3 : int := n * b
+            var a4 : int := n - 1
+            var b4 : int := fact(a)
+            var c4 : int := n * b
+            var a5 : int := n - 1
+            var b5 : int := fact(a)
+            var c5 : int := n * b
+           in c
+          end
+    end
+  var r5 := fact(10)
+in
+  r
+end
+

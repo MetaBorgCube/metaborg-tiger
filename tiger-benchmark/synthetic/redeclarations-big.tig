@@ -1,0 +1,158 @@
+let
+  function f(v : string) =
+    let
+      var v := "6"
+      var v2 := "6"
+      var v3 := "6"
+      var v4 := "6"
+      var v5 := "6"
+    in
+      print(v);
+      let
+        var v := "7"
+        var v2 := "7"
+        var v3 := "7"
+        var v4 := "7"
+        var v5 := "7"
+      in
+        print(v)
+      end;
+      print(v);
+      let
+        var v := "8"
+        var v2 := "8"
+        var v3 := "8"
+        var v4 := "8"
+        var v5 := "8"
+      in
+        print(v)
+      end;
+      print(v)
+    end
+
+  function f2(v : string, v2 : string) =
+    let
+      var v := "6"
+      var v2 := "6"
+      var v3 := "6"
+      var v4 := "6"
+      var v5 := "6"
+    in
+      print(v);
+      let
+        var v := "7"
+        var v2 := "7"
+        var v3 := "7"
+        var v4 := "7"
+        var v5 := "7"
+      in
+        print(v)
+      end;
+      print(v);
+      let
+        var v := "8"
+        var v2 := "8"
+        var v3 := "8"
+        var v4 := "8"
+        var v5 := "8"
+      in
+        print(v)
+      end;
+      print(v)
+    end
+
+  function f3(v : string, v2 : string, v3 : string) =
+    let
+      var v := "6"
+      var v2 := "6"
+      var v3 := "6"
+      var v4 := "6"
+      var v5 := "6"
+    in
+      print(v);
+      let
+        var v := "7"
+        var v2 := "7"
+        var v3 := "7"
+        var v4 := "7"
+        var v5 := "7"
+      in
+        print(v)
+      end;
+      print(v);
+      let
+        var v := "8"
+        var v2 := "8"
+        var v3 := "8"
+        var v4 := "8"
+        var v5 := "8"
+      in
+        print(v)
+      end;
+      print(v)
+    end
+
+  function f4(v : string, v2 : string, v3 : string, v4 : string) =
+    let
+      var v := "6"
+      var v2 := "6"
+      var v3 := "6"
+      var v4 := "6"
+      var v5 := "6"
+    in
+      print(v);
+      let
+        var v := "7"
+        var v2 := "7"
+        var v3 := "7"
+        var v4 := "7"
+        var v5 := "7"
+      in
+        print(v)
+      end;
+      print(v);
+      let
+        var v := "8"
+        var v2 := "8"
+        var v3 := "8"
+        var v4 := "8"
+        var v5 := "8"
+      in
+        print(v)
+      end;
+      print(v)
+    end
+
+  function f5(v : string, v2 : string, v3 : string, v4 : string, v5 : string) =
+    let
+      var v := "6"
+      var v2 := "6"
+      var v3 := "6"
+      var v4 := "6"
+      var v5 := "6"
+    in
+      print(v);
+      let
+        var v := "7"
+        var v2 := "7"
+        var v3 := "7"
+        var v4 := "7"
+        var v5 := "7"
+      in
+        print(v)
+      end;
+      print(v);
+      let
+        var v := "8"
+        var v2 := "8"
+        var v3 := "8"
+        var v4 := "8"
+        var v5 := "8"
+      in
+        print(v)
+      end;
+      print(v)
+    end
+in
+  f("4")
+end

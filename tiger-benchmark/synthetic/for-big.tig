@@ -1,0 +1,18 @@
+let
+  var x : int := 5
+  var f : int := 1
+  var x2 : int := 5
+  var f2 : int := 1
+  var x3 : int := 5
+  var f3 : int := 1
+  var x4 : int := 5
+  var f4 : int := 1
+  var x5 : int := 5
+  var f5 : int := 1
+in
+  for y := 1 to x do (
+    f := f * y
+  );
+  print("s");
+  print(chr(x))
+end

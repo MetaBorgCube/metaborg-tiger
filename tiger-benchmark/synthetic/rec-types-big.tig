@@ -1,0 +1,46 @@
+let
+  type intlist  = { hd : int, tl : intlist }
+  type tree     = { key : int, children : treelist }
+  type treelist = { hd : tree, tl : treelist }
+  var l : intlist   := nil
+  var tl : treelist := treelist { hd = nil, tl = nil }
+  var t : tree      := tree { key = 1, children = tl }
+  
+  type intlist2  = { hd : int, tl : intlist, hd2 : int, tl2 : intlist }
+  type tree2     = { key : int, children : treelist, key2 : int, children2 : treelist }
+  type treelist2 = { hd : tree, tl : treelist, hd2 : tree, tl2 : treelist }
+  var l2 : intlist   := nil
+  var tl2 : treelist := treelist { hd = nil, tl = nil }
+  var t2 : tree      := tree { key = 1, children = tl }
+  
+  type intlist3  = { hd : int, tl : intlist, hd2 : int, tl2 : intlist, hd3 : int, tl3 : intlist }
+  type tree3     = { key : int, children : treelist, key2 : int, children2 : treelist, key3 : int, children3 : treelist }
+  type treelist3 = { hd : tree, tl : treelist, hd2 : tree, tl2 : treelist, hd3 : tree, tl3 : treelist }
+  var l3 : intlist   := nil
+  var tl3 : treelist := treelist { hd = nil, tl = nil }
+  var t3 : tree      := tree { key = 1, children = tl }
+  
+  type intlist4  = { hd : int, tl : intlist, hd2 : int, tl2 : intlist, hd3 : int, tl3 : intlist, hd4 : int, tl4 : intlist }
+  type tree4     = { key : int, children : treelist, key2 : int, children2 : treelist, key3 : int, children3 : treelist, key4 : int, children4 : treelist }
+  type treelist4 = { hd : tree, tl : treelist, hd2 : tree, tl2 : treelist, hd3 : tree, tl3 : treelist, hd4 : tree, tl4 : treelist }
+  var l4 : intlist   := nil
+  var tl4 : treelist := treelist { hd = nil, tl = nil }
+  var t4 : tree      := tree { key = 1, children = tl }
+  
+  type intlist5  = { hd : int, tl : intlist, hd2 : int, tl2 : intlist, hd3 : int, tl3 : intlist, hd4 : int, tl4 : intlist, hd5 : int, tl5 : intlist }
+  type tree5     = { key : int, children : treelist, key2 : int, children2 : treelist, key3 : int, children3 : treelist, key4 : int, children4 : treelist, key5 : int, children5 : treelist }
+  type treelist5 = { hd : tree, tl : treelist, hd2 : tree, tl2 : treelist, hd3 : tree, tl3 : treelist, hd4 : tree, tl4 : treelist, hd5 : tree, tl5 : treelist }
+  var l5 : intlist   := nil
+  var tl5 : treelist := treelist { hd = nil, tl = nil }
+  var t5 : tree      := tree { key = 1, children = tl }
+in
+  l := intlist { hd = 3, tl = l };
+  t := tree {
+    key = 2,
+    children = treelist {
+      hd = tree { key = 3, children = nil },
+      tl = treelist { hd = tree { key = 4, children = nil }, tl = nil }
+    }
+  };
+  t.children.hd.children := t.children
+end

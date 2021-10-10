@@ -1,0 +1,19 @@
+let
+  type myrec = { x : int }
+  var rec1 : myrec := myrec { x = 1 }
+  
+  type myrec2 = { x : int, x2 : int }
+  var rec12 : myrec := myrec { x = 1 }
+  
+  type myrec3 = { x : int, x2 : int, x3 : int }
+  var rec13 : myrec := myrec { x = 1 }
+  
+  type myrec4 = { x : int, x2 : int, x3 : int, x4 : int }
+  var rec14 : myrec := myrec { x = 1 }
+  
+  type myrec5 = { x : int, x2 : int, x3 : int, x4 : int, x5 : int }
+  var rec15 : myrec := myrec { x = 1 }
+in
+  rec1.x := 99;
+  rec1.x //  33
+end

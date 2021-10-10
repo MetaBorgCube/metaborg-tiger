@@ -1,0 +1,13 @@
+let
+  var i : int := 1
+  var i2 : int := 1
+  var i3 : int := 1
+  var i4 : int := 1
+  var i5 : int := 1
+in
+  while i < 10 do (
+    print(chr(i));
+    i := i + 1
+  )
+end
+

@@ -1,0 +1,34 @@
+let
+  type foo = int
+  var x : int := 0
+  function f(y : int) : foo =
+    3 + x + y
+  var y : int := 1
+  
+  type foo2 = int
+  var x2 : int := 0
+  function f2(y : int, y2 : int) : foo =
+    3 + x + y
+  var y2 : int := 1
+  
+  type foo3 = int
+  var x3 : int := 0
+  function f3(y : int, y2 : int, y3 : int) : foo =
+    3 + x + y
+  var y3 : int := 1
+  
+  type foo4 = int
+  var x4 : int := 0
+  function f4(y : int, y2 : int, y3 : int, y4 : int) : foo =
+    3 + x + y
+  var y4 : int := 1
+  
+  type foo5 = int
+  var x5 : int := 0
+  function f5(y : int, y2 : int, y3 : int, y4 : int, y5 : int) : foo =
+    3 + x + y
+  var y5 : int := 1
+in
+  for x := x to y + 1 do
+    x := f(x + 1)
+end
