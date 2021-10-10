@@ -1,5 +1,5 @@
 let 
-  function f(x : int, x : int) : int = 1
+  function f(x : int, x : int) : int = 1 // error: duplicate parameter declaration
 in 
    f(1, 2)
 end 

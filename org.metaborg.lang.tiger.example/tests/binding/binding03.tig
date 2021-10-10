@@ -4,10 +4,10 @@ let
   var x := 1
   
   function f() : int = ( 1 )
-  function f(x : int) : int = ( 1 )
+  function f(x : int) : int = ( 1 ) // error: duplicate function declaration
    
   function g() = ()
-  function g() = ()
+  function g() = () // error: duplicate function declaration
   
   function h() = ()
 in

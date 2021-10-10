@@ -1,5 +1,5 @@
 let 
-  var x : int := 0 + z     // z not in scope
+  var x : int := 0 + z     // error: z not in scope
   var y : int := x + 1
   var z : int := x + y + 1
  in 

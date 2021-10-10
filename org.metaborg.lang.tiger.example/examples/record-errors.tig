@@ -1,6 +1,6 @@
 let 
   type point = {x : int, y : int} 
-  type errpoint = {x : int, x : int}
+  type errpoint = {x : int, x : int} // error: duplicate field
   var p : point := point{x = 0, y = 0}
   var e : errpoint := nil
  in

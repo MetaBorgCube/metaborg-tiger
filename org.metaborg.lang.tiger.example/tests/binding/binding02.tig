@@ -2,7 +2,7 @@ let
   type t = int
   var a := 1
   type t = int
-  type t = string
+  type t = string // error: duplicate type declaration
   type r = {x : t}
 in
   r{x = "a"};

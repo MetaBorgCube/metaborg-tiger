@@ -1,5 +1,5 @@
   let
-    function f() : int = g(1)
+    function f() : int = g(1) // error: not in scope
     var x := 1
     function g(x : int) : int = f()
   in

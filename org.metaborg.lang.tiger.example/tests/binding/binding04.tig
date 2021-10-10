@@ -1,5 +1,5 @@
 let
-  type r = {x : int, x : int, y : int, z : int}
+  type r = {x : int, x : int, y : int, z : int} // error: duplicate field declaration
 in 
   r{x = 1, y = 1, y = 2};
   r{x = 1, y = 1, z = 3}
