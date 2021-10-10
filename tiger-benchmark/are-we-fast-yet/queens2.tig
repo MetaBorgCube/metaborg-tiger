@@ -48,7 +48,7 @@ for i := 0 to 30 do (
           placeQueen(0)
         end
      in
-      queens()
+      queens(); ()
      end
   end
 )

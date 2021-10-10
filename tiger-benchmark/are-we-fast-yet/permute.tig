@@ -36,7 +36,8 @@ for i := 0 to 30 do (
       )
     in
       permute(6);
-      count // 8660
+      count; // 8660
+      ()
     end
   end
 )

@@ -46,7 +46,8 @@ for i := 0 to 30 do (
     let
       var result : Cons := tail(makeList(15), makeList(10), makeList(6))
     in
-      length(result) // 10
+      length(result); // 10
+      ()
     end
   end
 )

@@ -7,7 +7,7 @@ in
         cumsum := cumsum + 1
       else
         cumsum := cumsum - 1
-    );
+    )
   )
 end
  
