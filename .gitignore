@@ -61,6 +61,9 @@ out/
 .idea/
 
 
+# Misc
+.DS_Store
+
 # CCBench
 /tiger-tests/
 /tiger-results/
