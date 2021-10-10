@@ -1,5 +1,8 @@
 module Whitespace
 
+lexical sorts
+  CommentChar InsideComment SingleLineComment NewLineEOF EOF
+  
 lexical syntax
 
   LAYOUT         = [\ \t\n\r]

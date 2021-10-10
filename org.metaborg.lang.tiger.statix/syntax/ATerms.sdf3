@@ -1,6 +1,6 @@
 module ATerms
 
-sorts Cons Int String Term
+lexical sorts Cons Int String StringChar
 
 lexical syntax
 
@@ -11,6 +11,7 @@ lexical syntax
    StringChar = ~[\"\\]
    StringChar = "\\" [\"\\]
 
+context-free sorts Term
 context-free syntax
 
    Term.Str   = <<String>>
