@@ -6,21 +6,21 @@ for i := 0 to 30 do (
     let
       function queens(): int =
         let
-          var freeRows : intArray := intArray[ 8] of  1
-          var freeMaxs : intArray := intArray[16] of  1
-          var freeMins : intArray := intArray[16] of  1
-          var queenRows: intArray := intArray[ 8] of -1
+          var freeRows  : intArray := intArray[ 8] of  1
+          var freeMaxs  : intArray := intArray[16] of  1
+          var freeMins  : intArray := intArray[16] of  1
+          var queenRows : intArray := intArray[ 8] of -1
           
-          function getRowColumn(r: int, c: int): int =
+          function getRowColumn(r : int, c : int): int =
             (freeRows[r] + freeMaxs[c+r] + freeMins[c-r+7]) = 3
           
-          function setRowColumn(r: int, c: int, v: int) = (
+          function setRowColumn(r : int, c : int, v : int) = (
             freeRows[r        ] := v;
             freeMaxs[c + r    ] := v;
             freeMins[c - r + 7] := v
           )
           
-          function placeQueen(c: int):int =
+          function placeQueen(c : int):int =
             let
               var placed : int := 0
             in
