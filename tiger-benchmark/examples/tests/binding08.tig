@@ -1,0 +1,9 @@
+let
+  type list = {hd : int, tl : list}
+  function size(xs : list) : int = 
+    if xs = nil then 0
+    else 
+      1 + size(xs.tl)
+in 
+  list{hd = 1, tl = list{hd = 0, tl = nil}}
+end

@@ -1,0 +1,12 @@
+/* 
+test file to rename a function 
+plus -> add
+*/
+
+let 
+	function plus(a : int, b:int) : int = (
+		a + b
+	)
+in
+   	plus(1,1)
+end

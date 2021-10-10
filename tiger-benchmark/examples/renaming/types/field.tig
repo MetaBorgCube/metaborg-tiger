@@ -1,0 +1,14 @@
+/* 
+test file to rename a field withn a type 
+name -> fullName
+*/
+
+let
+	type student = {
+			name : string, 
+    	age : int
+  	}
+  	var student1: student := student{name = "Alan Turing", age = 107 }
+in
+  	student1.name
+end

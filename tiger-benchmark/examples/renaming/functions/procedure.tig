@@ -1,0 +1,13 @@
+/* 
+test file to rename a procedure (function with no return type) 
+printnl -> printNewLine
+*/
+
+let 
+	function printnl(x : string) = (
+		print(x); 
+		print("\n")
+	)
+in
+   	printnl("Hello World")
+end

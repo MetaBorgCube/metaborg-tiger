@@ -1,0 +1,19 @@
+/* 
+test file for a complex case of capture
+var b -> x (line 10)
+*/
+
+let
+	var a := 1
+in
+	let
+		var b := 1
+	in
+		a := 2;
+		let
+			var a := 1
+		in
+			a + b
+		end
+	end
+end

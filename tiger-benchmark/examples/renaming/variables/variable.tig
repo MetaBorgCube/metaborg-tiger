@@ -1,0 +1,10 @@
+/* 
+test file to rename avariable 
+msg -> message
+*/
+
+let
+	var msg : string := "Hello World"
+in 
+	print(msg)
+end
