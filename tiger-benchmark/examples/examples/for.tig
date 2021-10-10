@@ -6,5 +6,5 @@ in
     f := f * y
   );
   print("s");
-  print(chr(x)) // y not in scope
+  print(chr(x))
 end
