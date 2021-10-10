@@ -1,7 +1,7 @@
 //https://github.com/smarr/are-we-fast-yet/blob/master/benchmarks/Java/src/Towers.java
 for i := 0 to 30 do (
   let 
-    type TowersDisk = {size: int, next: TowersDisk}
+    type TowersDisk = { size: int, next: TowersDisk }
     
     type arrayOfTowersDisk = array of TowersDisk
     
@@ -16,7 +16,7 @@ for i := 0 to 30 do (
         piles[pile] := disk
       end
     
-    function popDiskFrom(pile: int): TowersDisk =
+    function popDiskFrom(pile : int): TowersDisk =
       let
         var top : TowersDisk := piles[pile]
       in
@@ -25,17 +25,17 @@ for i := 0 to 30 do (
         top
       end
     
-    function moveTopDisk(fromPile: int, toPile: int) = (
+    function moveTopDisk(fromPile : int, toPile : int) = (
       pushDisk(popDiskFrom(fromPile), toPile);
       movesDone := movesDone + 1
     )
     
-    function buildTowerAt(pile: int, disks: int) =
+    function buildTowerAt(pile : int, disks : int) =
       // might be wrong here. the iteration in the reference implementation is in reverse
       for i := 0 to disks do
         pushDisk(TowersDisk{size = i, next = nil}, pile)
     
-    function moveDisks(disks: int, fromPile: int, toPile: int) =
+    function moveDisks(disks : int, fromPile : int, toPile : int) =
       if disks = 1 then
         moveTopDisk(fromPile, toPile)
       else
