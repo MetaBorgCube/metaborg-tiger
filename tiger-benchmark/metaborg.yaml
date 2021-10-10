@@ -1,0 +1,13 @@
+---
+id: org.metaborg:tiger-benchmark:0.1.0-SNAPSHOT
+name: Tiger
+dependencies:
+  compile:
+  - org.metaborg:org.metaborg.lang.tiger.statix:0.1.0-SNAPSHOT
+debug:
+  typesmart: false
+runtime:
+  nabl2:
+    debug: analysis files
+build:
+  useBuildSystemSpec: true
