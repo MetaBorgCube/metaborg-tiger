@@ -1,0 +1,305 @@
+//https://github.com/smarr/are-we-fast-yet/blob/master/benchmarks/Java/src/List.java
+for i := 0 to 30 do (
+  let
+    type Cons = { val: int, next : Cons}
+    
+    function length(l : Cons): int =
+      if l.next = nil then
+        1
+      else
+        1 + length(l.next)
+        
+    function makeList(length: int): Cons =
+      if length = 0 then
+        nil
+      else
+        Cons{ val = length, next = makeList(length - 1) }
+    
+    function isShorterThan(x : Cons, y : Cons): int =
+      let
+        var xTail : Cons := x
+        var yTail : Cons := y
+        var isShorter : int := 0
+        
+        var xTail2 : Cons := x
+        var yTail2 : Cons := y
+        var isShorter2 : int := 0
+        
+        var xTail3 : Cons := x
+        var yTail3 : Cons := y
+        var isShorter3 : int := 0
+        
+        var xTail4 : Cons := x
+        var yTail4 : Cons := y
+        var isShorter4 : int := 0
+        
+        var xTail5 : Cons := x
+        var yTail5 : Cons := y
+        var isShorter5 : int := 0
+      in
+        while yTail <> nil do (
+          if xTail = nil then (
+            isShorter := 1;
+            break
+          ) else (
+            xTail := xTail.next;
+            yTail := yTail.next
+          )
+        );
+        isShorter
+      end
+    
+    function tail(x : Cons, y : Cons, z : Cons) : Cons =
+      if isShorterThan(y, x) then
+        tail(
+          tail(x.next, y, z),
+          tail(y.next, z, x),
+          tail(z.next, x, y)
+        )
+      else
+        z
+        
+    type Cons2 = { val : int, next : Cons, val2 : int, next2 : Cons }
+    
+    function length2(l : Cons, l2 : Cons): int =
+      if l.next = nil then
+        1
+      else
+        1 + length(l.next)
+        
+    function makeList2(length : int, length2 : int): Cons =
+      if length = 0 then
+        nil
+      else
+        Cons{ val = length, next = makeList(length - 1) }
+    
+    function isShorterThan2(x : Cons, y : Cons, x2 : Cons, y2 : Cons): int =
+      let
+        var xTail : Cons := x
+        var yTail : Cons := y
+        var isShorter : int := 0
+        
+        var xTail2 : Cons := x
+        var yTail2 : Cons := y
+        var isShorter2 : int := 0
+        
+        var xTail3 : Cons := x
+        var yTail3 : Cons := y
+        var isShorter3 : int := 0
+        
+        var xTail4 : Cons := x
+        var yTail4 : Cons := y
+        var isShorter4 : int := 0
+        
+        var xTail5 : Cons := x
+        var yTail5 : Cons := y
+        var isShorter5 : int := 0
+      in
+        while yTail <> nil do (
+          if xTail = nil then (
+            isShorter := 1;
+            break
+          ) else (
+            xTail := xTail.next;
+            yTail := yTail.next
+          )
+        );
+        isShorter
+      end
+    
+    function tail2(x : Cons, y : Cons, z : Cons, x2 : Cons, y2 : Cons, z2 : Cons) : Cons =
+      if isShorterThan(y, x) then
+        tail(
+          tail(x.next, y, z),
+          tail(y.next, z, x),
+          tail(z.next, x, y)
+        )
+      else
+        z
+        
+    type Cons3 = { val : int, next : Cons, val2 : int, next2 : Cons, val3 : int, next3 : Cons }
+    
+    function length3(l : Cons, l2 : Cons, l3 : Cons): int =
+      if l.next = nil then
+        1
+      else
+        1 + length(l.next)
+        
+    function makeList3(length : int, length2 : int, length3 : int): Cons =
+      if length = 0 then
+        nil
+      else
+        Cons{ val = length, next = makeList(length - 1) }
+    
+    function isShorterThan3(x : Cons, y : Cons, x2 : Cons, y2 : Cons, x3 : Cons, y3 : Cons): int =
+      let
+        var xTail : Cons := x
+        var yTail : Cons := y
+        var isShorter : int := 0
+        
+        var xTail2 : Cons := x
+        var yTail2 : Cons := y
+        var isShorter2 : int := 0
+        
+        var xTail3 : Cons := x
+        var yTail3 : Cons := y
+        var isShorter3 : int := 0
+        
+        var xTail4 : Cons := x
+        var yTail4 : Cons := y
+        var isShorter4 : int := 0
+        
+        var xTail5 : Cons := x
+        var yTail5 : Cons := y
+        var isShorter5 : int := 0
+      in
+        while yTail <> nil do (
+          if xTail = nil then (
+            isShorter := 1;
+            break
+          ) else (
+            xTail := xTail.next;
+            yTail := yTail.next
+          )
+        );
+        isShorter
+      end
+    
+    function tail3(x : Cons, y : Cons, z : Cons, x2 : Cons, y2 : Cons, z2 : Cons, x3 : Cons, y3 : Cons) : Cons =
+      if isShorterThan(y, x) then
+        tail(
+          tail(x.next, y, z),
+          tail(y.next, z, x),
+          tail(z.next, x, y)
+        )
+      else
+        z
+        
+    type Cons4 = { val : int, next : Cons, val2 : int, next2 : Cons, val3 : int, next3 : Cons, val4 : int, next4 : Cons }
+    
+    function length4(l : Cons, l2 : Cons, l3 : Cons, l4 : Cons): int =
+      if l.next = nil then
+        1
+      else
+        1 + length(l.next)
+        
+    function makeList4(length : int, length2 : int, length3 : int, length4 : int): Cons =
+      if length = 0 then
+        nil
+      else
+        Cons{ val = length, next = makeList(length - 1) }
+    
+    function isShorterThan4(x : Cons, y : Cons, x2 : Cons, y2 : Cons, x3 : Cons, y3 : Cons, x4 : Cons, y4 : Cons): int =
+      let
+        var xTail : Cons := x
+        var yTail : Cons := y
+        var isShorter : int := 0
+        
+        var xTail2 : Cons := x
+        var yTail2 : Cons := y
+        var isShorter2 : int := 0
+        
+        var xTail3 : Cons := x
+        var yTail3 : Cons := y
+        var isShorter3 : int := 0
+        
+        var xTail4 : Cons := x
+        var yTail4 : Cons := y
+        var isShorter4 : int := 0
+        
+        var xTail5 : Cons := x
+        var yTail5 : Cons := y
+        var isShorter5 : int := 0
+      in
+        while yTail <> nil do (
+          if xTail = nil then (
+            isShorter := 1;
+            break
+          ) else (
+            xTail := xTail.next;
+            yTail := yTail.next
+          )
+        );
+        isShorter
+      end
+    
+    function tail4(x : Cons, y : Cons, z : Cons, x2 : Cons, y2 : Cons, z2 : Cons, x3 : Cons, y3 : Cons, z3 : Cons, x4 : Cons, y4 : Cons, z4 : Cons) : Cons =
+      if isShorterThan(y, x) then
+        tail(
+          tail(x.next, y, z),
+          tail(y.next, z, x),
+          tail(z.next, x, y)
+        )
+      else
+        z
+        
+    type Cons5 = { val : int, next : Cons, val2 : int, next2 : Cons, val3 : int, next3 : Cons, val4 : int, next4 : Cons, val5 : int, next5 : Cons }
+    
+    function length5(l : Cons, l2 : Cons, l3 : Cons, l4 : Cons, l5 : Cons): int =
+      if l.next = nil then
+        1
+      else
+        1 + length(l.next)
+        
+    function makeList5(length : int, length2 : int, length3 : int, length4 : int, length5 : int): Cons =
+      if length = 0 then
+        nil
+      else
+        Cons{ val = length, next = makeList(length - 1) }
+    
+    function isShorterThan5(x : Cons, y : Cons, x2 : Cons, y2 : Cons, x3 : Cons, y3 : Cons, x4 : Cons, y4 : Cons, x5 : Cons, y5 : Cons): int =
+      let
+        var xTail : Cons := x
+        var yTail : Cons := y
+        var isShorter : int := 0
+        
+        var xTail2 : Cons := x
+        var yTail2 : Cons := y
+        var isShorter2 : int := 0
+        
+        var xTail3 : Cons := x
+        var yTail3 : Cons := y
+        var isShorter3 : int := 0
+        
+        var xTail4 : Cons := x
+        var yTail4 : Cons := y
+        var isShorter4 : int := 0
+        
+        var xTail5 : Cons := x
+        var yTail5 : Cons := y
+        var isShorter5 : int := 0
+      in
+        while yTail <> nil do (
+          if xTail = nil then (
+            isShorter := 1;
+            break
+          ) else (
+            xTail := xTail.next;
+            yTail := yTail.next
+          )
+        );
+        isShorter
+      end
+    
+    function tail5(x : Cons, y : Cons, z : Cons, x2 : Cons, y2 : Cons, z2 : Cons, x3 : Cons, y3 : Cons, z3 : Cons, x4 : Cons, y4 : Cons, z4 : Cons, x5 : Cons, y5 : Cons, z5 : Cons) : Cons =
+      if isShorterThan(y, x) then
+        tail(
+          tail(x.next, y, z),
+          tail(y.next, z, x),
+          tail(z.next, x, y)
+        )
+      else
+        z
+  in
+    let
+      var result : Cons := tail(makeList(15), makeList(10), makeList(6))
+      var result2 : Cons := tail(makeList(15), makeList(10), makeList(6))
+      var result3 : Cons := tail(makeList(15), makeList(10), makeList(6))
+      var result4 : Cons := tail(makeList(15), makeList(10), makeList(6))
+      var result5 : Cons := tail(makeList(15), makeList(10), makeList(6))
+    in
+      length(result); // 10
+      ()
+    end
+  end
+)

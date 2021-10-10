@@ -1,7 +1,7 @@
 //https://github.com/smarr/are-we-fast-yet/blob/master/benchmarks/Java/src/List.java
 for i := 0 to 30 do (
   let
-    type Cons = { val: int, next : Cons}
+    type Cons = { val : int, next : Cons }
     
     function length(l : Cons): int =
       if l.next = nil then
@@ -9,7 +9,7 @@ for i := 0 to 30 do (
       else
         1 + length(l.next)
         
-    function makeList(length: int): Cons =
+    function makeList(length : int): Cons =
       if length = 0 then
         nil
       else
