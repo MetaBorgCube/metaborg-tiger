@@ -4,10 +4,10 @@ for i := 0 to 30 do (
     type vector = array of int
   in
     let
-      var count: int := 0
-      var v: vector := vector[6] of 0
+      var count : int := 0
+      var v : vector := vector[6] of 0
       
-      function swap(i: int, j: int) =
+      function swap(i : int, j : int) =
         let
           var tmp: int := v[i]
         in
@@ -19,11 +19,11 @@ for i := 0 to 30 do (
         count := count + 1;
         if n <> 0 then
           let
-            var n1: int := n - 1
+            var n1 : int := n - 1
           in
             permute(n1);
             let
-              var i:int := n1
+              var i : int := n1
             in
               while i >= 0 do (
                 swap(n1, i);

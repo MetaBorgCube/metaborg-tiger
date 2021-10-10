@@ -1,0 +1,231 @@
+//https://github.com/smarr/are-we-fast-yet/blob/master/benchmarks/Java/src/Permute.java
+for i := 0 to 30 do (
+  let
+    type vector = array of int
+    type vector2 = array of int
+    type vector3 = array of int
+    type vector4 = array of int
+    type vector5 = array of int
+  in
+    let
+      var count : int := 0
+      var v : vector := vector[6] of 0
+      
+      function swap(i : int, j : int) =
+        let
+          var tmp: int := v[i]
+          var tmp2: int := v[i]
+          var tmp3: int := v[i]
+          var tmp4: int := v[i]
+          var tmp5: int := v[i]
+        in
+          v[i] := v[j];
+          v[j] := tmp
+        end
+      
+      function permute(n: int) = (
+        count := count + 1;
+        if n <> 0 then
+          let
+            var n1 : int := n - 1
+            var n12 : int := n - 1
+            var n13 : int := n - 1
+            var n14 : int := n - 1
+            var n15 : int := n - 1
+          in
+            permute(n1);
+            let
+              var i : int := n1
+              var i2 : int := n1
+              var i3 : int := n1
+              var i4 : int := n1
+              var i5 : int := n1
+            in
+              while i >= 0 do (
+                swap(n1, i);
+                permute(n1);
+                swap(n1, i);
+                i := i - 1
+              )
+            end
+          end
+      )
+      
+      var count2 : int := 0
+      var v2 : vector := vector[6] of 0
+      
+      function swap2(i : int, j : int, i2 : int, j2 : int) =
+        let
+          var tmp: int := v[i]
+          var tmp2: int := v[i]
+          var tmp3: int := v[i]
+          var tmp4: int := v[i]
+          var tmp5: int := v[i]
+        in
+          v[i] := v[j];
+          v[j] := tmp
+        end
+      
+      function permute2(n: int, n2: int) = (
+        count := count + 1;
+        if n <> 0 then
+          let
+            var n1 : int := n - 1
+            var n12 : int := n - 1
+            var n13 : int := n - 1
+            var n14 : int := n - 1
+            var n15 : int := n - 1
+          in
+            permute(n1);
+            let
+              var i : int := n1
+              var i2 : int := n1
+              var i3 : int := n1
+              var i4 : int := n1
+              var i5 : int := n1
+            in
+              while i >= 0 do (
+                swap(n1, i);
+                permute(n1);
+                swap(n1, i);
+                i := i - 1
+              )
+            end
+          end
+      )
+      
+      var count3 : int := 0
+      var v3 : vector := vector[6] of 0
+      
+      function swap3(i : int, j : int, i2 : int, j2 : int, i3 : int, j3 : int) =
+        let
+          var tmp: int := v[i]
+          var tmp2: int := v[i]
+          var tmp3: int := v[i]
+          var tmp4: int := v[i]
+          var tmp5: int := v[i]
+        in
+          v[i] := v[j];
+          v[j] := tmp
+        end
+      
+      function permute3(n: int, n2: int, n3: int) = (
+        count := count + 1;
+        if n <> 0 then
+          let
+            var n1 : int := n - 1
+            var n12 : int := n - 1
+            var n13 : int := n - 1
+            var n14 : int := n - 1
+            var n15 : int := n - 1
+          in
+            permute(n1);
+            let
+              var i : int := n1
+              var i2 : int := n1
+              var i3 : int := n1
+              var i4 : int := n1
+              var i5 : int := n1
+            in
+              while i >= 0 do (
+                swap(n1, i);
+                permute(n1);
+                swap(n1, i);
+                i := i - 1
+              )
+            end
+          end
+      )
+      
+      var count4 : int := 0
+      var v4 : vector := vector[6] of 0
+      
+      function swap4(i : int, j : int, i2 : int, j2 : int, i3 : int, j3 : int, i4 : int, j4 : int) =
+        let
+          var tmp: int := v[i]
+          var tmp2: int := v[i]
+          var tmp3: int := v[i]
+          var tmp4: int := v[i]
+          var tmp5: int := v[i]
+        in
+          v[i] := v[j];
+          v[j] := tmp
+        end
+      
+      function permute4(n: int, n2: int, n3: int, n4: int) = (
+        count := count + 1;
+        if n <> 0 then
+          let
+            var n1 : int := n - 1
+            var n12 : int := n - 1
+            var n13 : int := n - 1
+            var n14 : int := n - 1
+            var n15 : int := n - 1
+          in
+            permute(n1);
+            let
+              var i : int := n1
+              var i2 : int := n1
+              var i3 : int := n1
+              var i4 : int := n1
+              var i5 : int := n1
+            in
+              while i >= 0 do (
+                swap(n1, i);
+                permute(n1);
+                swap(n1, i);
+                i := i - 1
+              )
+            end
+          end
+      )
+      
+      var count5 : int := 0
+      var v5 : vector := vector[6] of 0
+      
+      function swap5(i : int, j : int, i2 : int, j2 : int, i3 : int, j3 : int, i4 : int, j4 : int, i5 : int, j5 : int) =
+        let
+          var tmp: int := v[i]
+          var tmp2: int := v[i]
+          var tmp3: int := v[i]
+          var tmp4: int := v[i]
+          var tmp5: int := v[i]
+        in
+          v[i] := v[j];
+          v[j] := tmp
+        end
+      
+      function permute5(n: int, n2: int, n3: int, n4: int, n5: int) = (
+        count := count + 1;
+        if n <> 0 then
+          let
+            var n1 : int := n - 1
+            var n12 : int := n - 1
+            var n13 : int := n - 1
+            var n14 : int := n - 1
+            var n15 : int := n - 1
+          in
+            permute(n1);
+            let
+              var i : int := n1
+              var i2 : int := n1
+              var i3 : int := n1
+              var i4 : int := n1
+              var i5 : int := n1
+            in
+              while i >= 0 do (
+                swap(n1, i);
+                permute(n1);
+                swap(n1, i);
+                i := i - 1
+              )
+            end
+          end
+      )
+    in
+      permute(6);
+      count; // 8660
+      ()
+    end
+  end
+)
