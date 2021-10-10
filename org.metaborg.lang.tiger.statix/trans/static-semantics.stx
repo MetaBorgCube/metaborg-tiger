@@ -283,10 +283,10 @@ rules // arrays
 rules // array creation
 
   typeOfExp(s, Array(x, e1, e2)) = ARRAY(T, s_arr) :- {S}
-    typeOfType(s, Tid(x)) == ARRAY(S, s_arr),
+    typeOfType(s, Tid(x)) == ARRAY(T, s_arr),
     typeOfExp(s, e1) == INT(),
-    typeOfExp(s, e2) == T,
-    subtype(T, S).
+    typeOfExp(s, e2) == S,
+    subtype(S, T).
 
 rules // array indexing
 
