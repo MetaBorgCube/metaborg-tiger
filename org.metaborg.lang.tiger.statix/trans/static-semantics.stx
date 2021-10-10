@@ -494,7 +494,11 @@ rules
     declareVarRaw(s,  "exit",      FUN([INT()], UNIT())),
     declareVarRaw(s,  "getchar",   FUN([], STRING())),
     declareVarRaw(s,  "flush",     FUN([], UNIT())),
-    declareVarRaw(s,  "printi",    FUN([INT()], UNIT())).
+    declareVarRaw(s,  "printi",    FUN([INT()], UNIT())),
+    
+    // For benchmarks
+    declareVarRaw(s,  "timeGo",    FUN([], UNIT())),
+    declareVarRaw(s,  "timeStop",  FUN([], UNIT())).
 
 
 
